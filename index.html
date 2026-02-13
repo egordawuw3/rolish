@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>core.</title>
+    <!-- Inter (Геометрия) + Caveat (Рукопись) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@900&family=Caveat:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- 1. ФУНДАМЕНТ (BASE) --- */
+        :root {
+            --bg-cream: #F4F2EE; /* Премиальный кремовый */
+            --blue-deep: #003082; /* Глубокий синий (тени) */
+            --blue-bright: #0045A6; /* Королевский синий (свет) */
+            --accent: #FF3B14;
+            --text-main: #111;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0; padding: 0;
+            background-color: var(--bg-cream);
+            color: var(--blue-bright);
+            overflow-x: hidden;
+            user-select: none;
+            -webkit-font-smoothing: antialiased; /* Рендеринг шрифтов как на Mac */
+        }
+
+        /* --- 2. TEXTURE & ATMOSPHERE --- */
+        #noise-canvas {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none; z-index: 9999;
+            opacity: 0.05; mix-blend-mode: overlay; /* Кино-эффект */
+        }
+
+        /* --- 3. NAVBAR (GLASS) --- */
+        .navbar {
+            position: fixed; top: 0; left: 0; width: 100%; padding: 24px 40px; box-sizing: border-box;
+            display: flex; justify-content: space-between; align-items: center; z-index: 1000;
+            /* Эффект дорогого матового стекла */
+            background: rgba(244, 242, 238, 0.7);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid rgba(0, 69, 166, 0.05);
+        }
+        
+        .nav-logo {
+            font-weight: 900; color: var(--blue-bright); font-size: 1.5em; 
+            text-decoration: none; letter-spacing: -0.05em;
+        }
+
+        .nav-buttons { display: flex; gap: 12px; }
+        
+        .nav-btn {
+            text-decoration: none; font-weight: 700; padding: 12px 32px; 
+            border-radius: 100px; font-size: 0.9em; transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        
+        .btn-primary { 
+            background-color: var(--blue-bright); color: white; 
+            box-shadow: 0 8px 20px -5px rgba(0, 69, 166, 0.4);
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 30px -8px rgba(0, 69, 166, 0.5); }
+        
+        .btn-secondary { 
+            background: transparent; color: var(--blue-bright); 
+            border: 1px solid rgba(0, 69, 166, 0.1);
+        }
+        .btn-secondary:hover { background: rgba(0, 69, 166, 0.05); }
+
+
+        /* --- 4. HERO SECTION (STAGE) --- */
+        .hero-wrapper {
+            background-color: var(--bg-cream);
+            height: 100vh; width: 100%;
+            display: flex; align-items: center; justify-content: center;
+            padding: 100px 20px 40px 20px; box-sizing: border-box;
+        }
+
+        /* --- 5. THE BLUEPRINT CARD (MASTERPIECE) --- */
+        .hero-card {
+            width: 100%; max-width: 1440px; height: 85vh; 
+            border-radius: 48px; /* Сильное скругление */
+            position: relative;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            overflow: hidden;
+
+            /* Сложный фон: Градиент + Сетка */
+            background: radial-gradient(circle at center, #0052C2 0%, #00388D 100%);
+            
+            /* Сетка */
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+                radial-gradient(circle at center, #0052C2 0%, #00388D 100%); /* Дублируем градиент под сетку */
+            background-size: 40px 40px, 40px 40px, 100% 100%;
+            background-blend-mode: normal, normal, screen;
+
+            /* Свет и Тень (Volume) */
+            box-shadow: 
+                0 0 0 1px rgba(255, 255, 255, 0.1) inset, /* Inner Border */
+                0 50px 100px -20px rgba(0, 40, 100, 0.3), /* Drop Shadow */
+                0 0 150px rgba(0,0,0,0.2) inset; /* Vignette */
+        }
+
+        /* --- 6. TYPOGRAPHY (CORE.) --- */
+        .hero-content { z-index: 10; text-align: center; margin-top: -30px; }
+
+        .main-title {
+            font-family: 'Inter', sans-serif;
+            font-size: 14vw; 
+            font-weight: 900;
+            line-height: 0.85;
+            letter-spacing: -0.06em;
+            margin: 0;
+            color: #FFFFFF;
+            
+            /* Эффект объема текста */
+            text-shadow: 
+                0 10px 30px rgba(0,0,0,0.2),
+                0 0 0 rgba(255,255,255,0.1); /* Crisp edges */
+        }
+
+        /* Описание (Рукописное) */
+        .subtitle-block {
+            margin-top: 30px;
+            font-family: 'Caveat', cursive; 
+            font-weight: 700;
+            font-size: 3.5rem; 
+            line-height: 1;
+            color: #FFFFFF; /* Белый маркер */
+            opacity: 0.95;
+            transform: rotate(-3deg);
+            text-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .row-line { display: flex; justify-content: center; gap: 12px; align-items: baseline; }
+
+        /* Слово с анимацией */
+        .highlight-word {
+            color: #FF6B4A; /* Мягкий неоновый оранжевый */
+            min-width: 140px; text-align: left;
+            position: relative;
+        }
+
+        /* --- 7. STICKERS (PHYSICAL OBJECTS) --- */
+        .sticker-img {
+            position: absolute; cursor: grab; z-index: 20; -webkit-user-drag: none;
+            /* Реалистичная тень: Ambient occlusion + Direct shadow */
+            filter: drop-shadow(0 20px 30px rgba(0,0,0,0.4));
+            transition: transform 0.1s cubic-bezier(0.25, 1, 0.5, 1);
+            will-change: transform, left, top;
+        }
+        
+        .sticker-img:hover { z-index: 30; filter: drop-shadow(0 30px 50px rgba(0,0,0,0.5)); }
+        .sticker-img:active { cursor: grabbing; transform: scale(0.98); }
+
+        /* Позиции (Золотое сечение) */
+        .s-camera { top: -2%; left: -9%; width: 700px; transform: rotate(-12deg); }
+        .s-pencil { 
+            top: -20%; right: 6%; width: 75px; /* Изящный */
+            transform: rotate(50deg); /* Указывает в центр */
+        }
+        .s-ssd { bottom: 18%; right: 15%; width: 110px; transform: rotate(20deg); }
+
+
+        /* --- 8. REST OF CONTENT --- */
+        .main-content { background-color: var(--bg-cream); position: relative; z-index: 2; padding-bottom: 60px; }
+        section { padding: 100px 20px; max-width: 1000px; margin: 0 auto; border-bottom: 1px solid rgba(0, 69, 166, 0.08); }
+        
+        .cta-btn {
+            background-color: var(--accent); color: white; padding: 22px 60px; text-decoration: none;
+            font-size: 1.2em; font-weight: 800; display: inline-block; margin-top: 40px;
+            border-radius: 20px; 
+            box-shadow: 0 10px 30px -5px rgba(255, 59, 20, 0.4);
+            transition: all 0.3s;
+        }
+        .cta-btn:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -8px rgba(255, 59, 20, 0.5); }
+
+        @media (min-width: 1400px) { .main-title { font-size: 220px; } }
+
+    </style>
+</head>
+<body>
+
+    <canvas id="noise-canvas"></canvas>
+
+    <nav class="navbar">
+        <a href="#" class="nav-logo">core.</a>
+        <div class="nav-buttons">
+            <a href="#" class="nav-btn btn-primary">Купить</a>
+            <a href="#" class="nav-btn btn-secondary">Войти</a>
+        </div>
+    </nav>
+
+    <div class="hero-wrapper">
+        <div class="hero-card" id="hero-card">
+            
+            <div class="hero-content">
+                <!-- TITANIC TITLE -->
+                <h1 class="main-title">core.</h1>
+                
+                <!-- HANDWRITTEN SOUL -->
+                <div class="subtitle-block">
+                    <div class="row-line">
+                        <span>без</span>
+                        <span class="highlight-word" id="word-rotator">воды</span>
+                    </div>
+                    <div style="margin-top: 8px;">только система.</div>
+                </div>
+            </div>
+
+            <!-- ARTIFACTS -->
+<!-- Стикеры с 3D координатами -->
+            <img src="assets/camera.png" class="sticker-img s-camera" alt="Camera">
+            <img src="assets/pencil.png" class="sticker-img s-pencil" alt="Pencil">
+            <img src="assets/microssd.png" class="sticker-img s-ssd" alt="SSD">
+        </div>
+    </div>
+
+    <!-- VSL SECTION -->
+    <div class="main-content">
+        <section>
+            <h2>Посмотри это видео внимательно</h2>
+            <div style="background: #050505; width: 100%; max-width: 900px; aspect-ratio: 16/9; margin: 0 auto; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: white; font-size: 2em; box-shadow: 0 40px 80px -20px rgba(0,0,0,0.2);">
+                ▶ VSL VIDEO
+            </div>
+            <div><a href="#" class="cta-btn">Получить доступ</a></div>
+        </section>
+        <section style="border: none; opacity: 0.4; padding: 40px;">
+            <p>© 2026 core.</p>
+        </section>
+    </div>
+
+    <script>
+        // 1. CINEMATIC WORD SWAP
+        const words = ["воды", "трендов", "ху#ни"];
+        let index = 0;
+        const el = document.getElementById('word-rotator');
+
+        setInterval(() => {
+            index = (index + 1) % words.length;
+            // Blur + Slide Up Effect
+            el.style.filter = "blur(4px)";
+            el.style.opacity = 0;
+            el.style.transform = "translateY(15px) scale(0.95)";
+            el.style.transition = "all 0.4s cubic-bezier(0.2, 0, 0.2, 1)";
+            
+            setTimeout(() => {
+                el.innerText = words[index];
+                el.style.filter = "blur(0)";
+                el.style.opacity = 1;
+                el.style.transform = "translateY(0) scale(1)";
+            }, 300);
+        }, 2200);
+
+        // 2. FILM GRAIN
+        const cvs = document.getElementById('noise-canvas'), ctx = cvs.getContext('2d');
+        const rsz = () => { cvs.width = window.innerWidth; cvs.height = window.innerHeight; };
+        const grain = () => {
+            const id = ctx.createImageData(cvs.width, cvs.height), buf = new Uint32Array(id.data.buffer);
+            for (let i = 0; i < buf.length; i++) if (Math.random() < 0.5) buf[i] = 0x09000000;
+            ctx.putImageData(id, 0, 0);
+        };
+        let f = 0; const l = () => { if (f++ % 3 === 0) grain(); requestAnimationFrame(l); };
+        window.addEventListener('resize', rsz); rsz(); l();
+
+        // 3. SOLID DRAG (NO JITTER)
+        const stickers = document.querySelectorAll('.sticker-img');
+        stickers.forEach(sticker => {
+            let isDragging = false, startX, startY, initLeft, initTop;
+            
+            sticker.addEventListener('mousedown', (e) => {
+                isDragging = true; startX = e.clientX; startY = e.clientY;
+                const rect = sticker.getBoundingClientRect();
+                const pRect = sticker.offsetParent.getBoundingClientRect();
+                initLeft = rect.left - pRect.left; initTop = rect.top - pRect.top;
+                
+                sticker.style.left = initLeft + 'px'; sticker.style.top = initTop + 'px';
+                sticker.style.bottom = 'auto'; sticker.style.right = 'auto';
+                sticker.style.cursor = 'grabbing';
+                e.preventDefault();
+            });
+
+            window.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                const dx = e.clientX - startX; const dy = e.clientY - startY;
+                sticker.style.left = (initLeft + dx) + 'px'; sticker.style.top = (initTop + dy) + 'px';
+            });
+
+            window.addEventListener('mouseup', () => { if(isDragging) { isDragging = false; sticker.style.cursor = 'grab'; } });
+        });
+    </script>
+</body>
+</html>
