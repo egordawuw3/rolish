@@ -233,12 +233,11 @@ body {
 }
 .btn-buy:hover { transform: translateY(-4px); box-shadow: 0 30px 60px -10px rgba(250, 45, 26, 0.5); }
 
-/* --- STORY SECTION STYLES (UPDATED) --- */
+/* --- STORY SECTION STYLES --- */
 .story-section { min-height: 100vh; padding: 100px 0 120px; display: flex; flex-direction: column; align-items: center; }
 .story-header { width: 100%; max-width: 1200px; padding: 0 40px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 40px; }
 
 .progress-container { flex-grow: 1; height: 2px; background: rgba(0,69,166,0.1); margin-right: 40px; position: relative; }
-/* Ширина бара теперь рассчитывается на 8 слайдов (100 / 8 = 12.5%) */
 .progress-bar { position: absolute; height: 100%; background: var(--blue-bright); width: 12.5%; transition: 0.5s cubic-bezier(0.23, 1, 0.32, 1); }
 
 .nav-arrows { display: flex; gap: 15px; }
@@ -264,7 +263,6 @@ body {
 .slide-body { display: flex; width: 100%; height: 100%; align-items: center; gap: 40px; margin-top: 20px; }
 .slide-content { flex: 1; display: flex; flex-direction: column; justify-content: center; }
 
-/* Фиксированная ширина фото - 45% */
 .slide-photo { flex: 0 0 45%; height: 100%; border-radius: 20px; overflow: hidden; }
 .slide-photo img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(10%) contrast(105%); }
 
@@ -390,7 +388,6 @@ body {
 </div>
 </div>
 
-<!-- START STORY SECTION -->
 <section class="story-section reveal">
 <div class="story-header">
 <div class="progress-container"><div class="progress-bar" id="bar"></div></div>
@@ -521,8 +518,8 @@ body {
         </div>
     </div>
 
-    <!-- СЛАЙД 8: ФИНАЛ -->
-    <div class="slide" style="background: #FA2D1A; color: white;">
+    <!-- СЛАЙД 8: ФИНАЛ (С СЕТКОЙ КАК У HERO) -->
+    <div class="slide" style="background-color: #FA2D1A; color: white; background-image: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0.2) 100%), linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px); background-size: 100% 100%, 40px 40px, 40px 40px;">
         <span class="tag" style="color: rgba(255,255,255,0.5);">08 / Insight</span>
         <div class="slide-body">
             <div class="slide-content" style="text-align: center; align-items: center;">
@@ -538,7 +535,6 @@ body {
 </div>
 </div>
 </section>
-<!-- END STORY SECTION -->
 
 <div id="tariffs" class="reveal">Тарифы (Scroll Target)</div>
 
@@ -557,9 +553,9 @@ let frame = 0;
 const loop = () => { if (frame % 2 === 0) drawNoise(); frame++; requestAnimationFrame(loop); };
 window.addEventListener('resize', resize); resize(); loop();
 
-// --- 2. ЛОГИКА СЛАЙДЕРА (UPDATED: 8 SLIDES) ---
+// --- 2. ЛОГИКА СЛАЙДЕРА (8 СЛАЙДОВ) ---
 let currentSlide = 0;
-const totalSlides = 8; // ИЗМЕНЕНО НА 8
+const totalSlides = 8; 
 const gap = 30; 
 
 function updateSlidePosition() {
@@ -568,13 +564,9 @@ function updateSlidePosition() {
     const slides = document.querySelectorAll('.slide');
     
     if(slides.length > 0) {
-        // Вычисляем ширину одного слайда в пикселях
         const slideWidth = slides[0].offsetWidth;
-        // Смещаем на (ширина + отступ) * индекс
         const offset = (slideWidth + gap) * currentSlide;
         track.style.transform = `translateX(-${offset}px)`;
-        
-        // Обновляем бар
         bar.style.width = ((currentSlide + 1) / totalSlides) * 100 + '%';
     }
 }
@@ -583,11 +575,9 @@ function move(dir) {
     currentSlide = Math.max(0, Math.min(totalSlides - 1, currentSlide + dir));
     updateSlidePosition();
 }
-
-// Пересчитываем позицию при изменении размера окна (чтобы не ехало)
 window.addEventListener('resize', updateSlidePosition);
 
-// --- 3. ЭФФЕКТЫ ПОЯВЛЕНИЯ (BLUR & REVEAL) ---
+// --- 3. BLUR & REVEAL ---
 function initBlurText(elementId, delayStep = 100) {
     const el = document.getElementById(elementId);
     if (!el) return;
@@ -619,65 +609,36 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, { threshold: 0.15 });
     revealElements.forEach(el => revealObserver.observe(el));
-    
-    // Инициализация слайдера при загрузке
     updateSlidePosition();
 });
 
-// --- 4. РОТАТОР ТЕКСТА ---
+// --- 4. ROTATOR ---
 const wordsArr = ["воды", "трендов", "суеты"];
 let wordIndex = 0; 
 const elRot = document.getElementById('word-rotator');
-
 if (elRot) {
     setInterval(() => {
         wordIndex = (wordIndex + 1) % wordsArr.length;
-        elRot.style.filter = "blur(8px)"; 
-        elRot.style.opacity = 0;
-        setTimeout(() => { 
-            elRot.innerText = wordsArr[wordIndex]; 
-            elRot.style.filter = "blur(0)"; 
-            elRot.style.opacity = 1; 
-        }, 400);
+        elRot.style.filter = "blur(8px)"; elRot.style.opacity = 0;
+        setTimeout(() => { elRot.innerText = wordsArr[wordIndex]; elRot.style.filter = "blur(0)"; elRot.style.opacity = 1; }, 400);
     }, 2200);
 }
 
-// --- 5. СТИКЕРЫ (DRAG & DROP) ---
+// --- 5. STICKERS ---
 document.querySelectorAll('.sticker-img').forEach(sticker => {
     sticker.onload = () => sticker.style.display = 'block';
-    
     let isDragging = false, startX, startY, initLeft, initTop;
-
     sticker.addEventListener('mousedown', (e) => {
-        isDragging = true; 
-        startX = e.clientX; 
-        startY = e.clientY;
-        
+        isDragging = true; startX = e.clientX; startY = e.clientY;
         const rect = sticker.getBoundingClientRect();
         const parentRect = sticker.offsetParent.getBoundingClientRect();
-        
-        initLeft = rect.left - parentRect.left;
-        initTop = rect.top - parentRect.top;
-
-        sticker.style.bottom = 'auto'; 
-        sticker.style.right = 'auto';
-        sticker.style.cursor = 'grabbing'; 
-        e.preventDefault();
+        initLeft = rect.left - parentRect.left; initTop = rect.top - parentRect.top;
+        sticker.style.bottom = 'auto'; sticker.style.right = 'auto'; sticker.style.cursor = 'grabbing'; e.preventDefault();
     });
-
     window.addEventListener('mousemove', (e) => {
-        if (isDragging) { 
-            sticker.style.left = (initLeft + (e.clientX - startX)) + 'px'; 
-            sticker.style.top = (initTop + (e.clientY - startY)) + 'px'; 
-        }
+        if (isDragging) { sticker.style.left = (initLeft + (e.clientX - startX)) + 'px'; sticker.style.top = (initTop + (e.clientY - startY)) + 'px'; }
     });
-
-    window.addEventListener('mouseup', () => {
-        isDragging = false;
-        if (sticker.style.cursor === 'grabbing') {
-            sticker.style.cursor = 'grab';
-        }
-    });
+    window.addEventListener('mouseup', () => { isDragging = false; if (sticker.style.cursor === 'grabbing') sticker.style.cursor = 'grab'; });
 });
 </script>
 </body>
