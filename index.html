@@ -30,11 +30,12 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-/* --- 2. TEXTURE (NOISE) --- */
+/* --- 2. TEXTURE (NOISE) - УСИЛЕННЫЙ --- */
 #noise-canvas {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     pointer-events: none; z-index: 9999; 
-    opacity: 0.05; mix-blend-mode: multiply;
+    opacity: 0.15; /* БЫЛО 0.05, СТАЛО 0.15 (В 3 РАЗА ЗАМЕТНЕЕ) */
+    mix-blend-mode: multiply;
 }
 
 /* --- 3. NAVBAR (GLASS) --- */
@@ -546,7 +547,7 @@ const resize = () => { noiseCanvas.width = window.innerWidth; noiseCanvas.height
 const drawNoise = () => {
     const w = noiseCanvas.width, h = noiseCanvas.height;
     const id = ctx.createImageData(w, h), buffer = new Uint32Array(id.data.buffer);
-    for (let i = 0; i < buffer.length; i++) if (Math.random() < 0.1) buffer[i] = Math.random() < 0.5 ? 0xFF000000 : 0x11000000;
+    for (let i = 0; i < buffer.length; i++) if (Math.random() < 0.2) buffer[i] = Math.random() < 0.5 ? 0xFF000000 : 0x11000000;
     ctx.putImageData(id, 0, 0);
 };
 let frame = 0; 
