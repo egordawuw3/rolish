@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>core.</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&family=Caveat:wght@700&display=swap" rel="stylesheet">
+<style>
+/* --- 1. ПРЕМИУМ ФУНДАМЕНТ --- */
+@font-face {
+    font-family: 'Gramatika';
+    src: local('Gramatika'), local('Inter');
+}
+
+:root {
+    --bg-cream: #F4F2EE;
+    --blue-deep: #00388D;
+    --blue-bright: #0045A6;
+    --accent: #FA2D1A;
+    --folder-front: linear-gradient(180deg, #5CA0F2 0%, #007AFF 100%);
+    --folder-back: #2B5E96;
+    --white: #FFFFFF;
+    --light-blue: #E0E6FF;
+    --border: rgba(0, 69, 166, 0.15);
+    --radius: 32px; /* ЕДИНОЕ СКРУГЛЕНИЕ ДЛЯ ВСЕГО */
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: 'Gramatika', 'Inter', sans-serif;
+    margin: 0; padding: 0;
+    background-color: var(--bg-cream);
+    color: var(--blue-bright);
+    overflow-x: hidden;
+    user-select: none;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* --- 2. TEXTURE (NOISE) --- */
+#noise-canvas {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; 
+    z-index: 9999; /* ШУМ ПОД МЕНЮ, НО НАД КОНТЕНТОМ */
+    opacity: 0.15; 
+    mix-blend-mode: multiply;
+}
+
+/* --- 3. NAVBAR (GLASS) --- */
+.navbar {
+    position: fixed; top: 0; left: 0; width: 100%; padding: 20px 40px; box-sizing: border-box;
+    display: flex; justify-content: space-between; align-items: center; 
+    z-index: 10000; /* МЕНЮ ВЫШЕ ШУМА */
+    background: rgba(244, 242, 238, 0.65); /* Полупрозрачность */
+    backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); /* Эффект стекла */
+    border-bottom: 1px solid rgba(0, 69, 166, 0.05);
+    animation: fadeInDown 0.8s ease forwards;
+}
+
+.nav-logo { font-weight: 900; color: var(--blue-bright); font-size: 1.8em; text-decoration: none; letter-spacing: -0.05em; }
+.nav-buttons { display: flex; gap: 20px; align-items: center; }
+
+/* Кнопка "Содержание" (Текст) */
+.nav-text-btn {
+    text-decoration: none; font-weight: 700; font-size: 1rem; 
+    color: var(--blue-bright); opacity: 0.7; transition: 0.2s;
+}
+.nav-text-btn:hover { opacity: 1; }
+
+/* Кнопка "Тарифы" (Акцент) */
+.nav-accent-btn { 
+    text-decoration: none; font-weight: 700; padding: 12px 32px; border-radius: 100px; 
+    font-size: 0.9em; transition: transform 0.2s, box-shadow 0.2s; 
+    background-color: var(--blue-bright); color: white; 
+    box-shadow: 0 4px 15px rgba(0, 69, 166, 0.2);
+}
+.nav-accent-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 69, 166, 0.35); }
+
+/* --- 4. HERO SECTION --- */
+.hero-wrapper {
+    height: 100vh; width: 100%; display: flex; align-items: center; justify-content: center;
+    padding: 100px 20px 40px 20px; box-sizing: border-box; position: relative; z-index: 10;
+}
+
+.card-shadow-container {
+    width: 100%; max-width: 1440px; height: 85vh; 
+    border-radius: var(--radius);
+    box-shadow: 0 60px 120px -20px rgba(0, 20, 60, 0.4), 0 0 0 1px rgba(255,255,255,0.1);
+    position: relative;
+    animation: scaleIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.hero-card {
+    width: 100%; height: 100%; 
+    border-radius: var(--radius);
+    position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center;
+    overflow: hidden; 
+    background-color: var(--blue-bright);
+    background-image: 
+    radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0.2) 100%),
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 100% 100%, 40px 40px, 40px 40px;
+    box-shadow: inset 0 0 80px rgba(0,0,0,0.3);
+}
+
+.hero-content { 
+    z-index: 10; text-align: center; margin-top: -40px; pointer-events: none;
+    width: 100%; display: flex; flex-direction: column; align-items: center;
+}
+
+@keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+
+.main-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 14vw; font-weight: 900; line-height: 0.85; 
+    letter-spacing: -0.06em; margin: 0; 
+    background: linear-gradient(110deg, #FFFFFF 45%, #E0E6FF 50%, #FFFFFF 55%);
+    background-size: 250% 100%;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    animation: shimmer 8s infinite linear;
+    filter: drop-shadow(0 20px 50px rgba(0,0,0,0.3));
+}
+
+.subtitle-block {
+    margin-top: 30px; 
+    font-family: 'Caveat', cursive; /* Рукописный шрифт */
+    font-weight: 700;
+    font-size: 4rem; line-height: 1.1; 
+    color: #FFFFFF; 
+    transform: rotate(-3deg); 
+    text-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    display: flex; flex-direction: column; align-items: center;
+}
+
+.row-line { 
+    display: flex; justify-content: center; align-items: baseline; gap: 15px; 
+}
+
+/* ФИКС: Контейнер для слова, чтобы не прыгало "без" */
+.highlight-word-container {
+    min-width: 350px; text-align: left; display: inline-block;
+}
+
+.highlight-word { 
+    color: var(--accent); 
+    text-shadow: 0 0 15px rgba(250, 45, 26, 0.4); 
+    display: inline-block;
+    transition: all 0.4s ease;
+}
+
+/* --- STICKERS --- */
+.sticker-img {
+    position: absolute; cursor: grab; z-index: 50; -webkit-user-drag: none;
+    filter: drop-shadow(0 20px 30px rgba(0,0,0,0.35));
+    transition: filter 0.2s ease, transform 0.1s;
+}
+.sticker-img:hover { filter: drop-shadow(0 40px 60px rgba(0,0,0,0.5)); transform: scale(1.02); z-index: 60; }
+.s-camera { top: -2%; left: -9%; width: 650px; transform: rotate(-12deg); }
+.s-pencil { top: -15%; right: 6%; width: 75px; transform: rotate(50deg); }
+.s-ssd { bottom: 15%; right: 15%; width: 110px; transform: rotate(20deg); }
+
+/* --- 5. FOLDER --- */
+.folder-bridge { position: relative; z-index: 100; margin-top: -50px; margin-bottom: 120px; display: flex; justify-content: center; align-items: flex-end; height: 320px; perspective: 1200px; }
+.mac-folder-realistic { position: relative; width: 260px; height: 180px; cursor: pointer; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); transform-style: preserve-3d; }
+.mac-folder-realistic:hover { transform: translateY(-10px) scale(1.02); }
+.folder-cards { position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 2; pointer-events: none; }
+.folder-file-card { position: absolute; width: 130px; height: 170px; left: 25%; bottom: 15px; border-radius: 8px; padding: 10px; box-sizing: border-box; opacity: 0; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); transform-origin: bottom center; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+.file-card-inner { width: 100%; height: 100%; border-radius: 6px; padding: 12px 10px; display: flex; flex-direction: column; box-sizing: border-box; border: 1px solid rgba(255,255,255,0.3); box-shadow: inset 0 2px 10px rgba(255,255,255,0.1); }
+.file-card-stripe { width: 80%; height: 6px; background: rgba(255,255,255,0.4); border-radius: 3px; }
+.file-card-grid { width: 100%; height: 40px; background: repeating-linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.1) 5px, transparent 5px, transparent 10px); border-radius: 4px; }
+.file-card-label { color: white; font-weight: 800; font-size: 10px; margin-top: auto; text-transform: uppercase; letter-spacing: 0.5px; }
+.mac-folder-realistic:hover .card-1 { opacity: 1; transform: translate(-70px, -40px) rotate(-12deg); transition-delay: 0.1s; }
+.mac-folder-realistic:hover .card-2 { opacity: 1; transform: translate(0, -80px) rotate(0deg); transition-delay: 0.05s; }
+.mac-folder-realistic:hover .card-3 { opacity: 1; transform: translate(70px, -40px) rotate(12deg); transition-delay: 0.15s; }
+.folder-back-shape { position: absolute; width: 100%; height: 100%; background: var(--folder-back); border-radius: 0 16px 16px 16px; z-index: 1; box-shadow: 0 20px 50px rgba(0, 40, 100, 0.3); }
+.folder-back-shape::before { content: ''; position: absolute; bottom: 100%; left: 0; width: 90px; height: 16px; background: var(--folder-back); border-radius: 12px 12px 0 0; }
+.folder-front-shape { position: absolute; bottom: 0; left: 0; width: 100%; height: 90%; background: var(--folder-front); border-radius: 0 0 16px 16px; z-index: 3; transform-origin: bottom; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: inset 0 2px 5px rgba(255,255,255,0.3), 0 -5px 15px rgba(0,0,0,0.1); border-top: 1px solid rgba(255,255,255,0.2); }
+.mac-folder-realistic:hover .folder-front-shape { transform: rotateX(-25deg) scaleY(0.95); }
+
+/* --- 6. VSL SECTION --- */
+.vsl-section { padding: 60px 20px 80px 20px; text-align: center; position: relative; z-index: 5; }
+.vsl-headline { font-size: 4rem; font-weight: 900; line-height: 1; letter-spacing: -0.04em; color: var(--blue-bright); margin-bottom: 24px; background: linear-gradient(135deg, #0045A6 0%, #002A66 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.vsl-subhead { font-size: 1.5rem; font-weight: 500; color: #555; line-height: 1.4; margin-bottom: 60px; max-width: 700px; margin-left: auto; margin-right: auto; }
+.video-box { 
+    width: 100%; max-width: 960px; aspect-ratio: 16/9; margin: 0 auto; background: #000; 
+    border-radius: var(--radius); /* ЕДИНОЕ СКРУГЛЕНИЕ */
+    box-shadow: 0 50px 100px -20px rgba(0,0,0,0.25), inset 0 20px 40px rgba(0,0,0,0.6); 
+    display: flex; align-items: center; justify-content: center; position: relative; border: 1px solid rgba(255,255,255,0.1); 
+}
+.play-btn-circle { width: 120px; height: 120px; background: rgba(255,255,255,0.15); backdrop-filter: blur(20px); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease; cursor: pointer; border: 1px solid rgba(255,255,255,0.3); }
+.play-btn-circle:hover { transform: scale(1.1); background: rgba(255,255,255,0.25); }
+.play-icon { width: 0; height: 0; margin-left: 8px; border-top: 18px solid transparent; border-bottom: 18px solid transparent; border-left: 30px solid white; }
+
+/* ОБЩИЙ СТИЛЬ КНОПОК (OUTLINE) */
+.btn-outline {
+    text-decoration: none; font-weight: 900; font-size: 1.8rem; 
+    color: var(--blue-bright); border: 3px solid var(--blue-bright); 
+    padding: 20px 60px; border-radius: 100px;
+    display: inline-block; text-transform: uppercase;
+    transition: 0.3s ease; background: transparent; box-shadow: none;
+}
+.btn-outline:hover { background: var(--blue-bright); color: white; transform: translateY(-5px); }
+
+.btn-buy { margin-top: 60px; } /* Отступ для кнопки под видео */
+
+/* --- 7. STORY SLIDER --- */
+.story-section { min-height: 100vh; padding: 120px 0 100px; display: flex; flex-direction: column; align-items: center; border-top: 1px solid var(--border); }
+.story-header { width: 100%; max-width: 1200px; padding: 0 40px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 40px; }
+.progress-container { flex-grow: 1; height: 1px; background: var(--border); margin-right: 40px; position: relative; }
+.progress-bar { position: absolute; height: 3px; top: -1px; background: var(--blue-bright); width: 12.5%; transition: 0.5s cubic-bezier(0.23, 1, 0.32, 1); }
+.nav-arrows { display: flex; gap: 15px; }
+.arrow { width: 56px; height: 56px; border-radius: 50%; border: 1.5px solid var(--border); background: none; color: var(--blue-bright); cursor: pointer; font-size: 1.2rem; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
+.arrow:hover { background: var(--blue-bright); color: white; border-color: var(--blue-bright); }
+
+.track-container { width: 100%; overflow: hidden; max-width: 1200px; margin: 0 auto; }
+.track { display: flex; gap: 20px; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+
+.slide {
+    min-width: 100%; width: 100%; height: 650px; 
+    background: var(--white); 
+    border-radius: var(--radius); /* ЕДИНОЕ СКРУГЛЕНИЕ */
+    padding: 0; 
+    display: flex; flex-direction: column; flex-shrink: 0;
+    box-sizing: border-box;
+    box-shadow: none;
+    border: 1px solid var(--border);
+}
+
+.slide-inner-content { padding: 60px; height: 100%; display: flex; flex-direction: column; box-sizing: border-box; }
+
+.slide-body { 
+    display: flex; width: 100%; height: 100%; 
+    align-items: center; /* ЦЕНТРИРОВАНИЕ ПО Y */
+    gap: 40px; margin-top: 20px; 
+}
+.slide-content { 
+    flex: 1; display: flex; flex-direction: column; 
+    justify-content: center; /* ЦЕНТРИРОВАНИЕ КОНТЕНТА ВНУТРИ */
+}
+
+.slide-photo { 
+    flex: 0 0 45%; height: 100%; 
+    border-radius: var(--radius); /* ЕДИНОЕ СКРУГЛЕНИЕ */
+    overflow: hidden; border: 1px solid var(--border); 
+}
+.slide-photo img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(10%) contrast(105%); }
+
+.slide-blue { background: var(--light-blue); }
+.slide-dark { background: var(--blue-bright); color: white; }
+.slide-dark .tag { color: white; opacity: 0.6; }
+.slide-dark .hustle-list span { border-color: white; }
+.tag { font-weight: 900; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 2px; opacity: 0.4; margin-bottom: 20px; display: block; }
+.title { font-size: 3.5rem; font-weight: 900; line-height: 0.95; letter-spacing: -2px; margin: 0 0 20px; }
+.text { font-size: 1.25rem; font-weight: 500; line-height: 1.5; margin-bottom: 20px; color: #333; }
+.slide-dark .text { color: white; }
+.text b { color: var(--blue-bright); font-weight: 800; }
+.slide-dark .text b { color: var(--bg-cream); }
+.text-accent { color: var(--accent); }
+.caveat { font-family: 'Caveat'; font-size: 2.2rem; color: var(--accent); margin-top: 15px; transform: rotate(-1deg); }
+.stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); margin-top: 20px; border-radius: 16px; overflow: hidden; }
+.stat-item { background: var(--blue-bright); color: white; padding: 20px; display: flex; flex-direction: column; justify-content: center; }
+.stat-val { font-size: 1.8rem; font-weight: 900; line-height: 1; margin-bottom: 5px; }
+.stat-label { font-size: 0.8rem; font-weight: 600; opacity: 0.8; text-transform: uppercase; letter-spacing: 0.5px; }
+.hustle-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+.hustle-list span { padding: 10px 20px; border: 1px solid var(--blue-bright); border-radius: 100px; font-weight: 800; font-size: 0.9rem; white-space: nowrap; }
+
+/* --- 8. REVIEWS SECTION --- */
+.reviews-section { padding: 120px 0; border-top: 1px solid var(--border); background: var(--bg-cream); }
+.reviews-headline { font-size: 3.8vw; padding: 0 50px 80px; font-weight: 900; text-transform: uppercase; line-height: 1; letter-spacing: -0.04em; color: var(--blue-bright); max-width: 1200px; margin: 0 auto; text-align: center; }
+.grid-reviews { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+.review-item { 
+    border: 1px solid var(--border); 
+    border-radius: var(--radius); /* ЕДИНОЕ СКРУГЛЕНИЕ */
+    height: 600px; perspective: 2000px; position: relative; box-sizing: border-box; background: white; overflow: hidden; 
+}
+.card-inner { position: absolute; width: 100%; height: 100%; transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); transform-style: preserve-3d; }
+.review-item:hover .card-inner { transform: rotateY(180deg); }
+.side { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.side-front { display: flex; flex-direction: column; background: var(--bg-cream); }
+.rev-img { flex-grow: 1; overflow: hidden; background: #000; }
+.rev-img img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); transition: 0.6s ease; }
+.review-item:hover .rev-img img { filter: grayscale(0); }
+.rev-info { padding: 30px; display: flex; justify-content: space-between; align-items: center; background: white; }
+.rev-name-box h3 { font-weight: 900; margin: 0; font-size: 1.6rem; text-transform: uppercase; }
+.rev-name-box p { margin: 5px 0 0; opacity: 0.5; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; }
+.rev-income { font-weight: 900; color: var(--accent); font-size: 1.3rem; }
+.side-back { transform: rotateY(180deg); background-color: var(--blue-deep); color: white; padding: 45px; display: flex; flex-direction: column; justify-content: center; box-sizing: border-box; }
+.side-back::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px); background-size: 30px 30px; z-index: 1; }
+.back-content { position: relative; z-index: 2; }
+.side-back h4 { font-family: 'Caveat'; font-size: 3rem; margin: 0 0 20px 0; color: white; transform: rotate(-2deg); }
+.side-back p { font-size: 1.05rem; line-height: 1.4; opacity: 0.9; margin: 0; }
+.tg-user { margin-top: 30px; font-weight: 900; opacity: 0.5; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; }
+.reviews-footer { padding: 80px 0; text-align: center; }
+
+@media (max-width: 1024px) {
+    .grid-reviews { grid-template-columns: 1fr; }
+    .review-item { height: 500px; }
+    .reviews-headline { font-size: 2rem; padding: 0 20px 40px; }
+}
+
+#tariffs { margin-top: 40px; padding-bottom: 100px; opacity: 0.3; font-weight: 900; font-size: 2rem; text-align: center; }
+
+.reveal { opacity: 0; transform: translateY(40px) scale(0.98); filter: blur(8px); transition: all 1s cubic-bezier(0.16, 1, 0.3, 1); }
+.reveal-active { opacity: 1; transform: translateY(0) scale(1); filter: blur(0px); }
+.blur-word { display: inline-block; filter: blur(12px); opacity: 0; transform: translateY(-15px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+.blur-word.visible { filter: blur(0px); opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<canvas id="noise-canvas"></canvas>
+
+<nav class="navbar">
+<a href="#" class="nav-logo">core.</a>
+<div class="nav-buttons">
+<a href="#table-of-contents" class="nav-text-btn">Содержание</a>
+<a href="#tariffs" class="nav-accent-btn">Тарифы</a>
+</div>
+</nav>
+
+<div class="hero-wrapper">
+<div class="card-shadow-container">
+<img src="assets/camera.png" class="sticker-img s-camera" alt="Camera" draggable="false" style="display: none;">
+<img src="assets/pencil.png" class="sticker-img s-pencil" alt="Pencil" draggable="false" style="display: none;">
+<img src="assets/microssd.png" class="sticker-img s-ssd" alt="SSD" draggable="false" style="display: none;">
+
+<div class="hero-card" id="hero-card">
+<div class="hero-content">
+<h1 class="main-title" id="main-blur-title">core.</h1>
+<div class="subtitle-block">
+<div class="row-line">
+<span>без</span>
+<div class="highlight-word-container">
+<span class="highlight-word" id="word-rotator">воды</span>
+</div>
+</div>
+<div style="margin-top: 5px;">только система.</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="folder-bridge reveal">
+<div class="mac-folder-realistic" onclick="document.getElementById('tariffs').scrollIntoView({behavior: 'smooth'});">
+<div class="folder-back-shape"></div>
+<div class="folder-cards">
+<div class="folder-file-card card-1"><div class="file-card-inner" style="background: linear-gradient(135deg, hsl(214 99% 33%), hsl(214 99% 25%));"><div class="file-card-stripe"></div><div class="file-card-stripe" style="width: 50%; margin-top: 6px;"></div><span class="file-card-label">Креативность</span></div></div>
+<div class="folder-file-card card-2"><div class="file-card-inner" style="background: linear-gradient(135deg, hsl(351 100% 45%), hsl(351 100% 35%));"><div class="file-card-grid"></div><span class="file-card-label">Монтаж</span></div></div>
+<div class="folder-file-card card-3"><div class="file-card-inner" style="background: linear-gradient(135deg, hsl(160 84% 39%), hsl(160 84% 30%));"><div class="file-card-stripe" style="opacity: 0.4;"></div><span class="file-card-label">Личный бренд</span></div></div>
+</div>
+<div class="folder-front-shape"></div>
+</div>
+</div>
+
+<div class="vsl-section">
+<div style="max-width: 1000px; margin: 0 auto;">
+<h2 class="vsl-headline" id="vsl-blur-title">Внимание — суперсила 21 века</h2>
+<p class="vsl-subhead reveal">Если ты умеешь удерживать внимание и конвертировать его в ₽₽₽ —<br>ты автоматически богат.</p>
+<div class="video-box reveal"><div class="play-btn-circle"><div class="play-icon"></div></div></div>
+<a href="#" class="btn-outline btn-buy reveal">Получить core.</a>
+</div>
+</div>
+
+<!-- START STORY SECTION -->
+<section class="story-section reveal" id="table-of-contents">
+<div class="story-header">
+<div class="progress-container"><div class="progress-bar" id="bar"></div></div>
+<div class="nav-arrows">
+<button class="arrow" onclick="move(-1)">←</button>
+<button class="arrow" onclick="move(1)">→</button>
+</div>
+</div>
+
+<div class="track-container">
+<div class="track" id="track">
+
+    <!-- СЛАЙД 1: ИНТРО -->
+    <div class="slide">
+        <div class="slide-inner-content">
+            <span class="tag">01 / Founder</span>
+            <div class="slide-body">
+                <div class="slide-content">
+                    <h2 class="title">Ваня Паскаль</h2>
+                    <div class="stats-grid">
+                        <div class="stat-item"><span class="stat-val">400.000₽</span><span class="stat-label">личный доход</span></div>
+                        <div class="stat-item"><span class="stat-val">50+</span><span class="stat-label">довольных учеников</span></div>
+                        <div class="stat-item"><span class="stat-val">3 года</span><span class="stat-label">создаю контент</span></div>
+                        <div class="stat-item"><span class="stat-val">10.000 👥</span><span class="stat-label">в личных каналах</span></div>
+                    </div>
+                    <div class="caveat">Но хочу, чтобы ты знал — я абсолютно такой же, как и ты.</div>
+                </div>
+                <div class="slide-photo">
+                    <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1000&auto=format&fit=crop" alt="Ваня">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- СЛАЙД 2: ДЕТСТВО -->
+    <div class="slide">
+        <div class="slide-inner-content">
+            <span class="tag">02 / Корни</span>
+            <div class="slide-body">
+                <div class="slide-content">
+                    <h2 class="title">Никаких<br>подарков судьбы.</h2>
+                    <p class="text">У меня <b>нет богатых родителей</b>, никогда не было лишних денег, и уж точно никогда не было другого плана, кроме как 11 лет школы, 4 года в вузе и пенсия в 75.</p>
+                    <p class="text" style="color: var(--blue-deep);">Я очень хотел помочь своей маме, видя, как она усердно работает. И даже в раннем возрасте я понимал, что <b>надо как-то выкручиваться...</b></p>
+                </div>
+                <div class="slide-photo">
+                    <img src="https://images.unsplash.com/photo-1518331483807-f642f1f96966?q=80&w=1000&auto=format&fit=crop" alt="Корни">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- СЛАЙД 3: ХАСЛ 2023 -->
+    <div class="slide">
+        <div class="slide-inner-content">
+            <span class="tag">03 / Hustle 2023</span>
+            <div class="slide-body">
+                <div class="slide-content">
+                    <h2 class="title">Путь к<br>первым 30к.</h2>
+                    <p class="text">С 2023 года я начал свой путь. Я брался абсолютно за всё:</p>
+                    <div class="hustle-list">
+                        <span>Менеджер в ТГ</span>
+                        <span>Авито / Кроссовки</span>
+                        <span>Перепродажа iPhone</span>
+                        <span>Превью</span>
+                        <span>Сценарии</span>
+                    </div>
+                    <div class="caveat" style="font-size: 1.5rem; margin-top: 25px;">Просто считайте, я был везде :)</div>
+                </div>
+                <div class="slide-photo">
+                    <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1000&auto=format&fit=crop" alt="Hustle">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- СЛАЙД 4: МОНТАЖ -->
+    <div class="slide slide-blue">
+        <div class="slide-inner-content">
+            <span class="tag">04 / Любовь</span>
+            <div class="slide-body">
+                <div class="slide-content">
+                    <h2 class="title">Монтаж —<br>моя нефть.</h2>
+                    <p class="text">Лишь к концу 23 года я понял, что мне реально приносит удовольствие — <b>Монтаж роликов.</b></p>
+                    <p class="text">Даже работа с ноунеймами вывела меня на <b>первые 100к/месяц</b>, чему я был безумно рад.</p>
+                </div>
+                <div class="slide-photo">
+                    <img src="https://images.unsplash.com/photo-1622630997505-1c5c10557253?q=80&w=1000&auto=format&fit=crop" alt="Editing">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- СЛАЙД 5: ПОТОЛОК -->
+    <div class="slide">
+        <div class="slide-inner-content">
+            <span class="tag">05 / Тупик</span>
+            <div class="slide-body">
+                <div class="slide-content">
+                    <h2 class="title">Стеклянный<br>потолок.</h2>
+                    <p class="text">Но эйфория прошла. Я уперся: искать новых клиентов становилось сложнее, качество работ не росло, а чек <b>застрял на месте</b>.</p>
+                    <p class="text text-accent">Я понял, что надо что-то менять...</p>
+                </div>
+                <div class="slide-photo">
+                    <img src="https://images.unsplash.com/photo-1506784375835-5e90dac96be2?q=80&w=1000&auto=format&fit=crop" alt="Ceiling">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- СЛАЙД 6: ПРОДЮСИРОВАНИЕ -->
+    <div class="slide slide-dark">
+        <div class="slide-inner-content">
+            <span class="tag">06 / Масштаб</span>
+            <div class="slide-body">
+                <div class="slide-content">
+                    <h2 class="title">Запуски и<br>Продюсирование.</h2>
+                    <p class="text">Конец 2024. Это профессии объединила всё, что я любил: <b>креатив, съемка, продажи.</b></p>
+                    <p class="text">Именно тогда пошли первые <b>реально хорошие деньги</b> и работа с крупными клиентами.</p>
+                </div>
+                <div class="slide-photo">
+                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1000&auto=format&fit=crop" alt="Producing">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- СЛАЙД 7: СЕЙЧАС -->
+    <div class="slide">
+        <div class="slide-inner-content">
+            <span class="tag">07 / Now</span>
+            <div class="slide-body">
+                <div class="slide-content">
+                    <h2 class="title">Агентство и<br>Медийка.</h2>
+                    <p class="text">Сейчас я продюсирую соц. сети крупных экспертов и бизнесов.</p>
+                    <p class="text">А также помогаю <b>десяткам других ребят</b> развиваться вместе со мной.</p>
+                    <div class="caveat">Никакой сказки. Только сложный путь.</div>
+                </div>
+                <div class="slide-photo">
+                    <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=1000&auto=format&fit=crop" alt="Now">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- СЛАЙД 8: ФИНАЛ (С СЕТКОЙ) -->
+    <div class="slide" style="background-color: #FA2D1A; color: white; background-image: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0.2) 100%), linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px); background-size: 100% 100%, 40px 40px, 40px 40px;">
+        <div class="slide-inner-content">
+            <span class="tag" style="color: rgba(255,255,255,0.5);">08 / Insight</span>
+            <div class="slide-body">
+                <div class="slide-content" style="text-align: center; align-items: center;">
+                    <h2 class="title" style="margin-bottom: 40px;">Совет напоследок:</h2>
+                    <p class="text" style="font-family: 'Caveat'; font-size: 3.5rem; line-height: 1.1; color: white; transform: rotate(-2deg);">
+                        "Хотя бы раз в жизни включи голову, и используй свои возможности на максимум."
+                    </p>
+                </div>
+                <div class="slide-photo" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+</section>
+
+<!-- --- ОТЗЫВЫ --- -->
+<section class="reviews-section">
+    <h2 class="reviews-headline reveal">Они доверили мне свою экспертность, и вот что вышло :</h2>
+    <div class="grid-reviews">
+        
+        <div class="review-item reveal">
+            <div class="card-inner">
+                <div class="side side-front">
+                    <div class="rev-img"><img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=600"></div>
+                    <div class="rev-info">
+                        <div class="rev-name-box"><h3>Софа</h3><p>21 год / @Sofik0</p></div>
+                        <div class="rev-income">120.000₽</div>
+                    </div>
+                </div>
+                <div class="side side-back">
+                    <div class="back-content">
+                        <h4>Результат</h4>
+                        <p>За первый месяц обучения взяла в работу на контент-продюсирование крупного эксперта в TG с оффером на 120.000₽. Купила новый 17 pro max.</p>
+                        <div class="tg-user">@Sofik0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="review-item reveal">
+            <div class="card-inner">
+                <div class="side side-front">
+                    <div class="rev-img"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=600"></div>
+                    <div class="rev-info">
+                        <div class="rev-name-box"><h3>Влад</h3><p>18 лет / @Iw1ns</p></div>
+                        <div class="rev-income">80.000₽</div>
+                    </div>
+                </div>
+                <div class="side side-back">
+                    <div class="back-content">
+                        <h4>Результат</h4>
+                        <p>С нуля за 2 месяца дошел до прайса 4.000₽ за видео. Работает с бизнесами (пекарня и пиццерия), делает по 10 роликов в месяц.</p>
+                        <div class="tg-user">@Iw1ns</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="review-item reveal">
+            <div class="card-inner">
+                <div class="side side-front">
+                    <div class="rev-img"><img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=600"></div>
+                    <div class="rev-info">
+                        <div class="rev-name-box"><h3>Аня</h3><p>19 лет / @wswktww</p></div>
+                        <div class="rev-income">105.000₽</div>
+                    </div>
+                </div>
+                <div class="side side-back">
+                    <div class="back-content">
+                        <h4>Результат</h4>
+                        <p>Устроилась SMM в магазин танцевальных платьев (60к + KPI). Дополнительно монтирует reels для интервьюера (3к/ролик).</p>
+                        <div class="tg-user">@wswktww</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="review-item reveal">
+            <div class="card-inner">
+                <div class="side side-front">
+                    <div class="rev-img"><img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=600"></div>
+                    <div class="rev-info">
+                        <div class="rev-name-box"><h3>Даня</h3><p>18 лет / @Usaund</p></div>
+                        <div class="rev-income">150.000₽</div>
+                    </div>
+                </div>
+                <div class="side side-back">
+                    <div class="back-content">
+                        <h4>Результат</h4>
+                        <p>За 2 месяца залил +15.000 нового трафика с TikTok-видео в свой канал тематики одежды. Освоил сценарии и монтаж.</p>
+                        <div class="tg-user">@Usaund</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="review-item reveal">
+            <div class="card-inner">
+                <div class="side side-front">
+                    <div class="rev-img"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=600"></div>
+                    <div class="rev-info">
+                        <div class="rev-name-box"><h3>Ваня</h3><p>16 лет / @Ively69</p></div>
+                        <div class="rev-income">45.000₽</div>
+                    </div>
+                </div>
+                <div class="side side-back">
+                    <div class="back-content">
+                        <h4>Результат</h4>
+                        <p>За 2 месяца обучился монтажу с нуля и устроился в агентство монтажером, где получает по 1.500₽ за каждый ролик.</p>
+                        <div class="tg-user">@Ively69</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="review-item reveal">
+            <div class="card-inner">
+                <div class="side side-front">
+                    <div class="rev-img"><img src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?q=80&w=600"></div>
+                    <div class="rev-info">
+                        <div class="rev-name-box"><h3>Тим</h3><p>21 год / @silagod</p></div>
+                        <div class="rev-income">120.000₽</div>
+                    </div>
+                </div>
+                <div class="side side-back">
+                    <div class="back-content">
+                        <h4>Результат</h4>
+                        <p>Устроился оператором в студию подкастов (60к) и дополнительно монтирует выпуски (20к/шт) параллельно с учебой.</p>
+                        <div class="tg-user">@silagod</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="reviews-footer">
+        <a href="#" class="btn-outline reveal">Все отзывы</a>
+    </div>
+</section>
+
+<div id="tariffs" class="reveal">Тарифы (Scroll Target)</div>
+
+<script>
+// --- 1. ШУМ (NOISE) ---
+const noiseCanvas = document.getElementById('noise-canvas');
+const ctx = noiseCanvas.getContext('2d');
+const resize = () => { noiseCanvas.width = window.innerWidth; noiseCanvas.height = window.innerHeight; };
+const drawNoise = () => {
+    const w = noiseCanvas.width, h = noiseCanvas.height;
+    const id = ctx.createImageData(w, h), buffer = new Uint32Array(id.data.buffer);
+    for (let i = 0; i < buffer.length; i++) if (Math.random() < 0.2) buffer[i] = Math.random() < 0.5 ? 0xFF000000 : 0x11000000;
+    ctx.putImageData(id, 0, 0);
+};
+let frame = 0; 
+const loop = () => { if (frame % 2 === 0) drawNoise(); frame++; requestAnimationFrame(loop); };
+window.addEventListener('resize', resize); resize(); loop();
+
+// --- 2. ЛОГИКА СЛАЙДЕРА (8 СЛАЙДОВ) ---
+let currentSlide = 0;
+const totalSlides = 8; 
+const gap = 20; 
+
+function updateSlidePosition() {
+    const track = document.getElementById('track');
+    const bar = document.getElementById('bar');
+    const slides = document.querySelectorAll('.slide');
+    
+    if(slides.length > 0) {
+        const slideWidth = slides[0].offsetWidth;
+        const offset = (slideWidth + gap) * currentSlide;
+        track.style.transform = `translateX(-${offset}px)`;
+        bar.style.width = ((currentSlide + 1) / totalSlides) * 100 + '%';
+    }
+}
+
+function move(dir) {
+    currentSlide = Math.max(0, Math.min(totalSlides - 1, currentSlide + dir));
+    updateSlidePosition();
+}
+window.addEventListener('resize', updateSlidePosition);
+
+// --- 3. BLUR & REVEAL ---
+function initBlurText(elementId, delayStep = 100) {
+    const el = document.getElementById(elementId);
+    if (!el) return;
+    const words = el.innerText.split(' ');
+    el.innerHTML = words.map((w, i) => `<span class="blur-word" style="transition-delay: ${i * delayStep}ms">${w}&nbsp;</span>`).join('');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => { 
+            if (entry.isIntersecting) { 
+                el.querySelectorAll('.blur-word').forEach(w => w.classList.add('visible')); 
+                observer.unobserve(el); 
+            } 
+        });
+    }, { threshold: 0.1 });
+    observer.observe(el);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    initBlurText('main-blur-title', 150);
+    initBlurText('vsl-blur-title', 100);
+
+    const revealElements = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => { 
+            if (entry.isIntersecting) { 
+                entry.target.classList.add('reveal-active'); 
+                revealObserver.unobserve(entry.target); 
+            } 
+        });
+    }, { threshold: 0.15 });
+    revealElements.forEach(el => revealObserver.observe(el));
+    updateSlidePosition();
+});
+
+// --- 4. ROTATOR ---
+const wordsArr = ["воды", "трендов", "суеты"];
+let wordIndex = 0; 
+const elRot = document.getElementById('word-rotator');
+if (elRot) {
+    setInterval(() => {
+        wordIndex = (wordIndex + 1) % wordsArr.length;
+        elRot.style.filter = "blur(8px)"; elRot.style.opacity = 0;
+        setTimeout(() => { elRot.innerText = wordsArr[wordIndex]; elRot.style.filter = "blur(0)"; elRot.style.opacity = 1; }, 400);
+    }, 2200);
+}
+
+// --- 5. STICKERS ---
+document.querySelectorAll('.sticker-img').forEach(sticker => {
+    sticker.onload = () => sticker.style.display = 'block';
+    let isDragging = false, startX, startY, initLeft, initTop;
+    sticker.addEventListener('mousedown', (e) => {
+        isDragging = true; startX = e.clientX; startY = e.clientY;
+        const rect = sticker.getBoundingClientRect();
+        const parentRect = sticker.offsetParent.getBoundingClientRect();
+        initLeft = rect.left - parentRect.left; initTop = rect.top - parentRect.top;
+        sticker.style.bottom = 'auto'; sticker.style.right = 'auto'; sticker.style.cursor = 'grabbing'; e.preventDefault();
+    });
+    window.addEventListener('mousemove', (e) => {
+        if (isDragging) { sticker.style.left = (initLeft + (e.clientX - startX)) + 'px'; sticker.style.top = (initTop + (e.clientY - startY)) + 'px'; }
+    });
+    window.addEventListener('mouseup', () => { isDragging = false; if (sticker.style.cursor === 'grabbing') sticker.style.cursor = 'grab'; });
+});
+</script>
+</body>
+</html>
