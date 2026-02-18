@@ -684,9 +684,9 @@
         .tariff-card.mentor { background: var(--blue-bright); color: white; }
         .tariff-badge { position: absolute; top: 20px; right: 20px; background: var(--accent); color: white; font-family: 'Caveat', cursive; font-size: 1.4rem; padding: 5px 15px; border-radius: 100px; transform: rotate(3deg); box-shadow: 0 5px 15px rgba(250, 45, 26, 0.4); }
         .tariff-header h3 { font-size: 2.5rem; font-weight: 900; margin: 0 0 10px; letter-spacing: -0.03em; }
-        .popular .tariff-header h3, .mentor .tariff-header h3 { color: white; }
+        .popular .tariff-header h3, .mentor .tariff-header h3 { color: #ffffff; }
         .tariff-header h3 span { color: var(--blue-bright); }
-        .popular .tariff-header h3 span, .mentor .tariff-header h3 span { color: #ccc; }
+        .popular .tariff-header h3 span, .mentor .tariff-header h3 span { color: #ffffff; }
         .tariff-list { list-style: none; padding: 0; margin: 30px 0; flex-grow: 1; }
         .tariff-list li { padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.05); font-size: 0.95rem; font-weight: 500; }
         .popular .tariff-list li, .mentor .tariff-list li { border-bottom: 1px solid rgba(255,255,255,0.1); }
@@ -854,7 +854,7 @@
         .footer-col h4 { color: white; font-weight: 900; font-size: 1.2rem; margin-top: 0; margin-bottom: 20px; }
         .footer-links a { display: block; color: rgba(255,255,255,0.6); text-decoration: none; margin-bottom: 10px; font-size: 0.95rem; transition: color 0.3s; }
         .footer-links a:hover { color: var(--accent); }
-        .footer-legal { font-size: 0.85rem; margin-top: 60px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; flex-wrap: wrap; }
+        .footer-legal { text-align: center; font-size: 0.85rem; margin-top: 60px; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); }
 
 
         /* --- 13. RESPONSIVE --- */
@@ -950,7 +950,7 @@
 <div class="vsl-section">
     <div style="max-width: 1000px; margin: 0 auto;">
         <h2 class="vsl-headline" id="vsl-blur-title">Внимание — суперсила 21 века</h2>
-        <p class="vsl-subhead reveal">Если ты умеешь удерживать внимание и конвертировать его в ₽₽₽ —<br>ты автоматически богат.</p>
+        <p class="vsl-subhead reveal">Если ты умеешь удерживать внимание и конвертировать его в ₽₽₽ — ты автоматически богат.</p>
         <div class="video-box reveal"><div class="play-btn-circle"><div class="play-icon"></div></div></div>
         <a href="#" class="btn-outline btn-buy reveal">Получить core.</a>
     </div>
@@ -1059,13 +1059,111 @@
         <div class="card-3d" style="background: #FA2D1A;">
             <div class="card-body" style="justify-content: center; height: 100%; color: white; padding-top: 60px !important;">
                 <h2 style="font-weight:900; font-size: 2.2rem; text-transform:uppercase; margin-bottom: 30px; text-align: center;">Совет</h2>
-                <p style="color: white; font-family: 'Caveat'; font-size: 2.5rem; transform: rotate(-2deg); line-height: 1.2; text-align: center;">
+                <p style="color: white; font-family: 'Caveat'; font-size: 2.5rem; transform: rotate(-2deg); line-height: 1.0; text-align: center;">
                     "Хотя бы раз в жизни включи голову и используй возможности на максимум."
                 </p>
                 <div class="s-logo" style="border-color: rgba(255,255,255,0.3); color: white; margin-top: 60px;">!!!</div>
             </div>
         </div>
 
+    </div>
+</section>
+
+<section class="modules-section reveal" id="modules">
+    <div class="modules-header">
+        <h2>Коротко о том, что я спрятал в core.</h2>
+    </div>
+
+    <div class="modules-grid">
+        <div class="module-card">
+            <div class="m-cover c1">
+                <div class="m-cover-text">creators<br>mindset</div>
+            </div>
+            <div class="m-info">
+                <div class="m-duration">
+                    <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    4 часа
+                </div>
+                <h3 class="m-title">Модуль 1. Креативность</h3>
+                <p class="m-desc">90% успеха ролика зависят от идеи и сценария. Научись писать удерживающие сценарии, делать продающие воронки и мыслить как автор, который играет вдолгую.</p>
+            </div>
+        </div>
+
+        <div class="module-card">
+            <div class="m-cover c2">
+                <div class="m-cover-text">CONTENT</div>
+            </div>
+            <div class="m-info">
+                <div class="m-duration">
+                    <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    3 часа
+                </div>
+                <h3 class="m-title">Модуль 2. Съемка</h3>
+                <p class="m-desc">Ты перестанешь жаловать на "плохую камеру" и начнёшь управлять вниманием : светом, глубиной, движением, паузой. Разберёшься, как даже на микроволновке делать красивую картинку.</p>
+            </div>
+        </div>
+
+        <div class="module-card">
+            <div class="m-cover c3">
+                <div class="m-cover-text">CREATORS<br>TOOLKIT</div>
+            </div>
+            <div class="m-info">
+                <div class="m-duration">
+                    <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    7 часов
+                </div>
+                <h3 class="m-title">Модуль 3. Монтаж</h3>
+                <p class="m-desc">Ты научишься монтировать так, чтобы зрители досматривали, пересматривали и покупали. Отлично прокачает навыки новичков, и будет полезен уже умелым монтажерам.</p>
+            </div>
+        </div>
+
+        <div class="module-card">
+            <div class="m-cover c4">
+                <div class="m-cover-text">sound<br>space</div>
+            </div>
+            <div class="m-info">
+                <div class="m-duration">
+                    <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    2 часа
+                </div>
+                <h3 class="m-title">Модуль 4. Саунд-дизайн</h3>
+                <p class="m-desc">Просто музыка на фоне уже не работает. Ты поймёшь, как работать с паузами, эффектами и музыкой так, чтобы контент ощущался дорого и профессионально.</p>
+            </div>
+        </div>
+
+        <div class="module-card">
+            <div class="m-cover c5">
+                <div class="m-cover-text">personal<br>brand</div>
+            </div>
+            <div class="m-info">
+                <div class="m-duration">
+                    <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    10 часов
+                </div>
+                <h3 class="m-title">Модуль 5. Личный бренд</h3>
+                <p class="m-desc">Это не про аватарку в пиджаке и 3 сториса с кофе. Это чёткая позиция, ценности и постоянная коммуникация. Я научу тебя выстраивать образ, которому доверяют и у которого покупают.</p>
+            </div>
+        </div>
+
+        <div class="module-card">
+            <div class="m-cover c6">
+                <div class="m-cover-text">GROWTH</div>
+            </div>
+            <div class="m-info">
+                <div class="m-duration">
+                    <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    5 часов
+                </div>
+                <h3 class="m-title">Модуль 6. Первые ₽$€</h3>
+                <p class="m-desc">Ты получишь структуру выхода на рынок: где искать клиентов, как вести диалог и грамотно закрывать сделки. И сможешь обогнать 95% "конкурентов", просто за счет правильного подхода.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="bonus-centered reveal">
+        <div class="bonus-badge">* бонус *</div>
+        <h3>Алгоритм на первые 100.000₽</h3>
+        <p>В подарок ко всему, я дам тебе пошаговый алгоритм: от выбора ниши и упаковки до клиентов и масштабирования дохода.</p>
     </div>
 </section>
 
@@ -1197,104 +1295,6 @@
 
 </section>
 
-<section class="modules-section reveal" id="modules">
-    <div class="modules-header">
-        <h2>Коротко о том, что я спрятал в core.</h2>
-    </div>
-
-    <div class="modules-grid">
-        <div class="module-card">
-            <div class="m-cover c1">
-                <div class="m-cover-text">creators<br>mindset</div>
-            </div>
-            <div class="m-info">
-                <div class="m-duration">
-                    <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                    4 часа
-                </div>
-                <h3 class="m-title">Модуль 1. Креативность</h3>
-                <p class="m-desc">90% успеха ролика зависят от идеи и сценария. Научись писать удерживающие сценарии, делать продающие воронки и мыслить как автор, который играет вдолгую.</p>
-            </div>
-        </div>
-
-        <div class="module-card">
-            <div class="m-cover c2">
-                <div class="m-cover-text">CONTENT</div>
-            </div>
-            <div class="m-info">
-                <div class="m-duration">
-                    <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                    3 часа
-                </div>
-                <h3 class="m-title">Модуль 2. Съемка</h3>
-                <p class="m-desc">Ты перестанешь жаловать на "плохую камеру" и начнёшь управлять вниманием : светом, глубиной, движением, паузой. Разберёшься, как даже на микроволновке делать красивую картинку.</p>
-            </div>
-        </div>
-
-        <div class="module-card">
-            <div class="m-cover c3">
-                <div class="m-cover-text">CREATORS<br>TOOLKIT</div>
-            </div>
-            <div class="m-info">
-                <div class="m-duration">
-                    <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                    7 часов
-                </div>
-                <h3 class="m-title">Модуль 3. Монтаж</h3>
-                <p class="m-desc">Ты научишься монтировать так, чтобы зрители досматривали, пересматривали и покупали. Отлично прокачает навыки новичков, и будет полезен уже умелым монтажерам.</p>
-            </div>
-        </div>
-
-        <div class="module-card">
-            <div class="m-cover c4">
-                <div class="m-cover-text">sound<br>space</div>
-            </div>
-            <div class="m-info">
-                <div class="m-duration">
-                    <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                    2 часа
-                </div>
-                <h3 class="m-title">Модуль 4. Саунд-дизайн</h3>
-                <p class="m-desc">Просто музыка на фоне уже не работает. Ты поймёшь, как работать с паузами, эффектами и музыкой так, чтобы контент ощущался дорого и профессионально.</p>
-            </div>
-        </div>
-
-        <div class="module-card">
-            <div class="m-cover c5">
-                <div class="m-cover-text">personal<br>brand</div>
-            </div>
-            <div class="m-info">
-                <div class="m-duration">
-                    <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                    10 часов
-                </div>
-                <h3 class="m-title">Модуль 5. Личный бренд</h3>
-                <p class="m-desc">Это не про аватарку в пиджаке и 3 сториса с кофе. Это чёткая позиция, ценности и постоянная коммуникация. Я научу тебя выстраивать образ, которому доверяют и у которого покупают.</p>
-            </div>
-        </div>
-
-        <div class="module-card">
-            <div class="m-cover c6">
-                <div class="m-cover-text">GROWTH</div>
-            </div>
-            <div class="m-info">
-                <div class="m-duration">
-                    <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                    5 часов
-                </div>
-                <h3 class="m-title">Модуль 6. Первые ₽$€</h3>
-                <p class="m-desc">Ты получишь структуру выхода на рынок: где искать клиентов, как вести диалог и грамотно закрывать сделки. И сможешь обогнать 95% "конкурентов", просто за счет правильного подхода.</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="bonus-centered reveal">
-        <div class="bonus-badge">* бонус *</div>
-        <h3>Алгоритм на первые 100.000₽</h3>
-        <p>В подарок ко всему, я дам тебе пошаговый алгоритм: от выбора ниши и упаковки до клиентов и масштабирования дохода.</p>
-    </div>
-</section>
-
     <!-- SECTION: TARIFFS -->
     <section class="new-section reveal-soft" id="tariffs">
         <div class="section-subtitle-small">все что тебе нужно — здесь</div>
@@ -1323,7 +1323,7 @@
             </div>
             <div class="tariff-card popular">
                 <div class="tariff-badge">Самый популярный</div>
-                <div class="tariff-header"><h3>тариф<br><span>core.plus</span></h3></div>
+                <div class="tariff-header"><h3>тариф<br><span>core+.</span></h3></div>
                 <ul class="tariff-list">
                     <li class="list-head">Содержание</li>
                     <li>Все модули core.</li>
