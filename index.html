@@ -1,126 +1,105 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>core. x story (Premium Edition)</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Caveat:wght@700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>core.</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&family=Caveat:wght@700&display=swap" rel="stylesheet">
+<style>
+    /* --- 1. ПРЕМИУМ ФУНДАМЕНТ --- */
+    @font-face {
+        font-family: 'Gramatika';
+        src: local('Gramatika'), local('Inter');
+    }
+
+    :root {
+        --bg-cream: #F4F2EE;
+        --blue-deep: #00388D;
+        --blue-bright: #0045A6;
+        --accent: #FA2D1A;
+        --folder-front: linear-gradient(180deg, #5CA0F2 0%, #007AFF 100%);
+        --folder-back: #2B5E96;
+        --white: #FFFFFF;
+        --light-blue: #E0E6FF;
+        --border: rgba(0, 69, 166, 0.15);
+        --radius: 32px;
+        /* ФИЗИКА: "Масляная" кривая (Apple-style) */
+        --ease-smooth: cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: 'Gramatika', 'Inter', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: var(--bg-cream);
+        color: var(--blue-bright);
+        overflow-x: hidden;
+        user-select: none;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* --- 2. TEXTURE (NOISE) --- */
+    #noise-canvas {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        pointer-events: none; z-index: 9999; opacity: 0.15; mix-blend-mode: multiply;
+    }
+
+    /* --- 3. NAVBAR (GLASS) --- */
+    .navbar {
+        position: fixed; top: 0; left: 0; width: 100%; padding: 20px 40px; box-sizing: border-box;
+        display: flex; justify-content: space-between; align-items: center; 
+        z-index: 10000;
+        background: rgba(244, 242, 238, 0.571);
+        backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+        border-bottom: 1px solid rgba(0, 69, 166, 0.05);
+        animation: fadeInDown 1.4s var(--ease-smooth) forwards;
+    }
+
+    .nav-logo { font-weight: 900; color: var(--blue-bright); font-size: 1.8em; text-decoration: none; letter-spacing: -0.05em; }
+    .nav-buttons { display: flex; gap: 20px; align-items: center; }
     
-    <style>
-        /* --- 1. GLOBAL SETTINGS & VARIABLES --- */
-        @font-face {
-            font-family: 'Gramatika';
-            src: local('Gramatika'), local('Inter');
-        }
+    .nav-text-btn { text-decoration: none; font-weight: 700; font-size: 1rem; color: var(--blue-bright); opacity: 0.7; transition: opacity 0.4s var(--ease-smooth); }
+    .nav-text-btn:hover { opacity: 1; }
 
-        :root {
-            /* Palette */
-            --bg-cream: #F4F2EE;
-            --white: #FFFFFF;
-            
-            /* Blues */
-            --blue-bright: #0045A6; /* Main Brand Blue */
-            --blue-deep: #001A40;   /* Replacement for Black */
-            --blue-soft: #E0E6FF;
-            
-            /* Accent */
-            --accent: #FA2D1A;      /* Red/Orange */
-            
-            /* UI Elements */
-            --border: rgba(0, 69, 166, 0.15);
-            --radius: 32px;
-            --radius-sm: 20px;
-            
-            /* Slider Config */
-            --card-width: 400px;   
-            --card-height: 600px;  
-            --slider-gap: 50px;    
-            
-            /* Animations */
-            --ease-future: cubic-bezier(0.19, 1, 0.22, 1);
-            --ease-smooth: cubic-bezier(0.23, 1, 0.32, 1);
-            --transition-speed: 0.8s;
-        }
-
-        html { 
-            scroll-behavior: smooth; 
-        }
-
-        body {
-            font-family: 'Gramatika', 'Inter', sans-serif;
-            margin: 0; padding: 0;
-            background-color: var(--bg-cream);
-            color: var(--blue-deep);
-            overflow-x: hidden;
-            user-select: none;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* --- 2. UTILITIES & ANIMATIONS --- */
-        
-        /* Стандартное появление (для простых элементов) */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 1s var(--ease-smooth);
-        }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* NEW: Soft & Beautiful Reveal (для Zig-Zag и крупных блоков) */
-        .reveal-soft {
-            opacity: 0;
-            transform: translateY(60px) scale(0.96);
-            /* Очень плавная кривая безье для эффекта "всплытия" */
-            transition: all 1.4s cubic-bezier(0.16, 1, 0.3, 1);
-            will-change: transform, opacity;
-        }
-        .reveal-soft.active {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-
-        #noise-canvas {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 9999; opacity: 0.15; mix-blend-mode: multiply;
-        }
-
-        /* --- 3. NAVIGATION --- */
-        .navbar {
-            position: fixed; top: 0; left: 0; width: 100%; padding: 20px 40px; box-sizing: border-box;
-            display: flex; justify-content: space-between; align-items: center; 
-            z-index: 10000;
-            background: rgba(244, 242, 238, 0.7);
-            backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
-            border-bottom: 1px solid rgba(0, 69, 166, 0.05);
-        }
-        .nav-logo { font-weight: 900; color: var(--blue-bright); font-size: 1.8em; text-decoration: none; letter-spacing: -0.05em; }
-        .nav-buttons { display: flex; gap: 20px; align-items: center; }
-        .nav-text-btn { text-decoration: none; font-weight: 700; font-size: 1rem; color: var(--blue-bright); opacity: 0.7; transition: opacity 0.4s; }
-        .nav-text-btn:hover { opacity: 1; }
-        .nav-accent-btn { 
-            text-decoration: none; font-weight: 700; padding: 12px 32px; border-radius: 100px; 
-            font-size: 0.9em; transition: transform 0.4s var(--ease-smooth), box-shadow 0.4s var(--ease-smooth); 
-            background-color: var(--blue-bright); color: white; 
-            box-shadow: 0 4px 15px rgba(0, 69, 166, 0.2);
-        }
-        .nav-accent-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 69, 166, 0.35); }
+    .nav-accent-btn { 
+        text-decoration: none; font-weight: 700; padding: 12px 32px; border-radius: 100px; 
+        font-size: 0.9em; 
+        transition: transform 0.4s var(--ease-smooth), box-shadow 0.4s var(--ease-smooth); 
+        background-color: var(--blue-bright); color: white; 
+        box-shadow: 0 4px 15px rgba(0, 69, 166, 0.2);
+    }
+    .nav-accent-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 69, 166, 0.35); }
 
         /* --- 4. HERO SECTION --- */
         .hero-wrapper {
-            height: 100vh; width: 100%; display: flex; align-items: center; justify-content: center;
-            padding: 100px 20px 40px 20px; box-sizing: border-box; position: relative; z-index: 10;
+            height: 100vh; 
+            width: 100%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            padding: 100px 20px 0px 20px; 
+            box-sizing: border-box; 
+            position: relative; 
+            z-index: 10;
         }
+
         .card-shadow-container {
-            width: 100%; max-width: 1440px; height: 85vh; 
+            width: 100%; max-width: 1440px; height: 82vh; 
             border-radius: var(--radius);
             box-shadow: 0 60px 120px -20px rgba(0, 20, 60, 0.4), 0 0 0 1px rgba(255,255,255,0.1);
             position: relative;
+            animation: scaleIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            z-index: 1;
         }
+
         .hero-card {
-            width: 100%; height: 100%; border-radius: var(--radius);
+            width: 100%; height: 100%; 
+            border-radius: var(--radius);
             position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center;
             overflow: hidden; 
             background-color: var(--blue-bright);
@@ -131,144 +110,541 @@
             background-size: 100% 100%, 40px 40px, 40px 40px;
             box-shadow: inset 0 0 80px rgba(0,0,0,0.3);
         }
+
         .hero-content { 
             z-index: 10; text-align: center; margin-top: -40px; pointer-events: none;
             width: 100%; display: flex; flex-direction: column; align-items: center;
         }
+
         @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+
         .main-title {
             font-family: 'Inter', sans-serif;
-            font-size: 14vw; font-weight: 900; line-height: 0.85; letter-spacing: -0.06em; margin: 0; 
+            font-size: 14vw; font-weight: 900; line-height: 0.85; 
+            letter-spacing: -0.06em; margin: 0; 
             background: linear-gradient(110deg, #FFFFFF 45%, #E0E6FF 50%, #FFFFFF 55%);
             background-size: 250% 100%;
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             animation: shimmer 8s infinite linear;
             filter: drop-shadow(0 20px 50px rgba(0,0,0,0.3));
         }
+
         .subtitle-block {
-            margin-top: 30px; font-family: 'Caveat', cursive; font-weight: 700;
-            font-size: 4rem; line-height: 1.1; color: #FFFFFF; transform: rotate(-3deg); 
+            margin-top: 30px; 
+            font-family: 'Caveat', cursive;
+            font-weight: 700;
+            font-size: 4rem; line-height: 1.1; 
+            color: #FFFFFF; 
+            transform: rotate(-3deg); 
             text-shadow: 0 4px 15px rgba(0,0,0,0.2);
             display: flex; flex-direction: column; align-items: center;
         }
-        .row-line { display: flex; justify-content: center; align-items: baseline; gap: 15px; }
-        .highlight-word { color: var(--accent); text-shadow: 0 0 15px rgba(250, 45, 26, 0.4); display: inline-block; }
 
-        /* --- 5. FOLDER & VSL --- */
-        .folder-bridge { position: relative; z-index: 100; margin-top: -50px; margin-bottom: 120px; display: flex; justify-content: center; align-items: flex-end; height: 320px; perspective: 1200px; }
+        .row-line { display: flex; justify-content: center; align-items: baseline; gap: 15px; }
+        .highlight-word-container { min-width: 350px; text-align: left; display: inline-block; }
+        
+        .highlight-word { 
+            color: var(--accent); 
+            text-shadow: 0 0 15px rgba(250, 45, 26, 0.4); 
+            display: inline-block;
+            transition: all 0.4s ease;
+        }
+
+        /* --- 5. STICKERS FX (ROTATION SAFE) --- */
+        .sticker-img {
+            position: absolute; 
+            cursor: grab; 
+            z-index: 50; 
+            -webkit-user-drag: none;
+            /* Плавный переход */
+            transition: filter 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            filter: drop-shadow(0 20px 30px rgba(0,0,0,0.35));
+            touch-action: none;
+        }
+
+        /* Общие стили при наведении на любой стикер */
+        .sticker-img:hover {
+            z-index: 2000 !important;
+            filter: drop-shadow(0 50px 80px rgba(0,0,0,0.6));
+        }
+        .sticker-img:active { cursor: grabbing; }
+
+        /* 
+           ВАЖНО: Для каждого стикера прописываем hover отдельно, 
+           чтобы сохранить его уникальный угол поворота (rotate) 
+        */
+
+        /* CAMERA */
+        .s-camera { top: -5%; left: -8%; width: 600px; transform: rotate(-12deg); }
+        .s-camera:hover { transform: rotate(-12deg) scale(1.05); } 
+
+        /* PENCIL */
+        .s-pencil { top: -12%; right: 5%; width: 80px; transform: rotate(50deg); }
+        .s-pencil:hover { transform: rotate(50deg) scale(1.05); }
+
+        /* SSD */
+        .s-ssd { bottom: 10%; right: 12%; width: 120px; transform: rotate(20deg); }
+        .s-ssd:hover { transform: rotate(20deg) scale(1.05); }
+
+
+        /* Media Queries (Adaptive) */
+        @media (max-width: 1300px) {
+            .s-camera { width: 450px; left: -5%; top: 0%; }
+            .s-camera:hover { transform: rotate(-12deg) scale(1.05); } 
+            
+            .s-ssd { right: 5%; bottom: 5%; }
+        }
+
+        @media (max-width: 1200px) {
+            /* Здесь мы меняем базовый scale, поэтому hover тоже должен это учитывать */
+            .s-camera { width: 350px; left: -20px; top: 20px; transform: rotate(-12deg) scale(0.8); }
+            .s-camera:hover { transform: rotate(-12deg) scale(0.85); }
+            
+            .s-pencil { width: 60px; right: 20px; transform: rotate(50deg) scale(0.8); }
+            .s-pencil:hover { transform: rotate(50deg) scale(0.85); }
+            
+            .s-ssd { width: 90px; right: 20px; bottom: 20px; transform: rotate(20deg) scale(0.8); }
+            .s-ssd:hover { transform: rotate(20deg) scale(0.85); }
+        }
+
+        @media (max-width: 768px) {
+            .s-camera { display: none !important; }
+            .s-pencil { top: 20px; right: 20px; transform: rotate(40deg); }
+            .s-ssd { bottom: 20px; right: 20px; transform: rotate(10deg); }
+            .hero-wrapper { height: auto; min-height: 90vh; padding-top: 100px; padding-bottom: 60px; }
+            .card-shadow-container { height: 60vh; }
+        }
+
+        /* --- 6. FOLDER BRIDGE (UPDATED MARGIN) --- */
+        .folder-bridge { 
+            position: relative; 
+            z-index: 100; /* Перекрывает Hero */
+            margin-top: -230px; /* Глубокий стык на экваторе */
+            margin-bottom: 80px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: flex-end; 
+            height: 320px; 
+            perspective: 1200px; 
+            pointer-events: none; 
+        }
+
         .mac-folder-realistic { 
-            position: relative; width: 260px; height: 180px; cursor: pointer; 
-            transition: transform 0.6s var(--ease-smooth); transform-style: preserve-3d; will-change: transform;
+            pointer-events: auto; 
+            position: relative; 
+            width: 260px; height: 180px; 
+            cursor: pointer; 
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
+            transform-style: preserve-3d; 
         }
         .mac-folder-realistic:hover { transform: translateY(-10px) scale(1.02); }
+
         .folder-cards { position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 2; pointer-events: none; }
-        .folder-file-card { 
-            position: absolute; width: 130px; height: 170px; left: 25%; bottom: 15px; 
-            border-radius: 8px; padding: 10px; box-sizing: border-box; 
-            opacity: 0; transition: all 0.8s var(--ease-smooth); 
-            transform-origin: bottom center; box-shadow: 0 10px 25px rgba(0,0,0,0.2); 
-        }
+        .folder-file-card { position: absolute; width: 130px; height: 170px; left: 25%; bottom: 15px; border-radius: 8px; padding: 10px; box-sizing: border-box; opacity: 0; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); transform-origin: bottom center; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
         .file-card-inner { width: 100%; height: 100%; border-radius: 6px; padding: 12px 10px; display: flex; flex-direction: column; box-sizing: border-box; border: 1px solid rgba(255,255,255,0.3); box-shadow: inset 0 2px 10px rgba(255,255,255,0.1); }
         .file-card-stripe { width: 80%; height: 6px; background: rgba(255,255,255,0.4); border-radius: 3px; }
         .file-card-grid { width: 100%; height: 40px; background: repeating-linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.1) 5px, transparent 5px, transparent 10px); border-radius: 4px; }
         .file-card-label { color: white; font-weight: 800; font-size: 10px; margin-top: auto; text-transform: uppercase; letter-spacing: 0.5px; }
+
         .mac-folder-realistic:hover .card-1 { opacity: 1; transform: translate(-70px, -40px) rotate(-12deg); transition-delay: 0.1s; }
         .mac-folder-realistic:hover .card-2 { opacity: 1; transform: translate(0, -80px) rotate(0deg); transition-delay: 0.05s; }
         .mac-folder-realistic:hover .card-3 { opacity: 1; transform: translate(70px, -40px) rotate(12deg); transition-delay: 0.15s; }
-        .folder-back-shape { position: absolute; width: 100%; height: 100%; background: #2B5E96; border-radius: 0 16px 16px 16px; z-index: 1; box-shadow: 0 20px 50px rgba(0, 40, 100, 0.3); }
-        .folder-back-shape::before { content: ''; position: absolute; bottom: 100%; left: 0; width: 90px; height: 16px; background: #2B5E96; border-radius: 12px 12px 0 0; }
-        .folder-front-shape { 
-            position: absolute; bottom: 0; left: 0; width: 100%; height: 90%; 
-            background: linear-gradient(180deg, #5CA0F2 0%, #007AFF 100%); border-radius: 0 0 16px 16px; z-index: 3; 
-            transform-origin: bottom; transition: transform 0.8s var(--ease-smooth); 
-            box-shadow: inset 0 2px 5px rgba(255,255,255,0.3), 0 -5px 15px rgba(0,0,0,0.1); border-top: 1px solid rgba(255,255,255,0.2); 
-        }
+
+        .folder-back-shape { position: absolute; width: 100%; height: 100%; background: var(--folder-back); border-radius: 0 16px 16px 16px; z-index: 1; box-shadow: 0 20px 50px rgba(0, 40, 100, 0.3); }
+        .folder-back-shape::before { content: ''; position: absolute; bottom: 100%; left: 0; width: 90px; height: 16px; background: var(--folder-back); border-radius: 12px 12px 0 0; }
+        .folder-front-shape { position: absolute; bottom: 0; left: 0; width: 100%; height: 90%; background: var(--folder-front); border-radius: 0 0 16px 16px; z-index: 3; transform-origin: bottom; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: inset 0 2px 5px rgba(255,255,255,0.3), 0 -5px 15px rgba(0,0,0,0.1); border-top: 1px solid rgba(255,255,255,0.2); }
         .mac-folder-realistic:hover .folder-front-shape { transform: rotateX(-25deg) scaleY(0.95); }
 
-        .vsl-section { padding: 60px 20px 80px 20px; text-align: center; position: relative; z-index: 5; }
-        .vsl-headline { font-size: 4rem; font-weight: 900; line-height: 1; letter-spacing: -0.04em; color: var(--blue-bright); margin-bottom: 24px; background: linear-gradient(135deg, #0045A6 0%, #002A66 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .vsl-subhead { font-size: 1.5rem; font-weight: 500; color: #555; line-height: 1.4; margin-bottom: 60px; max-width: 700px; margin-left: auto; margin-right: auto; }
-        .video-box { 
-            width: 100%; max-width: 960px; aspect-ratio: 16/9; margin: 0 auto; background: var(--blue-deep); 
-            border-radius: var(--radius); box-shadow: 0 50px 100px -20px rgba(0,0,0,0.25), inset 0 20px 40px rgba(0,0,0,0.6); 
-            display: flex; align-items: center; justify-content: center; position: relative; border: 1px solid rgba(255,255,255,0.1); 
-        }
-        .play-btn-circle { 
-            width: 120px; height: 120px; background: rgba(255,255,255,0.15); backdrop-filter: blur(20px); border-radius: 50%; 
-            display: flex; align-items: center; justify-content: center; transition: transform 0.5s var(--ease-smooth); cursor: pointer; border: 1px solid rgba(255,255,255,0.3); 
-        }
-        .play-btn-circle:hover { transform: scale(1.1); background: rgba(255,255,255,0.25); }
-        .play-icon { width: 0; height: 0; margin-left: 8px; border-top: 18px solid transparent; border-bottom: 18px solid transparent; border-left: 30px solid white; }
-        
-        .btn-outline {
-            text-decoration: none; font-weight: 900; font-size: 1.8rem; color: var(--blue-bright); border: 3px solid var(--blue-bright); 
-            padding: 20px 60px; border-radius: 100px; display: inline-block; text-transform: uppercase;
-            transition: 0.5s var(--ease-smooth); background: transparent; margin-top: 60px;
-        }
-        .btn-outline:hover { background: var(--blue-bright); color: white; transform: translateY(-5px); }
 
-        /* --- 6. 3D SLIDER --- */
-        .story-section-new {
-            position: relative; width: 100%; height: 900px; perspective: 2000px;
-            display: flex; align-items: center; justify-content: center; overflow: hidden;
-            background: var(--bg-cream); border-top: 1px solid var(--border);
-        }
-        .track-3d {
-            display: flex; gap: var(--slider-gap); position: absolute; left: 50%; top: 50%;
-            transform: translate(-200px, -50%); transform-style: preserve-3d;
-            transition: transform var(--transition-speed) var(--ease-future); will-change: transform;
-        }
-        .card-3d {
-            width: var(--card-width); height: var(--card-height); background: #ffffff; border-radius: 40px; flex-shrink: 0;
-            position: relative; overflow: hidden; box-shadow: inset 0 1px 1px rgba(255,255,255,0.8), 0 20px 40px -10px rgba(0,0,0,0.1);
-            opacity: 0.5; transform: scale(0.85) rotateY(15deg); filter: blur(4px) grayscale(80%);
-            transition: all var(--transition-speed) var(--ease-future); display: flex; flex-direction: column;
-        }
-        .card-3d.active {
-            opacity: 1; transform: scale(1.05) rotateY(0deg); filter: blur(0) grayscale(0); z-index: 50;
-            box-shadow: inset 0 1px 1px rgba(255,255,255,0.8), 0 40px 100px -20px rgba(0, 69, 166, 0.25);
-        }
-        .card-img-container { width: 100%; height: 290px; position: relative; overflow: hidden; }
-        .card-img-container::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 40%; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); pointer-events: none; }
-        .card-img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease-future); }
-        .card-3d.active:hover .card-img { transform: scale(1.08); }
-        .black-bar { background: var(--blue-deep); color: white; text-align: center; padding: 16px 0; margin-top: -10px; position: relative; z-index: 2; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-        .black-bar h2 { margin: 0; font-weight: 900; font-size: 1.8rem; letter-spacing: -0.04em; background: linear-gradient(180deg, #fff 0%, #ccc 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .card-body { padding: 32px 28px 5px 28px !important; text-align: left !important; display: flex; flex-direction: column; flex-grow: 1; }
-        .story-quote { font-size: 1.05rem; line-height: 1.6; color: #444; margin-bottom: auto; }
-        .story-quote::first-letter { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 3.2rem; float: left; line-height: 0.8; margin-right: 12px; margin-top: 4px; color: var(--blue-bright); }
-        .handwritten-note { font-family: 'Caveat', cursive; color: var(--accent); font-size: 1.5rem; transform: rotate(-4deg); display: block; margin-bottom: 15px; margin-left: 10px; opacity: 0.9; }
-        .s-logo { width: 46px; height: 46px; border: 1px solid rgba(0, 69, 166, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 900; color: var(--blue-bright); letter-spacing: 1px; margin-top: auto; margin-bottom: 0; opacity: 0.5; align-self: center; }
-        .nav-container-3d { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: calc(var(--card-width) + 200px); height: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; pointer-events: none; }
-        .nav-btn-3d { pointer-events: auto; width: 76px; height: 76px; border-radius: 50%; border: none; cursor: pointer; background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); box-shadow: 0 10px 30px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; color: var(--blue-bright); transition: all 0.4s var(--ease-future); }
-        .nav-btn-3d:hover { transform: scale(1.15); background: var(--blue-bright); color: white; box-shadow: 0 20px 40px rgba(0, 69, 166, 0.3); }
+    /* --- 6. VSL SECTION --- */
+    .vsl-section { padding: 60px 20px 80px 20px; text-align: center; position: relative; z-index: 5; }
+    .vsl-headline { font-size: 4rem; font-weight: 900; line-height: 1; letter-spacing: -0.04em; color: var(--blue-bright); margin-bottom: 24px; background: linear-gradient(135deg, #0045A6 0%, #002A66 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .vsl-subhead { font-size: 1.5rem; font-weight: 500; color: #555; line-height: 1.4; margin-bottom: 60px; max-width: 700px; margin-left: auto; margin-right: auto; }
 
-        /* --- 7. REVIEWS SECTION --- */
-        .reviews-section { padding: 120px 0; border-top: 1px solid var(--border); background-color: var(--blue-bright); background-image: linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px), url("https://www.transparenttextures.com/patterns/stardust.png"); background-size: 50px 50px, auto; position: relative; overflow: hidden; }
-        .reviews-headline { font-size: 3.5vw; padding: 0 50px 80px; font-weight: 900; text-transform: uppercase; line-height: 1; letter-spacing: -0.04em; color: var(--bg-cream); max-width: 1200px; margin: 0 auto; text-align: center; position: relative; z-index: 5; }
-        .grid-reviews { display: grid; grid-template-columns: repeat(3, 260px); justify-content: center; gap: 80px 60px; max-width: 1200px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 5; }
-        .review-item { width: 260px; height: 400px; perspective: 2000px; position: relative; transition: transform 0.6s var(--ease-smooth); will-change: transform; }
-        .review-item:nth-child(1) { transform: rotate(-4deg); } .review-item:nth-child(2) { transform: rotate(3deg) translateY(-15px); } .review-item:nth-child(3) { transform: rotate(-2.5deg) translateY(10px); }
-        .review-item:nth-child(4) { transform: rotate(4deg); } .review-item:nth-child(5) { transform: rotate(-3deg) translateY(-5px); } .review-item:nth-child(6) { transform: rotate(2deg); }
-        .review-item:hover { z-index: 100; transform: rotate(0) scale(1.05); }
-        .card-inner { position: absolute; width: 100%; height: 100%; transition: transform 1.2s var(--ease-smooth); transform-style: preserve-3d; will-change: transform; }
-        .review-item:hover .card-inner { transform: rotateY(180deg); }
-        .side { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.3); box-sizing: border-box; }
-        .side-front { background: white; padding: 10px; display: flex; flex-direction: column; }
-        .rev-img { flex-grow: 1; overflow: hidden; border-radius: 12px 12px 4px 4px; }
-        .rev-img img { width: 100%; height: 100%; object-fit: cover; }
-        .rev-info { padding: 15px 5px; display: flex; justify-content: space-between; align-items: center; }
-        .rev-name-box h3 { font-weight: 900; font-size: 1.1rem; color: var(--blue-bright); margin: 0; text-transform: uppercase; }
-        .rev-name-box p { font-size: 0.65rem; font-weight: 800; opacity: 0.5; color: var(--blue-deep); margin: 0; }
-        .rev-income { font-weight: 900; color: var(--accent); font-size: 1rem; }
-        .side-back { transform: rotateY(180deg); background-color: var(--blue-deep); display: flex; align-items: center; justify-content: center; position: relative; }
-        .side-back::before { content: ""; position: absolute; top: -20px; left: -20px; right: -20px; bottom: -20px; background-image: var(--rev-bg); background-size: cover; background-position: center; filter: blur(12px) brightness(0.4); transform: scaleX(-1); z-index: 1; }
-        .back-content { position: relative; z-index: 2; width: 100%; height: 100%; padding: 30px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
-        .side-back h4 { font-family: 'Caveat'; font-size: 2.2rem; color: white; margin: 0 0 10px; transform: rotate(-2deg); }
-        .side-back p { font-size: 0.9rem; line-height: 1.4; color: var(--bg-cream); margin: 0; font-weight: 500; }
-        .reviews-footer { text-align: center; padding-top: 60px; }
+    .video-box { 
+        width: 100%; max-width: 960px; aspect-ratio: 16/9; margin: 0 auto; background: #000; 
+        border-radius: var(--radius);
+        box-shadow: 0 50px 100px -20px rgba(0,0,0,0.25), inset 0 20px 40px rgba(0,0,0,0.6); 
+        display: flex; align-items: center; justify-content: center; position: relative; border: 1px solid rgba(255,255,255,0.1); 
+    }
 
-        /* --- 8. MODULES SECTION --- */
+    .play-btn-circle { 
+        width: 120px; height: 120px; background: rgba(255,255,255,0.15); backdrop-filter: blur(20px); border-radius: 50%; 
+        display: flex; align-items: center; justify-content: center; 
+        transition: transform 0.5s var(--ease-smooth); 
+        cursor: pointer; border: 1px solid rgba(255,255,255,0.3); 
+    }
+    .play-btn-circle:hover { transform: scale(1.1); background: rgba(255,255,255,0.25); }
+    .play-icon { width: 0; height: 0; margin-left: 8px; border-top: 18px solid transparent; border-bottom: 18px solid transparent; border-left: 30px solid white; }
+
+    .btn-outline {
+        text-decoration: none; font-weight: 900; font-size: 1.8rem; 
+        color: var(--blue-bright); border: 3px solid var(--blue-bright); 
+        padding: 20px 60px; border-radius: 100px;
+        display: inline-block; text-transform: uppercase;
+        transition: 0.5s var(--ease-smooth); background: transparent; box-shadow: none;
+    }
+    .btn-outline:hover { background: var(--blue-bright); color: white; transform: translateY(-5px); }
+    .btn-buy { margin-top: 60px; }
+
+:root {
+    --bg-cream: #F4F2EE;
+    --blue-bright: #0045A6;
+    --accent: #FA2D1A;
+    --card-width: 400px;
+    --card-height: 600px;
+    --slider-gap: 50px;
+    --transition-speed: 0.8s;
+    --ease-future: cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.story-section-new {
+    position: relative; width: 100%; height: 900px;
+    perspective: 2000px; display: flex; align-items: center; justify-content: center;
+    overflow: hidden; background: var(--bg-cream);
+}
+
+.track-3d {
+    display: flex; gap: var(--slider-gap); position: absolute;
+    left: 50%; top: 50%; transform: translate(-200px, -50%);
+    transform-style: preserve-3d; transition: transform var(--transition-speed) var(--ease-future);
+}
+
+.card-3d {
+    width: var(--card-width); height: var(--card-height); background: #fff;
+    border-radius: 40px; flex-shrink: 0; position: relative; overflow: hidden;
+    opacity: 0.5; transform: scale(0.85) rotateY(15deg); filter: blur(4px) grayscale(80%);
+    transition: all var(--transition-speed) var(--ease-future);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1); display: flex; flex-direction: column;
+}
+
+.card-3d.active {
+    opacity: 1; transform: scale(1.05) rotateY(0deg);
+    filter: blur(0) grayscale(0); z-index: 50;
+    box-shadow: 0 40px 100px -20px rgba(0, 69, 166, 0.25);
+}
+
+/* Контент внутри */
+.card-img-container { width: 100%; height: 290px; overflow: hidden; position: relative; }
+.card-img { width: 100%; height: 100%; object-fit: cover; }
+.black-bar { background: #050505; color: white; text-align: center; padding: 16px 0; }
+.black-bar h2 { margin: 0; font-size: 1.8rem; font-weight: 900; }
+
+.card-body { padding: 32px 28px; display: flex; flex-direction: column; flex-grow: 1; text-align: left; }
+
+/* Стили текста (Буквица и заметки) */
+.story-quote { font-size: 1.05rem; line-height: 1.6; color: #2D2D2D; }
+.story-quote::first-letter {
+    font-weight: 900; font-size: 3.2rem; float: left;
+    line-height: 0.8; margin-right: 12px; color: var(--blue-bright);
+}
+.handwritten-note {
+    font-family: 'Caveat', cursive; color: var(--accent);
+    font-size: 1.5rem; transform: rotate(-4deg); display: block; margin: 10px 0;
+}
+
+/* Статистика */
+.slider-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+.s-pill { background: var(--blue-bright); color: white; padding: 10px; border-radius: 12px; font-weight: 800; text-align: center; }
+.s-script { font-family: 'Caveat', cursive; color: var(--accent); font-size: 1.1rem; text-align: center; }
+.s-logo { width: 40px; height: 40px; border: 1px solid rgba(0,0,0,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: auto auto 0; font-size: 0.7rem; opacity: 0.5; }
+
+/* Навигация */
+.nav-container-3d { position: absolute; width: calc(var(--card-width) + 220px); display: flex; justify-content: space-between; z-index: 100; pointer-events: none; }
+.nav-btn-3d { pointer-events: auto; width: 70px; height: 70px; border-radius: 50%; border: none; background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--blue-bright); transition: 0.4s; }
+.nav-btn-3d:hover { background: var(--blue-bright); color: #fff; }
+
+    /* --- 8. REVIEWS SECTION (ФИНАЛЬНЫЙ, ОПТИМИЗИРОВАННЫЙ, МАСЛЯНЫЙ ФИКС) --- */
+    .reviews-section { 
+        padding: 120px 0; border-top: 1px solid var(--border); 
+        background-color: var(--blue-bright); 
+        background-image: 
+            linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px), 
+            linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+            url("https://www.transparenttextures.com/patterns/stardust.png"); 
+        background-size: 50px 50px, auto; 
+        position: relative; overflow: hidden; 
+    }
+    .reviews-section::after {
+        content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        background: url("https://www.transparenttextures.com/patterns/felt.png"); opacity: 0.12; pointer-events: none; z-index: 1;
+    }
+    .reviews-headline { 
+        font-size: 3.5vw; padding: 0 50px 80px; font-weight: 900; 
+        text-transform: uppercase; line-height: 1; letter-spacing: -0.04em; color: var(--bg-cream); 
+        max-width: 1200px; margin: 0 auto; text-align: center; position: relative; z-index: 5;
+    }
+
+    .grid-reviews { 
+        display: grid; grid-template-columns: repeat(3, 260px); justify-content: center; 
+        gap: 80px 60px; max-width: 1200px; margin: 0 auto; padding: 0 20px; 
+        position: relative; z-index: 5;
+    }
+
+    /* АНИМАЦИЯ КАРТОЧКИ: ГЛАВНЫЕ ИЗМЕНЕНИЯ */
+    .review-item { 
+        width: 260px; height: 400px; perspective: 2000px; position: relative; 
+        transition: transform 0.6s var(--ease-smooth);
+        will-change: transform; 
+    }
+
+    .review-item:nth-child(1) { transform: rotate(-4deg); }
+    .review-item:nth-child(2) { transform: rotate(3deg) translateY(-15px); }
+    .review-item:nth-child(3) { transform: rotate(-2.5deg) translateY(10px); }
+    .review-item:nth-child(4) { transform: rotate(4deg); }
+    .review-item:nth-child(5) { transform: rotate(-3deg) translateY(-5px); }
+    .review-item:nth-child(6) { transform: rotate(2deg); }
+
+    /* ФИКС: Убрал rotate(0deg) и scale(1.1), оставил только z-index */
+    .review-item:hover { z-index: 100; }
+
+    .card-inner { 
+        position: absolute; width: 100%; height: 100%; 
+        transition: transform 1.2s var(--ease-smooth); 
+        transform-style: preserve-3d; will-change: transform;
+    }
+
+    .review-item:hover .card-inner { transform: rotateY(180deg); }
+
+    .side { 
+        position: absolute; width: 100%; height: 100%; 
+        backface-visibility: hidden; -webkit-backface-visibility: hidden; 
+        border-radius: 20px; overflow: hidden; 
+        box-shadow: 0 20px 50px rgba(0,0,0,0.3); box-sizing: border-box;
+    }
+
+    /* ПЕРЕДНЯЯ СТОРОНА */
+    .side-front { background: white; padding: 10px; display: flex; flex-direction: column; }
+    .rev-img { flex-grow: 1; overflow: hidden; border-radius: 12px 12px 4px 4px; }
+    .rev-img img { width: 100%; height: 100%; object-fit: cover; }
+    .rev-info { padding: 15px 5px; display: flex; justify-content: space-between; align-items: center; }
+    .rev-name-box h3 { font-weight: 900; font-size: 1.1rem; color: var(--blue-bright); margin: 0; text-transform: uppercase; }
+    .rev-name-box p { font-size: 0.65rem; font-weight: 800; opacity: 0.5; color: black; margin: 0; }
+    .rev-income { font-weight: 900; color: var(--accent); font-size: 1rem; }
+
+    /* ЗАДНЯЯ СТОРОНА (Оптимизированная и исправленная) */
+    .side-back { 
+        transform: rotateY(180deg); background-color: #000; 
+        display: flex; align-items: center; justify-content: center; position: relative;
+    }
+    .side-back::before {
+        content: ""; position: absolute; 
+        top: -20px; left: -20px; right: -20px; bottom: -20px;
+        background-image: var(--rev-bg); background-size: cover; background-position: center;
+        filter: blur(12px) brightness(0.4); transform: scaleX(-1); z-index: 1;
+    }
+    .back-content { 
+        position: relative; z-index: 2; width: 100%; height: 100%; 
+        padding: 30px; box-sizing: border-box; 
+        display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+    }
+    .side-back h4 { font-family: 'Caveat'; font-size: 2.2rem; color: white; margin: 0 0 10px; transform: rotate(-2deg); }
+    .side-back p { font-size: 0.9rem; line-height: 1.4; color: var(--bg-cream); margin: 0; font-weight: 500; }
+    .tg-user { margin-top: 20px; font-weight: 900; font-size: 0.7rem; color: var(--bg-cream); opacity: 0.6; text-transform: uppercase; }
+
+    /* --- СТИЛЬ ДЛЯ НОВОЙ КНОПКИ --- */
+    .reviews-footer { padding: 80px 0; text-align: center; }
+
+    .reviews-footer .btn-outline {
+        color: var(--bg-cream); border-color: var(--bg-cream);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    .reviews-footer .btn-outline:hover {
+        background: var(--bg-cream); color: var(--blue-bright);
+        box-shadow: 0 0 50px rgba(255, 255, 255, 0.4); 
+        transform: translateY(-5px) scale(1.05);
+    }
+
+    @media (max-width: 1024px) { .grid-reviews { grid-template-columns: repeat(2, 260px); } }
+    @media (max-width: 768px) { .grid-reviews { grid-template-columns: 280px; gap: 40px; } .review-item { transform: rotate(0deg) !important; width: 280px; } }
+
+    #tariffs { margin-top: 40px; padding-bottom: 100px; font-weight: 900; font-size: 2rem; text-align: center; }
+
+    /* Reveal анимация */
+    .reveal { 
+        opacity: 0; transform: translateY(40px) scale(0.98); filter: blur(8px); 
+        transition: all 1.2s var(--ease-smooth); will-change: transform, opacity, filter;
+    }
+    .reveal-active { opacity: 1; transform: translateY(0) scale(1); filter: blur(0px); }
+
+    .blur-word { display: inline-block; filter: blur(12px); opacity: 0; transform: translateY(-15px); transition: all 1s var(--ease-smooth); }
+    .blur-word.visible { filter: blur(0px); opacity: 1; transform: translateY(0); }
+
+    /* ============================================== */
+/* 6. MODULES GRID & BONUS                        */
+/* ============================================== */
+.modules-section {
+    background: var(--bg-cream);
+    border-top: 1px solid var(--border);
+    padding-bottom: 100px;
+}
+
+.modules-header {
+    padding: 100px 20px 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.modules-header h2 {
+    font-size: 3.5vw;
+    font-weight: 900;
+    color: var(--blue-bright);
+    margin: 0;
+    letter-spacing: -0.04em;
+}
+
+.modules-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 100%;
+    margin: 0 auto;
+    border-top: 1px solid var(--border);
+}
+
+.module-card {
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-cream);
+    display: flex;
+    flex-direction: column;
+}
+/* Чтобы левая граница была только у крайних левых элементов в десктопе */
+.module-card:nth-child(3n+1) {
+    border-left: 1px solid var(--border);
+}
+
+.m-cover {
+    height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #050505;
+    position: relative;
+    overflow: hidden;
+}
+
+.m-cover::before {
+    content: ''; 
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: url("https://www.transparenttextures.com/patterns/stardust.png");
+    opacity: 0.4; 
+    pointer-events: none;
+    mix-blend-mode: overlay;
+}
+
+.m-cover-text {
+    font-family: 'Gramatika', 'Inter', sans-serif;
+    font-weight: 900; 
+    font-style: italic; 
+    font-size: 2.2rem;
+    color: white; 
+    text-align: center; 
+    line-height: 1;
+    text-transform: lowercase; 
+    z-index: 2;
+    text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.m-info {
+    padding: 40px 30px;
+    flex-grow: 1;
+    background: transparent;
+}
+
+.m-duration {
+    color: var(--accent);
+    font-weight: 700; 
+    font-size: 0.95rem;
+    display: flex; 
+    align-items: center; 
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.m-duration svg { 
+    width: 18px; 
+    height: 18px; 
+    fill: none; 
+    stroke: currentColor; 
+    stroke-width: 2; 
+}
+
+.m-title {
+    font-size: 1.5rem; 
+    font-weight: 800; 
+    color: var(--black);
+    margin: 0 0 15px;
+    letter-spacing: -0.02em;
+}
+
+.m-desc {
+    font-size: 0.95rem; 
+    line-height: 1.6; 
+    color: #555; 
+    margin: 0;
+}
+
+/* Цвета обложек модулей */
+.c1 { background: radial-gradient(circle at center, #0045A6 0%, #001A40 100%); }
+.c2 { background: radial-gradient(circle at center, #FA2D1A 0%, #300000 100%); }
+.c3 { background: radial-gradient(circle at center, #ff5e00 0%, #4a1a00 100%); }
+.c4 { background: radial-gradient(circle at center, #2B5E96 0%, #050505 100%); }
+.c5 { background: radial-gradient(circle at center, #FA2D1A 0%, #111 100%); }
+.c6 { background: radial-gradient(circle at center, #007AFF 0%, #001A40 100%); }
+
+/* Блок Бонуса по центру */
+.bonus-centered {
+    max-width: 700px;
+    margin: 80px auto 0;
+    text-align: center;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.bonus-badge {
+    font-family: 'Caveat', cursive; 
+    font-size: 2.5rem; 
+    color: var(--accent);
+    transform: rotate(-4deg); 
+    margin-bottom: 5px;
+}
+
+.bonus-centered h3 {
+    font-size: 2.2rem; 
+    font-weight: 900; 
+    color: var(--blue-bright); 
+    margin: 0 0 20px; 
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+}
+
+.bonus-centered p {
+    font-size: 1.1rem; 
+    line-height: 1.5; 
+    color: #444; 
+    margin: 0;
+    font-weight: 500;
+}
+
+/* Адаптивность для сетки */
+@media (max-width: 1024px) {
+    .modules-header h2 { font-size: 4vw; }
+    .modules-grid { grid-template-columns: repeat(2, 1fr); }
+    .module-card:nth-child(3n+1) { border-left: none; }
+    .module-card:nth-child(2n+1) { border-left: 1px solid var(--border); }
+}
+
+@media (max-width: 768px) {
+    .modules-header h2 { font-size: 2.5rem; }
+    .modules-grid { grid-template-columns: 1fr; }
+    .module-card:nth-child(2n+1) { border-left: none; }
+    .bonus-centered h3 { font-size: 1.8rem; }
+}
+
+    /* --- 8. MODULES SECTION --- */
         .modules-section { background: var(--bg-cream); border-top: 1px solid var(--border); padding-bottom: 100px; }
         .modules-header { padding: 100px 20px 60px; max-width: 1200px; margin: 0 auto; text-align: center; }
         .modules-header h2 { font-size: 3.5vw; font-weight: 900; color: var(--blue-bright); margin: 0; letter-spacing: -0.04em; }
@@ -322,7 +698,8 @@
         .mentor .btn-tariff { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.4); color: white; }
         .mentor .btn-tariff:hover { background: white; color: var(--blue-bright); }
 
-        /* --- 10. NEW SECTION: ZIG-ZAG TARGET (Кому подойдет) --- */
+
+    /* --- 10. NEW SECTION: ZIG-ZAG TARGET (Кому подойдет) --- */
         .zig-zag-wrapper {
             display: flex;
             flex-direction: column;
@@ -517,196 +894,406 @@
             .footer-content { flex-direction: column; }
             .faq-question-modern { padding: 20px; }
         }
-    </style>
+
+</style>
 </head>
 <body>
 
-    <!-- Noise Texture -->
-    <canvas id="noise-canvas"></canvas>
+<canvas id="noise-canvas"></canvas>
 
-    <!-- Navigation -->
-    <nav class="navbar">
-        <a href="#" class="nav-logo">core.</a>
-        <div class="nav-buttons">
-            <a href="#table-of-contents" class="nav-text-btn">Содержание</a>
-            <a href="#tariffs" class="nav-accent-btn">Тарифы</a>
-        </div>
-    </nav>
+<nav class="navbar">
+    <a href="#" class="nav-logo">core.</a>
+    <div class="nav-buttons">
+        <a href="#table-of-contents" class="nav-text-btn">Содержание</a>
+        <a href="#tariffs" class="nav-accent-btn">Тарифы</a>
+    </div>
+</nav>
 
-    <!-- Hero Section -->
-    <div class="hero-wrapper">
-        <div class="card-shadow-container">
-            <div class="hero-card" id="hero-card">
-                <div class="hero-content">
-                    <h1 class="main-title">core.</h1>
-                    <div class="subtitle-block">
-                        <div class="row-line">
-                            <span>без</span>
-                            <div class="highlight-word-container">
-                                <span class="highlight-word">воды</span>
-                            </div>
+<div class="hero-wrapper">
+    <div class="card-shadow-container">
+        <!-- Stickers: JS handles positioning & z-index -->
+        <img src="assets/camera.png" class="sticker-img s-camera" alt="Camera">
+        <img src="assets/pencil.png" class="sticker-img s-pencil" alt="Pencil">
+        <img src="assets/microssd.png" class="sticker-img s-ssd" alt="SSD">
+
+        <div class="hero-card" id="hero-card">
+            <div class="hero-content">
+                <h1 class="main-title" id="main-blur-title">core.</h1>
+                <div class="subtitle-block">
+                    <div class="row-line">
+                        <span>без</span>
+                        <div class="highlight-word-container">
+                            <span class="highlight-word" id="word-rotator">воды</span>
                         </div>
-                        <div style="margin-top: 5px;">только система.</div>
+                    </div>
+                    <div style="margin-top: 5px;">только система.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="folder-bridge reveal">
+    <!-- Clean background under the folder (No blueprint) -->
+    
+    <div class="mac-folder-realistic" onclick="document.getElementById('tariffs').scrollIntoView({behavior: 'smooth'});">
+        <div class="folder-back-shape"></div>
+        <div class="folder-cards">
+            <div class="folder-file-card card-1"><div class="file-card-inner" style="background: linear-gradient(135deg, hsl(214 99% 33%), hsl(214 99% 25%));"><div class="file-card-stripe"></div><div class="file-card-stripe" style="width: 50%; margin-top: 6px;"></div><span class="file-card-label">Креативность</span></div></div>
+            <div class="folder-file-card card-2"><div class="file-card-inner" style="background: linear-gradient(135deg, hsl(351 100% 45%), hsl(351 100% 35%));"><div class="file-card-grid"></div><span class="file-card-label">Монтаж</span></div></div>
+            <div class="folder-file-card card-3"><div class="file-card-inner" style="background: linear-gradient(135deg, hsl(160 84% 39%), hsl(160 84% 30%));"><div class="file-card-stripe" style="opacity: 0.4;"></div><span class="file-card-label">Личный бренд</span></div></div>
+        </div>
+        <div class="folder-front-shape"></div>
+    </div>
+</div>
+
+<div class="vsl-section">
+    <div style="max-width: 1000px; margin: 0 auto;">
+        <h2 class="vsl-headline" id="vsl-blur-title">Внимание — суперсила 21 века</h2>
+        <p class="vsl-subhead reveal">Если ты умеешь удерживать внимание и конвертировать его в ₽₽₽ —<br>ты автоматически богат.</p>
+        <div class="video-box reveal"><div class="play-btn-circle"><div class="play-icon"></div></div></div>
+        <a href="#" class="btn-outline btn-buy reveal">Получить core.</a>
+    </div>
+</div>
+
+<section class="story-section-new reveal" id="table-of-contents">
+    
+    <div class="nav-container-3d">
+        <button class="nav-btn-3d" onclick="move3D(-1)">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button class="nav-btn-3d" onclick="move3D(1)">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+    </div>
+
+    <div class="track-3d" id="track3d">
+        
+        <div class="card-3d active">
+            <div class="card-img-container"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=800&auto=format&fit=crop" class="card-img"></div>
+            <div class="black-bar"><h2>Ваня Паскаль</h2></div>
+            <div class="card-body" style="text-align: center !important;">
+                <div class="slider-stats">
+                    <div class="s-item"><div class="s-pill">400к ₽</div><div class="s-script">доход</div></div>
+                    <div class="s-item"><div class="s-pill">50+</div><div class="s-script">учеников</div></div>
+                    <div class="s-item"><div class="s-pill">3 года</div><div class="s-script">в контенте</div></div>
+                    <div class="s-item"><div class="s-pill">10к (п)</div><div class="s-script">аудитория</div></div>
+                </div>
+                <p style="font-size: 1rem; color: #444; font-weight: 500; margin-bottom: auto;">Но хочу, чтобы ты знал — <br><b>я абсолютно такой же, как и ты.</b></p>
+                <div class="s-logo">01</div>
+            </div>
+        </div>
+
+        <div class="card-3d">
+            <div class="card-img-container"><img src="https://images.unsplash.com/photo-1518331483807-f642f1f96966?q=80&w=800&auto=format&fit=crop" class="card-img"></div>
+            <div class="black-bar"><h2>Никаких подарков</h2></div>
+            <div class="card-body">
+                <p class="story-quote">
+                    У меня не было богатых родителей или связей. План на жизнь выглядел линейно: школа, универ и гудок завода в конце смены. <b>Я понимал — если не создам свою систему сейчас, застряну там навсегда.</b>
+                </p>
+                <span class="handwritten-note">Это был мой личный ад.</span>
+                <div class="s-logo">02</div>
+            </div>
+        </div>
+
+        <div class="card-3d">
+            <div class="card-img-container"><img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop" class="card-img"></div>
+            <div class="black-bar"><h2>Первые 30к</h2></div>
+            <div class="card-body">
+                <p class="story-quote">
+                    Авито, кроссовки, продажи. Я тестировал ниши быстрее, чем успевал в них разочаровываться. <b>Деньги приходят к тем, кто не боится "грязной" работы на старте.</b>
+                </p>
+                <span class="handwritten-note">Спал по 4 часа.</span>
+                <div class="s-logo">03</div>
+            </div>
+        </div>
+
+        <div class="card-3d">
+            <div class="card-img-container"><img src="https://images.unsplash.com/photo-1622630997505-1c5c10557253?q=80&w=800&auto=format&fit=crop" class="card-img"></div>
+            <div class="black-bar"><h2>Монтаж</h2></div>
+            <div class="card-body">
+                <p class="story-quote">
+                    Лишь к концу года я нашел то, от чего по-настоящему кайфую. Визуал, динамика, удержание внимания — <b>монтаж стал моей нефтью и первым стабильным доходом.</b>
+                </p>
+                <span class="handwritten-note">Первые 100.000₽</span>
+                <div class="s-logo">04</div>
+            </div>
+        </div>
+
+        <div class="card-3d">
+            <div class="card-img-container"><img src="https://images.unsplash.com/photo-1506784375835-5e90dac96be2?q=80&w=800&auto=format&fit=crop" class="card-img"></div>
+            <div class="black-bar"><h2>Тупик</h2></div>
+            <div class="card-body">
+                <p class="story-quote">
+                    Эйфория быстро прошла, а чек застрял на одном месте. Поиск клиентов стал съедать всё время. <b>Я понял, что просто делать руками — недостаточно. Нужна была структура.</b>
+                </p>
+                <span class="handwritten-note">Остановка роста.</span>
+                <div class="s-logo">05</div>
+            </div>
+        </div>
+
+        <div class="card-3d">
+            <div class="card-img-container"><img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=800&auto=format&fit=crop" class="card-img"></div>
+            <div class="black-bar"><h2>Масштаб</h2></div>
+            <div class="card-body">
+                <p class="story-quote">
+                    Тогда я добавил в уравнение креатив и продюсирование. Я начал закрывать проекты под ключ и делать запуски. <b>Именно тогда пошли реально большие деньги.</b>
+                </p>
+                <span class="handwritten-note">Система заработала.</span>
+                <div class="s-logo">06</div>
+            </div>
+        </div>
+
+        <div class="card-3d">
+            <div class="card-img-container"><img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=800&auto=format&fit=crop" class="card-img"></div>
+            <div class="black-bar"><h2>Агентство</h2></div>
+            <div class="card-body">
+                <p class="story-quote">
+                    Сейчас я помогаю десяткам ребят расти, строю свою команду и медиа-активы. Никакой сказки и успешного успеха. <b>Только холодный расчет и дисциплина.</b>
+                </p>
+                <span class="handwritten-note">Твой черед.</span>
+                <div class="s-logo">07</div>
+            </div>
+        </div>
+
+        <div class="card-3d" style="background: #FA2D1A;">
+            <div class="card-body" style="justify-content: center; height: 100%; color: white; padding-top: 60px !important;">
+                <h2 style="font-weight:900; font-size: 2.2rem; text-transform:uppercase; margin-bottom: 30px; text-align: center;">Совет</h2>
+                <p style="color: white; font-family: 'Caveat'; font-size: 2.5rem; transform: rotate(-2deg); line-height: 1.2; text-align: center;">
+                    "Хотя бы раз в жизни включи голову и используй возможности на максимум."
+                </p>
+                <div class="s-logo" style="border-color: rgba(255,255,255,0.3); color: white; margin-top: 60px;">!!!</div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- СЕКЦИЯ ОТЗЫВОВ (ИСПРАВЛЕННАЯ) -->
+<section class="reviews-section">
+    <h2 class="reviews-headline reveal">Они доверили мне свою экспертность, и вот что вышло :</h2>
+    <div class="grid-reviews">
+        <!-- Софа -->
+        <div class="review-item reveal">
+            <div class="card-inner">
+                <div class="side side-front">
+                    <div class="rev-img"><img src="assets/Софа1.jpg"></div>
+                    <div class="rev-info">
+                        <div class="rev-name-box"><h3>Софа</h3><p>21 год / @Sofik0</p></div>
+                        <div class="rev-income">120.000₽</div>
+                    </div>
+                </div>
+                <!-- Фон задается через style -->
+                <div class="side side-back" style="--rev-bg: url('assets/Софа1.jpg');">
+                    <div class="back-content">
+                        <h4>Результат</h4>
+                        <p>За первый месяц обучения взяла в работу на контент-продюсирование крупного эксперта в TG с оффером на 120.000₽. Купила новый 17 pro max.</p>
+                        <div class="tg-user">@Sofik0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Влад -->
+        <div class="review-item reveal">
+            <div class="card-inner">
+                <div class="side side-front">
+                    <div class="rev-img"><img src="assets/Влад1.jpg"></div>
+                    <div class="rev-info">
+                        <div class="rev-name-box"><h3>Влад</h3><p>18 лет / @Iw1ns</p></div>
+                        <div class="rev-income">80.000₽</div>
+                    </div>
+                </div>
+                <div class="side side-back" style="--rev-bg: url('assets/Влад1.jpg');">
+                    <div class="back-content">
+                        <h4>Результат</h4>
+                        <p>С нуля за 2 месяца дошел до прайса 4.000₽ за видео. Работает с бизнесами (пекарня и пиццерия), делает по 10 роликов в месяц.</p>
+                        <div class="tg-user">@Iw1ns</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Аня -->
+        <div class="review-item reveal">
+            <div class="card-inner">
+                <div class="side side-front">
+                    <div class="rev-img"><img src="assets/Аня1.jpg"></div>
+                    <div class="rev-info">
+                        <div class="rev-name-box"><h3>Аня</h3><p>19 лет / @wswktww</p></div>
+                        <div class="rev-income">105.000₽</div>
+                    </div>
+                </div>
+                <div class="side side-back" style="--rev-bg: url('assets/Аня1.jpg');">
+                    <div class="back-content">
+                        <h4>Результат</h4>
+                        <p>Устроилась SMM в магазин танцевальных платьев (60к + KPI). Дополнительно монтирует reels для интервьюера (3к/ролик).</p>
+                        <div class="tg-user">@wswktww</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Даня -->
+        <div class="review-item reveal">
+            <div class="card-inner">
+                <div class="side side-front">
+                    <div class="rev-img"><img src="assets/Даня1.jpg"></div>
+                    <div class="rev-info">
+                        <div class="rev-name-box"><h3>Даня</h3><p>18 лет / @Usaund</p></div>
+                        <div class="rev-income">150.000₽</div>
+                    </div>
+                </div>
+                <div class="side side-back" style="--rev-bg: url('assets/Даня1.jpg');">
+                    <div class="back-content">
+                        <h4>Результат</h4>
+                        <p>За 2 месяца залил +15.000 нового трафика с TikTok-видео в свой канал тематики одежды. Освоил сценарии и монтаж.</p>
+                        <div class="tg-user">@Usaund</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Ваня -->
+        <div class="review-item reveal">
+            <div class="card-inner">
+                <div class="side side-front">
+                    <div class="rev-img"><img src="assets/Ваня1.jpg"></div>
+                    <div class="rev-info">
+                        <div class="rev-name-box"><h3>Ваня</h3><p>16 лет / @Ively69</p></div>
+                        <div class="rev-income">45.000₽</div>
+                    </div>
+                </div>
+                <div class="side side-back" style="--rev-bg: url('assets/Ваня1.jpg');">
+                    <div class="back-content">
+                        <h4>Результат</h4>
+                        <p>За 2 месяца обучился монтажу с нуля и устроился в агентство монтажером, где получает по 1.500₽ за каждый ролик.</p>
+                        <div class="tg-user">@Ively69</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Тим -->
+        <div class="review-item reveal">
+            <div class="card-inner">
+                <div class="side side-front">
+                    <div class="rev-img"><img src="assets/Тим1.JPG"></div>
+                    <div class="rev-info">
+                        <div class="rev-name-box"><h3>Тим</h3><p>21 год / @silagod</p></div>
+                        <div class="rev-income">120.000₽</div>
+                    </div>
+                </div>
+                <div class="side side-back" style="--rev-bg: url('assets/Тим1.JPG');">
+                    <div class="back-content">
+                        <h4>Результат</h4>
+                        <p>Устроился оператором в студию подкастов (60к) и дополнительно монтирует выпуски (20к/шт) параллельно с учебой.</p>
+                        <div class="tg-user">@silagod</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Folder / VSL Bridge -->
-    <div class="folder-bridge reveal">
-        <div class="mac-folder-realistic" onclick="document.getElementById('tariffs').scrollIntoView({behavior: 'smooth'});">
-            <div class="folder-back-shape"></div>
-            <div class="folder-cards">
-                <div class="folder-file-card card-1"><div class="file-card-inner" style="background: linear-gradient(135deg, hsl(214 99% 33%), hsl(214 99% 25%));"><div class="file-card-stripe"></div><div class="file-card-stripe" style="width: 50%; margin-top: 6px;"></div><span class="file-card-label">Креативность</span></div></div>
-                <div class="folder-file-card card-2"><div class="file-card-inner" style="background: linear-gradient(135deg, hsl(351 100% 45%), hsl(351 100% 35%));"><div class="file-card-grid"></div><span class="file-card-label">Монтаж</span></div></div>
-                <div class="folder-file-card card-3"><div class="file-card-inner" style="background: linear-gradient(135deg, hsl(160 84% 39%), hsl(160 84% 30%));"><div class="file-card-stripe" style="opacity: 0.4;"></div><span class="file-card-label">Личный бренд</span></div></div>
+    <!-- НОВАЯ КНОПКА (ВСТАВЬ ССЫЛКУ НИЖЕ) -->
+    <div class="reviews-footer">
+        <a href="https://t.me/ТВОЙ_КАНАЛ" target="_blank" class="btn-outline reveal">Все отзывы</a>
+    </div>
+
+</section>
+
+<section class="modules-section reveal" id="modules">
+    <div class="modules-header">
+        <h2>Коротко о том, что я спрятал в core.</h2>
+    </div>
+
+    <div class="modules-grid">
+        <div class="module-card">
+            <div class="m-cover c1">
+                <div class="m-cover-text">creators<br>mindset</div>
             </div>
-            <div class="folder-front-shape"></div>
+            <div class="m-info">
+                <div class="m-duration">
+                    <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    4 часа
+                </div>
+                <h3 class="m-title">Модуль 1. Креативность</h3>
+                <p class="m-desc">90% успеха ролика зависят от идеи и сценария. Научись писать удерживающие сценарии, делать продающие воронки и мыслить как автор, который играет вдолгую.</p>
+            </div>
+        </div>
+
+        <div class="module-card">
+            <div class="m-cover c2">
+                <div class="m-cover-text">CONTENT</div>
+            </div>
+            <div class="m-info">
+                <div class="m-duration">
+                    <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    3 часа
+                </div>
+                <h3 class="m-title">Модуль 2. Съемка</h3>
+                <p class="m-desc">Ты перестанешь жаловать на "плохую камеру" и начнёшь управлять вниманием : светом, глубиной, движением, паузой. Разберёшься, как даже на микроволновке делать красивую картинку.</p>
+            </div>
+        </div>
+
+        <div class="module-card">
+            <div class="m-cover c3">
+                <div class="m-cover-text">CREATORS<br>TOOLKIT</div>
+            </div>
+            <div class="m-info">
+                <div class="m-duration">
+                    <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    7 часов
+                </div>
+                <h3 class="m-title">Модуль 3. Монтаж</h3>
+                <p class="m-desc">Ты научишься монтировать так, чтобы зрители досматривали, пересматривали и покупали. Отлично прокачает навыки новичков, и будет полезен уже умелым монтажерам.</p>
+            </div>
+        </div>
+
+        <div class="module-card">
+            <div class="m-cover c4">
+                <div class="m-cover-text">sound<br>space</div>
+            </div>
+            <div class="m-info">
+                <div class="m-duration">
+                    <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    2 часа
+                </div>
+                <h3 class="m-title">Модуль 4. Саунд-дизайн</h3>
+                <p class="m-desc">Просто музыка на фоне уже не работает. Ты поймёшь, как работать с паузами, эффектами и музыкой так, чтобы контент ощущался дорого и профессионально.</p>
+            </div>
+        </div>
+
+        <div class="module-card">
+            <div class="m-cover c5">
+                <div class="m-cover-text">personal<br>brand</div>
+            </div>
+            <div class="m-info">
+                <div class="m-duration">
+                    <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    10 часов
+                </div>
+                <h3 class="m-title">Модуль 5. Личный бренд</h3>
+                <p class="m-desc">Это не про аватарку в пиджаке и 3 сториса с кофе. Это чёткая позиция, ценности и постоянная коммуникация. Я научу тебя выстраивать образ, которому доверяют и у которого покупают.</p>
+            </div>
+        </div>
+
+        <div class="module-card">
+            <div class="m-cover c6">
+                <div class="m-cover-text">GROWTH</div>
+            </div>
+            <div class="m-info">
+                <div class="m-duration">
+                    <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    5 часов
+                </div>
+                <h3 class="m-title">Модуль 6. Первые ₽$€</h3>
+                <p class="m-desc">Ты получишь структуру выхода на рынок: где искать клиентов, как вести диалог и грамотно закрывать сделки. И сможешь обогнать 95% "конкурентов", просто за счет правильного подхода.</p>
+            </div>
         </div>
     </div>
 
-    <!-- VSL Text -->
-    <div class="vsl-section">
-        <div style="max-width: 1000px; margin: 0 auto;">
-            <h2 class="vsl-headline">Внимание — суперсила 21 века</h2>
-            <p class="vsl-subhead reveal">Если ты умеешь удерживать внимание и конвертировать его в ₽₽₽ —<br>ты автоматически богат.</p>
-            <div class="video-box reveal"><div class="play-btn-circle"><div class="play-icon"></div></div></div>
-            <a href="#tariffs" class="btn-outline reveal">Получить core.</a>
-        </div>
+    <div class="bonus-centered reveal">
+        <div class="bonus-badge">* бонус *</div>
+        <h3>Алгоритм на первые 100.000₽</h3>
+        <p>В подарок ко всему, я дам тебе пошаговый алгоритм: от выбора ниши и упаковки до клиентов и масштабирования дохода.</p>
     </div>
-
-    <!-- 3D Story Slider -->
-    <section class="story-section-new reveal" id="table-of-contents">
-        <div class="nav-container-3d">
-            <button class="nav-btn-3d" onclick="move3D(-1)">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-            </button>
-            <button class="nav-btn-3d" onclick="move3D(1)">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-            </button>
-        </div>
-        <div class="track-3d" id="track3d">
-            <div class="card-3d active">
-                <div class="card-img-container"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=800&auto=format&fit=crop" class="card-img"></div>
-                <div class="black-bar"><h2>Ваня Паскаль</h2></div>
-                <div class="card-body" style="text-align: center !important;">
-                    <div class="slider-stats">
-                        <div class="s-item"><div class="s-pill">400к ₽</div><div class="s-script">доход</div></div>
-                        <div class="s-item"><div class="s-pill">50+</div><div class="s-script">учеников</div></div>
-                        <div class="s-item"><div class="s-pill">3 года</div><div class="s-script">в контенте</div></div>
-                        <div class="s-item"><div class="s-pill">10к (п)</div><div class="s-script">аудитория</div></div>
-                    </div>
-                    <p style="font-size: 1rem; color: #444; font-weight: 500; margin-bottom: auto;">Но хочу, чтобы ты знал — <br><b>я абсолютно такой же, как и ты.</b></p>
-                    <div class="s-logo">01</div>
-                </div>
-            </div>
-             <div class="card-3d">
-                <div class="card-img-container"><img src="https://images.unsplash.com/photo-1518331483807-f642f1f96966?q=80&w=800&auto=format&fit=crop" class="card-img"></div>
-                <div class="black-bar"><h2>Никаких подарков</h2></div>
-                <div class="card-body">
-                    <p class="story-quote">У меня не было богатых родителей. <b>Я понимал — если не создам свою систему сейчас, застряну там навсегда.</b></p>
-                    <span class="handwritten-note">Это был мой личный ад.</span>
-                    <div class="s-logo">02</div>
-                </div>
-            </div>
-            <div class="card-3d">
-                <div class="card-img-container"><img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop" class="card-img"></div>
-                <div class="black-bar"><h2>Первые 30к</h2></div>
-                <div class="card-body">
-                    <p class="story-quote">Авито, кроссовки. <b>Деньги приходят к тем, кто не боится "грязной" работы на старте.</b></p>
-                    <span class="handwritten-note">Спал по 4 часа.</span>
-                    <div class="s-logo">03</div>
-                </div>
-            </div>
-            <div class="card-3d">
-                <div class="card-img-container"><img src="https://images.unsplash.com/photo-1622630997505-1c5c10557253?q=80&w=800&auto=format&fit=crop" class="card-img"></div>
-                <div class="black-bar"><h2>Монтаж</h2></div>
-                <div class="card-body">
-                    <p class="story-quote">Визуал, динамика, удержание внимания — <b>монтаж стал моей нефтью.</b></p>
-                    <span class="handwritten-note">Первые 100.000₽</span>
-                    <div class="s-logo">04</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Reviews Section -->
-    <section class="reviews-section">
-        <h2 class="reviews-headline reveal">Они доверили мне свою экспертность:</h2>
-        <div class="grid-reviews">
-            <div class="review-item reveal">
-                <div class="card-inner">
-                    <div class="side side-front">
-                        <div class="rev-img"><img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=500&auto=format&fit=crop&q=60"></div>
-                        <div class="rev-info"><div class="rev-name-box"><h3>Софа</h3><p>@Sofik0</p></div><div class="rev-income">120.000₽</div></div>
-                    </div>
-                    <div class="side side-back" style="--rev-bg: url('https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=500&auto=format&fit=crop&q=60');">
-                        <div class="back-content"><h4>Результат</h4><p>Взяла эксперта на продюсирование. Купила iPhone 17.</p><div class="tg-user">@Sofik0</div></div>
-                    </div>
-                </div>
-            </div>
-            <div class="review-item reveal">
-                <div class="card-inner">
-                    <div class="side side-front">
-                        <div class="rev-img"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&auto=format&fit=crop&q=60"></div>
-                        <div class="rev-info"><div class="rev-name-box"><h3>Влад</h3><p>@Iw1ns</p></div><div class="rev-income">80.000₽</div></div>
-                    </div>
-                    <div class="side side-back" style="--rev-bg: url('https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&auto=format&fit=crop&q=60');">
-                        <div class="back-content"><h4>Результат</h4><p>Вышел на 4к за ролик, работает с бизнесами.</p><div class="tg-user">@Iw1ns</div></div>
-                    </div>
-                </div>
-            </div>
-             <div class="review-item reveal">
-                <div class="card-inner">
-                    <div class="side side-front">
-                        <div class="rev-img"><img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=500&auto=format&fit=crop&q=60"></div>
-                        <div class="rev-info"><div class="rev-name-box"><h3>Аня</h3><p>@wswktww</p></div><div class="rev-income">105.000₽</div></div>
-                    </div>
-                    <div class="side side-back" style="--rev-bg: url('https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=500&auto=format&fit=crop&q=60');">
-                        <div class="back-content"><h4>Результат</h4><p>SMM в магазине одежды + монтаж reels.</p><div class="tg-user">@wswktww</div></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="reviews-footer"><a href="#" class="btn-outline reveal">Все отзывы</a></div>
-    </section>
-
-    <!-- Modules Section -->
-    <section class="modules-section reveal" id="modules">
-        <div class="modules-header"><h2>Коротко о том, что я спрятал в core.</h2></div>
-        <div class="modules-grid">
-            <div class="module-card">
-                <div class="m-cover c1"><div class="m-cover-text">creators<br>mindset</div></div>
-                <div class="m-info"><div class="m-duration"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>4 часа</div><h3 class="m-title">Модуль 1. Креативность</h3><p class="m-desc">Научись писать удерживающие сценарии и мыслить как автор.</p></div>
-            </div>
-            <div class="module-card">
-                <div class="m-cover c2"><div class="m-cover-text">CONTENT</div></div>
-                <div class="m-info"><div class="m-duration"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>3 часа</div><h3 class="m-title">Модуль 2. Съемка</h3><p class="m-desc">Управление вниманием через свет, глубину и динамику.</p></div>
-            </div>
-            <div class="module-card">
-                <div class="m-cover c3"><div class="m-cover-text">CREATORS<br>TOOLKIT</div></div>
-                <div class="m-info"><div class="m-duration"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>7 часов</div><h3 class="m-title">Модуль 3. Монтаж</h3><p class="m-desc">Монтаж, который заставляет досматривать и покупать.</p></div>
-            </div>
-            <div class="module-card">
-                <div class="m-cover c4"><div class="m-cover-text">sound<br>space</div></div>
-                <div class="m-info"><div class="m-duration"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>2 часа</div><h3 class="m-title">Модуль 4. Саунд-дизайн</h3><p class="m-desc">Работа с паузами, эффектами и музыкой.</p></div>
-            </div>
-            <div class="module-card">
-                <div class="m-cover c5"><div class="m-cover-text">personal<br>brand</div></div>
-                <div class="m-info"><div class="m-duration"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>10 часов</div><h3 class="m-title">Модуль 5. Личный бренд</h3><p class="m-desc">Чёткая позиция и коммуникация, которой доверяют.</p></div>
-            </div>
-            <div class="module-card">
-                <div class="m-cover c6"><div class="m-cover-text">GROWTH</div></div>
-                <div class="m-info"><div class="m-duration"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>5 часов</div><h3 class="m-title">Модуль 6. Первые ₽$€</h3><p class="m-desc">Структура выхода на рынок и закрытия сделок.</p></div>
-            </div>
-        </div>
-        <div class="bonus-centered reveal">
-            <div class="bonus-badge">* бонус *</div>
-            <h3>Алгоритм на первые 100.000₽</h3>
-            <p>В подарок: пошаговый алгоритм от выбора ниши до масштабирования.</p>
-        </div>
-    </section>
+</section>
 
     <!-- SECTION: TARIFFS -->
     <section class="new-section reveal-soft" id="tariffs">
@@ -772,7 +1359,7 @@
         </div>
     </section>
 
-    <!-- NEW SECTION: ZIG-ZAG TARGET AUDIENCE (UPDATED: SQUARE & SOFT REVEAL) -->
+        <!-- NEW SECTION: ZIG-ZAG TARGET AUDIENCE (UPDATED: SQUARE & SOFT REVEAL) -->
     <section class="new-section">
         <h2 class="section-title-center reveal">Кому подойдет core.</h2>
         
@@ -901,45 +1488,128 @@
             </div>
         </div>
         <div class="footer-legal">
-            <span>© 2024 core. All rights reserved.</span>
-            <span>Made with system.</span>
+            <span>© 2026 core. All rights reserved.</span>
+
         </div>
     </footer>
 
-    <!-- LOGIC SCRIPTS -->
-    <script>
-        // 1. Noise Effect
-        const noiseCanvas = document.getElementById('noise-canvas');
-        const ctx = noiseCanvas.getContext('2d');
-        const resize = () => { noiseCanvas.width = window.innerWidth; noiseCanvas.height = window.innerHeight; };
-        const drawNoise = () => {
-            const w = noiseCanvas.width, h = noiseCanvas.height;
-            const id = ctx.createImageData(w, h), buffer = new Uint32Array(id.data.buffer);
-            for (let i = 0; i < buffer.length; i++) if (Math.random() < 0.2) buffer[i] = Math.random() < 0.5 ? 0xFF000000 : 0x11000000;
-            ctx.putImageData(id, 0, 0);
-        };
-        let frame = 0; 
-        const loop = () => { if (frame % 2 === 0) drawNoise(); frame++; requestAnimationFrame(loop); };
-        window.addEventListener('resize', resize); resize(); loop();
+<script>
+    // --- 1. ШУМ (NOISE) ---
+    const noiseCanvas = document.getElementById('noise-canvas');
+    const ctx = noiseCanvas.getContext('2d');
+    const resize = () => { noiseCanvas.width = window.innerWidth; noiseCanvas.height = window.innerHeight; };
+    const drawNoise = () => {
+        const w = noiseCanvas.width, h = noiseCanvas.height;
+        const id = ctx.createImageData(w, h), buffer = new Uint32Array(id.data.buffer);
+        for (let i = 0; i < buffer.length; i++) if (Math.random() < 0.2) buffer[i] = Math.random() < 0.5 ? 0xFF000000 : 0x11000000;
+        ctx.putImageData(id, 0, 0);
+    };
+    let frame = 0; 
+    const loop = () => { if (frame % 2 === 0) drawNoise(); frame++; requestAnimationFrame(loop); };
+    window.addEventListener('resize', resize); resize(); loop();
 
-        // 2. 3D Slider Logic
-        let currentSlide = 0;
-        const cards = document.querySelectorAll('.card-3d');
-        const track = document.getElementById('track3d');
-        const cardWidth = 400; const gap = 50; const moveStep = cardWidth + gap;
-        function move3D(dir) {
-            currentSlide += dir;
-            if (currentSlide < 0) currentSlide = 0;
-            if (currentSlide >= cards.length) currentSlide = cards.length - 1;
-            const offset = -(currentSlide * moveStep) - (cardWidth / 2);
-            track.style.transform = `translate(${offset}px, -50%)`;
-            cards.forEach((card, index) => {
-                if (index === currentSlide) card.classList.add('active');
-                else card.classList.remove('active');
+    // --- 2. ЛОГИКА СЛАЙДЕРА ---
+let currentSlide = 0;
+    const cards = document.querySelectorAll('.card-3d');
+    const track = document.getElementById('track3d');
+    
+    // Новые параметры
+    const cardWidth = 400; 
+    const gap = 50;
+    const moveStep = cardWidth + gap;
+
+    function move3D(dir) {
+        currentSlide += dir;
+        
+        if (currentSlide < 0) currentSlide = 0;
+        if (currentSlide >= cards.length) currentSlide = cards.length - 1;
+
+        // Расчет: общее смещение + начальное центрирование первой карты (-200px)
+        const offset = -(currentSlide * moveStep) - (cardWidth / 2);
+        
+        // Применяем трансформацию (центрируем по горизонтали)
+        track.style.transform = `translate(${offset}px, -50%)`;
+
+        cards.forEach((card, index) => {
+            if (index === currentSlide) {
+                card.classList.add('active');
+            } else {
+                card.classList.remove('active');
+            }
+        });
+    }
+
+    // Вызываем один раз при загрузке, чтобы всё сразу встало ровно
+    window.onload = () => move3D(0);
+
+    // --- 3. BLUR & REVEAL ---
+    function initBlurText(elementId, delayStep = 100) {
+        const el = document.getElementById(elementId);
+        if (!el) return;
+        const words = el.innerText.split(' ');
+        el.innerHTML = words.map((w, i) => `<span class="blur-word" style="transition-delay: ${i * delayStep}ms">${w}&nbsp;</span>`).join('');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { 
+                if (entry.isIntersecting) { 
+                    el.querySelectorAll('.blur-word').forEach(w => w.classList.add('visible')); 
+                    observer.unobserve(el); 
+                } 
             });
-        }
-        window.onload = () => move3D(0);
+        }, { threshold: 0.1 });
+        observer.observe(el);
+    }
 
+    document.addEventListener('DOMContentLoaded', () => {
+        initBlurText('main-blur-title', 150);
+        initBlurText('vsl-blur-title', 100);
+
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { 
+                if (entry.isIntersecting) { 
+                    entry.target.classList.add('reveal-active'); 
+                    revealObserver.unobserve(entry.target); 
+                } 
+            });
+        }, { threshold: 0.15 });
+        revealElements.forEach(el => revealObserver.observe(el));
+        
+        updateSlidePosition();
+    });
+
+    // --- 4. ROTATOR ---
+    const wordsArr = ["воды", "трендов", "суеты"];
+    let wordIndex = 0; 
+    const elRot = document.getElementById('word-rotator');
+    if (elRot) {
+        setInterval(() => {
+            wordIndex = (wordIndex + 1) % wordsArr.length;
+            elRot.style.filter = "blur(8px)"; elRot.style.opacity = 0;
+            setTimeout(() => { elRot.innerText = wordsArr[wordIndex]; elRot.style.filter = "blur(0)"; elRot.style.opacity = 1; }, 400);
+        }, 2200);
+    }
+
+    // --- 5. STICKERS ---
+    document.querySelectorAll('.sticker-img').forEach(sticker => {
+        sticker.onload = () => sticker.style.display = 'block';
+        let isDragging = false, startX, startY, initLeft, initTop;
+        
+        sticker.addEventListener('mousedown', (e) => {
+            isDragging = true; startX = e.clientX; startY = e.clientY;
+            const rect = sticker.getBoundingClientRect();
+            const parentRect = sticker.offsetParent.getBoundingClientRect();
+            initLeft = rect.left - parentRect.left; initTop = rect.top - parentRect.top;
+            sticker.style.bottom = 'auto'; sticker.style.right = 'auto'; sticker.style.cursor = 'grabbing'; e.preventDefault();
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            if (isDragging) { sticker.style.left = (initLeft + (e.clientX - startX)) + 'px'; sticker.style.top = (initTop + (e.clientY - startY)) + 'px'; }
+        });
+        window.addEventListener('mouseup', () => { isDragging = false; if (sticker.style.cursor === 'grabbing') sticker.style.cursor = 'grab'; });
+    });
+
+    
         // 3. Modern FAQ Logic
         document.querySelectorAll('.faq-question-modern').forEach(button => {
             button.addEventListener('click', () => {
@@ -960,13 +1630,13 @@
             });
         });
 
-        // 4. Reveal Animation on Scroll
+                // 4. Reveal Animation on Scroll
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if(entry.isIntersecting) entry.target.classList.add('active');
             });
         }, { threshold: 0.1 });
         document.querySelectorAll('.reveal, .reveal-soft').forEach(el => observer.observe(el));
-    </script>
+</script>
 </body>
 </html>
