@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анкета | core.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=Caveat:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-cream: #F4F2EE;
+            --blue-deep: #00388D;
+            --blue-bright: #0045A6;
+            --accent: #FA2D1A;
+            --white: #FFFFFF;
+            --black: #050505;
+            --border: rgba(0, 69, 166, 0.15);
+            --radius: 32px;
+            --ease-smooth: cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-cream);
+            color: var(--blue-bright);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 540px;
+            background: var(--white);
+            padding: 60px 45px;
+            border-radius: var(--radius);
+            box-shadow: 0 40px 100px -20px rgba(0, 69, 166, 0.12);
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            animation: appear 0.8s var(--ease-smooth);
+        }
+
+        @keyframes appear {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-weight: 900;
+            font-size: 3rem;
+            letter-spacing: -0.05em;
+            margin: 0;
+            line-height: 0.85;
+            color: var(--blue-bright);
+        }
+
+        .subtitle {
+            font-family: 'Caveat', cursive;
+            font-size: 2rem;
+            color: var(--accent);
+            display: block;
+            margin-top: 10px;
+            margin-bottom: 40px;
+            transform: rotate(-2deg) translateX(5px);
+        }
+
+        .form-group {
+            margin-bottom: 28px;
+        }
+
+        label {
+            display: block;
+            font-weight: 800;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            letter-spacing: 0.05em;
+            color: var(--blue-deep);
+            opacity: 0.6;
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 20px 24px;
+            border-radius: 18px;
+            border: 2px solid #E9EDF5;
+            background: #F9FAFF;
+            font-family: 'Inter', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 600;
+            box-sizing: border-box;
+            transition: all 0.3s var(--ease-smooth);
+            color: var(--black);
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--blue-bright);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(0, 69, 166, 0.05);
+        }
+
+        /* Стилизация радио-плиток как в премиум квизах */
+        .radio-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .radio-tile {
+            position: relative;
+            background: #F9FAFF;
+            border: 2px solid #E9EDF5;
+            padding: 16px;
+            border-radius: 18px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: 0.3s var(--ease-smooth);
+        }
+
+        .radio-tile input {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .radio-tile:hover {
+            border-color: var(--blue-bright);
+            transform: translateY(-2px);
+        }
+
+        .radio-tile:has(input:checked) {
+            background: var(--blue-bright);
+            color: white;
+            border-color: var(--blue-bright);
+            box-shadow: 0 10px 20px rgba(0, 69, 166, 0.2);
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: var(--blue-bright);
+            color: white;
+            padding: 24px;
+            border-radius: 100px;
+            border: none;
+            font-weight: 900;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.4s var(--ease-smooth);
+            box-shadow: 0 15px 35px rgba(0, 69, 166, 0.25);
+        }
+
+        .btn-submit:hover {
+            background: var(--blue-deep);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 20px 45px rgba(0, 69, 166, 0.35);
+        }
+
+        /* Состояние успеха */
+        #success {
+            display: none;
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        #success h2 {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        #success p {
+            font-weight: 600;
+            font-size: 1.2rem;
+            opacity: 0.7;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container" id="mainContainer">
+    <div id="formSection">
+        <h1>Остался<br>последний шаг...</h1>
+        <span class="subtitle">до системы на 100%</span>
+
+        <form id="anketaForm">
+            <div class="form-group">
+                <label>Как тебя зовут?</label>
+                <input type="text" name="name" placeholder="Имя" required>
+            </div>
+
+            <div class="form-group">
+                <label>Твой Telegram</label>
+                <input type="text" name="telegram" placeholder="@username" required>
+            </div>
+
+            <div class="form-group">
+                <label>Возраст</label>
+                <select name="age" required>
+                    <option value="" disabled selected>Выбери вариант</option>
+                    <option value=">14">До 14</option>
+                    <option value="15-17">15-17</option>
+                    <option value="18-21">18-21</option>
+                    <option value="22-27">22-27</option>
+                    <option value="28+">28+</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Главная проблема прямо сейчас</label>
+                <div class="radio-grid">
+                    <label class="radio-tile"><input type="radio" name="problem" value="Скиллы" checked> Нет скиллов</label>
+                    <label class="radio-tile"><input type="radio" name="problem" value="Креатив"> Нет идей</label>
+                    <label class="radio-tile"><input type="radio" name="problem" value="Клиенты"> Нет клиентов</label>
+                    <label class="radio-tile"><input type="radio" name="problem" value="Время"> Нет времени</label>
+                    <label class="radio-tile"><input type="radio" name="problem" value="План"> Нет плана</label>
+                    <label class="radio-tile"><input type="radio" name="problem" value="Лень"> Лень</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Насколько ты готов ебашить?</label>
+                <select name="ready_level" required>
+                    <option value="1/10">1/10 — Просто смотрю</option>
+                    <option value="3/10">3/10 — Хочу узнать подробнее</option>
+                    <option value="7/10">7/10 — Готов, обсудил бы лично</option>
+                    <option value="10/10">10/10 — ПОЛНАЯ ГОТОВНОСТЬ</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn-submit" id="submitBtn">Ворваться в систему</button>
+        </form>
+    </div>
+
+    <div id="success">
+        <h2>ГОТОВО! 🚀</h2>
+        <p>Твоя анкета в системе.<br>Скоро свяжусь с тобой.</p>
+    </div>
+</div>
+
+<script>
+    const form = document.getElementById('anketaForm');
+    const formSection = document.getElementById('formSection');
+    const successSection = document.getElementById('success');
+    const submitBtn = document.getElementById('submitBtn');
+
+    form.addEventListener("submit", function(e) {
+        e.preventDefault();
+        
+        submitBtn.disabled = true;
+        submitBtn.innerText = "ОТПРАВЛЯЕМ...";
+        
+        const data = new FormData(form);
+        
+        fetch("https://formspree.io/f/xwvnnybo", {
+            method: "POST",
+            body: data,
+            headers: {
+                'Accept': 'application/json'
+            }
+        }).then(response => {
+            if (response.ok) {
+                formSection.style.display = "none";
+                successSection.style.display = "block";
+            } else {
+                alert("Ошибка! Попробуй еще раз.");
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Ворваться в систему";
+            }
+        }).catch(error => {
+            alert("Ошибка сети. Проверь интернет.");
+            submitBtn.disabled = false;
+            submitBtn.innerText = "Ворваться в систему";
+        });
+    });
+</script>
+
+</body>
+</html>
