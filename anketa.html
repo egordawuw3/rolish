@@ -6,6 +6,12 @@
     <title>Анкета | core.</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=Caveat:wght@700&display=swap" rel="stylesheet">
     <style>
+        /* --- 1. ПЕРЕМЕННЫЕ И БАЗА --- */
+        @font-face {
+            font-family: 'Gramatika';
+            src: local('Gramatika'), local('Inter');
+        }
+
         :root {
             --bg-cream: #F4F2EE;
             --blue-deep: #00388D;
@@ -15,275 +21,530 @@
             --black: #050505;
             --border: rgba(0, 69, 166, 0.15);
             --radius: 32px;
-            --ease-smooth: cubic-bezier(0.23, 1, 0.32, 1);
+            /* Самая плавная "масляная" кривая (Apple style) */
+            --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Gramatika', 'Inter', sans-serif;
+            margin: 0; padding: 0;
             background-color: var(--bg-cream);
             color: var(--blue-bright);
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
+            overflow-x: hidden; 
             -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
-        .container {
+        /* --- 2. TEXTURE (NOISE) --- */
+        #noise-canvas {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 9999; opacity: 0.15; mix-blend-mode: multiply;
+        }
+
+        /* --- 3. NAVBAR (GLASS) --- */
+        .navbar {
+            position: fixed; top: 0; left: 0; width: 100%; padding: 20px 40px; box-sizing: border-box;
+            display: flex; justify-content: center; align-items: center; 
+            z-index: 10000;
+            background: rgba(244, 242, 238, 0.571);
+            backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid rgba(0, 69, 166, 0.05);
+            animation: fadeInDown 1.2s var(--ease-smooth) forwards;
+        }
+
+        .nav-logo { font-weight: 900; color: var(--blue-bright); font-size: 1.8em; text-decoration: none; letter-spacing: -0.05em; transition: transform 0.4s var(--ease-smooth); }
+        .nav-logo:hover { transform: scale(1.05); }
+
+        /* --- 4. HEADER АНКЕТЫ --- */
+        .header-wrapper {
+            text-align: center;
+            padding: 140px 20px 40px; 
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .main-title {
+            font-family: 'Inter', sans-serif;
+            font-size: 4.5rem;
+            font-weight: 900;
+            line-height: 0.95;
+            letter-spacing: -0.05em;
+            margin: 0;
+            color: var(--blue-bright);
+        }
+
+        .header-desc {
+            font-size: 1.25rem;
+            line-height: 1.5;
+            color: #555;
+            max-width: 600px;
+            margin: 24px auto 0;
+            font-weight: 500;
+        }
+
+        .header-desc strong {
+            color: var(--accent);
+            font-weight: 800;
+            background: rgba(250, 45, 26, 0.08);
+            padding: 2px 8px;
+            border-radius: 8px;
+        }
+
+        /* --- 5. АНИМАЦИИ ПРИ СКРОЛЛЕ (REVEAL - МАКСИМАЛЬНАЯ ПЛАВНОСТЬ) --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px) scale(0.98); /* Уменьшена амплитуда для мягкости */
+            filter: blur(10px);
+            transition: opacity 1.2s var(--ease-smooth), transform 1.2s var(--ease-smooth), filter 1.2s var(--ease-smooth);
+            will-change: transform, opacity, filter;
+        }
+
+        .reveal.reveal-active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            filter: blur(0px);
+        }
+
+        /* --- 6. ФОРМА И БЛОКИ --- */
+        .form-container {
             width: 100%;
-            max-width: 540px;
-            background: var(--white);
-            padding: 60px 45px;
-            border-radius: var(--radius);
-            box-shadow: 0 40px 100px -20px rgba(0, 69, 166, 0.12);
-            border: 1px solid var(--border);
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 0 20px 100px;
+            box-sizing: border-box;
             position: relative;
-            overflow: hidden;
-            animation: appear 0.8s var(--ease-smooth);
+            z-index: 10;
+            transition: opacity 0.8s var(--ease-smooth), transform 0.8s var(--ease-smooth);
         }
 
-        @keyframes appear {
-            from { opacity: 0; transform: translateY(30px); }
+        .form-block {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 40px 35px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0, 69, 166, 0.05);
+            border: 1px solid var(--border);
+            transition: box-shadow 0.5s var(--ease-smooth), transform 0.5s var(--ease-smooth);
+        }
+
+        .form-block:hover {
+            box-shadow: 0 25px 60px rgba(0, 69, 166, 0.1);
+        }
+
+        .block-title {
+            font-size: 1.3rem;
+            font-weight: 900;
+            margin: 0 0 20px 0;
+            color: var(--blue-deep);
+            letter-spacing: -0.02em;
+        }
+
+        /* Поля ввода (Text) */
+        .input-text {
+            width: 100%;
+            padding: 20px 25px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--black);
+            background: var(--bg-cream);
+            border: 2px solid transparent;
+            border-radius: 20px;
+            box-sizing: border-box;
+            transition: all 0.4s var(--ease-smooth);
+            outline: none;
+        }
+        
+        .input-text::placeholder { color: rgba(5, 5, 5, 0.3); font-weight: 600; }
+        .input-text:focus {
+            background: var(--white);
+            border-color: var(--blue-bright);
+            box-shadow: 0 15px 30px rgba(0, 69, 166, 0.1);
+        }
+
+        /* Плитки (Radio Buttons Grid) */
+        .tiles-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .tiles-grid.single-col { grid-template-columns: 1fr; }
+
+        .tile {
+            position: relative;
+            cursor: pointer;
+            display: block;
+        }
+
+        .tile input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        .tile span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px 15px;
+            background: var(--bg-cream);
+            border: 2px solid transparent;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--blue-deep);
+            transition: all 0.4s var(--ease-smooth);
+            height: 100%;
+            box-sizing: border-box;
+            user-select: none;
+            line-height: 1.3;
+        }
+
+        .tile:hover span {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(0, 69, 166, 0.08);
+            border-color: rgba(0, 69, 166, 0.15);
+        }
+
+        .tile input:checked + span {
+            background: var(--blue-bright);
+            color: var(--white);
+            border-color: var(--blue-bright);
+            transform: scale(0.98);
+            box-shadow: inset 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .tile.full-width {
+            grid-column: 1 / -1;
+        }
+
+        /* Кнопка отправки */
+        .submit-btn {
+            width: 100%;
+            padding: 24px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: var(--white);
+            background: var(--blue-bright);
+            border: none;
+            border-radius: 100px;
+            cursor: pointer;
+            transition: transform 0.5s var(--ease-smooth), box-shadow 0.5s var(--ease-smooth), background 0.4s ease;
+            box-shadow: 0 15px 30px rgba(0, 69, 166, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(0, 69, 166, 0.35);
+            background: #00388D;
+        }
+
+        .submit-btn:disabled {
+            background: #A0B4D0;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* --- 7. ЭКРАН УСПЕХА --- */
+        .success-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1s var(--ease-smooth);
+        }
+
+        .success-screen.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .success-title {
+            font-size: 7rem;
+            font-weight: 900;
+            color: var(--blue-bright);
+            margin: 0;
+            letter-spacing: -0.04em;
+            text-shadow: 0 20px 50px rgba(0, 69, 166, 0.15);
+            transform: translateY(30px) scale(0.9);
+            transition: all 1s var(--ease-smooth);
+        }
+
+        .success-screen.active .success-title {
+            transform: translateY(0) scale(1);
+        }
+
+        .success-subtitle {
+            font-family: 'Caveat', cursive;
+            font-size: 3rem;
+            color: var(--accent);
+            margin-top: 10px;
+            transform: rotate(-3deg) translateY(30px);
+            transition: transform 1s var(--ease-smooth) 0.1s;
+        }
+
+        .success-screen.active .success-subtitle {
+            transform: rotate(-3deg) translateY(0);
+        }
+        
+        .back-btn {
+            margin-top: 50px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: var(--blue-bright);
+            border: 3px solid var(--blue-bright);
+            padding: 18px 50px;
+            border-radius: 100px;
+            transition: all 0.5s var(--ease-smooth);
+            opacity: 0;
+        }
+        
+        .success-screen.active .back-btn {
+            opacity: 1;
+            transition-delay: 0.4s;
+        }
+
+        .back-btn:hover {
+            background: var(--blue-bright);
+            color: var(--white);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 69, 166, 0.2);
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        h1 {
-            font-weight: 900;
-            font-size: 3rem;
-            letter-spacing: -0.05em;
-            margin: 0;
-            line-height: 0.85;
-            color: var(--blue-bright);
+        /* Адаптив */
+        @media (max-width: 768px) {
+            .navbar { padding: 15px 20px; }
+            .header-wrapper { padding-top: 100px; }
+            .main-title { font-size: 2.8rem; }
+            .form-block { padding: 30px 20px; }
+            .tiles-grid { grid-template-columns: 1fr; }
+            .success-title { font-size: 4rem; }
+            .success-subtitle { font-size: 2.2rem; }
         }
-
-        .subtitle {
-            font-family: 'Caveat', cursive;
-            font-size: 2rem;
-            color: var(--accent);
-            display: block;
-            margin-top: 10px;
-            margin-bottom: 40px;
-            transform: rotate(-2deg) translateX(5px);
-        }
-
-        .form-group {
-            margin-bottom: 28px;
-        }
-
-        label {
-            display: block;
-            font-weight: 800;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            margin-bottom: 12px;
-            letter-spacing: 0.05em;
-            color: var(--blue-deep);
-            opacity: 0.6;
-        }
-
-        input[type="text"], select {
-            width: 100%;
-            padding: 20px 24px;
-            border-radius: 18px;
-            border: 2px solid #E9EDF5;
-            background: #F9FAFF;
-            font-family: 'Inter', sans-serif;
-            font-size: 1.05rem;
-            font-weight: 600;
-            box-sizing: border-box;
-            transition: all 0.3s var(--ease-smooth);
-            color: var(--black);
-        }
-
-        input:focus {
-            outline: none;
-            border-color: var(--blue-bright);
-            background: white;
-            box-shadow: 0 0 0 4px rgba(0, 69, 166, 0.05);
-        }
-
-        /* Стилизация радио-плиток как в премиум квизах */
-        .radio-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        .radio-tile {
-            position: relative;
-            background: #F9FAFF;
-            border: 2px solid #E9EDF5;
-            padding: 16px;
-            border-radius: 18px;
-            text-align: center;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 0.95rem;
-            transition: 0.3s var(--ease-smooth);
-        }
-
-        .radio-tile input {
-            position: absolute;
-            opacity: 0;
-        }
-
-        .radio-tile:hover {
-            border-color: var(--blue-bright);
-            transform: translateY(-2px);
-        }
-
-        .radio-tile:has(input:checked) {
-            background: var(--blue-bright);
-            color: white;
-            border-color: var(--blue-bright);
-            box-shadow: 0 10px 20px rgba(0, 69, 166, 0.2);
-        }
-
-        .btn-submit {
-            width: 100%;
-            background: var(--blue-bright);
-            color: white;
-            padding: 24px;
-            border-radius: 100px;
-            border: none;
-            font-weight: 900;
-            font-size: 1.1rem;
-            text-transform: uppercase;
-            letter-spacing: 0.02em;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: all 0.4s var(--ease-smooth);
-            box-shadow: 0 15px 35px rgba(0, 69, 166, 0.25);
-        }
-
-        .btn-submit:hover {
-            background: var(--blue-deep);
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 20px 45px rgba(0, 69, 166, 0.35);
-        }
-
-        /* Состояние успеха */
-        #success {
-            display: none;
-            text-align: center;
-            padding: 40px 0;
-        }
-
-        #success h2 {
-            font-size: 3rem;
-            font-weight: 900;
-            color: var(--accent);
-            margin-bottom: 10px;
-        }
-
-        #success p {
-            font-weight: 600;
-            font-size: 1.2rem;
-            opacity: 0.7;
-        }
-
     </style>
 </head>
 <body>
 
-<div class="container" id="mainContainer">
-    <div id="formSection">
-        <h1>Остался<br>последний шаг...</h1>
-        <span class="subtitle">до системы на 100%</span>
+    <canvas id="noise-canvas"></canvas>
 
-        <form id="anketaForm">
-            <div class="form-group">
-                <label>Как тебя зовут?</label>
-                <input type="text" name="name" placeholder="Имя" required>
-            </div>
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo">core.</a>
+    </nav>
 
-            <div class="form-group">
-                <label>Твой Telegram</label>
-                <input type="text" name="telegram" placeholder="@username" required>
-            </div>
+    <div class="form-container" id="form-container">
+        
+        <!-- Заголовок плавно появляется -->
+        <div class="header-wrapper reveal">
+            <h1 class="main-title">Остался последний шаг...</h1>
+            <p class="header-desc">Который отделяет тебя от системы, которая <strong>с вероятностью 100% приводит к большим деньгам</strong> при помощью контента</p>
+        </div>
 
-            <div class="form-group">
-                <label>Возраст</label>
-                <select name="age" required>
-                    <option value="" disabled selected>Выбери вариант</option>
-                    <option value=">14">До 14</option>
-                    <option value="15-17">15-17</option>
-                    <option value="18-21">18-21</option>
-                    <option value="22-27">22-27</option>
-                    <option value="28+">28+</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Главная проблема прямо сейчас</label>
-                <div class="radio-grid">
-                    <label class="radio-tile"><input type="radio" name="problem" value="Скиллы" checked> Нет скиллов</label>
-                    <label class="radio-tile"><input type="radio" name="problem" value="Креатив"> Нет идей</label>
-                    <label class="radio-tile"><input type="radio" name="problem" value="Клиенты"> Нет клиентов</label>
-                    <label class="radio-tile"><input type="radio" name="problem" value="Время"> Нет времени</label>
-                    <label class="radio-tile"><input type="radio" name="problem" value="План"> Нет плана</label>
-                    <label class="radio-tile"><input type="radio" name="problem" value="Лень"> Лень</label>
+        <form id="anketa-form">
+            
+            <!-- Каждый блок с классом reveal для мягкой анимации по скроллу -->
+            <div class="form-block reveal">
+                <div style="margin-bottom: 30px;">
+                    <h3 class="block-title">Имя :</h3>
+                    <input type="text" name="Имя" class="input-text" placeholder="*ввод*" required>
+                </div>
+                <div>
+                    <h3 class="block-title">Ник в TG (@юзер) :</h3>
+                    <input type="text" name="Telegram" class="input-text" placeholder="*ввод*" required>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label>Насколько ты готов ебашить?</label>
-                <select name="ready_level" required>
-                    <option value="1/10">1/10 — Просто смотрю</option>
-                    <option value="3/10">3/10 — Хочу узнать подробнее</option>
-                    <option value="7/10">7/10 — Готов, обсудил бы лично</option>
-                    <option value="10/10">10/10 — ПОЛНАЯ ГОТОВНОСТЬ</option>
-                </select>
+            <div class="form-block reveal">
+                <h3 class="block-title">Возраст :</h3>
+                <div class="tiles-grid">
+                    <label class="tile">
+                        <input type="radio" name="Возраст" value="<14" required>
+                        <span>&lt;14</span>
+                    </label>
+                    <label class="tile">
+                        <input type="radio" name="Возраст" value="15-17">
+                        <span>15-17</span>
+                    </label>
+                    <label class="tile">
+                        <input type="radio" name="Возраст" value="18-21">
+                        <span>18-21</span>
+                    </label>
+                    <label class="tile">
+                        <input type="radio" name="Возраст" value="22-27">
+                        <span>22-27</span>
+                    </label>
+                    <label class="tile full-width">
+                        <input type="radio" name="Возраст" value="28+">
+                        <span>28+</span>
+                    </label>
+                </div>
             </div>
 
-            <button type="submit" class="btn-submit" id="submitBtn">Ворваться в систему</button>
+            <div class="form-block reveal">
+                <h3 class="block-title">Главная проблема, которая мешает тебе :</h3>
+                <div class="tiles-grid">
+                    <label class="tile">
+                        <input type="radio" name="Проблема" value="Нехватка скиллов" required>
+                        <span>Нехватка скиллов</span>
+                    </label>
+                    <label class="tile">
+                        <input type="radio" name="Проблема" value="Отсутствие креатива">
+                        <span>Отсутствие креатива</span>
+                    </label>
+                    <label class="tile">
+                        <input type="radio" name="Проблема" value="Нет клиентов">
+                        <span>Нет клиентов</span>
+                    </label>
+                    <label class="tile">
+                        <input type="radio" name="Проблема" value="Мало времени">
+                        <span>Мало времени</span>
+                    </label>
+                    <label class="tile">
+                        <input type="radio" name="Проблема" value="Нет четкого плана">
+                        <span>Нет четкого плана</span>
+                    </label>
+                    <label class="tile">
+                        <input type="radio" name="Проблема" value="Лень, но готов побороть">
+                        <span>Лень, но готов побороть</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-block reveal">
+                <h3 class="block-title">Насколько ты готов к обучению :</h3>
+                <div class="tiles-grid single-col">
+                    <label class="tile">
+                        <input type="radio" name="Готовность" value="1/10" required>
+                        <span>1/10 - Пока думаю</span>
+                    </label>
+                    <label class="tile">
+                        <input type="radio" name="Готовность" value="3/10">
+                        <span>3/10 - Хочу узнать подробнее</span>
+                    </label>
+                    <label class="tile">
+                        <input type="radio" name="Готовность" value="7/10">
+                        <span>7/10 - Готов, но обсудил бы лично</span>
+                    </label>
+                    <label class="tile">
+                        <input type="radio" name="Готовность" value="10/10">
+                        <span>10/10 - Полная готовность</span>
+                    </label>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn reveal" id="submit-btn">Отправить анкету</button>
         </form>
     </div>
 
-    <div id="success">
-        <h2>ГОТОВО! 🚀</h2>
-        <p>Твоя анкета в системе.<br>Скоро свяжусь с тобой.</p>
+    <div class="success-screen" id="success-screen">
+        <h1 class="success-title">ГОТОВО!</h1>
+        <div class="success-subtitle">Анкета успешно отправлена</div>
+        <a href="index.html" class="back-btn">Вернуться на сайт</a>
     </div>
-</div>
 
-<script>
-    const form = document.getElementById('anketaForm');
-    const formSection = document.getElementById('formSection');
-    const successSection = document.getElementById('success');
-    const submitBtn = document.getElementById('submitBtn');
+    <script>
+        // --- 1. ШУМ НА ФОНЕ ---
+        const noiseCanvas = document.getElementById('noise-canvas');
+        const ctx = noiseCanvas.getContext('2d');
+        const resize = () => { noiseCanvas.width = window.innerWidth; noiseCanvas.height = window.innerHeight; };
+        const drawNoise = () => {
+            const w = noiseCanvas.width, h = noiseCanvas.height;
+            const id = ctx.createImageData(w, h), buffer = new Uint32Array(id.data.buffer);
+            for (let i = 0; i < buffer.length; i++) if (Math.random() < 0.2) buffer[i] = Math.random() < 0.5 ? 0xFF000000 : 0x11000000;
+            ctx.putImageData(id, 0, 0);
+        };
+        let frame = 0; 
+        const loop = () => { if (frame % 2 === 0) drawNoise(); frame++; requestAnimationFrame(loop); };
+        window.addEventListener('resize', resize); resize(); loop();
 
-    form.addEventListener("submit", function(e) {
-        e.preventDefault();
-        
-        submitBtn.disabled = true;
-        submitBtn.innerText = "ОТПРАВЛЯЕМ...";
-        
-        const data = new FormData(form);
-        
-        fetch("https://formspree.io/f/xwvnnybo", {
-            method: "POST",
-            body: data,
-            headers: {
-                'Accept': 'application/json'
-            }
-        }).then(response => {
-            if (response.ok) {
-                formSection.style.display = "none";
-                successSection.style.display = "block";
-            } else {
-                alert("Ошибка! Попробуй еще раз.");
-                submitBtn.disabled = false;
-                submitBtn.innerText = "Ворваться в систему";
-            }
-        }).catch(error => {
-            alert("Ошибка сети. Проверь интернет.");
-            submitBtn.disabled = false;
-            submitBtn.innerText = "Ворваться в систему";
+        // --- 2. УМНАЯ СУПЕР-ПЛАВНАЯ АНИМАЦИЯ ПО СКРОЛЛУ ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const revealElements = document.querySelectorAll('.reveal');
+            
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                const intersectingEntries = entries.filter(entry => entry.isIntersecting);
+                
+                intersectingEntries.forEach((entry, index) => {
+                    const el = entry.target;
+                    // Мягкий каскад: 180ms задержки между блоками, если они появились одновременно
+                    setTimeout(() => {
+                        el.classList.add('reveal-active');
+                    }, index * 180); 
+                    
+                    observer.unobserve(el); // Анимация проигрывается 1 раз
+                });
+            }, { 
+                threshold: 0.1, // Блок начинает появляться, когда видно 10%
+                rootMargin: "0px 0px -40px 0px" // Легкий отступ снизу
+            });
+
+            revealElements.forEach(el => revealObserver.observe(el));
         });
-    });
-</script>
 
+        // --- 3. AJAX ОТПРАВКА ФОРМЫ ---
+        const form = document.getElementById('anketa-form');
+        const formContainer = document.getElementById('form-container');
+        const successScreen = document.getElementById('success-screen');
+        const submitBtn = document.getElementById('submit-btn');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const originalText = submitBtn.innerText;
+            submitBtn.innerText = 'Отправка...';
+            submitBtn.disabled = true;
+
+            const formData = new FormData(form);
+
+            try {
+                // Formspree ID
+                const response = await fetch('https://formspree.io/f/xwvnnybo', {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                if (response.ok) {
+                    formContainer.style.opacity = '0';
+                    formContainer.style.transform = 'translateY(-30px)';
+                    
+                    setTimeout(() => {
+                        formContainer.style.display = 'none';
+                        successScreen.classList.add('active');
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }, 800);
+                } else {
+                    alert('Произошла ошибка при отправке. Попробуй еще раз.');
+                    submitBtn.innerText = originalText;
+                    submitBtn.disabled = false;
+                }
+            } catch (error) {
+                alert('Сетевая ошибка. Проверьте интернет-соединение.');
+                submitBtn.innerText = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
 </body>
 </html>
