@@ -1,14 +1,13 @@
 <!doctype html>
 <html lang="ru">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Анкета | core.</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=Caveat:wght@700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="css/anketa.css" />
+      rel="stylesheet">
+    <link rel="stylesheet" href="css/anketa.css">
   </head>
   <body>
     <canvas id="noise-canvas"></canvas>
@@ -32,109 +31,105 @@
         <!-- Каждый блок с классом reveal для мягкой анимации по скроллу -->
         <div class="form-block reveal">
           <div style="margin-bottom: 30px">
-            <h3 class="block-title">Имя :</h3>
+            <h2 class="block-title">Имя :</h2>
             <input
               type="text"
               name="Имя"
               class="input-text"
               placeholder="*ввод*"
-              required
-            />
+              required>
           </div>
           <div>
-            <h3 class="block-title">Ник в TG (@юзер) :</h3>
+            <h2 class="block-title">Ник в TG (@юзер) :</h2>
             <input
               type="text"
               name="Telegram"
               class="input-text"
               placeholder="*ввод*"
-              required
-            />
+              required>
           </div>
         </div>
 
         <div class="form-block reveal">
-          <h3 class="block-title">Возраст :</h3>
+          <h2 class="block-title">Возраст :</h2>
           <div class="tiles-grid">
             <label class="tile">
-              <input type="radio" name="Возраст" value="&amp;lt;14" required />
+              <input type="radio" name="Возраст" value="&amp;lt;14" required>
               <span>&lt;14</span>
             </label>
             <label class="tile">
-              <input type="radio" name="Возраст" value="15-17" />
+              <input type="radio" name="Возраст" value="15-17">
               <span>15-17</span>
             </label>
             <label class="tile">
-              <input type="radio" name="Возраст" value="18-21" />
+              <input type="radio" name="Возраст" value="18-21">
               <span>18-21</span>
             </label>
             <label class="tile">
-              <input type="radio" name="Возраст" value="22-27" />
+              <input type="radio" name="Возраст" value="22-27">
               <span>22-27</span>
             </label>
             <label class="tile full-width">
-              <input type="radio" name="Возраст" value="28+" />
+              <input type="radio" name="Возраст" value="28+">
               <span>28+</span>
             </label>
           </div>
         </div>
 
         <div class="form-block reveal">
-          <h3 class="block-title">Главная проблема, которая мешает тебе :</h3>
+          <h2 class="block-title">Главная проблема, которая мешает тебе :</h2>
           <div class="tiles-grid">
             <label class="tile">
               <input
                 type="radio"
                 name="Проблема"
                 value="Нехватка скиллов"
-                required
-              />
+                required>
               <span>Нехватка скиллов</span>
             </label>
             <label class="tile">
-              <input type="radio" name="Проблема" value="Отсутствие креатива" />
+              <input type="radio" name="Проблема" value="Отсутствие креатива">
               <span>Отсутствие креатива</span>
             </label>
             <label class="tile">
-              <input type="radio" name="Проблема" value="Нет клиентов" />
+              <input type="radio" name="Проблема" value="Нет клиентов">
               <span>Нет клиентов</span>
             </label>
             <label class="tile">
-              <input type="radio" name="Проблема" value="Мало времени" />
+              <input type="radio" name="Проблема" value="Мало времени">
               <span>Мало времени</span>
             </label>
             <label class="tile">
-              <input type="radio" name="Проблема" value="Нет четкого плана" />
+              <input type="radio" name="Проблема" value="Нет четкого плана">
               <span>Нет четкого плана</span>
             </label>
             <label class="tile">
               <input
                 type="radio"
                 name="Проблема"
-                value="Лень, но готов побороть"
-              />
+                value="Лень, но готов побороть">
               <span>Лень, но готов побороть</span>
             </label>
           </div>
         </div>
 
         <div class="form-block reveal">
-          <h3 class="block-title">Насколько ты готов к обучению :</h3>
+          <h2 class="block-title">Насколько ты готов к обучению :</h2>
           <div class="tiles-grid single-col">
             <label class="tile">
-              <input type="radio" name="Готовность" value="1/10" required />
+              <input type="radio" name="Готовность" value="1/10" required>
               <span>1/10 - Пока думаю</span>
             </label>
             <label class="tile">
-              <input type="radio" name="Готовность" value="3/10" />
+              <input type="radio" name="Готовность" value="3/10">
               <span>3/10 - Хочу узнать подробнее</span>
             </label>
             <label class="tile">
-              <input type="radio" name="Готовность" value="7/10" />
+              <input type="radio" name="Готовность" value="7/10">
               <span>7/10 - Готов, но обсудил бы лично</span>
             </label>
             <label class="tile">
-              <input type="radio" name="Готовность" value="10/10" />
+              <input type="radio" name="Готовность" value="10/10">
               <span>10/10 - Полная готовность</span>
             </label>
           </div>
