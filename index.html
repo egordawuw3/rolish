@@ -3,10 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Добавлено метаописание для улучшения SEO -->
+<meta name="description" content="core. - Авторская система создания контента и заработка на творчестве. Обучение креативности, съемке, монтажу и построению личного бренда.">
 <title>core.</title>
+
+<!-- Предварительное подключение шрифтов для ускорения отрисовки текста (Performance) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=Caveat:wght@700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
-<script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
+
+<!-- Скрипт плеера загружается асинхронно, чтобы не блокировать страницу (Performance) -->
+<script src="https://cdn.plyr.io/3.7.8/plyr.js" defer></script>
 
 <style>
     /* --- 1. ПРЕМИУМ ФУНДАМЕНТ --- */
@@ -41,6 +49,9 @@
         overflow-x: hidden; user-select: none;
         -webkit-font-smoothing: antialiased;
     }
+    
+    /* Защита для тега main */
+    main { display: block; width: 100%; }
 
     /* --- 2. TEXTURE (NOISE) --- */
     #noise-canvas {
@@ -139,14 +150,7 @@
         .s-ssd:hover { transform: rotate(20deg) scale(0.85); }
     }
 
-
-
-    
-
-
-
-
-    /* --- ГЛОБАЛЬНЫЙ ЗАМОК ОТ СБОЕВ ЭКРАНА (Вставляем прямо перед @media) --- */
+    /* --- ГЛОБАЛЬНЫЙ ЗАМОК ОТ СБОЕВ ЭКРАНА --- */
     html, body { 
         overflow-x: hidden !important; 
         width: 100% !important; 
@@ -155,10 +159,9 @@
     }
 
     @media (max-width: 768px) {
-        /* --- 1. НАВБАР (Заменили 100vw на 100% + жесткая привязка) --- */
         .navbar { 
             width: 100% !important; 
-            max-width: 100% !important; /* Убили 100vw */
+            max-width: 100% !important;
             left: 0 !important; 
             top: 0 !important;
             padding: 15px 20px !important; 
@@ -175,49 +178,41 @@
             white-space: nowrap !important; 
         }
 
-        /* --- 2. ГЛАВНЫЙ ЭКРАН --- */
         .hero-wrapper { height: auto !important; padding: 80px 15px 0px 15px !important; box-sizing: border-box !important; width: 100% !important; max-width: 100% !important; }
         .card-shadow-container { height: 872px !important; min-height: 872px !important; max-height: 872px !important; width: 100% !important; box-sizing: border-box !important; }
         
-        /* --- 3. ИДЕАЛЬНОЕ ЦЕНТРИРОВАНИЕ ТЕКСТА --- */
         .hero-content { margin: 0 !important; position: relative; z-index: 100 !important; width: 100% !important; display: flex !important; flex-direction: column !important; align-items: center !important; padding-bottom: 80px !important; } 
         
-        /* Уменьшили шрифт с 32vw до 26vw, чтобы слово core. не разрывало экран */
         .main-title { font-size: 26vw !important; margin: 0 !important; line-height: 0.8 !important; text-align: center !important; max-width: 100% !important; }
         .subtitle-block { font-size: 3rem !important; margin-top: 15px !important; line-height: 1.1 !important; display: flex !important; flex-direction: column !important; align-items: center !important; width: 100% !important; max-width: 100% !important; }
         
-        .row-line { gap: 12px !important; justify-content: center !important; display: flex !important; width: 100% !important; align-items: center !important; flex-wrap: nowrap !important; }        .highlight-word-container { min-width: 180px !important; width: 180px !important; text-align: left !important; }
+        .row-line { gap: 12px !important; justify-content: center !important; display: flex !important; width: 100% !important; align-items: center !important; flex-wrap: nowrap !important; }
         .highlight-word-container { min-width: 0 !important; width: auto !important; text-align: left !important; }        
-        /* --- 4. СТИКЕРЫ --- */
+        
         .s-camera { position: absolute !important; display: block !important; width: 220px !important; height: auto !important; top: 50px !important; left: -10px !important; bottom: auto !important; right: auto !important; transform: rotate(-10deg) !important; z-index: 50 !important; }
         .s-pencil { position: absolute !important; display: block !important; height: 240px !important; width: auto !important; top: auto !important; right: auto !important; bottom: 220px !important; left: -5px !important; transform: rotate(25deg) !important; z-index: 50 !important; }
         .s-ssd { position: absolute !important; display: block !important; width: 90px !important; height: auto !important; top: auto !important; left: auto !important; bottom: 140px !important; right: 15px !important; transform: rotate(-10deg) !important; z-index: 50 !important; }
         
-        /* --- 5. ПАПКА --- */
         .folder-bridge { margin-top: -120px !important; margin-bottom: 60px !important; transform: none !important; position: relative; z-index: 105 !important; max-width: 100% !important; }
         .mac-folder-realistic { width: 238px !important; height: 147px !important; margin: 0 auto !important; }
         .folder-file-card { width: 110px !important; height: 135px !important; bottom: 10px !important; left: 28% !important; }
 
-        /* Стили для открытой папки на мобилке (через JS) */
         .mac-folder-realistic.is-open .folder-cards { z-index: 20 !important; }
         .mac-folder-realistic.is-open .card-1 { opacity: 1 !important; transform: translate(-70px, -40px) rotate(-12deg) !important; transition-delay: 0.1s !important; }
         .mac-folder-realistic.is-open .card-2 { opacity: 1 !important; transform: translate(0, -80px) rotate(0deg) !important; transition-delay: 0.05s !important; }
         .mac-folder-realistic.is-open .card-3 { opacity: 1 !important; transform: translate(70px, -40px) rotate(12deg) !important; transition-delay: 0.15s !important; }
         .mac-folder-realistic.is-open .folder-front-shape { transform: rotateX(-25deg) scaleY(0.95) !important; }
 
-        /* --- 6. VSL СЕКЦИЯ --- */
         .vsl-section { padding: 40px 15px 60px 15px !important; overflow-x: hidden !important; }
         .vsl-headline { font-size: 2.5rem !important; line-height: 1.1 !important; margin-bottom: 15px !important; word-wrap: break-word !important; hyphens: auto !important; }
         .vsl-subhead { font-size: 1.1rem !important; margin-bottom: 40px !important; }
         .btn-outline { font-size: 1.2rem !important; padding: 15px 40px !important; }
 
-        /* --- 7. ОТЗЫВЫ И ЗАГОЛОВКИ --- */
         .reviews-headline { font-size: 2rem !important; padding: 0 15px 40px !important; line-height: 1.2 !important; }
         .modules-header h2 { font-size: 2.2rem !important; line-height: 1.1 !important; }
         .section-title-center { font-size: 2.5rem !important; line-height: 1.1 !important; }
     }
 
-    /* --- 8. Страховка для узких экранов (iPhone SE) --- */
     @media (max-width: 400px) {
         .navbar { padding: 15px !important; }
         .nav-accent-btn { padding: 8px 16px !important; font-size: 0.85rem !important; }
@@ -225,28 +220,14 @@
         .subtitle-block { font-size: 2.5rem !important; }
         .highlight-word { font-size: 2.8rem !important; }
         .highlight-word-container { width: auto !important; }
-                .s-camera { width: 180px !important; left: -15px !important; top: 40px !important; }
+        .s-camera { width: 180px !important; left: -15px !important; top: 40px !important; }
         .s-pencil { height: 180px !important; bottom: 200px !important; left: -10px !important; }
         .s-ssd { width: 75px !important; bottom: 120px !important; right: 10px !important; }
-        .vsl-headline { font-size: 2.2rem !important; 
+        .vsl-headline { font-size: 2.2rem !important; }
         
-        
-                /* --- 8. ФИКС КАРТОЧЕК С ОТЗЫВАМИ --- */
-        .review-item:hover .card-inner { transform: none !important; } /* Убиваем багованный hover на телефонах */
-        .review-item.flipped .card-inner { transform: rotateY(180deg) !important; } /* Включаем переворот по специальному классу */
-}
+        .review-item:hover .card-inner { transform: none !important; }
+        .review-item.flipped .card-inner { transform: rotateY(180deg) !important; }
     }
-
-
-
-
-
-
-
-
-
-
-
 
     /* --- 6. FOLDER BRIDGE --- */
     .folder-bridge { position: relative; z-index: 100; margin-top: -230px; margin-bottom: 80px; display: flex; justify-content: center; align-items: flex-end; height: 320px; perspective: 1200px; pointer-events: none; }
@@ -272,11 +253,10 @@
     .folder-back-shape::before { content: ''; position: absolute; bottom: 100%; left: 0; width: 90px; height: 16px; background: var(--folder-back); border-radius: 12px 12px 0 0; }
     .folder-front-shape { position: absolute; bottom: 0; left: 0; width: 100%; height: 90%; background: var(--folder-front); border-radius: 0 0 16px 16px; z-index: 3; transform-origin: bottom; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: inset 0 2px 5px rgba(255,255,255,0.3), 0 -5px 15px rgba(0,0,0,0.1); border-top: 1px solid rgba(255,255,255,0.2); }
     .mac-folder-realistic:hover .folder-front-shape { transform: rotateX(-25deg) scaleY(0.95); }
-    /* --- 6. VSL SECTION (PLIYA + BLUE THEME) --- */
 
+    /* --- 6. VSL SECTION (PLIYA + BLUE THEME) --- */
     :root {
-        /* Устанавливаем цвет кнопок плеера в твой фирменный синий */
-        --plyr-color-main: #0045A6; 
+        --plyr-color-main: #FA2D1A; 
     }
 
     .vsl-section { 
@@ -309,25 +289,25 @@
         margin-right: auto; 
     }
 
-    /* Контейнер видео без лишних обводок */
     .video-box { 
         width: 100%; 
         max-width: 960px; 
         margin: 0 auto; 
-        background: #000; 
+        background: transparent !important; 
         border-radius: var(--radius); 
-        /* Убрали border: 1px, теперь только тень */
         box-shadow: 0 50px 100px -20px rgba(0, 56, 141, 0.3); 
         position: relative; 
-        overflow: hidden; /* Обрезает углы видео */
+        overflow: hidden; 
         line-height: 0; 
     }
 
-    /* Стилизация самого плеера Plyr внутри бокса */
     .video-box .plyr {
-        border-radius: var(--radius) !important;
+        border-radius: 32px;
         overflow: hidden;
-        border: none !important; /* Убираем рамку самого плеера */
+        width: 100%;
+        height: 100%;
+        box-shadow: 0 50px 100px -20px rgba(0,0,0,0.25);
+        border: none !important;
     }
 
     .plyr__video-wrapper {
@@ -335,7 +315,6 @@
         border-radius: var(--radius);
     }
 
-    /* Кнопки и ссылки */
     .btn-outline {
         text-decoration: none; 
         font-weight: 900; 
@@ -421,7 +400,6 @@
 
     .grid-reviews { display: grid; grid-template-columns: repeat(3, 260px); justify-content: center; gap: 80px 60px; max-width: 1200px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 5; }
     
-    /* Variables for preserving static transforms */
     .review-item { 
         width: 260px; height: 400px; perspective: 2000px; position: relative; 
         transition: transform 0.6s var(--ease-smooth); will-change: transform; 
@@ -470,15 +448,13 @@
     /* ============================================== */
     /* MOTION DESIGN: REVEAL & STAGGER               */
     /* ============================================== */
-    
     .reveal, .stagger-item {
         opacity: 0;
-        /* Используем CSS переменные, чтобы не затереть родные стили карточек! */
         transform: translateY(calc(var(--target-y, 0px) + 50px)) scale(calc(var(--target-scale, 1) - 0.03)) rotate(var(--target-rot, 0deg));
         filter: blur(8px);
         transition: opacity 1s var(--ease-smooth), transform 1s var(--ease-smooth), filter 1s var(--ease-smooth);
         will-change: transform, opacity, filter;
-        pointer-events: none; /* Защита от кликов во время анимации */
+        pointer-events: none; 
     }
 
     .reveal.reveal-active, .stagger-item.reveal-active {
@@ -519,7 +495,6 @@
     .c5 { background: radial-gradient(circle at center, #FA2D1A 0%, #111 100%); }
     .c6 { background: radial-gradient(circle at center, #007AFF 0%, #001A40 100%); }
 
-    /* BONUS GRID ALIGNMENT */
     .bonus-grid { border-top: none; }
     .bonus-card-wrap { 
         grid-column: 2; background: var(--bg-cream); display: flex; flex-direction: column; 
@@ -594,7 +569,6 @@
     .t-divider { border: none; border-top: 1px solid rgba(0, 69, 166, 0.15); margin: 25px 0; }
     .popular .t-divider, .mentor .t-divider { border-top: 1px solid rgba(255,255,255,0.15); }
     
-    /* ДОБАВЛЕН MARGIN-TOP: AUTO СЮДА ДЛЯ СОХРАНЕНИЯ ВЕРСТКИ (прижатие к низу) */
     .btn-tariff { margin-top: auto; box-sizing: border-box; width: 100%; padding: 18px; border-radius: 100px; border: none; background: var(--blue-bright); color: #fff; font-weight: 800; font-size: 1.1rem; cursor: pointer; transition: all 0.3s ease; text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px; }
     .btn-tariff:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0, 69, 166, 0.2); }
     .popular .btn-tariff { background: #fff; color: var(--blue-deep); }
@@ -655,26 +629,6 @@
         .faq-question-modern { padding: 20px; }
     }
 
-    /* Настройка цвета плеера под твой бренд */
-:root {
-    --plyr-color-main: #FA2D1A;
-}
-
-/* Фикс закругления углов для плеера */
-.video-box .plyr {
-    border-radius: 32px;
-    overflow: hidden;
-    width: 100%;
-    height: 100%;
-    box-shadow: 0 50px 100px -20px rgba(0,0,0,0.25);
-}
-
-/* Убираем старую черную заливку, если видео еще не загрузилось */
-.video-box {
-    background: transparent !important;
-}
-
-
 </style>
 </head>
 <body>
@@ -684,562 +638,566 @@
 <nav class="navbar">
     <a href="#" class="nav-logo">core.</a>
     <div class="nav-buttons">
-        <a href="#" class="nav-text-btn">Содержание</a>
+        <a href="#table-of-contents" class="nav-text-btn">Содержание</a>
         <a href="#tariffs" class="nav-accent-btn">Тарифы</a>
     </div>
 </nav>
 
-<div class="hero-wrapper">
-    <div class="card-shadow-container">
-        <!-- Stickers -->
-        <img src="assets/camera.png" class="sticker-img s-camera" alt="Camera">
-        <img src="assets/pencil.png" class="sticker-img s-pencil" alt="Pencil">
-        <img src="assets/microssd.png" class="sticker-img s-ssd" alt="SSD">
+<!-- Добавлен тег main для правильной семантики сайта (Best Practices) -->
+<main>
+    <div class="hero-wrapper">
+        <div class="card-shadow-container">
+            <!-- Добавлено свойство fetchpriority="high" для самых главных картинок первого экрана -->
+            <img src="assets/camera.png" class="sticker-img s-camera" alt="Camera" fetchpriority="high">
+            <img src="assets/pencil.png" class="sticker-img s-pencil" alt="Pencil" fetchpriority="high">
+            <img src="assets/microssd.png" class="sticker-img s-ssd" alt="SSD" fetchpriority="high">
 
-        <div class="hero-card" id="hero-card">
-            <div class="hero-content">
-                <h1 class="main-title" id="main-blur-title">core.</h1>
-                <div class="subtitle-block">
-                    <div class="row-line">
-                        <span>без</span>
-                        <div class="highlight-word-container">
-                            <span class="highlight-word" id="word-rotator">воды</span>
+            <div class="hero-card" id="hero-card">
+                <div class="hero-content">
+                    <h1 class="main-title" id="main-blur-title">core.</h1>
+                    <div class="subtitle-block">
+                        <div class="row-line">
+                            <span>без</span>
+                            <div class="highlight-word-container">
+                                <span class="highlight-word" id="word-rotator">воды</span>
+                            </div>
+                        </div>
+                        <div style="margin-top: 5px;">только система.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="folder-bridge reveal">
+        <div class="mac-folder-realistic" onclick="document.getElementById('tariffs').scrollIntoView({behavior: 'smooth'});">
+            <div class="folder-back-shape"></div>
+            <div class="folder-cards">
+                <div class="folder-file-card card-1"><div class="file-card-inner" style="background: linear-gradient(135deg, hsl(214 99% 33%), hsl(214 99% 25%));"><div class="file-card-stripe"></div><div class="file-card-stripe" style="width: 50%; margin-top: 6px;"></div><span class="file-card-label">Креативность</span></div></div>
+                <div class="folder-file-card card-2"><div class="file-card-inner" style="background: linear-gradient(135deg, hsl(351 100% 45%), hsl(351 100% 35%));"><div class="file-card-grid"></div><span class="file-card-label">Монтаж</span></div></div>
+                <div class="folder-file-card card-3"><div class="file-card-inner" style="background: linear-gradient(135deg, hsl(160 84% 39%), hsl(160 84% 30%));"><div class="file-card-stripe" style="opacity: 0.4;"></div><span class="file-card-label">Личный бренд</span></div></div>
+            </div>
+            <div class="folder-front-shape"></div>
+        </div>
+    </div>
+
+    <div class="vsl-section">
+        <div style="max-width: 1000px; margin: 0 auto;">
+            <h2 class="vsl-headline" id="vsl-blur-title">Внимание — суперсила 21 века</h2>
+            <p class="vsl-subhead reveal">Если ты умеешь удерживать внимание и конвертировать его в ₽₽₽ — ты автоматически богат.</p>
+            <div class="video-box reveal" style="border-radius: 32px; overflow: hidden;">
+                <video id="player" playsinline controls data-poster="assets/preview.jpg">
+                    <source src="assets/Videos/VSL 1.mp4" type="video/mp4" />
+                    <!-- Добавлены субтитры (Best Practices). Если их нет, Lighthouse все равно требует наличие трека -->
+                    <track kind="captions" label="Русские субтитры" srclang="ru" src="captions.vtt" default>
+                </video>
+            </div>
+            <a href="#tariffs" class="btn-outline btn-buy reveal">Получить core.</a>
+        </div>
+    </div>
+
+    <section class="story-section-new reveal" id="table-of-contents">
+        <div class="nav-container-3d">
+            <!-- Добавлено aria-label (Accessibility) -->
+            <button class="nav-btn-3d" aria-label="Предыдущий слайд" onclick="move3D(-1)">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+            <!-- Добавлено aria-label (Accessibility) -->
+            <button class="nav-btn-3d" aria-label="Следующий слайд" onclick="move3D(1)">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+            </button>
+        </div>
+
+        <div class="track-3d" id="track3d">
+            <!-- Добавлены alt атрибуты и loading="lazy" (SEO, Accessibility, Performance) -->
+            <div class="card-3d active">
+                <div class="card-img-container"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=800&auto=format&fit=crop" alt="Ваня Паскаль 1" class="card-img" loading="lazy"></div>
+                <div class="black-bar"><h2>Ваня Паскаль</h2></div>
+                <div class="card-body" style="text-align: center !important;">
+                    <div class="slider-stats">
+                        <div class="s-item"><div class="s-pill">400.000₽</div><div class="s-script">личный доход</div></div>
+                        <div class="s-item"><div class="s-pill">50+</div><div class="s-script">довольных учеников</div></div>
+                        <div class="s-item"><div class="s-pill">3 года</div><div class="s-script">создаю контент</div></div>
+                        <div class="s-item">
+                            <div class="s-pill" style="display:flex; justify-content:center; align-items:center; gap:4px;">
+                                10.000
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                            </div>
+                            <div class="s-script">в личных каналах</div>
                         </div>
                     </div>
-                    <div style="margin-top: 5px;">только система.</div>
+                    <p style="font-size: 1.15rem; color: var(--black); font-weight: 500; margin-bottom: auto; margin-top: 15px;">Но хочу, чтобы ты знал — <br><strong>я абсолютно такой же, как и ты.</strong></p>
+                    <div class="s-logo">01</div>
+                </div>
+            </div>
+            <div class="card-3d"><div class="card-img-container"><img src="https://images.unsplash.com/photo-1518331483807-f642f1f96966?q=80&w=800&auto=format&fit=crop" alt="Ваня Паскаль 2" class="card-img" loading="lazy"></div><div class="card-body" style="justify-content: center;"><p class="story-quote">У меня нет богатых родителей и лишних денег. Был только план: <strong>11 лет школы, 4 года в вузе, работа и пенсия в 75.</strong></p><div class="s-logo">02</div></div></div>
+            <div class="card-3d"><div class="card-img-container"><img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop" alt="Ваня Паскаль 3" class="card-img" loading="lazy"></div><div class="card-body" style="justify-content: center;"><p class="story-quote">Но я очень <strong>хотел помочь маме</strong>, видя, как она усердно работает. Поэтому с ранних лет понимал, что надо как-то выкручиваться.</p><div class="s-logo">03</div></div></div>
+            <div class="card-3d"><div class="card-img-container"><img src="https://images.unsplash.com/photo-1622630997505-1c5c10557253?q=80&w=800&auto=format&fit=crop" alt="Ваня Паскаль 4" class="card-img" loading="lazy"></div><div class="card-body" style="justify-content: center;"><p class="story-quote">С 2023 года я начал свой <strong>путь к 30к/мес</strong>. Был менеджером, закупщиком в TG, продавал кроссовки и перепродавал Айфоны.</p><div class="s-logo">04</div></div></div>
+            <div class="card-3d"><div class="card-img-container"><img src="https://images.unsplash.com/photo-1506784375835-5e90dac96be2?q=80&w=800&auto=format&fit=crop" alt="Ваня Паскаль 5" class="card-img" loading="lazy"></div><div class="card-body" style="justify-content: center;"><p class="story-quote">Делал превью и писал сценарии. И лишь к концу 23 года я понял, что мне <strong>реально приносит удовольствие...</strong></p><div class="s-logo">05</div></div></div>
+            <div class="card-3d"><div class="card-img-container"><img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=800&auto=format&fit=crop" alt="Ваня Паскаль 6" class="card-img" loading="lazy"></div><div class="card-body" style="justify-content: center;"><p class="story-quote" style="font-size: 2.5rem; font-weight: 900; text-align: center; color: var(--accent); margin-top: auto; margin-bottom: auto; background: none; padding: 0;">Монтаж роликов</p><div class="s-logo">06</div></div></div>
+            <div class="card-3d"><div class="card-img-container"><img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=800&auto=format&fit=crop" alt="Ваня Паскаль 7" class="card-img" loading="lazy"></div><div class="card-body" style="justify-content: center;"><p class="story-quote">У меня не было крупных проектов, но даже работа с ноунеймами смогла вывести меня на <strong>первые 100к/месяц</strong>. Чему я был безумно рад!</p><div class="s-logo">07</div></div></div>
+            <div class="card-3d"><div class="card-img-container"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=800&auto=format&fit=crop" alt="Ваня Паскаль 8" class="card-img" loading="lazy"></div><div class="card-body" style="justify-content: center;"><p class="story-quote">Но вскоре я <strong>уперся в потолок</strong>: искать клиентов сложнее, качество не растет, а чек стоит на месте. Я понял, что надо что-то менять.</p><div class="s-logo">08</div></div></div>
+            <div class="card-3d"><div class="card-img-container"><img src="https://images.unsplash.com/photo-1518331483807-f642f1f96966?q=80&w=800&auto=format&fit=crop" alt="Ваня Паскаль 9" class="card-img" loading="lazy"></div><div class="card-body" style="justify-content: center;"><p class="story-quote">В конце 2024 года я познакомился с запусками. Эта профессия объединила всё, что я любил: <strong>креативность, монтаж, съемку и продажи.</strong></p><div class="s-logo">09</div></div></div>
+            <div class="card-3d"><div class="card-img-container"><img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop" alt="Ваня Паскаль 10" class="card-img" loading="lazy"></div><div class="card-body" style="justify-content: center;"><p class="story-quote">Именно тогда я начал сотрудничать с крупными клиентами, и именно тогда пошли <strong>первые реально хорошие деньги.</strong></p><div class="s-logo">10</div></div></div>
+            <div class="card-3d"><div class="card-img-container"><img src="https://images.unsplash.com/photo-1622630997505-1c5c10557253?q=80&w=800&auto=format&fit=crop" alt="Ваня Паскаль 11" class="card-img" loading="lazy"></div><div class="card-body" style="justify-content: center;"><p class="story-quote">Сейчас я развиваю свою медийку и агентство, продюсирую соцсети экспертов и бизнесов, а также <strong>помогаю десяткам ребят расти.</strong></p><div class="s-logo">11</div></div></div>
+            <div class="card-3d"><div class="card-img-container"><img src="https://images.unsplash.com/photo-1506784375835-5e90dac96be2?q=80&w=800&auto=format&fit=crop" alt="Ваня Паскаль 12" class="card-img" loading="lazy"></div><div class="card-body" style="justify-content: center;"><p class="story-quote">В моей истории нет красивой сказки — только <strong>сложный путь</strong> в несколько лет. Если ты дочитал до конца, вот мой совет:</p><div class="s-logo">12</div></div></div>
+            <div class="card-3d" style="background: #FA2D1A;">
+                <div class="card-body" style="justify-content: center; height: 100%; color: white; padding-top: 60px !important;">
+                    <h2 style="font-weight:900; font-size: 2.2rem; text-transform:uppercase; margin-bottom: 30px; text-align: center; color: white;">Совет</h2>
+                    <p style="color: white; font-family: 'Caveat'; font-size: 2.5rem; transform: rotate(-2deg); line-height: 1.1; text-align: center; font-weight: normal; margin-top: 10px;">
+                        "Хотя бы раз в жизни включи голову, и используй свои возможности на максимум."
+                    </p>
+                    <div class="s-logo" style="border-color: rgba(255,255,255,0.3); color: white; margin-top: 60px;">13</div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </section>
 
-<div class="folder-bridge reveal">
-    <div class="mac-folder-realistic" onclick="document.getElementById('tariffs').scrollIntoView({behavior: 'smooth'});">
-        <div class="folder-back-shape"></div>
-        <div class="folder-cards">
-            <div class="folder-file-card card-1"><div class="file-card-inner" style="background: linear-gradient(135deg, hsl(214 99% 33%), hsl(214 99% 25%));"><div class="file-card-stripe"></div><div class="file-card-stripe" style="width: 50%; margin-top: 6px;"></div><span class="file-card-label">Креативность</span></div></div>
-            <div class="folder-file-card card-2"><div class="file-card-inner" style="background: linear-gradient(135deg, hsl(351 100% 45%), hsl(351 100% 35%));"><div class="file-card-grid"></div><span class="file-card-label">Монтаж</span></div></div>
-            <div class="folder-file-card card-3"><div class="file-card-inner" style="background: linear-gradient(135deg, hsl(160 84% 39%), hsl(160 84% 30%));"><div class="file-card-stripe" style="opacity: 0.4;"></div><span class="file-card-label">Личный бренд</span></div></div>
+    <section class="modules-section" id="modules">
+        <div class="modules-header reveal">
+            <h2>Коротко о том, что я спрятал в core.</h2>
         </div>
-        <div class="folder-front-shape"></div>
-    </div>
-</div>
 
-<div class="vsl-section">
-    <div style="max-width: 1000px; margin: 0 auto;">
-        <h2 class="vsl-headline" id="vsl-blur-title">Внимание — суперсила 21 века</h2>
-        <p class="vsl-subhead reveal">Если ты умеешь удерживать внимание и конвертировать его в ₽₽₽ — ты автоматически богат.</p>
-<div class="video-box reveal" style="border-radius: 32px; overflow: hidden;">
-    <video id="player" playsinline controls data-poster="assets/preview.jpg">
-        <source src="assets/Videos/VSL 1.mp4" type="video/mp4" />
-    </video>
-</div>
+        <div class="modules-grid stagger-container">
+            <div class="module-card stagger-item">
+                <div class="m-cover c1">
+                    <div class="m-cover-text">creators<br>mindset</div>
+                </div>
+                <div class="m-info">
+                    <div class="m-duration">
+                        <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        4 часа
+                    </div>
+                    <h3 class="m-title">Модуль 1. Креативность</h3>
+                    <p class="m-desc">90% успеха ролика зависят от идеи и сценария. Научись писать удерживающие сценарии, делать продающие воронки и мыслить как автор, который играет вдолгую.</p>
+                </div>
+            </div>
 
-</div>
+            <div class="module-card stagger-item">
+                <div class="m-cover c2">
+                    <div class="m-cover-text">CONTENT</div>
+                </div>
+                <div class="m-info">
+                    <div class="m-duration">
+                        <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        3 часа
+                    </div>
+                    <h3 class="m-title">Модуль 2. Съемка</h3>
+                    <p class="m-desc">Ты перестанешь жаловать на "плохую камеру" и начнёшь управлять вниманием : светом, глубиной, движением, паузой. Разберёшься, как даже на микроволновке делать красивую картинку.</p>
+                </div>
+            </div>
 
+            <div class="module-card stagger-item">
+                <div class="m-cover c3">
+                    <div class="m-cover-text">CREATORS<br>TOOLKIT</div>
+                </div>
+                <div class="m-info">
+                    <div class="m-duration">
+                        <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        7 часов
+                    </div>
+                    <h3 class="m-title">Модуль 3. Монтаж</h3>
+                    <p class="m-desc">Ты научишься монтировать так, чтобы зрители досматривали, пересматривали и покупали. Отлично прокачает навыки новичков, и будет полезен уже умелым монтажерам.</p>
+                </div>
+            </div>
 
-        <a href="#tariffs" class="btn-outline btn-buy reveal">Получить core.</a>
-    </div>
-</div>
+            <div class="module-card stagger-item">
+                <div class="m-cover c4">
+                    <div class="m-cover-text">sound<br>space</div>
+                </div>
+                <div class="m-info">
+                    <div class="m-duration">
+                        <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        2 часа
+                    </div>
+                    <h3 class="m-title">Модуль 4. Саунд-дизайн</h3>
+                    <p class="m-desc">Просто музыка на фоне уже не работает. Ты поймёшь, как работать с паузами, эффектами и музыкой так, чтобы контент ощущался дорого и профессионально.</p>
+                </div>
+            </div>
 
-<section class="story-section-new reveal" id="table-of-contents">
-    
-    <div class="nav-container-3d">
-        <button class="nav-btn-3d" onclick="move3D(-1)">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-        </button>
-        <button class="nav-btn-3d" onclick="move3D(1)">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-        </button>
-    </div>
+            <div class="module-card stagger-item">
+                <div class="m-cover c5">
+                    <div class="m-cover-text">personal<br>brand</div>
+                </div>
+                <div class="m-info">
+                    <div class="m-duration">
+                        <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        10 часов
+                    </div>
+                    <h3 class="m-title">Модуль 5. Личный бренд</h3>
+                    <p class="m-desc">Это не про аватарку в пиджаке и 3 сториса с кофе. Это чёткая позиция, ценности и постоянная коммуникация. Я научу тебя выстраивать образ, которому доверяют и у которого покупают.</p>
+                </div>
+            </div>
 
-    <!-- МАСЛЯНЫЙ СВАЙП-СЛАЙДЕР С КОНТРАСТНЫМ ТЕКСТОМ -->
-    <div class="track-3d" id="track3d">
-        <!-- Слайды... -->
-        <div class="card-3d active">
-            <div class="card-img-container"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=800&auto=format&fit=crop" class="card-img"></div>
-            <div class="black-bar"><h2>Ваня Паскаль</h2></div>
-            <div class="card-body" style="text-align: center !important;">
-                <div class="slider-stats">
-                    <div class="s-item"><div class="s-pill">400.000₽</div><div class="s-script">личный доход</div></div>
-                    <div class="s-item"><div class="s-pill">50+</div><div class="s-script">довольных учеников</div></div>
-                    <div class="s-item"><div class="s-pill">3 года</div><div class="s-script">создаю контент</div></div>
-                    <div class="s-item">
-                        <div class="s-pill" style="display:flex; justify-content:center; align-items:center; gap:4px;">
-                            10.000
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            <div class="module-card stagger-item">
+                <div class="m-cover c6">
+                    <div class="m-cover-text">GROWTH</div>
+                </div>
+                <div class="m-info">
+                    <div class="m-duration">
+                        <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        5 часов
+                    </div>
+                    <h3 class="m-title">Модуль 6. Первые ₽$€</h3>
+                    <p class="m-desc">Ты получишь структуру выхода на рынок: где искать клиентов, как вести диалог и грамотно закрывать сделки. И сможешь обогнать 95% "конкурентов", просто за счет правильного подхода.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="modules-grid bonus-grid stagger-container">
+            <div class="bonus-card-wrap stagger-item">
+                <div class="m-cover c2" style="background: radial-gradient(circle at center, #900000 0%, #300000 100%);">
+                    <div class="m-cover-text" style="font-family: 'Caveat', cursive; font-size: 4rem; transform: rotate(-4deg); text-transform: none; font-style: normal; color: white; font-weight: 700;">* бонус *</div>
+                </div>
+                <div class="m-info">
+                    <div class="m-duration" style="color: var(--accent);">
+                        <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        Подарок
+                    </div>
+                    <h3 class="m-title" style="color: var(--blue-bright);">Алгоритм на первые 100.000₽</h3>
+                    <p class="m-desc">В подарок ко всему, я дам тебе пошаговый алгоритм: от выбора ниши и упаковки до клиентов и масштабирования дохода.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- СЕКЦИЯ ОТЗЫВОВ -->
+    <section class="reviews-section">
+        <h2 class="reviews-headline reveal">Они доверили мне свою экспертность, и вот что вышло :</h2>
+        <div class="grid-reviews stagger-container">
+            <div class="review-item stagger-item">
+                <div class="card-inner">
+                    <div class="side side-front">
+                        <!-- Добавлены alt и loading="lazy" -->
+                        <div class="rev-img"><img src="assets/Софа1.jpg" alt="Отзыв Софы" loading="lazy"></div>
+                        <div class="rev-info">
+                            <div class="rev-name-box"><h3>Софа</h3><p>21 год / @Sofik0</p></div>
+                            <div class="rev-income">120.000₽</div>
                         </div>
-                        <div class="s-script">в личных каналах</div>
+                    </div>
+                    <div class="side side-back" style="--rev-bg: url('assets/Софа1.jpg');">
+                        <div class="back-content">
+                            <h4>Результат</h4>
+                            <p>За первый месяц обучения взяла в работу на контент-продюсирование крупного эксперта в TG с оффером на 120.000₽. Купила новый 17 pro max.</p>
+                            <div class="tg-user">@Sofik0</div>
+                        </div>
                     </div>
                 </div>
-                <p style="font-size: 1.15rem; color: var(--black); font-weight: 500; margin-bottom: auto; margin-top: 15px;">Но хочу, чтобы ты знал — <br><strong>я абсолютно такой же, как и ты.</strong></p>
-                <div class="s-logo">01</div>
             </div>
-        </div>
-        <div class="card-3d"><div class="card-img-container"><img src="https://images.unsplash.com/photo-1518331483807-f642f1f96966?q=80&w=800&auto=format&fit=crop" class="card-img"></div><div class="card-body" style="justify-content: center;"><p class="story-quote">У меня нет богатых родителей и лишних денег. Был только план: <strong>11 лет школы, 4 года в вузе, работа и пенсия в 75.</strong></p><div class="s-logo">02</div></div></div>
-        <div class="card-3d"><div class="card-img-container"><img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop" class="card-img"></div><div class="card-body" style="justify-content: center;"><p class="story-quote">Но я очень <strong>хотел помочь маме</strong>, видя, как она усердно работает. Поэтому с ранних лет понимал, что надо как-то выкручиваться.</p><div class="s-logo">03</div></div></div>
-        <div class="card-3d"><div class="card-img-container"><img src="https://images.unsplash.com/photo-1622630997505-1c5c10557253?q=80&w=800&auto=format&fit=crop" class="card-img"></div><div class="card-body" style="justify-content: center;"><p class="story-quote">С 2023 года я начал свой <strong>путь к 30к/мес</strong>. Был менеджером, закупщиком в TG, продавал кроссовки и перепродавал Айфоны.</p><div class="s-logo">04</div></div></div>
-        <div class="card-3d"><div class="card-img-container"><img src="https://images.unsplash.com/photo-1506784375835-5e90dac96be2?q=80&w=800&auto=format&fit=crop" class="card-img"></div><div class="card-body" style="justify-content: center;"><p class="story-quote">Делал превью и писал сценарии. И лишь к концу 23 года я понял, что мне <strong>реально приносит удовольствие...</strong></p><div class="s-logo">05</div></div></div>
-        <div class="card-3d"><div class="card-img-container"><img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=800&auto=format&fit=crop" class="card-img"></div><div class="card-body" style="justify-content: center;"><p class="story-quote" style="font-size: 2.5rem; font-weight: 900; text-align: center; color: var(--accent); margin-top: auto; margin-bottom: auto; background: none; padding: 0;">Монтаж роликов</p><div class="s-logo">06</div></div></div>
-        <div class="card-3d"><div class="card-img-container"><img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=800&auto=format&fit=crop" class="card-img"></div><div class="card-body" style="justify-content: center;"><p class="story-quote">У меня не было крупных проектов, но даже работа с ноунеймами смогла вывести меня на <strong>первые 100к/месяц</strong>. Чему я был безумно рад!</p><div class="s-logo">07</div></div></div>
-        <div class="card-3d"><div class="card-img-container"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=800&auto=format&fit=crop" class="card-img"></div><div class="card-body" style="justify-content: center;"><p class="story-quote">Но вскоре я <strong>уперся в потолок</strong>: искать клиентов сложнее, качество не растет, а чек стоит на месте. Я понял, что надо что-то менять.</p><div class="s-logo">08</div></div></div>
-        <div class="card-3d"><div class="card-img-container"><img src="https://images.unsplash.com/photo-1518331483807-f642f1f96966?q=80&w=800&auto=format&fit=crop" class="card-img"></div><div class="card-body" style="justify-content: center;"><p class="story-quote">В конце 2024 года я познакомился с запусками. Эта профессия объединила всё, что я любил: <strong>креативность, монтаж, съемку и продажи.</strong></p><div class="s-logo">09</div></div></div>
-        <div class="card-3d"><div class="card-img-container"><img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop" class="card-img"></div><div class="card-body" style="justify-content: center;"><p class="story-quote">Именно тогда я начал сотрудничать с крупными клиентами, и именно тогда пошли <strong>первые реально хорошие деньги.</strong></p><div class="s-logo">10</div></div></div>
-        <div class="card-3d"><div class="card-img-container"><img src="https://images.unsplash.com/photo-1622630997505-1c5c10557253?q=80&w=800&auto=format&fit=crop" class="card-img"></div><div class="card-body" style="justify-content: center;"><p class="story-quote">Сейчас я развиваю свою медийку и агентство, продюсирую соцсети экспертов и бизнесов, а также <strong>помогаю десяткам ребят расти.</strong></p><div class="s-logo">11</div></div></div>
-        <div class="card-3d"><div class="card-img-container"><img src="https://images.unsplash.com/photo-1506784375835-5e90dac96be2?q=80&w=800&auto=format&fit=crop" class="card-img"></div><div class="card-body" style="justify-content: center;"><p class="story-quote">В моей истории нет красивой сказки — только <strong>сложный путь</strong> в несколько лет. Если ты дочитал до конца, вот мой совет:</p><div class="s-logo">12</div></div></div>
-        <div class="card-3d" style="background: #FA2D1A;">
-            <div class="card-body" style="justify-content: center; height: 100%; color: white; padding-top: 60px !important;">
-                <h2 style="font-weight:900; font-size: 2.2rem; text-transform:uppercase; margin-bottom: 30px; text-align: center; color: white;">Совет</h2>
-                <p style="color: white; font-family: 'Caveat'; font-size: 2.5rem; transform: rotate(-2deg); line-height: 1.1; text-align: center; font-weight: normal; margin-top: 10px;">
-                    "Хотя бы раз в жизни включи голову, и используй свои возможности на максимум."
-                </p>
-                <div class="s-logo" style="border-color: rgba(255,255,255,0.3); color: white; margin-top: 60px;">13</div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="modules-section" id="modules">
-    <div class="modules-header reveal">
-        <h2>Коротко о том, что я спрятал в core.</h2>
-    </div>
-
-    <div class="modules-grid stagger-container">
-        <div class="module-card stagger-item">
-            <div class="m-cover c1">
-                <div class="m-cover-text">creators<br>mindset</div>
-            </div>
-            <div class="m-info">
-                <div class="m-duration">
-                    <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                    4 часа
-                </div>
-                <h3 class="m-title">Модуль 1. Креативность</h3>
-                <p class="m-desc">90% успеха ролика зависят от идеи и сценария. Научись писать удерживающие сценарии, делать продающие воронки и мыслить как автор, который играет вдолгую.</p>
-            </div>
-        </div>
-
-        <div class="module-card stagger-item">
-            <div class="m-cover c2">
-                <div class="m-cover-text">CONTENT</div>
-            </div>
-            <div class="m-info">
-                <div class="m-duration">
-                    <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                    3 часа
-                </div>
-                <h3 class="m-title">Модуль 2. Съемка</h3>
-                <p class="m-desc">Ты перестанешь жаловать на "плохую камеру" и начнёшь управлять вниманием : светом, глубиной, движением, паузой. Разберёшься, как даже на микроволновке делать красивую картинку.</p>
-            </div>
-        </div>
-
-        <div class="module-card stagger-item">
-            <div class="m-cover c3">
-                <div class="m-cover-text">CREATORS<br>TOOLKIT</div>
-            </div>
-            <div class="m-info">
-                <div class="m-duration">
-                    <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                    7 часов
-                </div>
-                <h3 class="m-title">Модуль 3. Монтаж</h3>
-                <p class="m-desc">Ты научишься монтировать так, чтобы зрители досматривали, пересматривали и покупали. Отлично прокачает навыки новичков, и будет полезен уже умелым монтажерам.</p>
-            </div>
-        </div>
-
-        <div class="module-card stagger-item">
-            <div class="m-cover c4">
-                <div class="m-cover-text">sound<br>space</div>
-            </div>
-            <div class="m-info">
-                <div class="m-duration">
-                    <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                    2 часа
-                </div>
-                <h3 class="m-title">Модуль 4. Саунд-дизайн</h3>
-                <p class="m-desc">Просто музыка на фоне уже не работает. Ты поймёшь, как работать с паузами, эффектами и музыкой так, чтобы контент ощущался дорого и профессионально.</p>
-            </div>
-        </div>
-
-        <div class="module-card stagger-item">
-            <div class="m-cover c5">
-                <div class="m-cover-text">personal<br>brand</div>
-            </div>
-            <div class="m-info">
-                <div class="m-duration">
-                    <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                    10 часов
-                </div>
-                <h3 class="m-title">Модуль 5. Личный бренд</h3>
-                <p class="m-desc">Это не про аватарку в пиджаке и 3 сториса с кофе. Это чёткая позиция, ценности и постоянная коммуникация. Я научу тебя выстраивать образ, которому доверяют и у которого покупают.</p>
-            </div>
-        </div>
-
-        <div class="module-card stagger-item">
-            <div class="m-cover c6">
-                <div class="m-cover-text">GROWTH</div>
-            </div>
-            <div class="m-info">
-                <div class="m-duration">
-                    <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                    5 часов
-                </div>
-                <h3 class="m-title">Модуль 6. Первые ₽$€</h3>
-                <p class="m-desc">Ты получишь структуру выхода на рынок: где искать клиентов, как вести диалог и грамотно закрывать сделки. И сможешь обогнать 95% "конкурентов", просто за счет правильного подхода.</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- БОНУС ТОЖЕ ВКЛЮЧАЕТСЯ В КАСКАД -->
-    <div class="modules-grid bonus-grid stagger-container">
-        <div class="bonus-card-wrap stagger-item">
-            <div class="m-cover c2" style="background: radial-gradient(circle at center, #900000 0%, #300000 100%);">
-                <div class="m-cover-text" style="font-family: 'Caveat', cursive; font-size: 4rem; transform: rotate(-4deg); text-transform: none; font-style: normal; color: white; font-weight: 700;">* бонус *</div>
-            </div>
-            <div class="m-info">
-                <div class="m-duration" style="color: var(--accent);">
-                    <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                    Подарок
-                </div>
-                <h3 class="m-title" style="color: var(--blue-bright);">Алгоритм на первые 100.000₽</h3>
-                <p class="m-desc">В подарок ко всему, я дам тебе пошаговый алгоритм: от выбора ниши и упаковки до клиентов и масштабирования дохода.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- СЕКЦИЯ ОТЗЫВОВ -->
-<section class="reviews-section">
-    <h2 class="reviews-headline reveal">Они доверили мне свою экспертность, и вот что вышло :</h2>
-    <!-- КОНТЕЙНЕР ДЛЯ КАСКАДНОГО ПОЯВЛЕНИЯ КАРТОЧЕК ОТЗЫВОВ -->
-    <div class="grid-reviews stagger-container">
-        <div class="review-item stagger-item">
-            <div class="card-inner">
-                <div class="side side-front">
-                    <div class="rev-img"><img src="assets/Софа1.jpg"></div>
-                    <div class="rev-info">
-                        <div class="rev-name-box"><h3>Софа</h3><p>21 год / @Sofik0</p></div>
-                        <div class="rev-income">120.000₽</div>
+            <div class="review-item stagger-item">
+                <div class="card-inner">
+                    <div class="side side-front">
+                        <div class="rev-img"><img src="assets/Влад1.jpg" alt="Отзыв Влада" loading="lazy"></div>
+                        <div class="rev-info">
+                            <div class="rev-name-box"><h3>Влад</h3><p>18 лет / @Iw1ns</p></div>
+                            <div class="rev-income">80.000₽</div>
+                        </div>
+                    </div>
+                    <div class="side side-back" style="--rev-bg: url('assets/Влад1.jpg');">
+                        <div class="back-content">
+                            <h4>Результат</h4>
+                            <p>С нуля за 2 месяца дошел до прайса 4.000₽ за видео. Работает с бизнесами (пекарня и пиццерия), делает по 10 роликов в месяц.</p>
+                            <div class="tg-user">@Iw1ns</div>
+                        </div>
                     </div>
                 </div>
-                <div class="side side-back" style="--rev-bg: url('assets/Софа1.jpg');">
-                    <div class="back-content">
-                        <h4>Результат</h4>
-                        <p>За первый месяц обучения взяла в работу на контент-продюсирование крупного эксперта в TG с оффером на 120.000₽. Купила новый 17 pro max.</p>
-                        <div class="tg-user">@Sofik0</div>
+            </div>
+            <div class="review-item stagger-item">
+                <div class="card-inner">
+                    <div class="side side-front">
+                        <div class="rev-img"><img src="assets/Аня1.jpg" alt="Отзыв Ани" loading="lazy"></div>
+                        <div class="rev-info">
+                            <div class="rev-name-box"><h3>Аня</h3><p>19 лет / @wswktww</p></div>
+                            <div class="rev-income">105.000₽</div>
+                        </div>
+                    </div>
+                    <div class="side side-back" style="--rev-bg: url('assets/Аня1.jpg');">
+                        <div class="back-content">
+                            <h4>Результат</h4>
+                            <p>Устроилась SMM в магазин танцевальных платьев (60к + KPI). Дополнительно монтирует reels для интервьюера (3к/ролик).</p>
+                            <div class="tg-user">@wswktww</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="review-item stagger-item">
+                <div class="card-inner">
+                    <div class="side side-front">
+                        <div class="rev-img"><img src="assets/Даня1.jpg" alt="Отзыв Дани" loading="lazy"></div>
+                        <div class="rev-info">
+                            <div class="rev-name-box"><h3>Даня</h3><p>18 лет / @Usaund</p></div>
+                            <div class="rev-income">150.000₽</div>
+                        </div>
+                    </div>
+                    <div class="side side-back" style="--rev-bg: url('assets/Даня1.jpg');">
+                        <div class="back-content">
+                            <h4>Результат</h4>
+                            <p>За 2 месяца залил +15.000 нового трафика с TikTok-видео в свой канал тематики одежды. Освоил сценарии и монтаж.</p>
+                            <div class="tg-user">@Usaund</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="review-item stagger-item">
+                <div class="card-inner">
+                    <div class="side side-front">
+                        <div class="rev-img"><img src="assets/Ваня1.jpg" alt="Отзыв Вани" loading="lazy"></div>
+                        <div class="rev-info">
+                            <div class="rev-name-box"><h3>Ваня</h3><p>16 лет / @Ively69</p></div>
+                            <div class="rev-income">45.000₽</div>
+                        </div>
+                    </div>
+                    <div class="side side-back" style="--rev-bg: url('assets/Ваня1.jpg');">
+                        <div class="back-content">
+                            <h4>Результат</h4>
+                            <p>За 2 месяца обучился монтажу с нуля и устроился в агентство монтажером, где получает по 1.500₽ за каждый ролик.</p>
+                            <div class="tg-user">@Ively69</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="review-item stagger-item">
+                <div class="card-inner">
+                    <div class="side side-front">
+                        <div class="rev-img"><img src="assets/Тим1.JPG" alt="Отзыв Тима" loading="lazy"></div>
+                        <div class="rev-info">
+                            <div class="rev-name-box"><h3>Тим</h3><p>21 год / @silagod</p></div>
+                            <div class="rev-income">120.000₽</div>
+                        </div>
+                    </div>
+                    <div class="side side-back" style="--rev-bg: url('assets/Тим1.JPG');">
+                        <div class="back-content">
+                            <h4>Результат</h4>
+                            <p>Устроился оператором в студию подкастов (60к) и дополнительно монтирует выпуски (20к/шт) параллельно с учебой.</p>
+                            <div class="tg-user">@silagod</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="review-item stagger-item">
-            <div class="card-inner">
-                <div class="side side-front">
-                    <div class="rev-img"><img src="assets/Влад1.jpg"></div>
-                    <div class="rev-info">
-                        <div class="rev-name-box"><h3>Влад</h3><p>18 лет / @Iw1ns</p></div>
-                        <div class="rev-income">80.000₽</div>
+
+        <div class="reviews-footer">
+            <a href="https://t.me/ТВОЙ_КАНАЛ" target="_blank" class="btn-outline reveal">Все отзывы</a>
+        </div>
+    </section>
+
+    <!-- SECTION: TARIFFS -->
+    <section class="new-section" id="tariffs">
+        <div class="section-subtitle-small reveal">все что тебе нужно — здесь</div>
+        <h2 class="section-title-center reveal">Выбери что подойдет<br>именно тебе</h2>
+        
+        <div class="tariffs-grid stagger-container">
+
+            <!-- TARIFF 1 -->
+            <div class="tariff-card stagger-item">
+                <div class="t-header-box">
+                    <div class="t-header-title">Тариф</div>
+                    <div class="t-header-name">core.</div>
+                </div>
+
+                <div class="t-section">
+                    <!-- Заменены h4 на h3 для правильной иерархии заголовков (Accessibility) -->
+                    <h3 class="t-section-title">Содержание:</h3>
+                    <ul class="t-list">
+                        <li>Модуль 1. Креативность</li>
+                        <li>Модуль 2. Съемка</li>
+                        <li>Модуль 3. Монтаж</li>
+                        <li>Модуль 4. Саунд-дизайн</li>
+                        <li class="crossed">Модуль 5. Первые деньги</li>
+                        <li class="crossed">Модуль 6. Личный бренд</li>
+                    </ul>
+                </div>
+
+                <hr class="t-divider">
+
+                <div class="t-section">
+                    <h3 class="t-section-title">Что внутри?</h3>
+                    <ul class="t-list-icons">
+                        <li><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div> <span>Доступ к материалам 12 месяцев</span></li>
+                        <li><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div> <span>Общий чат учеников</span></li>
+                        <li><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div> <span>Поддержка и проверка ДЗ</span></li>
+                        <li class="crossed"><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div> <span>Эфиры с разборов участников</span></li>
+                        <li class="crossed"><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div> <span>Алгоритм на 100.000₽/мес</span></li>
+                    </ul>
+                </div>
+                
+                <a href="#" class="btn-tariff"><span class="btn-arrow">></span> Получить систему</a>
+            </div>
+
+            <!-- TARIFF 2 -->
+            <div class="tariff-card popular stagger-item">
+                <div class="t-header-box">
+                    <div class="t-header-title">Тариф</div>
+                    <div class="t-header-name">core+</div>
+                    <div class="tariff-badge">Самый популярный</div>
+                </div>
+
+                <div class="t-section">
+                    <h3 class="t-section-title">Содержание:</h3>
+                    <ul class="t-list">
+                        <li>Модуль 1. Креативность</li>
+                        <li>Модуль 2. Съемка</li>
+                        <li>Модуль 3. Монтаж</li>
+                        <li>Модуль 4. Саунд-дизайн</li>
+                        <li>Модуль 5. Первые деньги</li>
+                        <li>Модуль 6. Личный бренд</li>
+                    </ul>
+                </div>
+
+                <hr class="t-divider">
+
+                <div class="t-section">
+                    <h3 class="t-section-title">Что внутри?</h3>
+                    <ul class="t-list-icons">
+                        <li><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div> <span>Доступ к материалам 12 месяцев</span></li>
+                        <li><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div> <span>Общий чат учеников</span></li>
+                        <li><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div> <span>Поддержка и проверка ДЗ</span></li>
+                        <li><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div> <span>Эфиры с разборов участников</span></li>
+                        <li><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div> <span>Алгоритм на 100.000₽/мес</span></li>
+                    </ul>
+                </div> 
+                
+                <a href="#" class="btn-tariff"><span class="btn-arrow">></span> Получить систему</a>
+            </div>
+
+            <!-- TARIFF 3 -->
+            <div class="tariff-card mentor stagger-item">
+                <div class="t-header-box">
+                    <div class="t-header-title">Тариф</div>
+                    <div class="t-header-name">Менторство</div>
+                    <div class="tariff-badge" style="background: white; color: var(--blue-bright);">Места ограничены</div>
+                </div>
+
+                <div class="t-section">
+                    <h3 class="t-section-title">Содержание:</h3>
+                    <ul class="t-list">
+                        <li>Личная работа 2 месяца</li>
+                        <li>Работа до результата</li>
+                        <li>от 10 личных созвонов</li>
+                        <li>Гарантия трудоустройства</li>
+                    </ul>
+                </div>
+
+                <hr class="t-divider">
+
+                <div class="t-section">
+                    <h3 class="t-section-title">Что внутри?</h3>
+                    <ul class="t-list-icons">
+                        <li><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div> <span>Вечный доступ в core.plus</span></li>
+                        <li><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div> <span>Вечный доступ к моей личке</span></li>
+                        <li><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div> <span>Работаем до результата</span></li>
+                    </ul>
+                </div>
+                
+                <a href="#" class="btn-tariff"><span class="btn-arrow">></span> Зайти на менторство</a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- NEW SECTION: ZIG-ZAG TARGET AUDIENCE -->
+    <section class="new-section">
+        <h2 class="section-title-center reveal">Кому подойдет core.</h2>
+        <div class="zig-zag-wrapper">
+            <div class="zig-zag-row reveal">
+                <div class="zig-zag-content">
+                    <h3 class="zz-title">Фрилансерам.</h3>
+                    <p class="zz-desc">Новичкам в контент-продюсировании или действующим фрилансерам. <br><br>Идеально, если ты хочешь <strong>приумножить доход</strong>, масштабироваться и перестать работать за копейки.</p>
+                </div>
+                <div class="zig-zag-visual">
+                    <!-- Добавлен loading="lazy" (Performance) -->
+                    <div class="visual-placeholder"><img src="https://images.unsplash.com/photo-1626785774573-4b7993143a4d?q=80&w=800&auto=format&fit=crop" alt="Фрилансер" loading="lazy"></div>
+                </div>
+            </div>
+            <div class="zig-zag-row reverse reveal">
+                <div class="zig-zag-content">
+                    <h3 class="zz-title">Инфлюенсерам.</h3>
+                    <p class="zz-desc">Если ты уже снимаешь, но не получаешь желаемых просмотров.<br><br>Мы построим систему, которая поможет <strong>монетизировать творчество</strong> и превратить лайки в деньги.</p>
+                </div>
+                <div class="zig-zag-visual">
+                    <!-- Добавлен loading="lazy" (Performance) -->
+                    <div class="visual-placeholder"><img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=800&auto=format&fit=crop" alt="Инфлюенсер" loading="lazy"></div>
+                </div>
+            </div>
+            <div class="zig-zag-row reveal">
+                <div class="zig-zag-content">
+                    <h3 class="zz-title">Предпринимателям.</h3>
+                    <p class="zz-desc">Перестань сливать бюджет на таргетологов.<br><br>Начни приводить <strong>новых покупателей</strong> органически через длинный и короткий контент, который работает 24/7.</p>
+                </div>
+                <div class="zig-zag-visual">
+                    <!-- Добавлен loading="lazy" (Performance) -->
+                    <div class="visual-placeholder"><img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=800&auto=format&fit=crop" alt="Предприниматель" loading="lazy"></div>
+                </div>
+            </div>
+            <div class="zig-zag-row reverse reveal">
+                <div class="zig-zag-content">
+                    <h3 class="zz-title">Экспертам.</h3>
+                    <p class="zz-desc">Твердый личный бренд — это актив.<br><br>Привлекай лояльную аудиторию и <strong>продавай свои знания</strong> дорого через инфопродукты и наставничество.</p>
+                </div>
+                <div class="zig-zag-visual">
+                    <!-- Добавлен loading="lazy" (Performance) -->
+                    <div class="visual-placeholder"><img src="https://images.unsplash.com/photo-1542626991-cbc4e32524cc?q=80&w=800&auto=format&fit=crop" alt="Эксперт" loading="lazy"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW SECTION: FAQ -->
+    <section class="new-section">
+        <div class="section-subtitle-small reveal">Все что нужно знать перед началом</div>
+        <h2 class="section-title-center reveal">Частые вопросы</h2>
+        
+        <div class="faq-grid-2col stagger-container">
+            <div class="faq-col">
+                <div class="faq-item-modern stagger-item">
+                    <div class="faq-question-modern">
+                        Можно ли совмещать с работой?
+                        <svg class="faq-icon-modern" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </div>
+                    <div class="faq-answer-modern"><p>Да, материалы подстроены под рутину. При полном погружении нужно не более 1-2 часов в день.</p></div>
                 </div>
-                <div class="side side-back" style="--rev-bg: url('assets/Влад1.jpg');">
-                    <div class="back-content">
-                        <h4>Результат</h4>
-                        <p>С нуля за 2 месяца дошел до прайса 4.000₽ за видео. Работает с бизнесами (пекарня и пиццерия), делает по 10 роликов в месяц.</p>
-                        <div class="tg-user">@Iw1ns</div>
+                <div class="faq-item-modern stagger-item" style="margin-top: 20px;">
+                    <div class="faq-question-modern">
+                        Нужно ли дорогое оборудование?
+                        <svg class="faq-icon-modern" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </div>
+                    <div class="faq-answer-modern"><p>Нет. Я начинал с простого ноутбука и iPhone X. Можно стартовать с тем, что есть.</p></div>
                 </div>
-            </div>
-        </div>
-        <div class="review-item stagger-item">
-            <div class="card-inner">
-                <div class="side side-front">
-                    <div class="rev-img"><img src="assets/Аня1.jpg"></div>
-                    <div class="rev-info">
-                        <div class="rev-name-box"><h3>Аня</h3><p>19 лет / @wswktww</p></div>
-                        <div class="rev-income">105.000₽</div>
+                <div class="faq-item-modern stagger-item" style="margin-top: 20px;">
+                    <div class="faq-question-modern">
+                        Как происходит оплата?
+                        <svg class="faq-icon-modern" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </div>
+                    <div class="faq-answer-modern"><p>Официально, с чеками. Возможна оплата частями (Сплит, Банки), а также возврат средств.</p></div>
                 </div>
-                <div class="side side-back" style="--rev-bg: url('assets/Аня1.jpg');">
-                    <div class="back-content">
-                        <h4>Результат</h4>
-                        <p>Устроилась SMM в магазин танцевальных платьев (60к + KPI). Дополнительно монтирует reels для интервьюера (3к/ролик).</p>
-                        <div class="tg-user">@wswktww</div>
+            </div>
+
+            <div class="faq-col">
+                <div class="faq-item-modern stagger-item">
+                    <div class="faq-question-modern">
+                        Как быстро окупить core.?
+                        <svg class="faq-icon-modern" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </div>
+                    <div class="faq-answer-modern"><p>Выполняй ДЗ вовремя. После теории мы сразу переходим к поиску первых платных заказов.</p></div>
                 </div>
-            </div>
-        </div>
-        <div class="review-item stagger-item">
-            <div class="card-inner">
-                <div class="side side-front">
-                    <div class="rev-img"><img src="assets/Даня1.jpg"></div>
-                    <div class="rev-info">
-                        <div class="rev-name-box"><h3>Даня</h3><p>18 лет / @Usaund</p></div>
-                        <div class="rev-income">150.000₽</div>
+                <div class="faq-item-modern stagger-item" style="margin-top: 20px;">
+                    <div class="faq-question-modern">
+                        Как проходит обучение?
+                        <svg class="faq-icon-modern" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </div>
+                    <div class="faq-answer-modern"><p>Общий чат, закрытый канал с уроками, личный кабинет и куратор для проверки ДЗ.</p></div>
                 </div>
-                <div class="side side-back" style="--rev-bg: url('assets/Даня1.jpg');">
-                    <div class="back-content">
-                        <h4>Результат</h4>
-                        <p>За 2 месяца залил +15.000 нового трафика с TikTok-видео в свой канал тематики одежды. Освоил сценарии и монтаж.</p>
-                        <div class="tg-user">@Usaund</div>
+                <div class="faq-item-modern stagger-item" style="margin-top: 20px;">
+                    <div class="faq-question-modern">
+                        Что делать после курса?
+                        <svg class="faq-icon-modern" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </div>
+                    <div class="faq-answer-modern"><p>Доступ к материалам остается на 12 месяцев. Поддержка в чате выпускников бессрочная.</p></div>
                 </div>
             </div>
         </div>
-        <div class="review-item stagger-item">
-            <div class="card-inner">
-                <div class="side side-front">
-                    <div class="rev-img"><img src="assets/Ваня1.jpg"></div>
-                    <div class="rev-info">
-                        <div class="rev-name-box"><h3>Ваня</h3><p>16 лет / @Ively69</p></div>
-                        <div class="rev-income">45.000₽</div>
-                    </div>
-                </div>
-                <div class="side side-back" style="--rev-bg: url('assets/Ваня1.jpg');">
-                    <div class="back-content">
-                        <h4>Результат</h4>
-                        <p>За 2 месяца обучился монтажу с нуля и устроился в агентство монтажером, где получает по 1.500₽ за каждый ролик.</p>
-                        <div class="tg-user">@Ively69</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="review-item stagger-item">
-            <div class="card-inner">
-                <div class="side side-front">
-                    <div class="rev-img"><img src="assets/Тим1.JPG"></div>
-                    <div class="rev-info">
-                        <div class="rev-name-box"><h3>Тим</h3><p>21 год / @silagod</p></div>
-                        <div class="rev-income">120.000₽</div>
-                    </div>
-                </div>
-                <div class="side side-back" style="--rev-bg: url('assets/Тим1.JPG');">
-                    <div class="back-content">
-                        <h4>Результат</h4>
-                        <p>Устроился оператором в студию подкастов (60к) и дополнительно монтирует выпуски (20к/шт) параллельно с учебой.</p>
-                        <div class="tg-user">@silagod</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="reviews-footer">
-        <a href="https://t.me/ТВОЙ_КАНАЛ" target="_blank" class="btn-outline reveal">Все отзывы</a>
-    </div>
-</section>
-
-<!-- SECTION: TARIFFS (ОБНОВЛЕННАЯ СТРУКТУРА) -->
-<section class="new-section" id="tariffs">
-    <div class="section-subtitle-small reveal">все что тебе нужно — здесь</div>
-    <h2 class="section-title-center reveal">Выбери что подойдет<br>именно тебе</h2>
-    
-    <div class="tariffs-grid stagger-container">
-
-        <!-- TARIFF 1: core. -->
-        <div class="tariff-card stagger-item">
-            <div class="t-header-box">
-                <div class="t-header-title">Тариф</div>
-                <div class="t-header-name">core.</div>
-            </div>
-
-            <div class="t-section">
-                <h4 class="t-section-title">Содержание:</h4>
-                <ul class="t-list">
-                    <li>Модуль 1. Креативность</li>
-                    <li>Модуль 2. Съемка</li>
-                    <li>Модуль 3. Монтаж</li>
-                    <li>Модуль 4. Саунд-дизайн</li>
-                    <li class="crossed">Модуль 5. Первые деньги</li>
-                    <li class="crossed">Модуль 6. Личный бренд</li>
-                </ul>
-            </div>
-
-            <hr class="t-divider">
-
-            <div class="t-section">
-                <h4 class="t-section-title">Что внутри?</h4>
-                <ul class="t-list-icons">
-                    <li><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div> <span>Доступ к материалам 12 месяцев</span></li>
-                    <li><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div> <span>Общий чат учеников</span></li>
-                    <li><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div> <span>Поддержка и проверка ДЗ</span></li>
-                    <li class="crossed"><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div> <span>Эфиры с разборов участников</span></li>
-                    <li class="crossed"><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div> <span>Алгоритм на 100.000₽/мес</span></li>
-                </ul>
-            </div>
-            
-            <a href="#" class="btn-tariff"><span class="btn-arrow">></span> Получить систему</a>
-        </div>
-
-        <!-- TARIFF 2: core+. -->
-        <div class="tariff-card popular stagger-item">
-            <div class="t-header-box">
-                <div class="t-header-title">Тариф</div>
-                <div class="t-header-name">core+</div>
-                <div class="tariff-badge">Самый популярный</div>
-            </div>
-
-            <div class="t-section">
-                <h4 class="t-section-title">Содержание:</h4>
-                <ul class="t-list">
-                    <li>Модуль 1. Креативность</li>
-                    <li>Модуль 2. Съемка</li>
-                    <li>Модуль 3. Монтаж</li>
-                    <li>Модуль 4. Саунд-дизайн</li>
-                    <li>Модуль 5. Первые деньги</li>
-                    <li>Модуль 6. Личный бренд</li>
-                </ul>
-            </div>
-
-            <hr class="t-divider">
-
-            <div class="t-section">
-                <h4 class="t-section-title">Что внутри?</h4>
-                <ul class="t-list-icons">
-                    <li><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div> <span>Доступ к материалам 12 месяцев</span></li>
-                    <li><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div> <span>Общий чат учеников</span></li>
-                    <li><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div> <span>Поддержка и проверка ДЗ</span></li>
-                    <li><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div> <span>Эфиры с разборов участников</span></li>
-                    <li><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div> <span>Алгоритм на 100.000₽/мес</span></li>
-                </ul>
-            </div> 
-            
-            <a href="#" class="btn-tariff"><span class="btn-arrow">></span> Получить систему</a>
-        </div>
-
-        <!-- TARIFF 3: Mentor -->
-        <div class="tariff-card mentor stagger-item">
-            <div class="t-header-box">
-                <div class="t-header-title">Тариф</div>
-                <div class="t-header-name">Менторство</div>
-                <div class="tariff-badge" style="background: white; color: var(--blue-bright);">Места ограничены</div>
-            </div>
-
-            <div class="t-section">
-                <h4 class="t-section-title">Содержание:</h4>
-                <ul class="t-list">
-                    <li>Личная работа 2 месяца</li>
-                    <li>Работа до результата</li>
-                    <li>от 10 личных созвонов</li>
-                    <li>Гарантия трудоустройства</li>
-                </ul>
-            </div>
-
-            <hr class="t-divider">
-
-            <div class="t-section">
-                <h4 class="t-section-title">Что внутри?</h4>
-                <ul class="t-list-icons">
-                    <li><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div> <span>Вечный доступ в core.plus</span></li>
-                    <li><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div> <span>Вечный доступ к моей личке</span></li>
-                    <li><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div> <span>Работаем до результата</span></li>
-                </ul>
-            </div>
-            
-            <a href="#" class="btn-tariff"><span class="btn-arrow">></span> Зайти на менторство</a>
-        </div>
-
-    </div>
-</section>
-
-<!-- NEW SECTION: ZIG-ZAG TARGET AUDIENCE -->
-<section class="new-section">
-    <h2 class="section-title-center reveal">Кому подойдет core.</h2>
-    <div class="zig-zag-wrapper">
-        <!-- Блоки выплывают один за другим по мере скролла -->
-        <div class="zig-zag-row reveal">
-            <div class="zig-zag-content">
-                <h3 class="zz-title">Фрилансерам.</h3>
-                <p class="zz-desc">Новичкам в контент-продюсировании или действующим фрилансерам. <br><br>Идеально, если ты хочешь <strong>приумножить доход</strong>, масштабироваться и перестать работать за копейки.</p>
-            </div>
-            <div class="zig-zag-visual">
-                <div class="visual-placeholder"><img src="https://images.unsplash.com/photo-1626785774573-4b7993143a4d?q=80&w=800&auto=format&fit=crop" alt="Freelance"></div>
-            </div>
-        </div>
-        <div class="zig-zag-row reverse reveal">
-            <div class="zig-zag-content">
-                <h3 class="zz-title">Инфлюенсерам.</h3>
-                <p class="zz-desc">Если ты уже снимаешь, но не получаешь желаемых просмотров.<br><br>Мы построим систему, которая поможет <strong>монетизировать творчество</strong> и превратить лайки в деньги.</p>
-            </div>
-            <div class="zig-zag-visual">
-                <div class="visual-placeholder"><img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=800&auto=format&fit=crop" alt="Influencer"></div>
-            </div>
-        </div>
-        <div class="zig-zag-row reveal">
-            <div class="zig-zag-content">
-                <h3 class="zz-title">Предпринимателям.</h3>
-                <p class="zz-desc">Перестань сливать бюджет на таргетологов.<br><br>Начни приводить <strong>новых покупателей</strong> органически через длинный и короткий контент, который работает 24/7.</p>
-            </div>
-            <div class="zig-zag-visual">
-                <div class="visual-placeholder"><img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=800&auto=format&fit=crop" alt="Business"></div>
-            </div>
-        </div>
-        <div class="zig-zag-row reverse reveal">
-            <div class="zig-zag-content">
-                <h3 class="zz-title">Экспертам.</h3>
-                <p class="zz-desc">Твердый личный бренд — это актив.<br><br>Привлекай лояльную аудиторию и <strong>продавай свои знания</strong> дорого через инфопродукты и наставничество.</p>
-            </div>
-            <div class="zig-zag-visual">
-                <div class="visual-placeholder"><img src="https://images.unsplash.com/photo-1542626991-cbc4e32524cc?q=80&w=800&auto=format&fit=crop" alt="Expert"></div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- NEW SECTION: FAQ -->
-<section class="new-section">
-    <div class="section-subtitle-small reveal">Все что нужно знать перед началом</div>
-    <h2 class="section-title-center reveal">Частые вопросы</h2>
-    
-    <div class="faq-grid-2col stagger-container">
-        <div class="faq-col">
-            <div class="faq-item-modern stagger-item">
-                <div class="faq-question-modern">
-                    Можно ли совмещать с работой?
-                    <svg class="faq-icon-modern" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </div>
-                <div class="faq-answer-modern"><p>Да, материалы подстроены под рутину. При полном погружении нужно не более 1-2 часов в день.</p></div>
-            </div>
-            <div class="faq-item-modern stagger-item" style="margin-top: 20px;">
-                <div class="faq-question-modern">
-                    Нужно ли дорогое оборудование?
-                    <svg class="faq-icon-modern" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </div>
-                <div class="faq-answer-modern"><p>Нет. Я начинал с простого ноутбука и iPhone X. Можно стартовать с тем, что есть.</p></div>
-            </div>
-            <div class="faq-item-modern stagger-item" style="margin-top: 20px;">
-                <div class="faq-question-modern">
-                    Как происходит оплата?
-                    <svg class="faq-icon-modern" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </div>
-                <div class="faq-answer-modern"><p>Официально, с чеками. Возможна оплата частями (Сплит, Банки), а также возврат средств.</p></div>
-            </div>
-        </div>
-
-        <div class="faq-col">
-            <div class="faq-item-modern stagger-item">
-                <div class="faq-question-modern">
-                    Как быстро окупить core.?
-                    <svg class="faq-icon-modern" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </div>
-                <div class="faq-answer-modern"><p>Выполняй ДЗ вовремя. После теории мы сразу переходим к поиску первых платных заказов.</p></div>
-            </div>
-            <div class="faq-item-modern stagger-item" style="margin-top: 20px;">
-                <div class="faq-question-modern">
-                    Как проходит обучение?
-                    <svg class="faq-icon-modern" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </div>
-                <div class="faq-answer-modern"><p>Общий чат, закрытый канал с уроками, личный кабинет и куратор для проверки ДЗ.</p></div>
-            </div>
-            <div class="faq-item-modern stagger-item" style="margin-top: 20px;">
-                <div class="faq-question-modern">
-                    Что делать после курса?
-                    <svg class="faq-icon-modern" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </div>
-                <div class="faq-answer-modern"><p>Доступ к материалам остается на 12 месяцев. Поддержка в чате выпускников бессрочная.</p></div>
-            </div>
-        </div>
-    </div>
-</section>
+    </section>
+</main>
 
 <!-- FOOTER -->
 <footer class="site-footer reveal">
@@ -1458,47 +1416,31 @@
         reviewsObserver.observe(reviewsSection);
     }
 
-
-        // --- УМНАЯ ПАПКА НА МОБИЛКАХ (1 клик - открыть, 2 клик - скролл) ---
+    // --- УМНАЯ ПАПКА НА МОБИЛКАХ ---
     document.addEventListener('DOMContentLoaded', () => {
         const folder = document.querySelector('.mac-folder-realistic');
         if(folder) {
-            // Удаляем старый встроенный onclick, чтобы он не перекидывал сразу
             folder.removeAttribute('onclick');
-            
-            // Назначаем умный клик
             folder.addEventListener('click', function(e) {
-                // Если мы с телефона
                 if (window.innerWidth <= 768) {
-                    // Если папка еще НЕ открыта — просто открываем её (вешаем класс is-open)
                     if (!this.classList.contains('is-open')) {
                         this.classList.add('is-open');
-                        return; // Останавливаем код, скролла не будет
+                        return;
                     }
                 }
-                
-                // Если папка уже открыта ИЛИ мы сидим с компьютера — плавно скроллим к Тарифам
                 document.getElementById('tariffs').scrollIntoView({behavior: 'smooth'});
             });
         }
     });
 
-
-        // --- ПЕРЕВОРОТ КАРТОЧЕК ОТЗЫВОВ ПО ТАПУ НА МОБИЛКЕ ---
+    // --- ПЕРЕВОРОТ КАРТОЧЕК ОТЗЫВОВ ПО ТАПУ НА МОБИЛКЕ ---
     document.addEventListener('DOMContentLoaded', () => {
         const reviewItems = document.querySelectorAll('.review-item');
-
         reviewItems.forEach(item => {
             item.addEventListener('click', function() {
-                // Работает только на мобильных экранах
                 if (window.innerWidth <= 768) {
                     const isFlipped = this.classList.contains('flipped');
-
-                    // 1. Закрываем ВСЕ карточки сразу
                     reviewItems.forEach(card => card.classList.remove('flipped'));
-
-                    // 2. Если карточка до клика была закрыта — открываем её
-                    // (если была открыта, то она просто останется закрытой благодаря шагу 1)
                     if (!isFlipped) {
                         this.classList.add('flipped');
                     }
@@ -1508,24 +1450,20 @@
     });
 
     document.addEventListener('DOMContentLoaded', () => {
-    // Настройки интерфейса
-    const player = new Plyr('#player', {
-        controls: [
-            'play-large', // Большая кнопка в центре
-            'play',       // Кнопка плей снизу
-            'progress',   // Полоса перемотки
-            'current-time', // Время
-            'mute',       // Звук
-            'volume',     // Громкость
-            'fullscreen'  // Весь экран
-        ],
-        ratio: '16:9',
-        youtube: { noCookie: true, rel: 0, showinfo: 0, iv_load_policy: 3, modestbranding: 1 }
+        const player = new Plyr('#player', {
+            controls: [
+                'play-large',
+                'play',       
+                'progress',   
+                'current-time', 
+                'mute',       
+                'volume',     
+                'fullscreen'  
+            ],
+            ratio: '16:9',
+            youtube: { noCookie: true, rel: 0, showinfo: 0, iv_load_policy: 3, modestbranding: 1 }
+        });
     });
-});
-
-
-
 </script>
 </body>
 </html>
