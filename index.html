@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>core.</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=Caveat:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+<script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
+
 <style>
     /* --- 1. ПРЕМИУМ ФУНДАМЕНТ --- */
     @font-face {
@@ -269,33 +272,93 @@
     .folder-back-shape::before { content: ''; position: absolute; bottom: 100%; left: 0; width: 90px; height: 16px; background: var(--folder-back); border-radius: 12px 12px 0 0; }
     .folder-front-shape { position: absolute; bottom: 0; left: 0; width: 100%; height: 90%; background: var(--folder-front); border-radius: 0 0 16px 16px; z-index: 3; transform-origin: bottom; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: inset 0 2px 5px rgba(255,255,255,0.3), 0 -5px 15px rgba(0,0,0,0.1); border-top: 1px solid rgba(255,255,255,0.2); }
     .mac-folder-realistic:hover .folder-front-shape { transform: rotateX(-25deg) scaleY(0.95); }
+    /* --- 6. VSL SECTION (PLIYA + BLUE THEME) --- */
 
-    /* --- 6. VSL SECTION --- */
-    .vsl-section { padding: 60px 20px 80px 20px; text-align: center; position: relative; z-index: 5; }
-    .vsl-headline { font-size: 4rem; font-weight: 900; line-height: 1; letter-spacing: -0.04em; color: var(--blue-bright); margin-bottom: 24px; background: linear-gradient(135deg, #0045A6 0%, #002A66 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .vsl-subhead { font-size: 1.5rem; font-weight: 500; color: #555; line-height: 1.4; margin-bottom: 60px; max-width: 700px; margin-left: auto; margin-right: auto; }
+    :root {
+        /* Устанавливаем цвет кнопок плеера в твой фирменный синий */
+        --plyr-color-main: #0045A6; 
+    }
 
+    .vsl-section { 
+        padding: 60px 20px 80px 20px; 
+        text-align: center; 
+        position: relative; 
+        z-index: 5; 
+    }
+
+    .vsl-headline { 
+        font-size: 4rem; 
+        font-weight: 900; 
+        line-height: 1; 
+        letter-spacing: -0.04em; 
+        color: var(--blue-bright); 
+        margin-bottom: 24px; 
+        background: linear-gradient(135deg, #0045A6 0%, #002A66 100%); 
+        -webkit-background-clip: text; 
+        -webkit-text-fill-color: transparent; 
+    }
+
+    .vsl-subhead { 
+        font-size: 1.5rem; 
+        font-weight: 500; 
+        color: #555; 
+        line-height: 1.4; 
+        margin-bottom: 60px; 
+        max-width: 700px; 
+        margin-left: auto; 
+        margin-right: auto; 
+    }
+
+    /* Контейнер видео без лишних обводок */
     .video-box { 
-        width: 100%; max-width: 960px; aspect-ratio: 16/9; margin: 0 auto; background: #000; 
-        border-radius: var(--radius); box-shadow: 0 50px 100px -20px rgba(0,0,0,0.25), inset 0 20px 40px rgba(0,0,0,0.6); 
-        display: flex; align-items: center; justify-content: center; position: relative; border: 1px solid rgba(255,255,255,0.1); 
+        width: 100%; 
+        max-width: 960px; 
+        margin: 0 auto; 
+        background: #000; 
+        border-radius: var(--radius); 
+        /* Убрали border: 1px, теперь только тень */
+        box-shadow: 0 50px 100px -20px rgba(0, 56, 141, 0.3); 
+        position: relative; 
+        overflow: hidden; /* Обрезает углы видео */
+        line-height: 0; 
     }
 
-    .play-btn-circle { 
-        width: 120px; height: 120px; background: rgba(255,255,255,0.15); backdrop-filter: blur(20px); border-radius: 50%; 
-        display: flex; align-items: center; justify-content: center; transition: transform 0.5s var(--ease-smooth); 
-        cursor: pointer; border: 1px solid rgba(255,255,255,0.3); 
+    /* Стилизация самого плеера Plyr внутри бокса */
+    .video-box .plyr {
+        border-radius: var(--radius) !important;
+        overflow: hidden;
+        border: none !important; /* Убираем рамку самого плеера */
     }
-    .play-btn-circle:hover { transform: scale(1.1); background: rgba(255,255,255,0.25); }
-    .play-icon { width: 0; height: 0; margin-left: 8px; border-top: 18px solid transparent; border-bottom: 18px solid transparent; border-left: 30px solid white; }
 
+    .plyr__video-wrapper {
+        background: #000;
+        border-radius: var(--radius);
+    }
+
+    /* Кнопки и ссылки */
     .btn-outline {
-        text-decoration: none; font-weight: 900; font-size: 1.8rem; color: var(--blue-bright); border: 3px solid var(--blue-bright); 
-        padding: 20px 60px; border-radius: 100px; display: inline-block; text-transform: uppercase;
-        transition: 0.5s var(--ease-smooth); background: transparent; box-shadow: none;
+        text-decoration: none; 
+        font-weight: 900; 
+        font-size: 1.8rem; 
+        color: var(--blue-bright); 
+        border: 3px solid var(--blue-bright); 
+        padding: 20px 60px; 
+        border-radius: 100px; 
+        display: inline-block; 
+        text-transform: uppercase;
+        transition: 0.5s var(--ease-smooth); 
+        background: transparent;
     }
-    .btn-outline:hover { background: var(--blue-bright); color: white; transform: translateY(-5px); }
+
+    .btn-outline:hover { 
+        background: var(--blue-bright); 
+        color: white; 
+        transform: translateY(-5px); 
+        box-shadow: 0 20px 40px rgba(0, 69, 166, 0.2);
+    }
+
     .btn-buy { margin-top: 60px; }
+
 
     /* --- 7. SLIDER --- */
     :root { --card-width: 400px; --card-height: 600px; --slider-gap: 50px; --transition-speed: 0.9s; }
@@ -592,6 +655,26 @@
         .faq-question-modern { padding: 20px; }
     }
 
+    /* Настройка цвета плеера под твой бренд */
+:root {
+    --plyr-color-main: #FA2D1A;
+}
+
+/* Фикс закругления углов для плеера */
+.video-box .plyr {
+    border-radius: 32px;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 50px 100px -20px rgba(0,0,0,0.25);
+}
+
+/* Убираем старую черную заливку, если видео еще не загрузилось */
+.video-box {
+    background: transparent !important;
+}
+
+
 </style>
 </head>
 <body>
@@ -646,7 +729,15 @@
     <div style="max-width: 1000px; margin: 0 auto;">
         <h2 class="vsl-headline" id="vsl-blur-title">Внимание — суперсила 21 века</h2>
         <p class="vsl-subhead reveal">Если ты умеешь удерживать внимание и конвертировать его в ₽₽₽ — ты автоматически богат.</p>
-        <div class="video-box reveal"><div class="play-btn-circle"><div class="play-icon"></div></div></div>
+<div class="video-box reveal" style="border-radius: 32px; overflow: hidden;">
+    <video id="player" playsinline controls data-poster="assets/preview.jpg">
+        <source src="assets/Videos/VSL 1.mp4" type="video/mp4" />
+    </video>
+</div>
+
+</div>
+
+
         <a href="#tariffs" class="btn-outline btn-buy reveal">Получить core.</a>
     </div>
 </div>
@@ -1415,6 +1506,24 @@
             });
         });
     });
+
+    document.addEventListener('DOMContentLoaded', () => {
+    // Настройки интерфейса
+    const player = new Plyr('#player', {
+        controls: [
+            'play-large', // Большая кнопка в центре
+            'play',       // Кнопка плей снизу
+            'progress',   // Полоса перемотки
+            'current-time', // Время
+            'mute',       // Звук
+            'volume',     // Громкость
+            'fullscreen'  // Весь экран
+        ],
+        ratio: '16:9',
+        youtube: { noCookie: true, rel: 0, showinfo: 0, iv_load_policy: 3, modestbranding: 1 }
+    });
+});
+
 
 
 </script>
