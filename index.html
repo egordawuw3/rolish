@@ -134,13 +134,115 @@
         .s-ssd { width: 90px; right: 20px; bottom: 20px; transform: rotate(20deg) scale(0.8); }
         .s-ssd:hover { transform: rotate(20deg) scale(0.85); }
     }
-    @media (max-width: 768px) {
-        .s-camera { display: none !important; }
-        .s-pencil { top: 20px; right: 20px; transform: rotate(40deg); }
-        .s-ssd { bottom: 20px; right: 20px; transform: rotate(10deg); }
-        .hero-wrapper { height: auto; min-height: 90vh; padding-top: 100px; padding-bottom: 60px; }
-        .card-shadow-container { height: 60vh; }
+
+
+
+    
+
+
+
+
+    /* --- ГЛОБАЛЬНЫЙ ЗАМОК ОТ СБОЕВ ЭКРАНА (Вставляем прямо перед @media) --- */
+    html, body { 
+        overflow-x: hidden !important; 
+        width: 100% !important; 
+        max-width: 100% !important; 
+        position: relative;
     }
+
+    @media (max-width: 768px) {
+        /* --- 1. НАВБАР (Заменили 100vw на 100% + жесткая привязка) --- */
+        .navbar { 
+            width: 100% !important; 
+            max-width: 100% !important; /* Убили 100vw */
+            left: 0 !important; 
+            top: 0 !important;
+            padding: 15px 20px !important; 
+            box-sizing: border-box !important; 
+            background: rgba(244, 242, 238, 0.85) !important; 
+        }
+        .nav-buttons { gap: 0 !important; margin: 0 !important; padding: 0 !important; }
+        .nav-text-btn { display: none !important; } 
+        .nav-accent-btn { 
+            display: inline-block !important; 
+            padding: 10px 20px !important; 
+            font-size: 0.9rem !important; 
+            margin: 0 !important; 
+            white-space: nowrap !important; 
+        }
+
+        /* --- 2. ГЛАВНЫЙ ЭКРАН --- */
+        .hero-wrapper { height: auto !important; padding: 80px 15px 0px 15px !important; box-sizing: border-box !important; width: 100% !important; max-width: 100% !important; }
+        .card-shadow-container { height: 872px !important; min-height: 872px !important; max-height: 872px !important; width: 100% !important; box-sizing: border-box !important; }
+        
+        /* --- 3. ИДЕАЛЬНОЕ ЦЕНТРИРОВАНИЕ ТЕКСТА --- */
+        .hero-content { margin: 0 !important; position: relative; z-index: 100 !important; width: 100% !important; display: flex !important; flex-direction: column !important; align-items: center !important; padding-bottom: 80px !important; } 
+        
+        /* Уменьшили шрифт с 32vw до 26vw, чтобы слово core. не разрывало экран */
+        .main-title { font-size: 26vw !important; margin: 0 !important; line-height: 0.8 !important; text-align: center !important; max-width: 100% !important; }
+        .subtitle-block { font-size: 3rem !important; margin-top: 15px !important; line-height: 1.1 !important; display: flex !important; flex-direction: column !important; align-items: center !important; width: 100% !important; max-width: 100% !important; }
+        
+        .row-line { gap: 12px !important; justify-content: center !important; display: flex !important; width: 100% !important; align-items: center !important; flex-wrap: nowrap !important; }        .highlight-word-container { min-width: 180px !important; width: 180px !important; text-align: left !important; }
+        .highlight-word-container { min-width: 0 !important; width: auto !important; text-align: left !important; }        
+        /* --- 4. СТИКЕРЫ --- */
+        .s-camera { position: absolute !important; display: block !important; width: 220px !important; height: auto !important; top: 50px !important; left: -10px !important; bottom: auto !important; right: auto !important; transform: rotate(-10deg) !important; z-index: 50 !important; }
+        .s-pencil { position: absolute !important; display: block !important; height: 240px !important; width: auto !important; top: auto !important; right: auto !important; bottom: 220px !important; left: -5px !important; transform: rotate(25deg) !important; z-index: 50 !important; }
+        .s-ssd { position: absolute !important; display: block !important; width: 90px !important; height: auto !important; top: auto !important; left: auto !important; bottom: 140px !important; right: 15px !important; transform: rotate(-10deg) !important; z-index: 50 !important; }
+        
+        /* --- 5. ПАПКА --- */
+        .folder-bridge { margin-top: -120px !important; margin-bottom: 60px !important; transform: none !important; position: relative; z-index: 105 !important; max-width: 100% !important; }
+        .mac-folder-realistic { width: 238px !important; height: 147px !important; margin: 0 auto !important; }
+        .folder-file-card { width: 110px !important; height: 135px !important; bottom: 10px !important; left: 28% !important; }
+
+        /* Стили для открытой папки на мобилке (через JS) */
+        .mac-folder-realistic.is-open .folder-cards { z-index: 20 !important; }
+        .mac-folder-realistic.is-open .card-1 { opacity: 1 !important; transform: translate(-70px, -40px) rotate(-12deg) !important; transition-delay: 0.1s !important; }
+        .mac-folder-realistic.is-open .card-2 { opacity: 1 !important; transform: translate(0, -80px) rotate(0deg) !important; transition-delay: 0.05s !important; }
+        .mac-folder-realistic.is-open .card-3 { opacity: 1 !important; transform: translate(70px, -40px) rotate(12deg) !important; transition-delay: 0.15s !important; }
+        .mac-folder-realistic.is-open .folder-front-shape { transform: rotateX(-25deg) scaleY(0.95) !important; }
+
+        /* --- 6. VSL СЕКЦИЯ --- */
+        .vsl-section { padding: 40px 15px 60px 15px !important; overflow-x: hidden !important; }
+        .vsl-headline { font-size: 2.5rem !important; line-height: 1.1 !important; margin-bottom: 15px !important; word-wrap: break-word !important; hyphens: auto !important; }
+        .vsl-subhead { font-size: 1.1rem !important; margin-bottom: 40px !important; }
+        .btn-outline { font-size: 1.2rem !important; padding: 15px 40px !important; }
+
+        /* --- 7. ОТЗЫВЫ И ЗАГОЛОВКИ --- */
+        .reviews-headline { font-size: 2rem !important; padding: 0 15px 40px !important; line-height: 1.2 !important; }
+        .modules-header h2 { font-size: 2.2rem !important; line-height: 1.1 !important; }
+        .section-title-center { font-size: 2.5rem !important; line-height: 1.1 !important; }
+    }
+
+    /* --- 8. Страховка для узких экранов (iPhone SE) --- */
+    @media (max-width: 400px) {
+        .navbar { padding: 15px !important; }
+        .nav-accent-btn { padding: 8px 16px !important; font-size: 0.85rem !important; }
+        .main-title { font-size: 24vw !important; } 
+        .subtitle-block { font-size: 2.5rem !important; }
+        .highlight-word { font-size: 2.8rem !important; }
+        .highlight-word-container { width: auto !important; }
+                .s-camera { width: 180px !important; left: -15px !important; top: 40px !important; }
+        .s-pencil { height: 180px !important; bottom: 200px !important; left: -10px !important; }
+        .s-ssd { width: 75px !important; bottom: 120px !important; right: 10px !important; }
+        .vsl-headline { font-size: 2.2rem !important; 
+        
+        
+                /* --- 8. ФИКС КАРТОЧЕК С ОТЗЫВАМИ --- */
+        .review-item:hover .card-inner { transform: none !important; } /* Убиваем багованный hover на телефонах */
+        .review-item.flipped .card-inner { transform: rotateY(180deg) !important; } /* Включаем переворот по специальному классу */
+}
+    }
+
+
+
+
+
+
+
+
+
+
+
 
     /* --- 6. FOLDER BRIDGE --- */
     .folder-bridge { position: relative; z-index: 100; margin-top: -230px; margin-bottom: 80px; display: flex; justify-content: center; align-items: flex-end; height: 320px; perspective: 1200px; pointer-events: none; }
@@ -1263,6 +1365,57 @@
         }, { threshold: 0.30}); 
         reviewsObserver.observe(reviewsSection);
     }
+
+
+        // --- УМНАЯ ПАПКА НА МОБИЛКАХ (1 клик - открыть, 2 клик - скролл) ---
+    document.addEventListener('DOMContentLoaded', () => {
+        const folder = document.querySelector('.mac-folder-realistic');
+        if(folder) {
+            // Удаляем старый встроенный onclick, чтобы он не перекидывал сразу
+            folder.removeAttribute('onclick');
+            
+            // Назначаем умный клик
+            folder.addEventListener('click', function(e) {
+                // Если мы с телефона
+                if (window.innerWidth <= 768) {
+                    // Если папка еще НЕ открыта — просто открываем её (вешаем класс is-open)
+                    if (!this.classList.contains('is-open')) {
+                        this.classList.add('is-open');
+                        return; // Останавливаем код, скролла не будет
+                    }
+                }
+                
+                // Если папка уже открыта ИЛИ мы сидим с компьютера — плавно скроллим к Тарифам
+                document.getElementById('tariffs').scrollIntoView({behavior: 'smooth'});
+            });
+        }
+    });
+
+
+        // --- ПЕРЕВОРОТ КАРТОЧЕК ОТЗЫВОВ ПО ТАПУ НА МОБИЛКЕ ---
+    document.addEventListener('DOMContentLoaded', () => {
+        const reviewItems = document.querySelectorAll('.review-item');
+
+        reviewItems.forEach(item => {
+            item.addEventListener('click', function() {
+                // Работает только на мобильных экранах
+                if (window.innerWidth <= 768) {
+                    const isFlipped = this.classList.contains('flipped');
+
+                    // 1. Закрываем ВСЕ карточки сразу
+                    reviewItems.forEach(card => card.classList.remove('flipped'));
+
+                    // 2. Если карточка до клика была закрыта — открываем её
+                    // (если была открыта, то она просто останется закрытой благодаря шагу 1)
+                    if (!isFlipped) {
+                        this.classList.add('flipped');
+                    }
+                }
+            });
+        });
+    });
+
+
 </script>
 </body>
 </html>
