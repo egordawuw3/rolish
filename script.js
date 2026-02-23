@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         let currentWord = 0;
-        const wordElements = gsap.utils.toArray(".rotator-word");
+        const wordElements =x gsap.utils.toArray(".rotator-word");
         if(wordElements.length > 0) {
             const wordHeight = wordElements[0].clientHeight;
             gsap.set(rotatorWrapper, { y: 0 });

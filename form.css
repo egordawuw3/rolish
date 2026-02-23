@@ -1,0 +1,400 @@
+/* --- 1. ПЕРЕМЕННЫЕ И БАЗА --- */
+@font-face {
+  font-family: "Gramatika";
+  src: local("Gramatika"), local("Inter");
+}
+
+:root {
+  --bg-cream: #f4f2ee;
+  --blue-deep: #00388d;
+  --blue-bright: #0045a6;
+  --accent: #fa2d1a;
+  --white: #ffffff;
+  --black: #050505;
+  --border: rgba(0, 69, 166, 0.15);
+  --radius: 32px;
+  /* Самая плавная "масляная" кривая (Apple style) */
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body {
+  font-family: "Gramatika", "Inter", sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-cream);
+  color: var(--blue-bright);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- 2. TEXTURE (NOISE) --- */
+#noise-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.15;
+  mix-blend-mode: multiply;
+}
+
+/* --- 3. NAVBAR (GLASS) --- */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px 40px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  background: rgba(244, 242, 238, 0.571);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(0, 69, 166, 0.05);
+  animation: fadeInDown 1.2s var(--ease-smooth) forwards;
+}
+
+.nav-logo {
+  font-weight: 900;
+  color: var(--blue-bright);
+  font-size: 1.8em;
+  text-decoration: none;
+  letter-spacing: -0.05em;
+  transition: transform 0.4s var(--ease-smooth);
+}
+.nav-logo:hover {
+  transform: scale(1.05);
+}
+
+/* --- 4. HEADER АНКЕТЫ --- */
+.header-wrapper {
+  text-align: center;
+  padding: 140px 20px 40px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.main-title {
+  font-family: "Inter", sans-serif;
+  font-size: 4.5rem;
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -0.05em;
+  margin: 0;
+  color: var(--blue-bright);
+}
+
+.header-desc {
+  font-size: 1.25rem;
+  line-height: 1.5;
+  color: #555;
+  max-width: 600px;
+  margin: 24px auto 0;
+  font-weight: 500;
+}
+
+.header-desc strong {
+  color: var(--accent);
+  font-weight: 800;
+  background: rgba(250, 45, 26, 0.08);
+  padding: 2px 8px;
+  border-radius: 8px;
+}
+
+/* --- 5. АНИМАЦИИ ПРИ СКРОЛЛЕ (REVEAL - МАКСИМАЛЬНАЯ ПЛАВНОСТЬ) --- */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px) scale(0.98); /* Уменьшена амплитуда для мягкости */
+  filter: blur(10px);
+  transition:
+    opacity 1.2s var(--ease-smooth),
+    transform 1.2s var(--ease-smooth),
+    filter 1.2s var(--ease-smooth);
+  will-change: transform, opacity, filter;
+}
+
+.reveal.reveal-active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0px);
+}
+
+/* --- 6. ФОРМА И БЛОКИ --- */
+.form-container {
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0 20px 100px;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 10;
+  transition:
+    opacity 0.8s var(--ease-smooth),
+    transform 0.8s var(--ease-smooth);
+}
+
+.form-block {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 40px 35px;
+  margin-bottom: 30px;
+  box-shadow: 0 10px 40px rgba(0, 69, 166, 0.05);
+  border: 1px solid var(--border);
+  transition:
+    box-shadow 0.5s var(--ease-smooth),
+    transform 0.5s var(--ease-smooth);
+}
+
+.form-block:hover {
+  box-shadow: 0 25px 60px rgba(0, 69, 166, 0.1);
+}
+
+.block-title {
+  font-size: 1.3rem;
+  font-weight: 900;
+  margin: 0 0 20px 0;
+  color: var(--blue-deep);
+  letter-spacing: -0.02em;
+}
+
+/* Поля ввода (Text) */
+.input-text {
+  width: 100%;
+  padding: 20px 25px;
+  font-family: "Inter", sans-serif;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--black);
+  background: var(--bg-cream);
+  border: 2px solid transparent;
+  border-radius: 20px;
+  box-sizing: border-box;
+  transition: all 0.4s var(--ease-smooth);
+  outline: none;
+}
+
+.input-text::placeholder {
+  color: rgba(5, 5, 5, 0.3);
+  font-weight: 600;
+}
+.input-text:focus {
+  background: var(--white);
+  border-color: var(--blue-bright);
+  box-shadow: 0 15px 30px rgba(0, 69, 166, 0.1);
+}
+
+/* Плитки (Radio Buttons Grid) */
+.tiles-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.tiles-grid.single-col {
+  grid-template-columns: 1fr;
+}
+
+.tile {
+  position: relative;
+  cursor: pointer;
+  display: block;
+}
+
+.tile input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.tile span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px 15px;
+  background: var(--bg-cream);
+  border: 2px solid transparent;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--blue-deep);
+  transition: all 0.4s var(--ease-smooth);
+  height: 100%;
+  box-sizing: border-box;
+  user-select: none;
+  line-height: 1.3;
+}
+
+.tile:hover span {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px rgba(0, 69, 166, 0.08);
+  border-color: rgba(0, 69, 166, 0.15);
+}
+
+.tile input:checked + span {
+  background: var(--blue-bright);
+  color: var(--white);
+  border-color: var(--blue-bright);
+  transform: scale(0.98);
+  box-shadow: inset 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.tile.full-width {
+  grid-column: 1 / -1;
+}
+
+/* Кнопка отправки */
+.submit-btn {
+  width: 100%;
+  padding: 24px;
+  font-family: "Inter", sans-serif;
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: var(--white);
+  background: var(--blue-bright);
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+  transition:
+    transform 0.5s var(--ease-smooth),
+    box-shadow 0.5s var(--ease-smooth),
+    background 0.4s ease;
+  box-shadow: 0 15px 30px rgba(0, 69, 166, 0.2);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 20px;
+}
+
+.submit-btn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 25px 50px rgba(0, 69, 166, 0.35);
+  background: #00388d;
+}
+
+.submit-btn:disabled {
+  background: #a0b4d0;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* --- 7. ЭКРАН УСПЕХА --- */
+.success-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1s var(--ease-smooth);
+}
+
+.success-screen.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.success-title {
+  font-size: 7rem;
+  font-weight: 900;
+  color: var(--blue-bright);
+  margin: 0;
+  letter-spacing: -0.04em;
+  text-shadow: 0 20px 50px rgba(0, 69, 166, 0.15);
+  transform: translateY(30px) scale(0.9);
+  transition: all 1s var(--ease-smooth);
+}
+
+.success-screen.active .success-title {
+  transform: translateY(0) scale(1);
+}
+
+.success-subtitle {
+  font-family: "Caveat", cursive;
+  font-size: 3rem;
+  color: var(--accent);
+  margin-top: 10px;
+  transform: rotate(-3deg) translateY(30px);
+  transition: transform 1s var(--ease-smooth) 0.1s;
+}
+
+.success-screen.active .success-subtitle {
+  transform: rotate(-3deg) translateY(0);
+}
+
+.back-btn {
+  margin-top: 50px;
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: var(--blue-bright);
+  border: 3px solid var(--blue-bright);
+  padding: 18px 50px;
+  border-radius: 100px;
+  transition: all 0.5s var(--ease-smooth);
+  opacity: 0;
+}
+
+.success-screen.active .back-btn {
+  opacity: 1;
+  transition-delay: 0.4s;
+}
+
+.back-btn:hover {
+  background: var(--blue-bright);
+  color: var(--white);
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 69, 166, 0.2);
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Адаптив */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 15px 20px;
+  }
+  .header-wrapper {
+    padding-top: 100px;
+  }
+  .main-title {
+    font-size: 2.8rem;
+  }
+  .form-block {
+    padding: 30px 20px;
+  }
+  .tiles-grid {
+    grid-template-columns: 1fr;
+  }
+  .success-title {
+    font-size: 4rem;
+  }
+  .success-subtitle {
+    font-size: 2.2rem;
+  }
+}
