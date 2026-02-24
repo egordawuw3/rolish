@@ -1,18 +1,30 @@
 <!doctype html>
 <html lang="ru">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Оставь заявку на обучение в системе core. Последний шаг к большим деньгам на контенте.">
-    <title>Анкета | core.</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=Caveat:wght@700&display=swap" rel="stylesheet">
-    
-    <link rel="preload" href="css/anketa.css" as="style">
-    <link rel="stylesheet" href="css/anketa.css">
-  </head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Оставь заявку на обучение в системе core. Последний шаг к большим деньгам на контенте.">
+  <title>Анкета | core.</title>
+
+  <!-- Ускорение соединения со сторонними доменами -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://www.transparenttextures.com"> <!-- Текстуры в anketa.css тоже есть -->
+
+  <!-- Предзагрузка главного CSS-файла -->
+  <link rel="preload" href="css/anketa.css" as="style">
+
+  <!-- Асинхронная загрузка шрифтов (Убирает Render-blocking) -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=Caveat:wght@700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=Caveat:wght@700&display=swap" media="print" onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=Caveat:wght@700&display=swap">
+  </noscript>
+
+  <!-- Подключение основного стиля -->
+  <link rel="stylesheet" href="css/anketa.css">
+</head>
+
   <body>
     <!-- Возвращен твой оригинальный интерактивный Canvas-шум -->
     <canvas id="noise-canvas"></canvas>
@@ -41,7 +53,8 @@
               name="Имя"
               class="input-text"
               placeholder="*ввод*"
-              required>
+              required
+            />
           </div>
           <div>
             <label for="user-tg" class="block-title">Ник в TG (@юзер) :</label>
@@ -51,7 +64,8 @@
               name="Telegram"
               class="input-text"
               placeholder="*ввод*"
-              required>
+              required
+            />
           </div>
         </div>
 
@@ -59,82 +73,92 @@
           <div class="block-title" id="age-group">Возраст :</div>
           <div class="tiles-grid" role="group" aria-labelledby="age-group">
             <label class="tile">
-              <input type="radio" name="Возраст" value="<14" required>
+              <input type="radio" name="Возраст" value="<14" required />
               <span>&lt;14</span>
             </label>
             <label class="tile">
-              <input type="radio" name="Возраст" value="15-17">
+              <input type="radio" name="Возраст" value="15-17" />
               <span>15-17</span>
             </label>
             <label class="tile">
-              <input type="radio" name="Возраст" value="18-21">
+              <input type="radio" name="Возраст" value="18-21" />
               <span>18-21</span>
             </label>
             <label class="tile">
-              <input type="radio" name="Возраст" value="22-27">
+              <input type="radio" name="Возраст" value="22-27" />
               <span>22-27</span>
             </label>
             <label class="tile full-width">
-              <input type="radio" name="Возраст" value="28+">
+              <input type="radio" name="Возраст" value="28+" />
               <span>28+</span>
             </label>
           </div>
         </div>
 
         <div class="form-block reveal">
-          <div class="block-title" id="problem-group">Главная проблема, которая мешает тебе :</div>
+          <div class="block-title" id="problem-group">
+            Главная проблема, которая мешает тебе :
+          </div>
           <div class="tiles-grid" role="group" aria-labelledby="problem-group">
             <label class="tile">
               <input
                 type="radio"
                 name="Проблема"
                 value="Нехватка скиллов"
-                required>
+                required
+              />
               <span>Нехватка скиллов</span>
             </label>
             <label class="tile">
-              <input type="radio" name="Проблема" value="Отсутствие креатива">
+              <input type="radio" name="Проблема" value="Отсутствие креатива" />
               <span>Отсутствие креатива</span>
             </label>
             <label class="tile">
-              <input type="radio" name="Проблема" value="Нет клиентов">
+              <input type="radio" name="Проблема" value="Нет клиентов" />
               <span>Нет клиентов</span>
             </label>
             <label class="tile">
-              <input type="radio" name="Проблема" value="Мало времени">
+              <input type="radio" name="Проблема" value="Мало времени" />
               <span>Мало времени</span>
             </label>
             <label class="tile">
-              <input type="radio" name="Проблема" value="Нет четкого плана">
+              <input type="radio" name="Проблема" value="Нет четкого плана" />
               <span>Нет четкого плана</span>
             </label>
             <label class="tile">
               <input
                 type="radio"
                 name="Проблема"
-                value="Лень, но готов побороть">
+                value="Лень, но готов побороть"
+              />
               <span>Лень, но готов побороть</span>
             </label>
           </div>
         </div>
 
         <div class="form-block reveal">
-          <div class="block-title" id="ready-group">Насколько ты готов к обучению :</div>
-          <div class="tiles-grid single-col" role="group" aria-labelledby="ready-group">
+          <div class="block-title" id="ready-group">
+            Насколько ты готов к обучению :
+          </div>
+          <div
+            class="tiles-grid single-col"
+            role="group"
+            aria-labelledby="ready-group"
+          >
             <label class="tile">
-              <input type="radio" name="Готовность" value="1/10" required>
+              <input type="radio" name="Готовность" value="1/10" required />
               <span>1/10 - Пока думаю</span>
             </label>
             <label class="tile">
-              <input type="radio" name="Готовность" value="3/10">
+              <input type="radio" name="Готовность" value="3/10" />
               <span>3/10 - Хочу узнать подробнее</span>
             </label>
             <label class="tile">
-              <input type="radio" name="Готовность" value="7/10">
+              <input type="radio" name="Готовность" value="7/10" />
               <span>7/10 - Готов, но обсудил бы лично</span>
             </label>
             <label class="tile">
-              <input type="radio" name="Готовность" value="10/10">
+              <input type="radio" name="Готовность" value="10/10" />
               <span>10/10 - Полная готовность</span>
             </label>
           </div>
@@ -153,9 +177,9 @@
     </div>
 
     <script>
-      // --- 1. ШУМ НА ФОНЕ (Твой оригинальный код) ---
+      // --- 1. ШУМ (NOISE) - Ограничен до 15 FPS ---
       const noiseCanvas = document.getElementById("noise-canvas");
-      const ctx = noiseCanvas.getContext("2d");
+      const ctx = noiseCanvas.getContext("2d", { alpha: true });
       const resize = () => {
         noiseCanvas.width = window.innerWidth;
         noiseCanvas.height = window.innerHeight;
@@ -170,14 +194,23 @@
             buffer[i] = Math.random() < 0.5 ? 0xff000000 : 0x11000000;
         ctx.putImageData(id, 0, 0);
       };
-      let frame = 0;
-      const loop = () => {
-        if (frame % 2 === 0) drawNoise();
-        frame++;
-        requestAnimationFrame(loop);
-      };
       window.addEventListener("resize", resize);
       resize();
+
+      let then = Date.now();
+      const fps = 15; // Жесткое ограничение кадров в секунду
+      const interval = 1000 / fps;
+
+      const loop = () => {
+        requestAnimationFrame(loop);
+        const now = Date.now();
+        const delta = now - then;
+
+        if (delta > interval) {
+          then = now - (delta % interval);
+          drawNoise();
+        }
+      };
       loop();
 
       // --- 2. УМНАЯ СУПЕР-ПЛАВНАЯ АНИМАЦИЯ ПО СКРОЛЛУ ---
@@ -200,8 +233,8 @@
             });
           },
           {
-            threshold: 0.1, 
-            rootMargin: "0px 0px -40px 0px", 
+            threshold: 0.1,
+            rootMargin: "0px 0px -40px 0px",
           },
         );
 

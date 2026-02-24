@@ -354,6 +354,7 @@ body {
     line-height: 0.8 !important;
     text-align: center !important;
     max-width: 100% !important;
+    animation: none !important;
   }
   .subtitle-block {
     font-size: clamp(2rem, 8vw, 3rem) !important;

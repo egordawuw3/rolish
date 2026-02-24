@@ -1,26 +1,51 @@
 <!doctype html>
 <html lang="ru">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="core. - Авторская система создания контента и заработка на творчестве. Обучение креативности, съемке, монтажу и построению личного бренда.">
+      content="core. - Авторская система создания контента и заработка на творчестве. Обучение креативности, съемке, монтажу и построению личного бренда."
+    />
     <title>core.</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" href="css/index.css" as="style">
-    <link rel="preload" href="https://cdn.plyr.io/3.7.8/plyr.css" as="style">
-    
+    <!-- 1. Ускорение соединения со сторонними доменами -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://www.transparenttextures.com" />
+    <!-- Добавлено для текстур -->
+
+    <!-- 2. Предзагрузка критических стилей -->
+    <link rel="preload" href="css/index.css" as="style" />
+    <link rel="preload" href="https://cdn.plyr.io/3.7.8/plyr.css" as="style" />
+
+    <!-- 3. Асинхронная загрузка шрифтов (Убирает Render-blocking в Lighthouse) -->
     <link
+      rel="preload"
+      as="style"
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=Caveat:wght@700&display=swap"
-      rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css">
-    <link rel="icon" href="favicon.png" type="image/png">
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=Caveat:wght@700&display=swap"
+      media="print"
+      onload="this.media = 'all'"
+    />
+    <!-- Заглушка, если у пользователя отключен JavaScript -->
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=Caveat:wght@700&display=swap"
+      />
+    </noscript>
+
+    <!-- 4. Остальные стили и скрипты -->
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+    <link rel="icon" href="favicon.png" type="image/png" />
     <script src="https://cdn.plyr.io/3.7.8/plyr.js" defer></script>
-    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/index.css" />
   </head>
+
   <body>
     <!-- Твой оригинальный интерактивный шум -->
     <canvas id="noise-canvas"></canvas>
@@ -41,17 +66,20 @@
             src="assets/camera.webp"
             class="sticker-img s-camera"
             alt="Camera"
-            fetchpriority="high">
+            fetchpriority="high"
+          />
           <img
             src="assets/pencil.webp"
             class="sticker-img s-pencil"
             alt="Pencil"
-            fetchpriority="high">
+            fetchpriority="high"
+          />
           <img
             src="assets/microssd.webp"
             class="sticker-img s-ssd"
             alt="SSD"
-            fetchpriority="high">
+            fetchpriority="high"
+          />
 
           <div class="hero-card" id="hero-card">
             <div class="hero-content">
@@ -73,7 +101,9 @@
       <div class="folder-bridge reveal">
         <div
           class="mac-folder-realistic"
-          role="button" tabindex="0" aria-label="Перейти к тарифам"
+          role="button"
+          tabindex="0"
+          aria-label="Перейти к тарифам"
           onclick="
             document
               .getElementById('tariffs')
@@ -155,13 +185,14 @@
               controls
               data-poster="assets/preview.jpg"
             >
-              <source src="assets/Videos/VSL%201.mp4" type="video/mp4">
+              <source src="assets/Videos/VSL%201.mp4" type="video/mp4" />
               <track
                 kind="captions"
                 label="Русские субтитры"
                 srclang="ru"
                 src="captions.vtt"
-                default>
+                default
+              />
             </video>
           </div>
           <a href="#tariffs" class="btn-outline btn-buy reveal"
@@ -215,10 +246,11 @@
           <div class="card-3d active">
             <div class="card-img-container">
               <img
-                src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=800&auto=format&fit=crop"
+                src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=60&w=600&auto=format,compress&fit=crop"
                 alt="Ваня Паскаль 1"
                 class="card-img"
-                loading="lazy">
+                loading="lazy"
+              />
             </div>
             <div class="black-bar"><h2>Ваня Паскаль</h2></div>
             <div class="card-body" style="text-align: center !important">
@@ -276,7 +308,9 @@
                   margin-top: 15px;
                 "
               >
-                Но хочу, чтобы ты знал — <br><strong>я абсолютно такой же, как и ты.</strong>
+                Но хочу, чтобы ты знал — <br /><strong
+                  >я абсолютно такой же, как и ты.</strong
+                >
               </p>
               <div class="s-logo">01</div>
             </div>
@@ -284,10 +318,11 @@
           <div class="card-3d">
             <div class="card-img-container">
               <img
-                src="https://images.unsplash.com/photo-1518331483807-f642f1f96966?q=80&w=800&auto=format&fit=crop"
+                src="https://images.unsplash.com/photo-1518331483807-f642f1f96966?q=60&w=600&auto=format,compress&fit=crop"
                 alt="Ваня Паскаль 2"
                 class="card-img"
-                loading="lazy">
+                loading="lazy"
+              />
             </div>
             <div class="card-body" style="justify-content: center">
               <p class="story-quote">
@@ -302,10 +337,11 @@
           <div class="card-3d">
             <div class="card-img-container">
               <img
-                src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop"
+                src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=60&w=600&auto=format,compress&fit=crop"
                 alt="Ваня Паскаль 3"
                 class="card-img"
-                loading="lazy">
+                loading="lazy"
+              />
             </div>
             <div class="card-body" style="justify-content: center">
               <p class="story-quote">
@@ -319,10 +355,11 @@
           <div class="card-3d">
             <div class="card-img-container">
               <img
-                src="https://images.unsplash.com/photo-1622630997505-1c5c10557253?q=80&w=800&auto=format&fit=crop"
+                src="https://images.unsplash.com/photo-1622630997505-1c5c10557253?q=60&w=600&auto=format,compress&fit=crop"
                 alt="Ваня Паскаль 4"
                 class="card-img"
-                loading="lazy">
+                loading="lazy"
+              />
             </div>
             <div class="card-body" style="justify-content: center">
               <p class="story-quote">
@@ -336,10 +373,11 @@
           <div class="card-3d">
             <div class="card-img-container">
               <img
-                src="https://images.unsplash.com/photo-1506784375835-5e90dac96be2?q=80&w=800&auto=format&fit=crop"
+                src="https://images.unsplash.com/photo-1506784375835-5e90dac96be2?q=60&w=600&auto=format,compress&fit=crop"
                 alt="Ваня Паскаль 5"
                 class="card-img"
-                loading="lazy">
+                loading="lazy"
+              />
             </div>
             <div class="card-body" style="justify-content: center">
               <p class="story-quote">
@@ -352,10 +390,11 @@
           <div class="card-3d">
             <div class="card-img-container">
               <img
-                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=800&auto=format&fit=crop"
+                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=60&w=600&auto=format,compress&fit=crop"
                 alt="Ваня Паскаль 6"
                 class="card-img"
-                loading="lazy">
+                loading="lazy"
+              />
             </div>
             <div class="card-body" style="justify-content: center">
               <p
@@ -379,10 +418,11 @@
           <div class="card-3d">
             <div class="card-img-container">
               <img
-                src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=800&auto=format&fit=crop"
+                src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=60&w=600&auto=format,compress&fit=crop"
                 alt="Ваня Паскаль 7"
                 class="card-img"
-                loading="lazy">
+                loading="lazy"
+              />
             </div>
             <div class="card-body" style="justify-content: center">
               <p class="story-quote">
@@ -396,10 +436,11 @@
           <div class="card-3d">
             <div class="card-img-container">
               <img
-                src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=800&auto=format&fit=crop"
+                src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=60&w=600&auto=format,compress&fit=crop"
                 alt="Ваня Паскаль 8"
                 class="card-img"
-                loading="lazy">
+                loading="lazy"
+              />
             </div>
             <div class="card-body" style="justify-content: center">
               <p class="story-quote">
@@ -413,10 +454,11 @@
           <div class="card-3d">
             <div class="card-img-container">
               <img
-                src="https://images.unsplash.com/photo-1518331483807-f642f1f96966?q=80&w=800&auto=format&fit=crop"
+                src="https://images.unsplash.com/photo-1518331483807-f642f1f96966?q=60&w=600&auto=format,compress&fit=crop"
                 alt="Ваня Паскаль 9"
                 class="card-img"
-                loading="lazy">
+                loading="lazy"
+              />
             </div>
             <div class="card-body" style="justify-content: center">
               <p class="story-quote">
@@ -430,10 +472,11 @@
           <div class="card-3d">
             <div class="card-img-container">
               <img
-                src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop"
+                src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=60&w=600&auto=format,compress&fit=crop"
                 alt="Ваня Паскаль 10"
                 class="card-img"
-                loading="lazy">
+                loading="lazy"
+              />
             </div>
             <div class="card-body" style="justify-content: center">
               <p class="story-quote">
@@ -446,10 +489,11 @@
           <div class="card-3d">
             <div class="card-img-container">
               <img
-                src="https://images.unsplash.com/photo-1622630997505-1c5c10557253?q=80&w=800&auto=format&fit=crop"
+                src="https://images.unsplash.com/photo-1622630997505-1c5c10557253?q=60&w=600&auto=format,compress&fit=crop"
                 alt="Ваня Паскаль 11"
                 class="card-img"
-                loading="lazy">
+                loading="lazy"
+              />
             </div>
             <div class="card-body" style="justify-content: center">
               <p class="story-quote">
@@ -463,10 +507,11 @@
           <div class="card-3d">
             <div class="card-img-container">
               <img
-                src="https://images.unsplash.com/photo-1506784375835-5e90dac96be2?q=80&w=800&auto=format&fit=crop"
+                src="https://images.unsplash.com/photo-1506784375835-5e90dac96be2?q=60&w=600&auto=format,compress&fit=crop"
                 alt="Ваня Паскаль 12"
                 class="card-img"
-                loading="lazy">
+                loading="lazy"
+              />
             </div>
             <div class="card-body" style="justify-content: center">
               <p class="story-quote">
@@ -537,7 +582,7 @@
         <div class="modules-grid stagger-container">
           <div class="module-card stagger-item">
             <div class="m-cover c1">
-              <div class="m-cover-text">creators<br>mindset</div>
+              <div class="m-cover-text">creators<br />mindset</div>
             </div>
             <div class="m-info">
               <div class="m-duration">
@@ -577,7 +622,7 @@
 
           <div class="module-card stagger-item">
             <div class="m-cover c3">
-              <div class="m-cover-text">CREATORS<br>TOOLKIT</div>
+              <div class="m-cover-text">CREATORS<br />TOOLKIT</div>
             </div>
             <div class="m-info">
               <div class="m-duration">
@@ -597,7 +642,7 @@
 
           <div class="module-card stagger-item">
             <div class="m-cover c4">
-              <div class="m-cover-text">sound<br>space</div>
+              <div class="m-cover-text">sound<br />space</div>
             </div>
             <div class="m-info">
               <div class="m-duration">
@@ -617,7 +662,7 @@
 
           <div class="module-card stagger-item">
             <div class="m-cover c5">
-              <div class="m-cover-text">personal<br>brand</div>
+              <div class="m-cover-text">personal<br />brand</div>
             </div>
             <div class="m-info">
               <div class="m-duration">
@@ -712,7 +757,7 @@
             <div class="card-inner">
               <div class="side side-front">
                 <div class="rev-img">
-                  <img src="assets/Софа1.jpg" alt="Отзыв Софы" loading="lazy">
+                  <img src="assets/Софа1.jpg" alt="Отзыв Софы" loading="lazy" />
                 </div>
                 <div class="rev-info">
                   <div class="rev-name-box">
@@ -745,7 +790,8 @@
                   <img
                     src="assets/Влад1.jpg"
                     alt="Отзыв Влада"
-                    loading="lazy">
+                    loading="lazy"
+                  />
                 </div>
                 <div class="rev-info">
                   <div class="rev-name-box">
@@ -775,7 +821,7 @@
             <div class="card-inner">
               <div class="side side-front">
                 <div class="rev-img">
-                  <img src="assets/Аня1.jpg" alt="Отзыв Ани" loading="lazy">
+                  <img src="assets/Аня1.jpg" alt="Отзыв Ани" loading="lazy" />
                 </div>
                 <div class="rev-info">
                   <div class="rev-name-box">
@@ -804,7 +850,7 @@
             <div class="card-inner">
               <div class="side side-front">
                 <div class="rev-img">
-                  <img src="assets/Даня1.jpg" alt="Отзыв Дани" loading="lazy">
+                  <img src="assets/Даня1.jpg" alt="Отзыв Дани" loading="lazy" />
                 </div>
                 <div class="rev-info">
                   <div class="rev-name-box">
@@ -833,7 +879,7 @@
             <div class="card-inner">
               <div class="side side-front">
                 <div class="rev-img">
-                  <img src="assets/Ваня1.jpg" alt="Отзыв Вани" loading="lazy">
+                  <img src="assets/Ваня1.jpg" alt="Отзыв Вани" loading="lazy" />
                 </div>
                 <div class="rev-info">
                   <div class="rev-name-box">
@@ -862,11 +908,11 @@
             <div class="card-inner">
               <div class="side side-front">
                 <div class="rev-img">
-                  <img src="assets/Тим1.webp" alt="Отзыв Тима" loading="lazy">
+                  <img src="assets/Тим1.webp" alt="Отзыв Тима" loading="lazy" />
                 </div>
                 <div class="rev-info">
                   <div class="rev-name-box">
-                    <h3>Тим</h3>  
+                    <h3>Тим</h3>
                     <p>21 год / @silagod</p>
                   </div>
                   <div class="rev-income">120.000₽</div>
@@ -906,7 +952,7 @@
           все что тебе нужно — здесь
         </div>
         <h2 class="section-title-center reveal">
-          Выбери что подойдет<br>именно тебе
+          Выбери что подойдет<br />именно тебе
         </h2>
 
         <div class="tariffs-grid stagger-container">
@@ -929,7 +975,7 @@
               </ul>
             </div>
 
-            <hr class="t-divider">
+            <hr class="t-divider" />
 
             <div class="t-section">
               <h3 class="t-section-title">Что внутри?</h3>
@@ -1012,7 +1058,7 @@
               </ul>
             </div>
 
-            <hr class="t-divider">
+            <hr class="t-divider" />
 
             <div class="t-section">
               <h3 class="t-section-title">Что внутри?</h3>
@@ -1098,7 +1144,7 @@
               </ul>
             </div>
 
-            <hr class="t-divider">
+            <hr class="t-divider" />
 
             <div class="t-section">
               <h3 class="t-section-title">Что внутри?</h3>
@@ -1152,7 +1198,7 @@
               <h3 class="zz-title">Фрилансерам.</h3>
               <p class="zz-desc">
                 Новичкам в контент-продюсировании или действующим фрилансерам.
-                <br><br>Идеально, если ты хочешь
+                <br /><br />Идеально, если ты хочешь
                 <strong>приумножить доход</strong>, масштабироваться и перестать
                 работать за копейки.
               </p>
@@ -1160,9 +1206,10 @@
             <div class="zig-zag-visual">
               <div class="visual-placeholder">
                 <img
-                  src="https://images.unsplash.com/photo-1626785774573-4b7993143a4d?q=80&w=800&auto=format&fit=crop"
+                  src="https://images.unsplash.com/photo-1626785774573-4b7993143a4d?q=60&w=600&auto=format,compress&fit=crop"
                   alt="Фрилансер"
-                  loading="lazy">
+                  loading="lazy"
+                />
               </div>
             </div>
           </div>
@@ -1170,7 +1217,7 @@
             <div class="zig-zag-content">
               <h3 class="zz-title">Инфлюенсерам.</h3>
               <p class="zz-desc">
-                Если ты уже снимаешь, но не получаешь желаемых просмотров.<br><br>Мы
+                Если ты уже снимаешь, но не получаешь желаемых просмотров.<br /><br />Мы
                 построим систему, которая поможет
                 <strong>монетизировать творчество</strong> и превратить лайки в
                 деньги.
@@ -1179,9 +1226,10 @@
             <div class="zig-zag-visual">
               <div class="visual-placeholder">
                 <img
-                  src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=800&auto=format&fit=crop"
+                  src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=60&w=600&auto=format,compress&fit=crop"
                   alt="Инфлюенсер"
-                  loading="lazy">
+                  loading="lazy"
+                />
               </div>
             </div>
           </div>
@@ -1189,7 +1237,7 @@
             <div class="zig-zag-content">
               <h3 class="zz-title">Предпринимателям.</h3>
               <p class="zz-desc">
-                Перестань сливать бюджет на таргетологов.<br><br>Начни
+                Перестань сливать бюджет на таргетологов.<br /><br />Начни
                 приводить <strong>новых покупателей</strong> органически через
                 длинный и короткий контент, который работает 24/7.
               </p>
@@ -1197,9 +1245,10 @@
             <div class="zig-zag-visual">
               <div class="visual-placeholder">
                 <img
-                  src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=800&auto=format&fit=crop"
+                  src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=60&w=600&auto=format,compress&fit=crop"
                   alt="Предприниматель"
-                  loading="lazy">
+                  loading="lazy"
+                />
               </div>
             </div>
           </div>
@@ -1207,7 +1256,7 @@
             <div class="zig-zag-content">
               <h3 class="zz-title">Экспертам.</h3>
               <p class="zz-desc">
-                Твердый личный бренд — это актив.<br><br>Привлекай лояльную
+                Твердый личный бренд — это актив.<br /><br />Привлекай лояльную
                 аудиторию и <strong>продавай свои знания</strong> дорого через
                 инфопродукты и наставничество.
               </p>
@@ -1215,9 +1264,10 @@
             <div class="zig-zag-visual">
               <div class="visual-placeholder">
                 <img
-                  src="https://images.unsplash.com/photo-1542626991-cbc4e32524cc?q=80&w=800&auto=format&fit=crop"
+                  src="https://images.unsplash.com/photo-1542626991-cbc4e32524cc?q=60&w=600&auto=format,compress&fit=crop"
                   alt="Эксперт"
-                  loading="lazy">
+                  loading="lazy"
+                />
               </div>
             </div>
           </div>
@@ -1234,7 +1284,12 @@
         <div class="faq-grid-2col stagger-container">
           <div class="faq-col">
             <div class="faq-item-modern stagger-item">
-              <div class="faq-question-modern" role="button" tabindex="0" aria-expanded="false">
+              <div
+                class="faq-question-modern"
+                role="button"
+                tabindex="0"
+                aria-expanded="false"
+              >
                 Можно ли совмещать с работой?
                 <svg class="faq-icon-modern" viewBox="0 0 24 24">
                   <path
@@ -1252,7 +1307,12 @@
               </div>
             </div>
             <div class="faq-item-modern stagger-item" style="margin-top: 20px">
-              <div class="faq-question-modern" role="button" tabindex="0" aria-expanded="false">
+              <div
+                class="faq-question-modern"
+                role="button"
+                tabindex="0"
+                aria-expanded="false"
+              >
                 Нужно ли дорогое оборудование?
                 <svg class="faq-icon-modern" viewBox="0 0 24 24">
                   <path
@@ -1270,7 +1330,12 @@
               </div>
             </div>
             <div class="faq-item-modern stagger-item" style="margin-top: 20px">
-              <div class="faq-question-modern" role="button" tabindex="0" aria-expanded="false">
+              <div
+                class="faq-question-modern"
+                role="button"
+                tabindex="0"
+                aria-expanded="false"
+              >
                 Как происходит оплата?
                 <svg class="faq-icon-modern" viewBox="0 0 24 24">
                   <path
@@ -1291,7 +1356,12 @@
 
           <div class="faq-col">
             <div class="faq-item-modern stagger-item">
-              <div class="faq-question-modern" role="button" tabindex="0" aria-expanded="false">
+              <div
+                class="faq-question-modern"
+                role="button"
+                tabindex="0"
+                aria-expanded="false"
+              >
                 Как быстро окупить?
                 <svg class="faq-icon-modern" viewBox="0 0 24 24">
                   <path
@@ -1309,7 +1379,12 @@
               </div>
             </div>
             <div class="faq-item-modern stagger-item" style="margin-top: 20px">
-              <div class="faq-question-modern" role="button" tabindex="0" aria-expanded="false">
+              <div
+                class="faq-question-modern"
+                role="button"
+                tabindex="0"
+                aria-expanded="false"
+              >
                 Как проходит обучение?
                 <svg class="faq-icon-modern" viewBox="0 0 24 24">
                   <path
@@ -1327,7 +1402,12 @@
               </div>
             </div>
             <div class="faq-item-modern stagger-item" style="margin-top: 20px">
-              <div class="faq-question-modern" role="button" tabindex="0" aria-expanded="false">
+              <div
+                class="faq-question-modern"
+                role="button"
+                tabindex="0"
+                aria-expanded="false"
+              >
                 Что делать после курса?
                 <svg class="faq-icon-modern" viewBox="0 0 24 24">
                   <path
@@ -1353,7 +1433,11 @@
     <footer class="site-footer reveal">
       <div class="footer-content">
         <div class="footer-col">
-          <a href="#" class="nav-logo" style="color: white; font-size: 2rem" aria-label="core. home"
+          <a
+            href="#"
+            class="nav-logo"
+            style="color: white; font-size: 2rem"
+            aria-label="core. home"
             >core.</a
           >
           <p style="margin-top: 10px; max-width: 300px">
@@ -1370,7 +1454,7 @@
         <div class="footer-col">
           <h3>Реквизиты</h3>
           <p style="margin: 0; line-height: 1.6">
-            ИП ЛИ Р.С.<br>ИНН 502760562039
+            ИП ЛИ Р.С.<br />ИНН 502760562039
           </p>
         </div>
       </div>
@@ -1380,9 +1464,9 @@
     </footer>
 
     <script>
-      // --- 1. ШУМ (NOISE) Возвращен твой оригинальный скрипт на 100% ---
+      // --- 1. ШУМ (NOISE) - Ограничен до 15 FPS ---
       const noiseCanvas = document.getElementById("noise-canvas");
-      const ctx = noiseCanvas.getContext("2d");
+      const ctx = noiseCanvas.getContext("2d", { alpha: true });
       const resize = () => {
         noiseCanvas.width = window.innerWidth;
         noiseCanvas.height = window.innerHeight;
@@ -1397,14 +1481,23 @@
             buffer[i] = Math.random() < 0.5 ? 0xff000000 : 0x11000000;
         ctx.putImageData(id, 0, 0);
       };
-      let frame = 0;
-      const loop = () => {
-        if (frame % 2 === 0) drawNoise();
-        frame++;
-        requestAnimationFrame(loop);
-      };
       window.addEventListener("resize", resize);
       resize();
+
+      let then = Date.now();
+      const fps = 15; // Жесткое ограничение кадров в секунду
+      const interval = 1000 / fps;
+
+      const loop = () => {
+        requestAnimationFrame(loop);
+        const now = Date.now();
+        const delta = now - then;
+
+        if (delta > interval) {
+          then = now - (delta % interval);
+          drawNoise();
+        }
+      };
       loop();
 
       // --- 2. ЛОГИКА СЛАЙДЕРА (МАСЛЯНЫЙ СВАЙП) ---
@@ -1561,22 +1654,21 @@
         );
       });
 
-      // --- 5. ROTATOR ---
-      const wordsArr = ["воды", "трендов", "суеты"];
-      let wordIndex = 0;
-      const elRot = document.getElementById("word-rotator");
-      if (elRot) {
-        setInterval(() => {
-          wordIndex = (wordIndex + 1) % wordsArr.length;
-          elRot.style.filter = "blur(8px)";
-          elRot.style.opacity = 0;
-          setTimeout(() => {
-            elRot.innerText = wordsArr[wordIndex];
-            elRot.style.filter = "blur(0)";
-            elRot.style.opacity = 1;
-          }, 400);
-        }, 2200);
-      }
+// --- 5. ROTATOR ОПТИМИЗИРОВАННЫЙ ---
+const wordsArr = ["воды", "трендов", "суеты"];
+let wordIndex = 0;
+const elRot = document.getElementById("word-rotator");
+if (elRot) {
+  setInterval(() => {
+    wordIndex = (wordIndex + 1) % wordsArr.length;
+    elRot.style.opacity = 0; // Блюр убран ради производительности
+    setTimeout(() => {
+      elRot.innerText = wordsArr[wordIndex];
+      elRot.style.opacity = 1;
+    }, 400);
+  }, 2200);
+}
+
 
       // --- 6. STICKERS ---
       document.querySelectorAll(".sticker-img").forEach((sticker) => {
@@ -1623,7 +1715,9 @@
           document.querySelectorAll(".faq-item-modern").forEach((item) => {
             item.classList.remove("active");
             item.querySelector(".faq-answer-modern").style.maxHeight = null;
-            item.querySelector(".faq-question-modern").setAttribute("aria-expanded", "false");
+            item
+              .querySelector(".faq-question-modern")
+              .setAttribute("aria-expanded", "false");
           });
 
           if (!isActive) {
@@ -1689,7 +1783,7 @@
       });
 
       document.addEventListener("DOMContentLoaded", () => {
-        if(typeof Plyr !== 'undefined') {
+        if (typeof Plyr !== "undefined") {
           const player = new Plyr("#player", {
             controls: [
               "play-large",
