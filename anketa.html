@@ -1,29 +1,45 @@
 <!doctype html>
 <html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Оставь заявку на обучение в системе core. Последний шаг к большим деньгам на контенте.">
-  <title>Анкета | core.</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Оставь заявку на обучение в системе core. Последний шаг к большим деньгам на контенте."
+    />
+    <title>Анкета | core.</title>
 
-  <!-- Ускорение соединения со сторонними доменами -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://www.transparenttextures.com"> <!-- Текстуры в anketa.css тоже есть -->
+    <!-- Ускорение соединения со сторонними доменами -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://www.transparenttextures.com" />
+    <!-- Текстуры в anketa.css тоже есть -->
 
-  <!-- Предзагрузка главного CSS-файла -->
-  <link rel="preload" href="css/anketa.css" as="style">
+    <!-- Предзагрузка главного CSS-файла -->
+    <link rel="preload" href="css/anketa.css" as="style" />
 
-  <!-- Асинхронная загрузка шрифтов (Убирает Render-blocking) -->
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=Caveat:wght@700&display=swap">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=Caveat:wght@700&display=swap" media="print" onload="this.media='all'">
-  <noscript>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=Caveat:wght@700&display=swap">
-  </noscript>
+    <!-- Асинхронная загрузка шрифтов (Убирает Render-blocking) -->
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=Caveat:wght@700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=Caveat:wght@700&display=swap"
+      media="print"
+      onload="this.media = 'all'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=Caveat:wght@700&display=swap"
+      />
+    </noscript>
 
-  <!-- Подключение основного стиля -->
-  <link rel="stylesheet" href="css/anketa.css">
-</head>
+    <!-- Подключение основного стиля -->
+    <link rel="stylesheet" href="css/anketa.css" />
+  </head>
 
   <body>
     <!-- Возвращен твой оригинальный интерактивный Canvas-шум -->
@@ -177,41 +193,58 @@
     </div>
 
     <script>
-      // --- 1. ШУМ (NOISE) - Ограничен до 15 FPS ---
+      // --- 1. ШУМ НА ФОНЕ (ИСПРАВЛЕННЫЙ И ОПТИМИЗИРОВАННЫЙ) ---
       const noiseCanvas = document.getElementById("noise-canvas");
-      const ctx = noiseCanvas.getContext("2d", { alpha: true });
-      const resize = () => {
-        noiseCanvas.width = window.innerWidth;
-        noiseCanvas.height = window.innerHeight;
-      };
-      const drawNoise = () => {
-        const w = noiseCanvas.width,
-          h = noiseCanvas.height;
-        const id = ctx.createImageData(w, h),
-          buffer = new Uint32Array(id.data.buffer);
-        for (let i = 0; i < buffer.length; i++)
-          if (Math.random() < 0.2)
-            buffer[i] = Math.random() < 0.5 ? 0xff000000 : 0x11000000;
-        ctx.putImageData(id, 0, 0);
-      };
-      window.addEventListener("resize", resize);
-      resize();
 
-      let then = Date.now();
-      const fps = 15; // Жесткое ограничение кадров в секунду
-      const interval = 1000 / fps;
+      if (noiseCanvas) {
+        const ctx = noiseCanvas.getContext("2d", { alpha: true });
+        let buffers = [];
+        let currentBuffer = 0;
 
-      const loop = () => {
-        requestAnimationFrame(loop);
-        const now = Date.now();
-        const delta = now - then;
+        const createNoiseBuffers = () => {
+          // Исправлено: используем window.innerWidth / window.innerHeight
+          const w = window.innerWidth;
+          const h = window.innerHeight;
+          noiseCanvas.width = w;
+          noiseCanvas.height = h;
 
-        if (delta > interval) {
-          then = now - (delta % interval);
-          drawNoise();
-        }
-      };
-      loop();
+          buffers = []; // Очищаем старые кадры
+
+          // Генерируем 8 готовых кадров шума
+          for (let b = 0; b < 8; b++) {
+            const id = ctx.createImageData(w, h);
+            const data = new Uint32Array(id.data.buffer);
+            for (let i = 0; i < data.length; i++) {
+              if (Math.random() < 0.15) {
+                data[i] = Math.random() < 0.5 ? 0xff000000 : 0x11000000;
+              }
+            }
+            buffers.push(id);
+          }
+        };
+
+        const loopNoise = () => {
+          if (buffers.length > 0) {
+            ctx.putImageData(buffers[currentBuffer], 0, 0);
+            currentBuffer = (currentBuffer + 1) % buffers.length;
+          }
+          // Ограничение 15 кадров в секунду для экономии заряда батареи
+          setTimeout(() => requestAnimationFrame(loopNoise), 1000 / 15);
+        };
+
+        // Запуск с небольшой задержкой, чтобы страница успела отрисоваться
+        window.addEventListener("load", () => {
+          setTimeout(() => {
+            createNoiseBuffers();
+            loopNoise();
+          }, 500);
+        });
+
+        // Пересчет при изменении размера окна
+        window.addEventListener("resize", () => {
+          createNoiseBuffers();
+        });
+      }
 
       // --- 2. УМНАЯ СУПЕР-ПЛАВНАЯ АНИМАЦИЯ ПО СКРОЛЛУ ---
       document.addEventListener("DOMContentLoaded", () => {
