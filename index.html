@@ -460,7 +460,7 @@
           <div class="card-3d">
             <div class="card-img-container">
               <img
-                src="https://images.unsplash.com/photo-1518331483807-f642f1f96966?q=60&w=600&auto=format,compress&fit=crop"
+                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=60&w=400&auto=format,compress&fit=crop"
                 alt="Ваня Паскаль 9"
                 class="card-img"
                 loading="lazy"
@@ -495,7 +495,7 @@
           <div class="card-3d">
             <div class="card-img-container">
               <img
-                src="https://images.unsplash.com/photo-1622630997505-1c5c10557253?q=60&w=600&auto=format,compress&fit=crop"
+                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=60&w=400&auto=format,compress&fit=crop"
                 alt="Ваня Паскаль 11"
                 class="card-img"
                 loading="lazy"
@@ -513,7 +513,7 @@
           <div class="card-3d">
             <div class="card-img-container">
               <img
-                src="https://images.unsplash.com/photo-1506784375835-5e90dac96be2?q=60&w=600&auto=format,compress&fit=crop"
+                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=60&w=400&auto=format,compress&fit=crop"
                 alt="Ваня Паскаль 12"
                 class="card-img"
                 loading="lazy"
@@ -1224,7 +1224,7 @@
             <div class="zig-zag-visual">
               <div class="visual-placeholder">
                 <img
-                  src="https://images.unsplash.com/photo-1626785774573-4b7993143a4d?q=60&w=600&auto=format,compress&fit=crop"
+                  src="https://images.unsplash.com/photo-1542626991-cbc4e32524cc?q=60&w=600&auto=format,compress&fit=crop"
                   alt="Фрилансер"
                   loading="lazy"
                 />
@@ -1482,57 +1482,65 @@
     </footer>
 
     <script>
-      // --- 1. ШУМ НА ФОНЕ (ИСПРАВЛЕННЫЙ И ОПТИМИЗИРОВАННЫЙ) ---
+      // --- 1. ШУМ НА ФОНЕ (ОРИГИНАЛ + СУПЕР-ОПТИМИЗАЦИЯ СДВИГОМ) ---
       const noiseCanvas = document.getElementById("noise-canvas");
 
       if (noiseCanvas) {
         const ctx = noiseCanvas.getContext("2d", { alpha: true });
-        let buffers = [];
-        let currentBuffer = 0;
+        let pattern;
+        const patternSize = 256; // Размер базового квадрата шума
 
-        const createNoiseBuffers = () => {
-          // Уменьшаем разрешение в 4 раза — это секрет бешеной скорости
-          const w = Math.ceil(window.innerWidth / 4);
-          const h = Math.ceil(window.innerHeight / 4);
-          noiseCanvas.width = w;
-          noiseCanvas.height = h;
+        const resize = () => {
+          noiseCanvas.width = window.innerWidth;
+          noiseCanvas.height = window.innerHeight;
+        };
+        window.addEventListener("resize", resize);
+        resize();
 
-          buffers = [];
+        // Создаем кусочек шума ОДИН РАЗ, используя ТВОЙ ОРИГИНАЛЬНЫЙ КОД
+        const createPattern = () => {
+          const tile = document.createElement("canvas");
+          tile.width = patternSize;
+          tile.height = patternSize;
+          const tCtx = tile.getContext("2d");
+          const id = tCtx.createImageData(patternSize, patternSize);
+          const buffer = new Uint32Array(id.data.buffer);
 
-          for (let b = 0; b < 8; b++) {
-            const id = ctx.createImageData(w, h);
-            const data = new Uint32Array(id.data.buffer);
-            for (let i = 0; i < data.length; i++) {
-              // Плотность шума 10% — этого за глаза для стиля
-              if (Math.random() < 0.1) {
-                data[i] = Math.random() < 0.5 ? 0xff000000 : 0x11000000;
-              }
+          // Твои оригинальные цвета и плотность!
+          for (let i = 0; i < buffer.length; i++) {
+            if (Math.random() < 0.2) {
+              buffer[i] = Math.random() < 0.5 ? 0xff000000 : 0x11000000;
             }
-            buffers.push(id);
           }
+          tCtx.putImageData(id, 0, 0);
+          pattern = ctx.createPattern(tile, "repeat");
         };
 
+        createPattern();
+
         const loopNoise = () => {
-          if (buffers.length > 0) {
-            ctx.putImageData(buffers[currentBuffer], 0, 0);
-            currentBuffer = (currentBuffer + 1) % buffers.length;
-          }
-          // Ограничение 15 кадров в секунду для экономии заряда батареи
+          // Случайный сдвиг паттерна каждый кадр (создает иллюзию нового шума)
+          const xOff = Math.floor(Math.random() * patternSize);
+          const yOff = Math.floor(Math.random() * patternSize);
+
+          ctx.clearRect(0, 0, noiseCanvas.width, noiseCanvas.height);
+          ctx.fillStyle = pattern;
+
+          // Сдвигаем начало координат и рисуем холст с запасом
+          ctx.translate(-xOff, -yOff);
+          ctx.fillRect(
+            0,
+            0,
+            noiseCanvas.width + patternSize,
+            noiseCanvas.height + patternSize,
+          );
+          ctx.setTransform(1, 0, 0, 1, 0, 0); // Возвращаем обратно
+
+          // 15 FPS - работает плавно, батарею не садит
           setTimeout(() => requestAnimationFrame(loopNoise), 1000 / 15);
         };
 
-        // Запуск с небольшой задержкой, чтобы страница успела отрисоваться
-        window.addEventListener("load", () => {
-          setTimeout(() => {
-            createNoiseBuffers();
-            loopNoise();
-          }, 1500);
-        });
-
-        // Пересчет при изменении размера окна
-        window.addEventListener("resize", () => {
-          createNoiseBuffers();
-        });
+        loopNoise();
       }
 
       // --- 2. ЛОГИКА СЛАЙДЕРА (МАСЛЯНЫЙ СВАЙП) ---
