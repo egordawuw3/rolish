@@ -1,8 +1,8 @@
-
         /* --- 1. ПЕРЕМЕННЫЕ И БАЗА --- */
         @font-face {
             font-family: 'Gramatika';
             src: local('Gramatika'), local('Inter');
+            font-display: swap; /* Lighthouse Opt */
         }
 
         :root {
@@ -30,10 +30,11 @@
             flex-direction: column;
         }
 
-        /* --- 2. TEXTURE (NOISE) --- */
+        /* --- 2. TEXTURE (NOISE) CSS-ONLY Lighthouse Fix --- */
         #noise-canvas {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 9999; opacity: 0.15; mix-blend-mode: multiply;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
         /* --- 3. NAVBAR (GLASS) --- */
@@ -71,7 +72,7 @@
         .header-desc {
             font-size: 1.25rem;
             line-height: 1.5;
-            color: #555;
+            color: #444; /* Lighthouse Opt Contrast */
             max-width: 600px;
             margin: 24px auto 0;
             font-weight: 500;
@@ -85,10 +86,10 @@
             border-radius: 8px;
         }
 
-        /* --- 5. АНИМАЦИИ ПРИ СКРОЛЛЕ (REVEAL - МАКСИМАЛЬНАЯ ПЛАВНОСТЬ) --- */
+        /* --- 5. АНИМАЦИИ ПРИ СКРОЛЛЕ --- */
         .reveal {
             opacity: 0;
-            transform: translateY(40px) scale(0.98); /* Уменьшена амплитуда для мягкости */
+            transform: translateY(40px) scale(0.98);
             filter: blur(10px);
             transition: opacity 1.2s var(--ease-smooth), transform 1.2s var(--ease-smooth), filter 1.2s var(--ease-smooth);
             will-change: transform, opacity, filter;
@@ -127,6 +128,7 @@
         }
 
         .block-title {
+            display: block; /* Lighthouse Opt */
             font-size: 1.3rem;
             font-weight: 900;
             margin: 0 0 20px 0;
@@ -150,7 +152,7 @@
             outline: none;
         }
         
-        .input-text::placeholder { color: rgba(5, 5, 5, 0.3); font-weight: 600; }
+        .input-text::placeholder { color: rgba(5, 5, 5, 0.5); font-weight: 600; } /* Lighthouse Opt Contrast */
         .input-text:focus {
             background: var(--white);
             border-color: var(--blue-bright);
@@ -335,4 +337,5 @@
             .tiles-grid { grid-template-columns: 1fr; }
             .success-title { font-size: 4rem; }
             .success-subtitle { font-size: 2.2rem; }
+            .reveal { filter: none !important; }
         }

@@ -2,6 +2,7 @@
 @font-face {
   font-family: "Gramatika";
   src: local("Gramatika"), local("Inter");
+  font-display: swap; /* Lighthouse Opt */
 }
 
 :root {
@@ -42,7 +43,7 @@ main {
   width: 100%;
 }
 
-/* --- 2. TEXTURE (NOISE) --- */
+/* --- 2. TEXTURE (NOISE) CSS-ONLY Lighthouse Fix --- */
 #noise-canvas {
   position: fixed;
   top: 0;
@@ -53,6 +54,7 @@ main {
   z-index: 9999;
   opacity: 0.15;
   mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
 /* --- 3. NAVBAR (GLASS) --- */
@@ -68,7 +70,7 @@ main {
   justify-content: space-between;
   align-items: center;
   z-index: 10000;
-  background: rgba(244, 242, 238, 0.571);
+  background: rgba(244, 242, 238, 0.85); /* Улучшен контраст фона для доступности */
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border-bottom: 1px solid rgba(0, 69, 166, 0.05);
@@ -94,7 +96,7 @@ main {
   font-weight: 700;
   font-size: clamp(0.9rem, 1.5vw, 1rem);
   color: var(--blue-bright);
-  opacity: 0.7;
+  opacity: 0.85; /* Lighthouse Opt Contrast */
   transition: opacity 0.4s var(--ease-smooth);
 }
 .nav-text-btn:hover {
@@ -458,6 +460,9 @@ body {
     font-size: clamp(1.8rem, 6vw, 2.5rem) !important;
     line-height: 1.1 !important;
   }
+
+  /* Lighthouse Opt: Отключение лагающих Blur эффектов для мобилок */
+  .reveal, .stagger-item { filter: none !important; }
 }
 
 @media (max-width: 400px) {
@@ -566,7 +571,8 @@ body {
 }
 .vsl-subhead {
   font-size: clamp(1.1rem, 2vw, 1.5rem); /* Fluid Design */
-  font-weight: 500; color: #555; line-height: 1.4; margin-bottom: 60px;
+  font-weight: 500; color: #444; /* Lighthouse Opt Contrast */ 
+  line-height: 1.4; margin-bottom: 60px;
   max-width: 700px; margin-left: auto; margin-right: auto;
 }
 .video-box {
@@ -632,7 +638,7 @@ body {
 .slider-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; pointer-events: none; }
 .s-pill { background: var(--blue-bright); color: white; padding: 10px; border-radius: 12px; font-weight: 800; text-align: center; }
 .s-script { font-family: "Caveat", cursive; color: var(--accent); font-size: 1.1rem; text-align: center; }
-.s-logo { width: 40px; height: 40px; border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: auto auto 0; font-size: 0.7rem; font-weight: 700; opacity: 0.5; color: var(--black); }
+.s-logo { width: 40px; height: 40px; border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: auto auto 0; font-size: 0.7rem; font-weight: 700; opacity: 0.85; color: var(--black); } /* Lighthouse Opt Contrast */
 
 .nav-container-3d {
   position: absolute; width: calc(var(--card-width) + 220px); display: flex; justify-content: space-between; z-index: 100; pointer-events: none;
@@ -698,7 +704,7 @@ body {
 .back-content { position: relative; z-index: 2; width: 100%; height: 100%; padding: 30px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
 .side-back h4 { font-family: "Caveat"; font-size: 2.2rem; color: white; margin: 0 0 10px; transform: rotate(-2deg); }
 .side-back p { font-size: 0.9rem; line-height: 1.4; color: var(--bg-cream); margin: 0; font-weight: 500; }
-.tg-user { margin-top: 20px; font-weight: 900; font-size: 0.7rem; color: var(--bg-cream); opacity: 0.6; text-transform: uppercase; }
+.tg-user { margin-top: 20px; font-weight: 900; font-size: 0.7rem; color: var(--bg-cream); opacity: 0.85; text-transform: uppercase; } /* Lighthouse Opt Contrast */
 
 .reviews-footer { padding: 80px 0; text-align: center; }
 .reviews-footer .btn-outline { color: var(--blue-bright); border-color: var(--blue-bright); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); }
@@ -746,7 +752,7 @@ body {
 .m-duration { color: var(--accent); font-weight: 700; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; margin-bottom: 20px; }
 .m-duration svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; }
 .m-title { font-size: 1.5rem; font-weight: 800; color: var(--black); margin: 0 0 15px; letter-spacing: -0.02em; }
-.m-desc { font-size: 0.95rem; line-height: 1.6; color: #555; margin: 0; font-weight: 500; }
+.m-desc { font-size: 0.95rem; line-height: 1.6; color: #444; margin: 0; font-weight: 500; } /* Lighthouse Opt Contrast */
 
 .c1 { background: radial-gradient(circle at center, #0045a6 0%, #001a40 100%); }
 .c2 { background: radial-gradient(circle at center, #fa2d1a 0%, #300000 100%); }
@@ -800,7 +806,9 @@ body {
 .popular .t-header-box { background: rgba(255, 255, 255, 0.1); }
 .mentor .t-header-box { background: rgba(255, 255, 255, 0.15); }
 
-.t-header-title { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; opacity: 0.6; font-weight: 700; }
+.t-header-title { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; opacity: 0.85; color: #333; font-weight: 800; } /* Lighthouse Opt Contrast */
+.popular .t-header-title, .mentor .t-header-title { color: rgba(255, 255, 255, 0.85); }
+
 .t-header-name { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 900; margin: 0; line-height: 1; color: var(--blue-bright); }
 .popular .t-header-name, .mentor .t-header-name { color: #ffffff; }
 
@@ -823,9 +831,9 @@ body {
 .mentor .icon-circle { background: #fff; }
 .mentor .icon-circle svg { fill: var(--blue-bright); }
 
-.crossed { text-decoration: line-through; opacity: 0.4; }
-.crossed .icon-circle { background: rgba(0, 69, 166, 0.15) !important; }
-.popular .crossed .icon-circle, .mentor .crossed .icon-circle { background: rgba(255, 255, 255, 0.2) !important; }
+.crossed { text-decoration: line-through; opacity: 0.5; } /* Lighthouse Opt Contrast */
+.crossed .icon-circle { background: rgba(0, 69, 166, 0.25) !important; }
+.popular .crossed .icon-circle, .mentor .crossed .icon-circle { background: rgba(255, 255, 255, 0.3) !important; }
 .crossed .icon-circle svg { fill: #fff !important; }
 
 .t-divider { border: none; border-top: 1px solid rgba(0, 69, 166, 0.15); margin: 25px 0; }
@@ -862,7 +870,7 @@ body {
   font-size: clamp(2.2rem, 4vw, 3rem); /* Fluid Design */
   font-weight: 900; color: var(--blue-bright); line-height: 1; margin-bottom: 24px; letter-spacing: -0.04em;
 }
-.zz-desc { font-size: 1.15rem; line-height: 1.6; color: #555; font-weight: 500; }
+.zz-desc { font-size: 1.15rem; line-height: 1.6; color: #444; font-weight: 500; } /* Lighthouse Opt Contrast */
 .zz-desc strong { color: var(--accent); font-weight: 700; }
 
 /* --- 11. NEW SECTION: FAQ (2-Col Grid) --- */
@@ -874,7 +882,7 @@ body {
 .faq-icon-modern { width: 24px; height: 24px; fill: none; stroke: var(--accent); stroke-width: 2.5; transition: transform 0.3s var(--ease-smooth); }
 .faq-item-modern.active .faq-icon-modern { transform: rotate(45deg); stroke: var(--blue-bright); }
 .faq-answer-modern { max-height: 0; overflow: hidden; transition: all 0.3s ease; padding: 0 30px; }
-.faq-answer-modern p { padding-bottom: 24px; margin: 0; font-size: 1rem; line-height: 1.6; color: #555; }
+.faq-answer-modern p { padding-bottom: 24px; margin: 0; font-size: 1rem; line-height: 1.6; color: #444; } /* Lighthouse Opt Contrast */
 
 /* --- 12. FOOTER --- */
 .site-footer { background: var(--blue-deep); color: rgba(255, 255, 255, 0.6); padding: 80px 20px 40px; margin-top: 100px; border-top-left-radius: var(--radius); border-top-right-radius: var(--radius); }
@@ -884,7 +892,7 @@ body {
   font-size: clamp(1.1rem, 1.5vw, 1.2rem); /* Fluid Design */
   margin-top: 0; margin-bottom: 20px;
 }
-.footer-links a { display: block; color: rgba(255, 255, 255, 0.6); text-decoration: none; margin-bottom: 10px; font-size: 0.95rem; transition: color 0.3s; }
+.footer-links a { display: block; color: rgba(255, 255, 255, 0.85); text-decoration: none; margin-bottom: 10px; font-size: 0.95rem; transition: color 0.3s; } /* Lighthouse Opt Contrast */
 .footer-links a:hover { color: var(--accent); }
 .footer-legal { text-align: center; font-size: 0.85rem; margin-top: 60px; padding-top: 30px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
 

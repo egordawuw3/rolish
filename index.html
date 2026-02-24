@@ -3,54 +3,59 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Добавлено метаописание для улучшения SEO -->
     <meta
       name="description"
       content="core. - Авторская система создания контента и заработка на творчестве. Обучение креативности, съемке, монтажу и построению личного бренда.">
     <title>core.</title>
 
-    <!-- Предварительное подключение шрифтов для ускорения отрисовки текста (Performance) -->
+    <!-- Предварительное подключение для Lighthouse Opt -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="css/index.css" as="style">
+    <link rel="preload" href="assets/camera.webp" as="image">
+    <link rel="preload" href="https://cdn.plyr.io/3.7.8/plyr.css" as="style">
+
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=Caveat:wght@700&display=swap"
       rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css">
     <link rel="icon" href="favicon.png" type="image/png">
-    <!-- Скрипт плеера загружается асинхронно, чтобы не блокировать страницу (Performance) -->
     <script src="https://cdn.plyr.io/3.7.8/plyr.js" defer></script>
     <link rel="stylesheet" href="css/index.css">
   </head>
   <body>
-    <canvas id="noise-canvas"></canvas>
+    <!-- Заменили Canvas на Div для CSS шума -->
+    <div id="noise-canvas"></div>
 
     <nav class="navbar">
-      <a href="#" class="nav-logo">core.</a>
+      <a href="#" class="nav-logo" aria-label="core. home">core.</a>
       <div class="nav-buttons">
         <a href="#table-of-contents" class="nav-text-btn">Содержание</a>
         <a href="#tariffs" class="nav-accent-btn">Тарифы</a>
       </div>
     </nav>
 
-    <!-- Добавлен тег main для правильной семантики сайта (Best Practices) -->
     <main>
       <div class="hero-wrapper">
         <div class="card-shadow-container">
-          <!-- Добавлено свойство fetchpriority="high" для самых главных картинок первого экрана -->
+          <!-- Width/Height/Webp добавлены ко всем картинкам (спасает от CLS) -->
           <img
-            src="assets/camera.png"
+            src="assets/camera.webp"
             class="sticker-img s-camera"
             alt="Camera"
+            width="600" height="600"
             fetchpriority="high">
           <img
-            src="assets/pencil.png"
+            src="assets/pencil.webp"
             class="sticker-img s-pencil"
             alt="Pencil"
+            width="80" height="240"
             fetchpriority="high">
           <img
-            src="assets/microssd.png"
+            src="assets/microssd.webp"
             class="sticker-img s-ssd"
             alt="SSD"
+            width="120" height="120"
             fetchpriority="high">
 
           <div class="hero-card" id="hero-card">
@@ -73,6 +78,7 @@
       <div class="folder-bridge reveal">
         <div
           class="mac-folder-realistic"
+          role="button" tabindex="0" aria-label="Перейти к тарифам"
           onclick="
             document
               .getElementById('tariffs')
@@ -153,9 +159,9 @@
               playsinline
               controls
               data-poster="assets/preview.jpg"
+              width="100%" height="auto"
             >
               <source src="assets/Videos/VSL%201.mp4" type="video/mp4">
-              <!-- Добавлены субтитры (Best Practices). Если их нет, Lighthouse все равно требует наличие трека -->
               <track
                 kind="captions"
                 label="Русские субтитры"
@@ -172,54 +178,35 @@
 
       <section class="story-section-new reveal" id="table-of-contents">
         <div class="nav-container-3d">
-          <!-- Добавлено aria-label (Accessibility) -->
           <button
             class="nav-btn-3d"
             aria-label="Предыдущий слайд"
             onclick="move3D(-1)"
           >
-            <svg
-              width="32"
-              height="32"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="3"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
               <path d="M15 18l-6-6 6-6" />
             </svg>
           </button>
-          <!-- Добавлено aria-label (Accessibility) -->
           <button
             class="nav-btn-3d"
             aria-label="Следующий слайд"
             onclick="move3D(1)"
           >
-            <svg
-              width="32"
-              height="32"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="3"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
               <path d="M9 18l6-6-6-6" />
             </svg>
           </button>
         </div>
 
         <div class="track-3d" id="track3d">
-          <!-- Добавлены alt атрибуты и loading="lazy" (SEO, Accessibility, Performance) -->
+          <!-- .webp, width, height, loading="lazy" во ВСЕХ 13 карточках -->
           <div class="card-3d active">
             <div class="card-img-container">
               <img
-                src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=800&auto=format&fit=crop"
+                src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=400&fm=webp&auto=format&fit=crop"
                 alt="Ваня Паскаль 1"
                 class="card-img"
+                width="400" height="290"
                 loading="lazy">
             </div>
             <div class="black-bar"><h2>Ваня Паскаль</h2></div>
@@ -238,46 +225,16 @@
                   <div class="s-script">создаю контент</div>
                 </div>
                 <div class="s-item">
-                  <div
-                    class="s-pill"
-                    style="
-                      display: flex;
-                      justify-content: center;
-                      align-items: center;
-                      gap: 4px;
-                    "
-                  >
+                  <div class="s-pill" style="display: flex; justify-content: center; align-items: center; gap: 4px;">
                     10.000
-                    <svg
-                      width="14"
-                      height="14"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="3"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    >
-                      <path
-                        d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"
-                      ></path>
-                      <circle cx="9" cy="7" r="4"></circle>
-                      <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                      <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                     </svg>
                   </div>
                   <div class="s-script">в личных каналах</div>
                 </div>
               </div>
-              <p
-                style="
-                  font-size: 1.15rem;
-                  color: var(--black);
-                  font-weight: 500;
-                  margin-bottom: auto;
-                  margin-top: 15px;
-                "
-              >
+              <p style="font-size: 1.15rem; color: var(--black); font-weight: 500; margin-bottom: auto; margin-top: 15px;">
                 Но хочу, чтобы ты знал — <br><strong>я абсолютно такой же, как и ты.</strong>
               </p>
               <div class="s-logo">01</div>
@@ -286,17 +243,16 @@
           <div class="card-3d">
             <div class="card-img-container">
               <img
-                src="https://images.unsplash.com/photo-1518331483807-f642f1f96966?q=80&w=800&auto=format&fit=crop"
+                src="https://images.unsplash.com/photo-1518331483807-f642f1f96966?q=80&w=400&fm=webp&auto=format&fit=crop"
                 alt="Ваня Паскаль 2"
                 class="card-img"
+                width="400" height="290"
                 loading="lazy">
             </div>
             <div class="card-body" style="justify-content: center">
               <p class="story-quote">
                 У меня нет богатых родителей и лишних денег. Был только план:
-                <strong
-                  >11 лет школы, 4 года в вузе, работа и пенсия в 75.</strong
-                >
+                <strong>11 лет школы, 4 года в вузе, работа и пенсия в 75.</strong>
               </p>
               <div class="s-logo">02</div>
             </div>
@@ -304,9 +260,10 @@
           <div class="card-3d">
             <div class="card-img-container">
               <img
-                src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop"
+                src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=400&fm=webp&auto=format&fit=crop"
                 alt="Ваня Паскаль 3"
                 class="card-img"
+                width="400" height="290"
                 loading="lazy">
             </div>
             <div class="card-body" style="justify-content: center">
@@ -321,9 +278,10 @@
           <div class="card-3d">
             <div class="card-img-container">
               <img
-                src="https://images.unsplash.com/photo-1622630997505-1c5c10557253?q=80&w=800&auto=format&fit=crop"
+                src="https://images.unsplash.com/photo-1622630997505-1c5c10557253?q=80&w=400&fm=webp&auto=format&fit=crop"
                 alt="Ваня Паскаль 4"
                 class="card-img"
+                width="400" height="290"
                 loading="lazy">
             </div>
             <div class="card-body" style="justify-content: center">
@@ -338,9 +296,10 @@
           <div class="card-3d">
             <div class="card-img-container">
               <img
-                src="https://images.unsplash.com/photo-1506784375835-5e90dac96be2?q=80&w=800&auto=format&fit=crop"
+                src="https://images.unsplash.com/photo-1506784375835-5e90dac96be2?q=80&w=400&fm=webp&auto=format&fit=crop"
                 alt="Ваня Паскаль 5"
                 class="card-img"
+                width="400" height="290"
                 loading="lazy">
             </div>
             <div class="card-body" style="justify-content: center">
@@ -354,25 +313,14 @@
           <div class="card-3d">
             <div class="card-img-container">
               <img
-                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=800&auto=format&fit=crop"
+                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=400&fm=webp&auto=format&fit=crop"
                 alt="Ваня Паскаль 6"
                 class="card-img"
+                width="400" height="290"
                 loading="lazy">
             </div>
             <div class="card-body" style="justify-content: center">
-              <p
-                class="story-quote"
-                style="
-                  font-size: 2.5rem;
-                  font-weight: 900;
-                  text-align: center;
-                  color: var(--accent);
-                  margin-top: auto;
-                  margin-bottom: auto;
-                  background: none;
-                  padding: 0;
-                "
-              >
+              <p class="story-quote" style="font-size: 2.5rem; font-weight: 900; text-align: center; color: var(--accent); margin-top: auto; margin-bottom: auto; background: none; padding: 0;">
                 Монтаж роликов
               </p>
               <div class="s-logo">06</div>
@@ -381,9 +329,10 @@
           <div class="card-3d">
             <div class="card-img-container">
               <img
-                src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=800&auto=format&fit=crop"
+                src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=400&fm=webp&auto=format&fit=crop"
                 alt="Ваня Паскаль 7"
                 class="card-img"
+                width="400" height="290"
                 loading="lazy">
             </div>
             <div class="card-body" style="justify-content: center">
@@ -398,9 +347,10 @@
           <div class="card-3d">
             <div class="card-img-container">
               <img
-                src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=800&auto=format&fit=crop"
+                src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=400&fm=webp&auto=format&fit=crop"
                 alt="Ваня Паскаль 8"
                 class="card-img"
+                width="400" height="290"
                 loading="lazy">
             </div>
             <div class="card-body" style="justify-content: center">
@@ -415,9 +365,10 @@
           <div class="card-3d">
             <div class="card-img-container">
               <img
-                src="https://images.unsplash.com/photo-1518331483807-f642f1f96966?q=80&w=800&auto=format&fit=crop"
+                src="https://images.unsplash.com/photo-1518331483807-f642f1f96966?q=80&w=400&fm=webp&auto=format&fit=crop"
                 alt="Ваня Паскаль 9"
                 class="card-img"
+                width="400" height="290"
                 loading="lazy">
             </div>
             <div class="card-body" style="justify-content: center">
@@ -432,9 +383,10 @@
           <div class="card-3d">
             <div class="card-img-container">
               <img
-                src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop"
+                src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=400&fm=webp&auto=format&fit=crop"
                 alt="Ваня Паскаль 10"
                 class="card-img"
+                width="400" height="290"
                 loading="lazy">
             </div>
             <div class="card-body" style="justify-content: center">
@@ -448,9 +400,10 @@
           <div class="card-3d">
             <div class="card-img-container">
               <img
-                src="https://images.unsplash.com/photo-1622630997505-1c5c10557253?q=80&w=800&auto=format&fit=crop"
+                src="https://images.unsplash.com/photo-1622630997505-1c5c10557253?q=80&w=400&fm=webp&auto=format&fit=crop"
                 alt="Ваня Паскаль 11"
                 class="card-img"
+                width="400" height="290"
                 loading="lazy">
             </div>
             <div class="card-body" style="justify-content: center">
@@ -465,9 +418,10 @@
           <div class="card-3d">
             <div class="card-img-container">
               <img
-                src="https://images.unsplash.com/photo-1506784375835-5e90dac96be2?q=80&w=800&auto=format&fit=crop"
+                src="https://images.unsplash.com/photo-1506784375835-5e90dac96be2?q=80&w=400&fm=webp&auto=format&fit=crop"
                 alt="Ваня Паскаль 12"
                 class="card-img"
+                width="400" height="290"
                 loading="lazy">
             </div>
             <div class="card-body" style="justify-content: center">
@@ -480,50 +434,15 @@
             </div>
           </div>
           <div class="card-3d" style="background: #fa2d1a">
-            <div
-              class="card-body"
-              style="
-                justify-content: center;
-                height: 100%;
-                color: white;
-                padding-top: 60px !important;
-              "
-            >
-              <h2
-                style="
-                  font-weight: 900;
-                  font-size: 2.2rem;
-                  text-transform: uppercase;
-                  margin-bottom: 30px;
-                  text-align: center;
-                  color: white;
-                "
-              >
+            <div class="card-body" style="justify-content: center; height: 100%; color: white; padding-top: 60px !important;">
+              <h2 style="font-weight: 900; font-size: 2.2rem; text-transform: uppercase; margin-bottom: 30px; text-align: center; color: white;">
                 Совет
               </h2>
-              <p
-                style="
-                  color: white;
-                  font-family: &quot;Caveat&quot;;
-                  font-size: 2.5rem;
-                  transform: rotate(-2deg);
-                  line-height: 1.1;
-                  text-align: center;
-                  font-weight: normal;
-                  margin-top: 10px;
-                "
-              >
+              <p style="color: white; font-family: &quot;Caveat&quot;; font-size: 2.5rem; transform: rotate(-2deg); line-height: 1.1; text-align: center; font-weight: normal; margin-top: 10px;">
                 "Хотя бы раз в жизни включи голову, и используй свои возможности
                 на максимум."
               </p>
-              <div
-                class="s-logo"
-                style="
-                  border-color: rgba(255, 255, 255, 0.3);
-                  color: white;
-                  margin-top: 60px;
-                "
-              >
+              <div class="s-logo" style="border-color: rgba(255, 255, 255, 0.3); color: white; margin-top: 60px;">
                 13
               </div>
             </div>
@@ -710,12 +629,12 @@
           Они доверили мне свою экспертность, и вот что вышло :
         </h2>
         <div class="grid-reviews stagger-container">
+          <!-- .webp, width, height, loading="lazy" во ВСЕХ 6 отзывах -->
           <div class="review-item stagger-item">
             <div class="card-inner">
               <div class="side side-front">
-                <!-- Добавлены alt и loading="lazy" -->
                 <div class="rev-img">
-                  <img src="assets/Софа1.jpg" alt="Отзыв Софы" loading="lazy">
+                  <img src="assets/Софа1.webp" alt="Отзыв Софы" width="260" height="260" loading="lazy">
                 </div>
                 <div class="rev-info">
                   <div class="rev-name-box">
@@ -725,10 +644,7 @@
                   <div class="rev-income">120.000₽</div>
                 </div>
               </div>
-              <div
-                class="side side-back"
-                style="--rev-bg: url(&quot;assets/Софа1.jpg&quot;)"
-              >
+              <div class="side side-back" style="--rev-bg: url(&quot;assets/Софа1.webp&quot;)">
                 <div class="back-content">
                   <h4>Результат</h4>
                   <p>
@@ -745,10 +661,7 @@
             <div class="card-inner">
               <div class="side side-front">
                 <div class="rev-img">
-                  <img
-                    src="assets/Влад1.jpg"
-                    alt="Отзыв Влада"
-                    loading="lazy">
+                  <img src="assets/Влад1.webp" alt="Отзыв Влада" width="260" height="260" loading="lazy">
                 </div>
                 <div class="rev-info">
                   <div class="rev-name-box">
@@ -758,10 +671,7 @@
                   <div class="rev-income">80.000₽</div>
                 </div>
               </div>
-              <div
-                class="side side-back"
-                style="--rev-bg: url(&quot;assets/Влад1.jpg&quot;)"
-              >
+              <div class="side side-back" style="--rev-bg: url(&quot;assets/Влад1.webp&quot;)">
                 <div class="back-content">
                   <h4>Результат</h4>
                   <p>
@@ -778,7 +688,7 @@
             <div class="card-inner">
               <div class="side side-front">
                 <div class="rev-img">
-                  <img src="assets/Аня1.jpg" alt="Отзыв Ани" loading="lazy">
+                  <img src="assets/Аня1.webp" alt="Отзыв Ани" width="260" height="260" loading="lazy">
                 </div>
                 <div class="rev-info">
                   <div class="rev-name-box">
@@ -788,10 +698,7 @@
                   <div class="rev-income">105.000₽</div>
                 </div>
               </div>
-              <div
-                class="side side-back"
-                style="--rev-bg: url(&quot;assets/Аня1.jpg&quot;)"
-              >
+              <div class="side side-back" style="--rev-bg: url(&quot;assets/Аня1.webp&quot;)">
                 <div class="back-content">
                   <h4>Результат</h4>
                   <p>
@@ -807,7 +714,7 @@
             <div class="card-inner">
               <div class="side side-front">
                 <div class="rev-img">
-                  <img src="assets/Даня1.jpg" alt="Отзыв Дани" loading="lazy">
+                  <img src="assets/Даня1.webp" alt="Отзыв Дани" width="260" height="260" loading="lazy">
                 </div>
                 <div class="rev-info">
                   <div class="rev-name-box">
@@ -817,10 +724,7 @@
                   <div class="rev-income">150.000₽</div>
                 </div>
               </div>
-              <div
-                class="side side-back"
-                style="--rev-bg: url(&quot;assets/Даня1.jpg&quot;)"
-              >
+              <div class="side side-back" style="--rev-bg: url(&quot;assets/Даня1.webp&quot;)">
                 <div class="back-content">
                   <h4>Результат</h4>
                   <p>
@@ -836,7 +740,7 @@
             <div class="card-inner">
               <div class="side side-front">
                 <div class="rev-img">
-                  <img src="assets/Ваня1.jpg" alt="Отзыв Вани" loading="lazy">
+                  <img src="assets/Ваня1.webp" alt="Отзыв Вани" width="260" height="260" loading="lazy">
                 </div>
                 <div class="rev-info">
                   <div class="rev-name-box">
@@ -846,10 +750,7 @@
                   <div class="rev-income">45.000₽</div>
                 </div>
               </div>
-              <div
-                class="side side-back"
-                style="--rev-bg: url(&quot;assets/Ваня1.jpg&quot;)"
-              >
+              <div class="side side-back" style="--rev-bg: url(&quot;assets/Ваня1.webp&quot;)">
                 <div class="back-content">
                   <h4>Результат</h4>
                   <p>
@@ -865,7 +766,7 @@
             <div class="card-inner">
               <div class="side side-front">
                 <div class="rev-img">
-                  <img src="assets/Тим1.JPG" alt="Отзыв Тима" loading="lazy">
+                  <img src="assets/Тим1.webp" alt="Отзыв Тима" width="260" height="260" loading="lazy">
                 </div>
                 <div class="rev-info">
                   <div class="rev-name-box">
@@ -875,10 +776,7 @@
                   <div class="rev-income">120.000₽</div>
                 </div>
               </div>
-              <div
-                class="side side-back"
-                style="--rev-bg: url(&quot;assets/Тим1.JPG&quot;)"
-              >
+              <div class="side side-back" style="--rev-bg: url(&quot;assets/Тим1.webp&quot;)">
                 <div class="back-content">
                   <h4>Результат</h4>
                   <p>
@@ -921,7 +819,6 @@
             </div>
 
             <div class="t-section">
-              <!-- Заменены h4 на h3 для правильной иерархии заголовков (Accessibility) -->
               <h3 class="t-section-title">Содержание:</h3>
               <ul class="t-list">
                 <li>Модуль 1. Креативность</li>
@@ -941,9 +838,7 @@
                 <li>
                   <div class="icon-circle">
                     <svg viewBox="0 0 24 24">
-                      <polygon
-                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-                      ></polygon>
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
                     </svg>
                   </div>
                   <span>Доступ к материалам 12 месяцев</span>
@@ -951,9 +846,7 @@
                 <li>
                   <div class="icon-circle">
                     <svg viewBox="0 0 24 24">
-                      <polygon
-                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-                      ></polygon>
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
                     </svg>
                   </div>
                   <span>Общий чат учеников</span>
@@ -961,9 +854,7 @@
                 <li>
                   <div class="icon-circle">
                     <svg viewBox="0 0 24 24">
-                      <polygon
-                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-                      ></polygon>
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
                     </svg>
                   </div>
                   <span>Поддержка и проверка ДЗ</span>
@@ -971,9 +862,7 @@
                 <li class="crossed">
                   <div class="icon-circle">
                     <svg viewBox="0 0 24 24">
-                      <polygon
-                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-                      ></polygon>
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
                     </svg>
                   </div>
                   <span>Эфиры с разборов участников</span>
@@ -981,9 +870,7 @@
                 <li class="crossed">
                   <div class="icon-circle">
                     <svg viewBox="0 0 24 24">
-                      <polygon
-                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-                      ></polygon>
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
                     </svg>
                   </div>
                   <span>Алгоритм на 100.000₽/мес</span>
@@ -1024,9 +911,7 @@
                 <li>
                   <div class="icon-circle">
                     <svg viewBox="0 0 24 24">
-                      <polygon
-                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-                      ></polygon>
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
                     </svg>
                   </div>
                   <span>Доступ к материалам 12 месяцев</span>
@@ -1034,9 +919,7 @@
                 <li>
                   <div class="icon-circle">
                     <svg viewBox="0 0 24 24">
-                      <polygon
-                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-                      ></polygon>
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
                     </svg>
                   </div>
                   <span>Общий чат учеников</span>
@@ -1044,9 +927,7 @@
                 <li>
                   <div class="icon-circle">
                     <svg viewBox="0 0 24 24">
-                      <polygon
-                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-                      ></polygon>
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
                     </svg>
                   </div>
                   <span>Поддержка и проверка ДЗ</span>
@@ -1054,9 +935,7 @@
                 <li>
                   <div class="icon-circle">
                     <svg viewBox="0 0 24 24">
-                      <polygon
-                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-                      ></polygon>
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
                     </svg>
                   </div>
                   <span>Эфиры с разборов участников</span>
@@ -1064,9 +943,7 @@
                 <li>
                   <div class="icon-circle">
                     <svg viewBox="0 0 24 24">
-                      <polygon
-                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-                      ></polygon>
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
                     </svg>
                   </div>
                   <span>Алгоритм на 100.000₽/мес</span>
@@ -1110,9 +987,7 @@
                 <li>
                   <div class="icon-circle">
                     <svg viewBox="0 0 24 24">
-                      <polygon
-                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-                      ></polygon>
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
                     </svg>
                   </div>
                   <span>Вечный доступ в core.plus</span>
@@ -1120,9 +995,7 @@
                 <li>
                   <div class="icon-circle">
                     <svg viewBox="0 0 24 24">
-                      <polygon
-                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-                      ></polygon>
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
                     </svg>
                   </div>
                   <span>Вечный доступ к моей личке</span>
@@ -1130,9 +1003,7 @@
                 <li>
                   <div class="icon-circle">
                     <svg viewBox="0 0 24 24">
-                      <polygon
-                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-                      ></polygon>
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
                     </svg>
                   </div>
                   <span>Работаем до результата</span>
@@ -1162,11 +1033,11 @@
               </p>
             </div>
             <div class="zig-zag-visual">
-              <!-- Добавлен loading="lazy" (Performance) -->
               <div class="visual-placeholder">
                 <img
-                  src="https://images.unsplash.com/photo-1626785774573-4b7993143a4d?q=80&w=800&auto=format&fit=crop"
+                  src="https://images.unsplash.com/photo-1626785774573-4b7993143a4d?q=80&w=420&fm=webp&auto=format&fit=crop"
                   alt="Фрилансер"
+                  width="420" height="420"
                   loading="lazy">
               </div>
             </div>
@@ -1182,11 +1053,11 @@
               </p>
             </div>
             <div class="zig-zag-visual">
-              <!-- Добавлен loading="lazy" (Performance) -->
               <div class="visual-placeholder">
                 <img
-                  src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=800&auto=format&fit=crop"
+                  src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=420&fm=webp&auto=format&fit=crop"
                   alt="Инфлюенсер"
+                  width="420" height="420"
                   loading="lazy">
               </div>
             </div>
@@ -1201,11 +1072,11 @@
               </p>
             </div>
             <div class="zig-zag-visual">
-              <!-- Добавлен loading="lazy" (Performance) -->
               <div class="visual-placeholder">
                 <img
-                  src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=800&auto=format&fit=crop"
+                  src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=420&fm=webp&auto=format&fit=crop"
                   alt="Предприниматель"
+                  width="420" height="420"
                   loading="lazy">
               </div>
             </div>
@@ -1220,11 +1091,11 @@
               </p>
             </div>
             <div class="zig-zag-visual">
-              <!-- Добавлен loading="lazy" (Performance) -->
               <div class="visual-placeholder">
                 <img
-                  src="https://images.unsplash.com/photo-1542626991-cbc4e32524cc?q=80&w=800&auto=format&fit=crop"
+                  src="https://images.unsplash.com/photo-1542626991-cbc4e32524cc?q=80&w=420&fm=webp&auto=format&fit=crop"
                   alt="Эксперт"
+                  width="420" height="420"
                   loading="lazy">
               </div>
             </div>
@@ -1242,7 +1113,7 @@
         <div class="faq-grid-2col stagger-container">
           <div class="faq-col">
             <div class="faq-item-modern stagger-item">
-              <div class="faq-question-modern">
+              <div class="faq-question-modern" role="button" tabindex="0" aria-expanded="false">
                 Можно ли совмещать с работой?
                 <svg class="faq-icon-modern" viewBox="0 0 24 24">
                   <path
@@ -1260,7 +1131,7 @@
               </div>
             </div>
             <div class="faq-item-modern stagger-item" style="margin-top: 20px">
-              <div class="faq-question-modern">
+              <div class="faq-question-modern" role="button" tabindex="0" aria-expanded="false">
                 Нужно ли дорогое оборудование?
                 <svg class="faq-icon-modern" viewBox="0 0 24 24">
                   <path
@@ -1278,7 +1149,7 @@
               </div>
             </div>
             <div class="faq-item-modern stagger-item" style="margin-top: 20px">
-              <div class="faq-question-modern">
+              <div class="faq-question-modern" role="button" tabindex="0" aria-expanded="false">
                 Как происходит оплата?
                 <svg class="faq-icon-modern" viewBox="0 0 24 24">
                   <path
@@ -1299,7 +1170,7 @@
 
           <div class="faq-col">
             <div class="faq-item-modern stagger-item">
-              <div class="faq-question-modern">
+              <div class="faq-question-modern" role="button" tabindex="0" aria-expanded="false">
                 Как быстро окупить?
                 <svg class="faq-icon-modern" viewBox="0 0 24 24">
                   <path
@@ -1317,7 +1188,7 @@
               </div>
             </div>
             <div class="faq-item-modern stagger-item" style="margin-top: 20px">
-              <div class="faq-question-modern">
+              <div class="faq-question-modern" role="button" tabindex="0" aria-expanded="false">
                 Как проходит обучение?
                 <svg class="faq-icon-modern" viewBox="0 0 24 24">
                   <path
@@ -1335,7 +1206,7 @@
               </div>
             </div>
             <div class="faq-item-modern stagger-item" style="margin-top: 20px">
-              <div class="faq-question-modern">
+              <div class="faq-question-modern" role="button" tabindex="0" aria-expanded="false">
                 Что делать после курса?
                 <svg class="faq-icon-modern" viewBox="0 0 24 24">
                   <path
@@ -1361,7 +1232,7 @@
     <footer class="site-footer reveal">
       <div class="footer-content">
         <div class="footer-col">
-          <a href="#" class="nav-logo" style="color: white; font-size: 2rem"
+          <a href="#" class="nav-logo" style="color: white; font-size: 2rem" aria-label="core. home"
             >core.</a
           >
           <p style="margin-top: 10px; max-width: 300px">
@@ -1388,32 +1259,7 @@
     </footer>
 
     <script>
-      // --- 1. ШУМ (NOISE) ---
-      const noiseCanvas = document.getElementById("noise-canvas");
-      const ctx = noiseCanvas.getContext("2d");
-      const resize = () => {
-        noiseCanvas.width = window.innerWidth;
-        noiseCanvas.height = window.innerHeight;
-      };
-      const drawNoise = () => {
-        const w = noiseCanvas.width,
-          h = noiseCanvas.height;
-        const id = ctx.createImageData(w, h),
-          buffer = new Uint32Array(id.data.buffer);
-        for (let i = 0; i < buffer.length; i++)
-          if (Math.random() < 0.2)
-            buffer[i] = Math.random() < 0.5 ? 0xff000000 : 0x11000000;
-        ctx.putImageData(id, 0, 0);
-      };
-      let frame = 0;
-      const loop = () => {
-        if (frame % 2 === 0) drawNoise();
-        frame++;
-        requestAnimationFrame(loop);
-      };
-      window.addEventListener("resize", resize);
-      resize();
-      loop();
+      // Код Canvas удален для Lighthouse. Шум генерируется чистым CSS.
 
       // --- 2. ЛОГИКА СЛАЙДЕРА (МАСЛЯНЫЙ СВАЙП) ---
       let currentSlide = 0;
@@ -1622,7 +1468,7 @@
         });
       });
 
-      // --- 7. FAQ ---
+      // --- 7. FAQ (Добавлена поддержка Accessibility) ---
       document.querySelectorAll(".faq-question-modern").forEach((button) => {
         button.addEventListener("click", () => {
           const faqItem = button.parentElement;
@@ -1631,10 +1477,12 @@
           document.querySelectorAll(".faq-item-modern").forEach((item) => {
             item.classList.remove("active");
             item.querySelector(".faq-answer-modern").style.maxHeight = null;
+            item.querySelector(".faq-question-modern").setAttribute("aria-expanded", "false");
           });
 
           if (!isActive) {
             faqItem.classList.add("active");
+            button.setAttribute("aria-expanded", "true");
             const answer = faqItem.querySelector(".faq-answer-modern");
             answer.style.maxHeight = answer.scrollHeight + "px";
           }
@@ -1695,25 +1543,27 @@
       });
 
       document.addEventListener("DOMContentLoaded", () => {
-        const player = new Plyr("#player", {
-          controls: [
-            "play-large",
-            "play",
-            "progress",
-            "current-time",
-            "mute",
-            "volume",
-            "fullscreen",
-          ],
-          ratio: "16:9",
-          youtube: {
-            noCookie: true,
-            rel: 0,
-            showinfo: 0,
-            iv_load_policy: 3,
-            modestbranding: 1,
-          },
-        });
+        if(typeof Plyr !== 'undefined') {
+          const player = new Plyr("#player", {
+            controls: [
+              "play-large",
+              "play",
+              "progress",
+              "current-time",
+              "mute",
+              "volume",
+              "fullscreen",
+            ],
+            ratio: "16:9",
+            youtube: {
+              noCookie: true,
+              rel: 0,
+              showinfo: 0,
+              iv_load_policy: 3,
+              modestbranding: 1,
+            },
+          });
+        }
       });
     </script>
   </body>

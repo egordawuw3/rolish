@@ -3,17 +3,22 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Оставь заявку на обучение в системе core. Последний шаг к большим деньгам на контенте.">
     <title>Анкета | core.</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=Caveat:wght@700&display=swap"
-      rel="stylesheet">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=Caveat:wght@700&display=swap" rel="stylesheet">
+    
+    <link rel="preload" href="css/anketa.css" as="style">
     <link rel="stylesheet" href="css/anketa.css">
   </head>
   <body>
-    <canvas id="noise-canvas"></canvas>
+    <!-- Заменили Canvas на Div для CSS шума -->
+    <div id="noise-canvas"></div>
 
     <nav class="navbar">
-      <a href="index.html" class="nav-logo">core.</a>
+      <a href="index.html" class="nav-logo" aria-label="На главную">core.</a>
     </nav>
 
     <div class="form-container" id="form-container">
@@ -31,18 +36,20 @@
         <!-- Каждый блок с классом reveal для мягкой анимации по скроллу -->
         <div class="form-block reveal">
           <div style="margin-bottom: 30px">
-            <h2 class="block-title">Имя :</h2>
+            <label for="user-name" class="block-title">Имя :</label>
             <input
               type="text"
+              id="user-name"
               name="Имя"
               class="input-text"
               placeholder="*ввод*"
               required>
           </div>
           <div>
-            <h2 class="block-title">Ник в TG (@юзер) :</h2>
+            <label for="user-tg" class="block-title">Ник в TG (@юзер) :</label>
             <input
               type="text"
+              id="user-tg"
               name="Telegram"
               class="input-text"
               placeholder="*ввод*"
@@ -51,10 +58,10 @@
         </div>
 
         <div class="form-block reveal">
-          <h2 class="block-title">Возраст :</h2>
-          <div class="tiles-grid">
+          <div class="block-title" id="age-group">Возраст :</div>
+          <div class="tiles-grid" role="group" aria-labelledby="age-group">
             <label class="tile">
-              <input type="radio" name="Возраст" value="&amp;lt;14" required>
+              <input type="radio" name="Возраст" value="<14" required>
               <span>&lt;14</span>
             </label>
             <label class="tile">
@@ -77,8 +84,8 @@
         </div>
 
         <div class="form-block reveal">
-          <h2 class="block-title">Главная проблема, которая мешает тебе :</h2>
-          <div class="tiles-grid">
+          <div class="block-title" id="problem-group">Главная проблема, которая мешает тебе :</div>
+          <div class="tiles-grid" role="group" aria-labelledby="problem-group">
             <label class="tile">
               <input
                 type="radio"
@@ -114,8 +121,8 @@
         </div>
 
         <div class="form-block reveal">
-          <h2 class="block-title">Насколько ты готов к обучению :</h2>
-          <div class="tiles-grid single-col">
+          <div class="block-title" id="ready-group">Насколько ты готов к обучению :</div>
+          <div class="tiles-grid single-col" role="group" aria-labelledby="ready-group">
             <label class="tile">
               <input type="radio" name="Готовность" value="1/10" required>
               <span>1/10 - Пока думаю</span>
@@ -148,32 +155,7 @@
     </div>
 
     <script>
-      // --- 1. ШУМ НА ФОНЕ ---
-      const noiseCanvas = document.getElementById("noise-canvas");
-      const ctx = noiseCanvas.getContext("2d");
-      const resize = () => {
-        noiseCanvas.width = window.innerWidth;
-        noiseCanvas.height = window.innerHeight;
-      };
-      const drawNoise = () => {
-        const w = noiseCanvas.width,
-          h = noiseCanvas.height;
-        const id = ctx.createImageData(w, h),
-          buffer = new Uint32Array(id.data.buffer);
-        for (let i = 0; i < buffer.length; i++)
-          if (Math.random() < 0.2)
-            buffer[i] = Math.random() < 0.5 ? 0xff000000 : 0x11000000;
-        ctx.putImageData(id, 0, 0);
-      };
-      let frame = 0;
-      const loop = () => {
-        if (frame % 2 === 0) drawNoise();
-        frame++;
-        requestAnimationFrame(loop);
-      };
-      window.addEventListener("resize", resize);
-      resize();
-      loop();
+      // Код Canvas удален для Lighthouse. Шум генерируется чистым CSS.
 
       // --- 2. УМНАЯ СУПЕР-ПЛАВНАЯ АНИМАЦИЯ ПО СКРОЛЛУ ---
       document.addEventListener("DOMContentLoaded", () => {
@@ -187,17 +169,17 @@
 
             intersectingEntries.forEach((entry, index) => {
               const el = entry.target;
-              // Мягкий каскад: 180ms задержки между блоками, если они появились одновременно
+              // Мягкий каскад: 180ms задержки между блоками
               setTimeout(() => {
                 el.classList.add("reveal-active");
               }, index * 180);
 
-              observer.unobserve(el); // Анимация проигрывается 1 раз
+              observer.unobserve(el);
             });
           },
           {
-            threshold: 0.1, // Блок начинает появляться, когда видно 10%
-            rootMargin: "0px 0px -40px 0px", // Легкий отступ снизу
+            threshold: 0.1, 
+            rootMargin: "0px 0px -40px 0px", 
           },
         );
 
