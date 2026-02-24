@@ -324,7 +324,7 @@
           <div class="card-3d">
             <div class="card-img-container">
               <img
-                src="https://images.unsplash.com/photo-1518331483807-f642f1f96966?q=60&w=600&auto=format,compress&fit=crop"
+                src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=60&w=400&auto=format,compress&fit=crop"
                 alt="Ваня Паскаль 2"
                 class="card-img"
                 loading="lazy"
@@ -361,7 +361,7 @@
           <div class="card-3d">
             <div class="card-img-container">
               <img
-                src="https://images.unsplash.com/photo-1622630997505-1c5c10557253?q=60&w=600&auto=format,compress&fit=crop"
+                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=60&w=400&auto=format,compress&fit=crop"
                 alt="Ваня Паскаль 4"
                 class="card-img"
                 loading="lazy"
@@ -379,7 +379,7 @@
           <div class="card-3d">
             <div class="card-img-container">
               <img
-                src="https://images.unsplash.com/photo-1506784375835-5e90dac96be2?q=60&w=600&auto=format,compress&fit=crop"
+                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=60&w=400&auto=format,compress&fit=crop"
                 alt="Ваня Паскаль 5"
                 class="card-img"
                 loading="lazy"
@@ -1491,20 +1491,20 @@
         let currentBuffer = 0;
 
         const createNoiseBuffers = () => {
-          // Исправлено: используем window.innerWidth / window.innerHeight
-          const w = window.innerWidth;
-          const h = window.innerHeight;
+          // Уменьшаем разрешение в 4 раза — это секрет бешеной скорости
+          const w = Math.ceil(window.innerWidth / 4);
+          const h = Math.ceil(window.innerHeight / 4);
           noiseCanvas.width = w;
           noiseCanvas.height = h;
 
-          buffers = []; // Очищаем старые кадры
+          buffers = [];
 
-          // Генерируем 8 готовых кадров шума
           for (let b = 0; b < 8; b++) {
             const id = ctx.createImageData(w, h);
             const data = new Uint32Array(id.data.buffer);
             for (let i = 0; i < data.length; i++) {
-              if (Math.random() < 0.15) {
+              // Плотность шума 10% — этого за глаза для стиля
+              if (Math.random() < 0.1) {
                 data[i] = Math.random() < 0.5 ? 0xff000000 : 0x11000000;
               }
             }
@@ -1526,7 +1526,7 @@
           setTimeout(() => {
             createNoiseBuffers();
             loopNoise();
-          }, 500);
+          }, 1500);
         });
 
         // Пересчет при изменении размера окна

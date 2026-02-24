@@ -50,7 +50,7 @@
     </nav>
 
     <div class="form-container" id="form-container">
-      <div class="header-wrapper reveal">
+      <div class="header-wrapper">
         <h1 class="main-title">Остался последний шаг...</h1>
         <p class="header-desc">
           Который отделяет тебя от системы, которая
@@ -202,20 +202,20 @@
         let currentBuffer = 0;
 
         const createNoiseBuffers = () => {
-          // Исправлено: используем window.innerWidth / window.innerHeight
-          const w = window.innerWidth;
-          const h = window.innerHeight;
+          // Уменьшаем разрешение в 4 раза — это секрет бешеной скорости
+          const w = Math.ceil(window.innerWidth / 4);
+          const h = Math.ceil(window.innerHeight / 4);
           noiseCanvas.width = w;
           noiseCanvas.height = h;
 
-          buffers = []; // Очищаем старые кадры
+          buffers = [];
 
-          // Генерируем 8 готовых кадров шума
           for (let b = 0; b < 8; b++) {
             const id = ctx.createImageData(w, h);
             const data = new Uint32Array(id.data.buffer);
             for (let i = 0; i < data.length; i++) {
-              if (Math.random() < 0.15) {
+              // Плотность шума 10% — этого за глаза для стиля
+              if (Math.random() < 0.1) {
                 data[i] = Math.random() < 0.5 ? 0xff000000 : 0x11000000;
               }
             }
