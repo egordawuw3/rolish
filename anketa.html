@@ -14,15 +14,14 @@
     <link rel="stylesheet" href="css/anketa.css">
   </head>
   <body>
-    <!-- Заменили Canvas на Div для CSS шума -->
-    <div id="noise-canvas"></div>
+    <!-- Возвращен твой оригинальный интерактивный Canvas-шум -->
+    <canvas id="noise-canvas"></canvas>
 
     <nav class="navbar">
       <a href="index.html" class="nav-logo" aria-label="На главную">core.</a>
     </nav>
 
     <div class="form-container" id="form-container">
-      <!-- Заголовок плавно появляется -->
       <div class="header-wrapper reveal">
         <h1 class="main-title">Остался последний шаг...</h1>
         <p class="header-desc">
@@ -33,7 +32,6 @@
       </div>
 
       <form id="anketa-form">
-        <!-- Каждый блок с классом reveal для мягкой анимации по скроллу -->
         <div class="form-block reveal">
           <div style="margin-bottom: 30px">
             <label for="user-name" class="block-title">Имя :</label>
@@ -155,7 +153,32 @@
     </div>
 
     <script>
-      // Код Canvas удален для Lighthouse. Шум генерируется чистым CSS.
+      // --- 1. ШУМ НА ФОНЕ (Твой оригинальный код) ---
+      const noiseCanvas = document.getElementById("noise-canvas");
+      const ctx = noiseCanvas.getContext("2d");
+      const resize = () => {
+        noiseCanvas.width = window.innerWidth;
+        noiseCanvas.height = window.innerHeight;
+      };
+      const drawNoise = () => {
+        const w = noiseCanvas.width,
+          h = noiseCanvas.height;
+        const id = ctx.createImageData(w, h),
+          buffer = new Uint32Array(id.data.buffer);
+        for (let i = 0; i < buffer.length; i++)
+          if (Math.random() < 0.2)
+            buffer[i] = Math.random() < 0.5 ? 0xff000000 : 0x11000000;
+        ctx.putImageData(id, 0, 0);
+      };
+      let frame = 0;
+      const loop = () => {
+        if (frame % 2 === 0) drawNoise();
+        frame++;
+        requestAnimationFrame(loop);
+      };
+      window.addEventListener("resize", resize);
+      resize();
+      loop();
 
       // --- 2. УМНАЯ СУПЕР-ПЛАВНАЯ АНИМАЦИЯ ПО СКРОЛЛУ ---
       document.addEventListener("DOMContentLoaded", () => {
@@ -169,7 +192,6 @@
 
             intersectingEntries.forEach((entry, index) => {
               const el = entry.target;
-              // Мягкий каскад: 180ms задержки между блоками
               setTimeout(() => {
                 el.classList.add("reveal-active");
               }, index * 180);
@@ -202,7 +224,6 @@
         const formData = new FormData(form);
 
         try {
-          // Formspree ID
           const response = await fetch("https://formspree.io/f/xbdapajo", {
             method: "POST",
             body: formData,

@@ -16,9 +16,7 @@
   --black: #050505;
   --light-blue: #e0e6ff;
   --border: rgba(0, 69, 166, 0.15);
-  /* Fluid Design: скругления адаптируются к экрану */
   --radius: clamp(16px, 3vw, 32px);
-  /* Apple-style buttery smooth easing */
   --ease-smooth: cubic-bezier(0.23, 1, 0.32, 1);
 }
 
@@ -37,13 +35,12 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Защита для тега main */
 main {
   display: block;
   width: 100%;
 }
 
-/* --- 2. TEXTURE (NOISE) CSS-ONLY Lighthouse Fix --- */
+/* --- 2. TEXTURE (NOISE) Возвращен твой оригинальный стиль --- */
 #noise-canvas {
   position: fixed;
   top: 0;
@@ -54,7 +51,6 @@ main {
   z-index: 9999;
   opacity: 0.15;
   mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
 /* --- 3. NAVBAR (GLASS) --- */
@@ -63,7 +59,6 @@ main {
   top: 0;
   left: 0;
   width: 100%;
-  /* Fluid Design: отступы в навбаре */
   padding: clamp(15px, 2vw, 20px) clamp(20px, 4vw, 40px);
   box-sizing: border-box;
   display: flex;
@@ -80,7 +75,6 @@ main {
 .nav-logo {
   font-weight: 900;
   color: var(--blue-bright);
-  /* Fluid Design: размер логотипа */
   font-size: clamp(1.4em, 2vw, 1.8em);
   text-decoration: none;
   letter-spacing: -0.05em;
@@ -106,7 +100,6 @@ main {
 .nav-accent-btn {
   text-decoration: none;
   font-weight: 700;
-  /* Fluid Design: внутренние отступы кнопки */
   padding: clamp(10px, 1.5vw, 12px) clamp(20px, 3vw, 32px);
   border-radius: 100px;
   font-size: clamp(0.85em, 1.5vw, 0.9em);
@@ -129,7 +122,6 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Fluid Design: резиновый отступ сверху */
   padding: clamp(80px, 10vh, 100px) clamp(15px, 2vw, 20px) 0px clamp(15px, 2vw, 20px);
   box-sizing: border-box;
   position: relative;
@@ -139,7 +131,6 @@ main {
 .card-shadow-container {
   width: 100%;
   max-width: 1440px;
-  /* Fluid Design: безопасная высота контейнера */
   height: clamp(500px, 82vh, 900px);
   border-radius: var(--radius);
   box-shadow:
@@ -194,7 +185,6 @@ main {
 
 .main-title {
   font-family: "Inter", sans-serif;
-  /* Fluid Design: заголовок не улетает за рамки */
   font-size: clamp(4rem, 14vw, 15rem);
   font-weight: 900;
   line-height: 0.85;
@@ -212,7 +202,6 @@ main {
   margin-top: 30px;
   font-family: "Caveat", cursive;
   font-weight: 700;
-  /* Fluid Design: подзаголовок плавно уменьшается */
   font-size: clamp(2.5rem, 4vw, 4rem);
   line-height: 1.1;
   color: #ffffff;
@@ -268,7 +257,6 @@ main {
 .s-camera {
   top: -5%;
   left: -8%;
-  /* Fluid Design: стикеры плавно дышат до брейкпоинтов */
   width: clamp(400px, 40vw, 600px);
   transform: rotate(-12deg);
 }
@@ -361,7 +349,6 @@ body {
   }
 
   .main-title {
-    /* Fluid Design внутри !important (чтобы на разных телефонах тоже было идеально) */
     font-size: clamp(3rem, 26vw, 6rem) !important;
     margin: 0 !important;
     line-height: 0.8 !important;
@@ -489,7 +476,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  height: clamp(200px, 30vw, 320px); /* Fluid Design */
+  height: clamp(200px, 30vw, 320px);
   perspective: 1200px;
   pointer-events: none;
 }
@@ -560,17 +547,17 @@ body {
 /* --- 6. VSL SECTION (PLIYA + BLUE THEME) --- */
 :root { --plyr-color-main: #fa2d1a; }
 .vsl-section {
-  padding: clamp(40px, 5vw, 60px) 20px clamp(60px, 8vw, 80px) 20px; /* Fluid Design */
+  padding: clamp(40px, 5vw, 60px) 20px clamp(60px, 8vw, 80px) 20px;
   text-align: center; position: relative; z-index: 5;
 }
 .vsl-headline {
-  font-size: clamp(2.5rem, 5vw, 4rem); /* Fluid Design */
+  font-size: clamp(2.5rem, 5vw, 4rem);
   font-weight: 900; line-height: 1; letter-spacing: -0.04em; color: var(--blue-bright);
   margin-bottom: 24px; background: linear-gradient(135deg, #0045a6 0%, #002a66 100%);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
 .vsl-subhead {
-  font-size: clamp(1.1rem, 2vw, 1.5rem); /* Fluid Design */
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
   font-weight: 500; color: #444; /* Lighthouse Opt Contrast */ 
   line-height: 1.4; margin-bottom: 60px;
   max-width: 700px; margin-left: auto; margin-right: auto;
@@ -587,20 +574,20 @@ body {
 
 .btn-outline {
   text-decoration: none; font-weight: 900;
-  font-size: clamp(1.2rem, 2vw, 1.8rem); /* Fluid Design */
+  font-size: clamp(1.2rem, 2vw, 1.8rem);
   color: var(--blue-bright); border: 3px solid var(--blue-bright);
-  padding: clamp(15px, 2vw, 20px) clamp(40px, 5vw, 60px); /* Fluid Design */
+  padding: clamp(15px, 2vw, 20px) clamp(40px, 5vw, 60px);
   border-radius: 100px; display: inline-block; text-transform: uppercase;
   transition: 0.5s var(--ease-smooth); background: transparent;
 }
 .btn-outline:hover { background: var(--blue-bright); color: white; transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0, 69, 166, 0.2); }
 .btn-buy { margin-top: 60px; }
 
-/* --- 7. SLIDER --- */
+/* --- 7. SLIDER (УВЕЛИЧЕН НА 30%) --- */
 :root {
-  /* Fluid Design: переменные слайдера плавно масштабируются */
   --card-width: clamp(280px, 80vw, 400px);
-  --card-height: clamp(450px, 60vh, 600px);
+  /* Оригинал: clamp(450px, 60vh, 600px). +30% высоты для комфорта: */
+  --card-height: clamp(585px, 75vh, 780px); 
   --slider-gap: clamp(20px, 4vw, 50px);
   --transition-speed: 0.9s;
 }
@@ -627,7 +614,11 @@ body {
   box-shadow: 0 40px 100px -20px rgba(0, 69, 166, 0.25); pointer-events: auto;
 }
 
-.card-img-container { width: 100%; height: 290px; overflow: hidden; position: relative; pointer-events: none; }
+.card-img-container { 
+    width: 100%; 
+    height: 350px; /* Увеличено (оригинал 290px), чтобы фото выглядело пропорционально новой высоте */
+    overflow: hidden; position: relative; pointer-events: none; 
+}
 .card-img { width: 100%; height: 100%; object-fit: cover; }
 .black-bar { background: var(--black); color: white; text-align: center; padding: 16px 0; }
 .black-bar h2 { margin: 0; font-size: 1.8rem; font-weight: 900; }
@@ -638,7 +629,7 @@ body {
 .slider-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; pointer-events: none; }
 .s-pill { background: var(--blue-bright); color: white; padding: 10px; border-radius: 12px; font-weight: 800; text-align: center; }
 .s-script { font-family: "Caveat", cursive; color: var(--accent); font-size: 1.1rem; text-align: center; }
-.s-logo { width: 40px; height: 40px; border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: auto auto 0; font-size: 0.7rem; font-weight: 700; opacity: 0.85; color: var(--black); } /* Lighthouse Opt Contrast */
+.s-logo { width: 40px; height: 40px; border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: auto auto 0; font-size: 0.7rem; font-weight: 700; opacity: 0.85; color: var(--black); }
 
 .nav-container-3d {
   position: absolute; width: calc(var(--card-width) + 220px); display: flex; justify-content: space-between; z-index: 100; pointer-events: none;
@@ -662,7 +653,6 @@ body {
 .reviews-section.reviews-active { background-color: #0047ff !important; }
 
 .reviews-headline {
-  /* Fluid Design */
   font-size: clamp(2rem, 3.5vw, 3.5rem);
   padding: 0 clamp(20px, 4vw, 50px) clamp(40px, 6vw, 80px);
   font-weight: 900; text-transform: uppercase; line-height: 1; letter-spacing: -0.04em;
@@ -704,7 +694,7 @@ body {
 .back-content { position: relative; z-index: 2; width: 100%; height: 100%; padding: 30px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
 .side-back h4 { font-family: "Caveat"; font-size: 2.2rem; color: white; margin: 0 0 10px; transform: rotate(-2deg); }
 .side-back p { font-size: 0.9rem; line-height: 1.4; color: var(--bg-cream); margin: 0; font-weight: 500; }
-.tg-user { margin-top: 20px; font-weight: 900; font-size: 0.7rem; color: var(--bg-cream); opacity: 0.85; text-transform: uppercase; } /* Lighthouse Opt Contrast */
+.tg-user { margin-top: 20px; font-weight: 900; font-size: 0.7rem; color: var(--bg-cream); opacity: 0.85; text-transform: uppercase; }
 
 .reviews-footer { padding: 80px 0; text-align: center; }
 .reviews-footer .btn-outline { color: var(--blue-bright); border-color: var(--blue-bright); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); }
@@ -752,7 +742,7 @@ body {
 .m-duration { color: var(--accent); font-weight: 700; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; margin-bottom: 20px; }
 .m-duration svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; }
 .m-title { font-size: 1.5rem; font-weight: 800; color: var(--black); margin: 0 0 15px; letter-spacing: -0.02em; }
-.m-desc { font-size: 0.95rem; line-height: 1.6; color: #444; margin: 0; font-weight: 500; } /* Lighthouse Opt Contrast */
+.m-desc { font-size: 0.95rem; line-height: 1.6; color: #444; margin: 0; font-weight: 500; }
 
 .c1 { background: radial-gradient(circle at center, #0045a6 0%, #001a40 100%); }
 .c2 { background: radial-gradient(circle at center, #fa2d1a 0%, #300000 100%); }
@@ -780,12 +770,12 @@ body {
 
 /* --- 9. NEW SECTION: TARIFFS --- */
 .new-section {
-  padding: clamp(60px, 8vw, 100px) 20px; /* Fluid Design */
+  padding: clamp(60px, 8vw, 100px) 20px;
   position: relative; max-width: 1200px; margin: 0 auto;
 }
 .section-title-center {
   text-align: center;
-  font-size: clamp(2.5rem, 4vw, 3.5rem); /* Fluid Design */
+  font-size: clamp(2.5rem, 4vw, 3.5rem);
   font-weight: 900; color: var(--blue-bright); margin-bottom: 20px; letter-spacing: -0.04em; line-height: 1;
 }
 .section-subtitle-small { text-align: center; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 800; color: var(--accent); margin-bottom: 10px; opacity: 0.8; }
@@ -806,7 +796,7 @@ body {
 .popular .t-header-box { background: rgba(255, 255, 255, 0.1); }
 .mentor .t-header-box { background: rgba(255, 255, 255, 0.15); }
 
-.t-header-title { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; opacity: 0.85; color: #333; font-weight: 800; } /* Lighthouse Opt Contrast */
+.t-header-title { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; opacity: 0.85; color: #333; font-weight: 800; }
 .popular .t-header-title, .mentor .t-header-title { color: rgba(255, 255, 255, 0.85); }
 
 .t-header-name { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 900; margin: 0; line-height: 1; color: var(--blue-bright); }
@@ -831,7 +821,7 @@ body {
 .mentor .icon-circle { background: #fff; }
 .mentor .icon-circle svg { fill: var(--blue-bright); }
 
-.crossed { text-decoration: line-through; opacity: 0.5; } /* Lighthouse Opt Contrast */
+.crossed { text-decoration: line-through; opacity: 0.5; }
 .crossed .icon-circle { background: rgba(0, 69, 166, 0.25) !important; }
 .popular .crossed .icon-circle, .mentor .crossed .icon-circle { background: rgba(255, 255, 255, 0.3) !important; }
 .crossed .icon-circle svg { fill: #fff !important; }
@@ -850,7 +840,7 @@ body {
 /* --- 10. NEW SECTION: ZIG-ZAG TARGET --- */
 .zig-zag-wrapper {
   display: flex; flex-direction: column;
-  gap: clamp(60px, 8vw, 120px); /* Fluid Design */
+  gap: clamp(60px, 8vw, 120px);
   margin-top: clamp(40px, 6vw, 80px);
 }
 .zig-zag-row {
@@ -867,10 +857,10 @@ body {
 
 .zz-title {
   font-family: "Gramatika", "Inter", sans-serif;
-  font-size: clamp(2.2rem, 4vw, 3rem); /* Fluid Design */
+  font-size: clamp(2.2rem, 4vw, 3rem);
   font-weight: 900; color: var(--blue-bright); line-height: 1; margin-bottom: 24px; letter-spacing: -0.04em;
 }
-.zz-desc { font-size: 1.15rem; line-height: 1.6; color: #444; font-weight: 500; } /* Lighthouse Opt Contrast */
+.zz-desc { font-size: 1.15rem; line-height: 1.6; color: #444; font-weight: 500; }
 .zz-desc strong { color: var(--accent); font-weight: 700; }
 
 /* --- 11. NEW SECTION: FAQ (2-Col Grid) --- */
@@ -882,17 +872,17 @@ body {
 .faq-icon-modern { width: 24px; height: 24px; fill: none; stroke: var(--accent); stroke-width: 2.5; transition: transform 0.3s var(--ease-smooth); }
 .faq-item-modern.active .faq-icon-modern { transform: rotate(45deg); stroke: var(--blue-bright); }
 .faq-answer-modern { max-height: 0; overflow: hidden; transition: all 0.3s ease; padding: 0 30px; }
-.faq-answer-modern p { padding-bottom: 24px; margin: 0; font-size: 1rem; line-height: 1.6; color: #444; } /* Lighthouse Opt Contrast */
+.faq-answer-modern p { padding-bottom: 24px; margin: 0; font-size: 1rem; line-height: 1.6; color: #444; }
 
 /* --- 12. FOOTER --- */
 .site-footer { background: var(--blue-deep); color: rgba(255, 255, 255, 0.6); padding: 80px 20px 40px; margin-top: 100px; border-top-left-radius: var(--radius); border-top-right-radius: var(--radius); }
 .footer-content { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 40px; }
 .footer-col h4 {
   color: white; font-weight: 900;
-  font-size: clamp(1.1rem, 1.5vw, 1.2rem); /* Fluid Design */
+  font-size: clamp(1.1rem, 1.5vw, 1.2rem);
   margin-top: 0; margin-bottom: 20px;
 }
-.footer-links a { display: block; color: rgba(255, 255, 255, 0.85); text-decoration: none; margin-bottom: 10px; font-size: 0.95rem; transition: color 0.3s; } /* Lighthouse Opt Contrast */
+.footer-links a { display: block; color: rgba(255, 255, 255, 0.85); text-decoration: none; margin-bottom: 10px; font-size: 0.95rem; transition: color 0.3s; }
 .footer-links a:hover { color: var(--accent); }
 .footer-legal { text-align: center; font-size: 0.85rem; margin-top: 60px; padding-top: 30px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
 
@@ -911,4 +901,5 @@ body {
 @media (max-width: 768px) {
   .footer-content { flex-direction: column; }
   .faq-question-modern { padding: 20px; }
+  .reveal, .stagger-item { filter: none !important; }
 }
