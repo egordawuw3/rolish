@@ -2038,4 +2038,39 @@ body {
   .stagger-item {
     filter: none !important;
   }
+
+  /* --- ФИКС: ИДЕАЛЬНЫЙ ЦЕНТР И СЛОВО "БЕЗ" БОЛЬШЕ НЕ ПРЫГАЕТ --- */
+
+  @media (max-width: 768px) {
+    .row-line {
+      display: flex !important;
+      justify-content: center !important;
+      align-items: baseline !important;
+      gap: 12px !important;
+      width: 100% !important;
+      margin-left: 0 !important; /* Убиваем отступ 20px, теперь ровно по центру */
+      padding-right: 0 !important;
+    }
+
+    .highlight-word-container {
+      /* Фиксируем ширину! Теперь контейнер всегда одного размера, 
+       и длина слова внутри него не будет толкать слово "БЕЗ" */
+      width: 180px !important;
+      min-width: 180px !important;
+      text-align: left !important;
+      display: inline-block !important;
+      flex-shrink: 0 !important; /* Запрещаем сжиматься */
+    }
+  }
+
+  /* Для самых маленьких экранов (iPhone SE и т.д.) */
+  @media (max-width: 400px) {
+    .highlight-word-container {
+      width: 150px !important; /* Чуть уменьшаем коробку, но она всё равно фиксированная! */
+      min-width: 150px !important;
+    }
+    .row-line {
+      gap: 8px !important; /* Чуть сближаем слова, чтобы точно влезли */
+    }
+  }
 }
