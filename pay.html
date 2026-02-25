@@ -16,7 +16,54 @@
     <link rel="icon" href="favicon.png" type="image/png" />
     <link rel="stylesheet" href="css/index.css" />
 
-    <!-- НАСТОЯЩИЙ СКРИПТ Т-БАНКА (РАСКОММЕНТИРОВАТЬ ПЕРЕД СДАЧЕЙ ЗАКАЗЧИКУ) -->
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+      (function (m, e, t, r, i, k, a) {
+        m[i] =
+          m[i] ||
+          function () {
+            (m[i].a = m[i].a || []).push(arguments);
+          };
+        m[i].l = 1 * new Date();
+        for (var j = 0; j < document.scripts.length; j++) {
+          if (document.scripts[j].src === r) {
+            return;
+          }
+        }
+        ((k = e.createElement(t)),
+          (a = e.getElementsByTagName(t)[0]),
+          (k.async = 1),
+          (k.src = r),
+          a.parentNode.insertBefore(k, a));
+      })(
+        window,
+        document,
+        "script",
+        "https://mc.yandex.ru/metrika/tag.js?id=107010402",
+        "ym",
+      );
+      ym(107010402, "init", {
+        ssr: true,
+        webvisor: true,
+        clickmap: true,
+        ecommerce: "dataLayer",
+        referrer: document.referrer,
+        url: location.href,
+        accurateTrackBounce: true,
+        trackLinks: true,
+      });
+    </script>
+    <noscript
+      ><div>
+        <img
+          src="https://mc.yandex.ru/watch/107010402"
+          style="position: absolute; left: -9999px"
+          alt=""
+        /></div
+    ></noscript>
+    <!-- /Yandex.Metrika counter -->
+
+    <!-- НАСТОЯЩИЙ СКРИПТ Т-БАНКА -->
     <script src="https://securepay.tinkoff.ru/html/payForm/js/tinkoff_v2.js"></script>
 
     <style>
@@ -392,7 +439,7 @@
     </footer>
 
     <script>
-      // === ИСПРАВЛЕННАЯ ЛОГИКА ОПЛАТЫ ===
+      // === ЛОГИКА ОПЛАТЫ Т-БАНК ===
       function payTinkoff(amount, name) {
         console.log("Попытка вызвать оплату. Тариф:", name, "Сумма:", amount);
 
@@ -426,6 +473,11 @@
             email: "",
             phone: "",
           });
+
+          // Отправляем событие в Яндекс.Метрику, что кнопка оплаты нажата
+          if (typeof ym !== "undefined") {
+            ym(107010402, "reachGoal", "pay_button_click");
+          }
         } catch (e) {
           console.error("Ошибка при вызове окна оплаты:", e);
           alert(
@@ -434,7 +486,7 @@
         }
       }
 
-      // --- 1. ШУМ НА ФОНЕ (ТВОЙ ОРИГИНАЛЬНЫЙ) ---
+      // --- 1. ШУМ НА ФОНЕ ---
       const noiseCanvas = document.getElementById("noise-canvas");
       if (noiseCanvas) {
         const ctx = noiseCanvas.getContext("2d", { alpha: true });
@@ -488,7 +540,7 @@
         loopNoise();
       }
 
-      // --- 2. АНИМАЦИЯ ПРИ СКРОЛЛЕ (ТВОЯ ОРИГИНАЛЬНАЯ) ---
+      // --- 2. АНИМАЦИЯ ПРИ СКРОЛЛЕ (reveal) ---
       document.addEventListener("DOMContentLoaded", () => {
         const revealObserver = new IntersectionObserver(
           (entries) => {
