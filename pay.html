@@ -3,113 +3,477 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Оплата заказа</title>
+    <meta name="description" content="core. - Выбор тарифа" />
+    <title>Выбор тарифа - core.</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" href="css/tariff.css" as="style" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=Caveat:wght@700&display=swap"
+    />
+    <link rel="icon" href="favicon.png" type="image/png" />
+    <link rel="stylesheet" href="css/index.css" />
 
     <script src="https://securepay.tinkoff.ru/html/payForm/js/tinkoff_v2.js"></script>
 
     <style>
-      body {
-        font-family: -apple-system, system-ui, sans-serif;
-        background-color: #1a1b22;
+      /* Твои стили без изменений */
+      .tariff-price {
+        font-size: 2.8rem;
+        font-weight: 900;
+        margin-top: 5px; /* Уменьшил, так как теперь есть старая цена сверху */
+        color: var(--black);
         display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
+        align-items: baseline;
+        justify-content: center; /* Центрируем цену */
+      }
+      .tariff-price span {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-left: 5px;
+        color: var(--gray-dark);
       }
 
-      .payment-container {
-        background: #ffffff;
-        padding: 40px;
-        border-radius: 28px;
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-        text-align: center;
-        width: 100%;
-        max-width: 320px;
-      }
-
-      .product-name {
-        color: #666;
-        font-size: 16px;
-        margin-bottom: 10px;
-      }
-      .price {
-        font-size: 32px;
-        font-weight: 800;
-        color: #000;
-        margin-bottom: 30px;
-      }
-
-      .pay-button {
-        background-color: #ffdd2d;
-        color: #000;
+      /* Сброс стандартных стилей button для кнопки тарифа */
+      button.btn-tariff {
         border: none;
-        padding: 18px;
-        width: 100%;
-        border-radius: 15px;
-        font-size: 18px;
-        font-weight: bold;
         cursor: pointer;
-        transition: all 0.2s ease;
+        width: 100%;
+        font-family: inherit;
+        font-size: 1rem;
       }
 
-      .pay-button:hover {
-        background-color: #fcc521;
-        transform: translateY(-2px);
+      /* ДОБАВИЛ ТОЛЬКО ЭТО: Стиль для старой цены */
+      .old-price {
+        text-decoration: line-through;
+        color: #a0a0a0;
+        font-size: 1.2rem;
+        display: block;
+        margin-bottom: -5px;
+        font-weight: 500;
+        text-align: center;
       }
-
-      .pay-button:active {
-        transform: translateY(0);
+      .mentor .old-price {
+        color: rgba(255, 255, 255, 0.5);
       }
-
-      .secure-info {
-        margin-top: 20px;
-        font-size: 12px;
-        color: #aaa;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 5px;
+      .mentor .tariff-price {
+        color: white;
       }
     </style>
   </head>
   <body>
-    <div class="payment-container">
-      <div class="product-name">Контент-Рулетка</div>
-      <div class="price">34 900 ₽</div>
+    <canvas id="noise-canvas"></canvas>
 
-      <form
-        name="TinkoffPayForm"
-        onsubmit="
-          pay(this);
-          return false;
-        "
-      >
-        <input type="hidden" name="terminalkey" value="1771969236568" />
+    <nav class="navbar">
+      <a href="index.html" class="nav-logo" aria-label="core. home">core.</a>
+    </nav>
 
-        <input type="hidden" name="amount" value="34900" />
-        <input type="hidden" name="order" id="order_id" />
-        <input
-          type="hidden"
-          name="description"
-          value="Оплата Контент-Рулетки"
-        />
+    <main
+      style="
+        padding-top: 100px;
+        padding-bottom: 60px;
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+      "
+    >
+      <section class="new-section" id="tariffs" style="width: 100%; padding: 0">
+        <div
+          class="section-subtitle-small reveal"
+          style="text-align: center; margin-bottom: 10px"
+        >
+          финальный этап
+        </div>
+        <h2 class="section-title-center reveal" style="margin-bottom: 50px">
+          Ты в одном шаге от системы.<br />Выбери подходящий тариф
+        </h2>
 
-        <input type="hidden" name="frame" value="true" />
-        <input type="hidden" name="language" value="ru" />
+        <div class="tariffs-grid stagger-container">
+          <div class="tariff-card stagger-item">
+            <div class="t-header-box">
+              <div class="t-header-title">Тариф</div>
+              <div class="t-header-name">core.</div>
+            </div>
+            <div class="t-section">
+              <h3 class="t-section-title">Содержание:</h3>
+              <ul class="t-list">
+                <li>Модуль 1. Креативность</li>
+                <li>Модуль 2. Съемка</li>
+                <li>Модуль 3. Монтаж</li>
+                <li>Модуль 4. Первые деньги</li>
+                <li class="crossed">Модуль 5. Контент-продюсирование</li>
+                <li class="crossed">Модуль 6. Личный бренд</li>
+              </ul>
+            </div>
+            <hr class="t-divider" />
+            <div class="t-section" style="flex-grow: 1">
+              <h3 class="t-section-title">Что внутри?</h3>
+              <ul class="t-list-icons">
+                <li>
+                  <div class="icon-circle">
+                    <svg viewBox="0 0 24 24">
+                      <polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                      ></polygon>
+                    </svg>
+                  </div>
+                  <span>Доступ к материалам 12 месяцев</span>
+                </li>
+                <li>
+                  <div class="icon-circle">
+                    <svg viewBox="0 0 24 24">
+                      <polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                      ></polygon>
+                    </svg>
+                  </div>
+                  <span>Общий чат учеников</span>
+                </li>
+                <li>
+                  <div class="icon-circle">
+                    <svg viewBox="0 0 24 24">
+                      <polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                      ></polygon>
+                    </svg>
+                  </div>
+                  <span>Поддержка от кураторов </span>
+                </li>
+                <li>
+                  <div class="icon-circle">
+                    <svg viewBox="0 0 24 24">
+                      <polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                      ></polygon>
+                    </svg>
+                  </div>
+                  <span>Проверка домашних заданий</span>
+                </li>
+                <li class="crossed">
+                  <div class="icon-circle">
+                    <svg viewBox="0 0 24 24">
+                      <polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                      ></polygon>
+                    </svg>
+                  </div>
+                  <span>Эфиры с разборов участников</span>
+                </li>
+                <li class="crossed">
+                  <div class="icon-circle">
+                    <svg viewBox="0 0 24 24">
+                      <polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                      ></polygon>
+                    </svg>
+                  </div>
+                  <span>Алгоритм на 100.000₽/мес</span>
+                </li>
+              </ul>
+            </div>
 
-        <button type="submit" class="pay-button">Оплатить</button>
-      </form>
+            <div class="price-block" style="margin-bottom: 20px">
+              <span class="old-price">39 900 ₽</span>
+              <div class="tariff-price">19 900<span>₽</span></div>
+            </div>
 
-      <div class="secure-info">
-        <span>🔒</span> Безопасная оплата через Т-Банк
+            <button
+              class="btn-tariff"
+              onclick="payTinkoff(19900, 'Тариф core.')"
+            >
+              <span class="btn-arrow">&gt;</span> Оплатить 19 900 ₽
+            </button>
+          </div>
+
+          <div class="tariff-card popular stagger-item">
+            <div class="t-header-box">
+              <div class="t-header-title">Тариф</div>
+              <div class="t-header-name">core+</div>
+              <div class="tariff-badge">Самый популярный</div>
+            </div>
+            <div class="t-section">
+              <h3 class="t-section-title">Содержание:</h3>
+              <ul class="t-list">
+                <li>Модуль 1. Креативность</li>
+                <li>Модуль 2. Съемка</li>
+                <li>Модуль 3. Монтаж</li>
+                <li>Модуль 4. Первые деньги</li>
+                <li>Модуль 5. Контент-продюсирование</li>
+                <li>Модуль 6. Личный бренд</li>
+              </ul>
+            </div>
+            <hr class="t-divider" />
+            <div class="t-section" style="flex-grow: 1">
+              <h3 class="t-section-title">Что внутри?</h3>
+              <ul class="t-list-icons">
+                <li>
+                  <div class="icon-circle">
+                    <svg viewBox="0 0 24 24">
+                      <polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                      ></polygon>
+                    </svg>
+                  </div>
+                  <span>Доступ к материалам 12 месяцев</span>
+                </li>
+                <li>
+                  <div class="icon-circle">
+                    <svg viewBox="0 0 24 24">
+                      <polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                      ></polygon>
+                    </svg>
+                  </div>
+                  <span>Общий чат учеников</span>
+                </li>
+                <li>
+                  <div class="icon-circle">
+                    <svg viewBox="0 0 24 24">
+                      <polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                      ></polygon>
+                    </svg>
+                  </div>
+                  <span>Поддержка от кураторов</span>
+                </li>
+                <li>
+                  <div class="icon-circle">
+                    <svg viewBox="0 0 24 24">
+                      <polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                      ></polygon>
+                    </svg>
+                  </div>
+                  <span>Проверка домашних заданий</span>
+                </li>
+                <li>
+                  <div class="icon-circle">
+                    <svg viewBox="0 0 24 24">
+                      <polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                      ></polygon>
+                    </svg>
+                  </div>
+                  <span>Эфиры с разборов участников</span>
+                </li>
+                <li>
+                  <div class="icon-circle">
+                    <svg viewBox="0 0 24 24">
+                      <polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                      ></polygon>
+                    </svg>
+                  </div>
+                  <span>Алгоритм на 100.000₽/мес</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="price-block" style="margin-bottom: 20px">
+              <span class="old-price" style="color: rgba(255, 255, 255, 0.5)"
+                >59 900 ₽</span
+              >
+              <div class="tariff-price" style="color: white">
+                29 900 <span>₽</span>
+              </div>
+            </div>
+
+            <button
+              class="btn-tariff"
+              onclick="payTinkoff(29900, 'Тариф core+')"
+            >
+              <span class="btn-arrow">&gt;</span> Оплатить 29 900 ₽
+            </button>
+          </div>
+
+          <div class="tariff-card mentor stagger-item">
+            <div class="t-header-box">
+              <div class="t-header-title">Тариф</div>
+              <div class="t-header-name">Менторство</div>
+              <div
+                class="tariff-badge"
+                style="background: white; color: var(--blue-bright)"
+              >
+                Места ограничены
+              </div>
+            </div>
+            <div class="t-section">
+              <h3 class="t-section-title">Содержание:</h3>
+              <ul class="t-list">
+                <li>Личная работа 2 месяца</li>
+                <li>Работа до результата</li>
+                <li>от 10 личных созвонов</li>
+                <li>Гарантия трудоустройства в мое агентство</li>
+              </ul>
+            </div>
+            <hr class="t-divider" />
+            <div class="t-section" style="flex-grow: 1">
+              <h3 class="t-section-title">Что внутри?</h3>
+              <ul class="t-list-icons">
+                <li>
+                  <div class="icon-circle">
+                    <svg viewBox="0 0 24 24">
+                      <polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                      ></polygon>
+                    </svg>
+                  </div>
+                  <span>Вечный доступ ко всем курсам </span>
+                </li>
+                <li>
+                  <div class="icon-circle">
+                    <svg viewBox="0 0 24 24">
+                      <polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                      ></polygon>
+                    </svg>
+                  </div>
+                  <span>Вечный доступ к моей личке</span>
+                </li>
+                <li>
+                  <div class="icon-circle">
+                    <svg viewBox="0 0 24 24">
+                      <polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                      ></polygon>
+                    </svg>
+                  </div>
+                  <span>Работаем до результата</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="price-block" style="margin-bottom: 20px">
+              <span class="old-price">180 000 ₽</span>
+              <div class="tariff-price" style="color: white">
+                95 000 <span style="color: rgba(255, 255, 255, 0.7)">₽</span>
+              </div>
+            </div>
+
+            <button
+              class="btn-tariff"
+              onclick="payTinkoff(95000, 'Тариф Менторство')"
+            >
+              <span class="btn-arrow">&gt;</span> Оплатить 95 000 ₽
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer reveal">
+      <div class="footer-content">
+        <div class="footer-col">
+          <a
+            href="index.html"
+            class="nav-logo"
+            style="color: white; font-size: 2rem"
+            aria-label="core. home"
+            >core.</a
+          >
+          <p style="margin-top: 10px; max-width: 300px">
+            Система создания контента и заработка на творчестве.
+          </p>
+        </div>
+        <div class="footer-col footer-links">
+          <h3>Документы</h3>
+          <a href="/oferta">Договор оферты</a>
+          <a href="/argement">Обработка персональных данных</a>
+          <a href="/privacy">Политика конфиденциальности</a>
+        </div>
+        <div class="footer-col">
+          <h3>Реквизиты</h3>
+          <p style="margin: 0; line-height: 1.6">
+            ИП ЛИ Р.С.<br />ИНН 502760562039
+          </p>
+        </div>
       </div>
-    </div>
+      <div class="footer-legal"><span>© 2026 All rights reserved.</span></div>
+    </footer>
 
     <script>
-      // Генерируем уникальный номер заказа при каждой загрузке страницы
-      // Это критично: банк не даст оплатить дважды по одному ID заказа
-      document.getElementById("order_id").value = "INV-" + Date.now();
+      function payTinkoff(amount, orderName) {
+        var payForm = {
+          terminalkey: "ВАШ_ТЕРМИНАЛ_КЛЮЧ",
+          frame: "false",
+          language: "ru",
+          amount: amount,
+          order: "Заказ_" + Math.floor(Math.random() * 1000000),
+          description: orderName,
+          receipt: {
+            Email: "client@email.com",
+            Taxation: "usn_income",
+            Items: [
+              {
+                Name: orderName,
+                Price: amount * 100,
+                Quantity: 1.0,
+                Amount: amount * 100,
+                PaymentMethod: "full_prepayment",
+                PaymentObject: "service",
+                Tax: "none",
+              },
+            ],
+          },
+        };
+        window.tinkoff.pay(payForm);
+      }
+
+      // ШУМ
+      const noiseCanvas = document.getElementById("noise-canvas");
+      if (noiseCanvas) {
+        const ctx = noiseCanvas.getContext("2d", { alpha: true });
+        let pattern;
+        const resize = () => {
+          noiseCanvas.width = window.innerWidth;
+          noiseCanvas.height = window.innerHeight;
+        };
+        window.addEventListener("resize", resize);
+        resize();
+        const createPattern = () => {
+          const tile = document.createElement("canvas");
+          tile.width = 256;
+          tile.height = 256;
+          const tCtx = tile.getContext("2d");
+          const id = tCtx.createImageData(256, 256);
+          const buffer = new Uint32Array(id.data.buffer);
+          for (let i = 0; i < buffer.length; i++) {
+            if (Math.random() < 0.2)
+              buffer[i] = Math.random() < 0.5 ? 0xff000000 : 0x11000000;
+          }
+          tCtx.putImageData(id, 0, 0);
+          pattern = ctx.createPattern(tile, "repeat");
+        };
+        createPattern();
+        const loopNoise = () => {
+          ctx.clearRect(0, 0, noiseCanvas.width, noiseCanvas.height);
+          ctx.fillStyle = pattern;
+          ctx.translate(-Math.random() * 256, -Math.random() * 256);
+          ctx.fillRect(0, 0, noiseCanvas.width + 256, noiseCanvas.height + 256);
+          ctx.setTransform(1, 0, 0, 1, 0, 0);
+          setTimeout(() => requestAnimationFrame(loopNoise), 60);
+        };
+        loopNoise();
+      }
+
+      // АНИМАЦИЯ
+      document.addEventListener("DOMContentLoaded", () => {
+        const revealObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("reveal-active");
+              }
+            });
+          },
+          { threshold: 0.1 },
+        );
+        document
+          .querySelectorAll(".reveal, .stagger-item")
+          .forEach((el) => revealObserver.observe(el));
+      });
     </script>
   </body>
 </html>
