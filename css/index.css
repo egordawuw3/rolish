@@ -294,6 +294,22 @@ main {
   transform: rotate(20deg) scale(1.05);
 }
 
+/* Хлопушка-нумератор: фикс наклон, без лишних вращений */
+.s-clapper {
+  bottom: 8%;
+  left: 4%;
+  width: clamp(200px, 22vw, 320px);
+  /* Задаем идеальный наклон один раз */
+  transform: rotate(-15deg);
+  z-index: 60;
+}
+
+.s-clapper:hover {
+  /* При наведении сохраняем те же -15 градусов, только увеличиваем масштаб */
+  transform: rotate(-15deg) scale(1.05) !important;
+  filter: drop-shadow(0 40px 60px rgba(0, 0, 0, 0.5));
+}
+
 /* --- ОРИГИНАЛЬНЫЕ МЕДИА-ЗАПРОСЫ (НЕ УДАЛЯЕМ) --- */
 @media (max-width: 1300px) {
   .s-camera {
@@ -335,6 +351,12 @@ main {
   }
   .s-ssd:hover {
     transform: rotate(20deg) scale(0.85);
+  }
+  .s-clapper {
+    width: 180px;
+    left: 20px;
+    bottom: 60px;
+    transform: rotate(-15deg) scale(0.9);
   }
 }
 
@@ -432,41 +454,52 @@ body {
     text-align: left !important;
   }
 
+  /* --- ОБНОВЛЕННЫЕ СТИКЕРЫ (MOBILE 768px) --- */
   .s-camera {
     position: absolute !important;
     display: block !important;
-    width: 220px !important;
-    height: auto !important;
-    top: 50px !important;
-    left: -10px !important;
-    bottom: auto !important;
-    right: auto !important;
-    transform: rotate(-10deg) !important;
-    z-index: 50 !important;
+    width: 260px !important;
+    top: 40px !important;
+    left: -25px !important;
+    transform: rotate(-12deg) !important;
+    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.4)) !important;
+    z-index: 10 !important; /* Под логотипом, но над фоном */
   }
+
   .s-pencil {
     position: absolute !important;
     display: block !important;
-    height: 240px !important;
-    width: auto !important;
-    top: auto !important;
-    right: auto !important;
-    bottom: 220px !important;
-    left: -5px !important;
-    transform: rotate(25deg) !important;
-    z-index: 50 !important;
+    width: 50px !important; /* Уменьшил ширину для баланса */
+    height: auto !important;
+    top: -60px !important;
+    right: 10px !important;
+    bottom: auto !important;
+    left: auto !important;
+    transform: rotate(45deg) !important;
+    filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.3)) !important;
+    z-index: 10 !important;
   }
+
+  .s-clapper {
+    position: absolute !important;
+    display: block !important;
+    width: 190px !important;
+    bottom: 160px !important; /* Над папкой слева */
+    left: -10px !important;
+    transform: rotate(-15deg) !important;
+    filter: drop-shadow(0 25px 50px rgba(0, 0, 0, 0.45)) !important;
+    z-index: 120 !important; /* Выше всех, создает объем */
+  }
+
   .s-ssd {
     position: absolute !important;
     display: block !important;
-    width: 90px !important;
-    height: auto !important;
-    top: auto !important;
-    left: auto !important;
-    bottom: 140px !important;
-    right: 15px !important;
-    transform: rotate(-10deg) !important;
-    z-index: 50 !important;
+    width: 100px !important;
+    bottom: 120px !important; /* Снизу справа */
+    right: 10px !important;
+    transform: rotate(15deg) !important;
+    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.4)) !important;
+    z-index: 115 !important;
   }
 
   .folder-bridge {
@@ -572,21 +605,31 @@ body {
   .highlight-word-container {
     width: auto !important;
   }
+  /* --- СТИКЕРЫ ДЛЯ МИКРО-ЭКРАНОВ (400px) --- */
   .s-camera {
-    width: 180px !important;
-    left: -15px !important;
-    top: 40px !important;
+    width: 160px !important;
+    top: 30px !important;
+    left: -20px !important;
   }
+
   .s-pencil {
-    height: 180px !important;
-    bottom: 200px !important;
+    width: 40px !important;
+    top: 50px !important;
+    right: 5px !important;
+  }
+
+  .s-clapper {
+    width: 110px !important;
+    bottom: 180px !important;
     left: -10px !important;
   }
+
   .s-ssd {
-    width: 75px !important;
-    bottom: 120px !important;
-    right: 10px !important;
+    width: 80px !important;
+    bottom: 140px !important;
+    right: -5px !important;
   }
+
   .vsl-headline {
     font-size: clamp(1.6rem, 8vw, 2.2rem) !important;
   }
