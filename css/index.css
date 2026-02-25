@@ -1,8 +1,10 @@
-/* --- 1. ПРЕМИУМ ФУНДАМЕНТ --- */
+/* ==============================================
+   ПРЕМИУМ ФУНДАМЕНТ И ПЕРЕМЕННЫЕ
+   ============================================== */
 @font-face {
   font-family: "Gramatika";
   src: local("Gramatika"), local("Inter");
-  font-display: swap; /* Lighthouse Opt */
+  font-display: swap;
 }
 
 :root {
@@ -22,6 +24,9 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden !important;
+  width: 100% !important;
+  max-width: 100% !important;
 }
 
 body {
@@ -30,7 +35,10 @@ body {
   padding: 0;
   background-color: var(--bg-cream);
   color: var(--blue-bright);
-  overflow-x: hidden;
+  overflow-x: hidden !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  position: relative;
   user-select: none;
   -webkit-font-smoothing: antialiased;
 }
@@ -40,7 +48,9 @@ main {
   width: 100%;
 }
 
-/* --- 2. TEXTURE (NOISE) Возвращен твой оригинальный стиль --- */
+/* ==============================================
+   2. TEXTURE (NOISE)
+   ============================================== */
 #noise-canvas {
   position: fixed;
   top: 0;
@@ -53,7 +63,9 @@ main {
   mix-blend-mode: multiply;
 }
 
-/* --- 3. NAVBAR (GLASS) --- */
+/* ==============================================
+   3. NAVBAR (GLASS)
+   ============================================== */
 .navbar {
   position: fixed;
   top: 0;
@@ -65,12 +77,7 @@ main {
   justify-content: space-between;
   align-items: center;
   z-index: 10000;
-  background: rgba(
-    244,
-    242,
-    238,
-    0.85
-  ); /* Улучшен контраст фона для доступности */
+  background: rgba(244, 242, 238, 0.85);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border-bottom: 1px solid rgba(0, 69, 166, 0.05);
@@ -84,6 +91,7 @@ main {
   text-decoration: none;
   letter-spacing: -0.05em;
 }
+
 .nav-buttons {
   display: flex;
   gap: clamp(10px, 2vw, 20px);
@@ -95,9 +103,10 @@ main {
   font-weight: 700;
   font-size: clamp(0.9rem, 1.5vw, 1rem);
   color: var(--blue-bright);
-  opacity: 0.85; /* Lighthouse Opt Contrast */
+  opacity: 0.85;
   transition: opacity 0.4s var(--ease-smooth);
 }
+
 .nav-text-btn:hover {
   opacity: 1;
 }
@@ -115,12 +124,15 @@ main {
   color: white;
   box-shadow: 0 4px 15px rgba(0, 69, 166, 0.2);
 }
+
 .nav-accent-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(0, 69, 166, 0.35);
 }
 
-/* --- 4. HERO SECTION --- */
+/* ==============================================
+   4. HERO SECTION
+   ============================================== */
 .hero-wrapper {
   height: 100vh;
   width: 100%;
@@ -231,12 +243,14 @@ main {
   width: 100%;
   margin-left: 20px;
 }
+
 .highlight-word-container {
   min-width: clamp(180px, 20vw, 250px);
   width: clamp(180px, 20vw, 250px);
   text-align: left;
   display: inline-block;
 }
+
 .highlight-word {
   color: var(--accent);
   text-shadow: 0 0 15px rgba(250, 45, 26, 0.4);
@@ -244,7 +258,9 @@ main {
   transition: all 0.4s ease;
 }
 
-/* --- 5. STICKERS FX --- */
+/* ==============================================
+   5. STICKERS FX (ДЕСКТОП)
+   ============================================== */
 .sticker-img {
   position: absolute;
   cursor: grab;
@@ -256,10 +272,12 @@ main {
   filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.35));
   touch-action: none;
 }
+
 .sticker-img:hover {
   z-index: 2000 !important;
   filter: drop-shadow(0 50px 80px rgba(0, 0, 0, 0.6));
 }
+
 .sticker-img:active {
   cursor: grabbing;
 }
@@ -294,354 +312,21 @@ main {
   transform: rotate(20deg) scale(1.05);
 }
 
-/* Хлопушка-нумератор: фикс наклон, без лишних вращений */
 .s-clapper {
   bottom: 8%;
   left: 4%;
   width: clamp(200px, 22vw, 320px);
-  /* Задаем идеальный наклон один раз */
   transform: rotate(-15deg);
   z-index: 60;
 }
-
 .s-clapper:hover {
-  /* При наведении сохраняем те же -15 градусов, только увеличиваем масштаб */
   transform: rotate(-15deg) scale(1.05) !important;
   filter: drop-shadow(0 40px 60px rgba(0, 0, 0, 0.5));
 }
 
-/* --- ОРИГИНАЛЬНЫЕ МЕДИА-ЗАПРОСЫ (НЕ УДАЛЯЕМ) --- */
-@media (max-width: 1300px) {
-  .s-camera {
-    width: 450px;
-    left: -5%;
-    top: 0%;
-  }
-  .s-camera:hover {
-    transform: rotate(-12deg) scale(1.05);
-  }
-  .s-ssd {
-    right: 5%;
-    bottom: 5%;
-  }
-}
-@media (max-width: 1200px) {
-  .s-camera {
-    width: 350px;
-    left: -20px;
-    top: 20px;
-    transform: rotate(-12deg) scale(0.8);
-  }
-  .s-camera:hover {
-    transform: rotate(-12deg) scale(0.85);
-  }
-  .s-pencil {
-    width: 60px;
-    right: 20px;
-    transform: rotate(50deg) scale(0.8);
-  }
-  .s-pencil:hover {
-    transform: rotate(50deg) scale(0.85);
-  }
-  .s-ssd {
-    width: 90px;
-    right: 20px;
-    bottom: 20px;
-    transform: rotate(20deg) scale(0.8);
-  }
-  .s-ssd:hover {
-    transform: rotate(20deg) scale(0.85);
-  }
-  .s-clapper {
-    width: 180px;
-    left: 20px;
-    bottom: 60px;
-    transform: rotate(-15deg) scale(0.9);
-  }
-}
-
-/* --- ГЛОБАЛЬНЫЙ ЗАМОК ОТ СБОЕВ ЭКРАНА --- */
-html,
-body {
-  overflow-x: hidden !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  position: relative;
-}
-
-@media (max-width: 768px) {
-  .navbar {
-    width: 100% !important;
-    max-width: 100% !important;
-    left: 0 !important;
-    top: 0 !important;
-    padding: 15px 20px !important;
-    box-sizing: border-box !important;
-    background: rgba(244, 242, 238, 0.85) !important;
-  }
-  .nav-buttons {
-    gap: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-  .nav-text-btn {
-    display: none !important;
-  }
-  .nav-accent-btn {
-    display: inline-block !important;
-    padding: 10px 20px !important;
-    font-size: 0.9rem !important;
-    margin: 0 !important;
-    white-space: nowrap !important;
-  }
-
-  .hero-wrapper {
-    height: auto !important;
-    padding: 80px 15px 0px 15px !important;
-    box-sizing: border-box !important;
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-  .card-shadow-container {
-    height: 872px !important;
-    min-height: 872px !important;
-    max-height: 872px !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-  }
-
-  .hero-content {
-    margin: 0 !important;
-    position: relative;
-    z-index: 100 !important;
-    width: 100% !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    padding-bottom: 80px !important;
-  }
-
-  .main-title {
-    font-size: clamp(3rem, 26vw, 6rem) !important;
-    margin: 0 !important;
-    line-height: 0.8 !important;
-    text-align: center !important;
-    max-width: 100% !important;
-    animation: none !important;
-  }
-  .subtitle-block {
-    font-size: clamp(2rem, 8vw, 3rem) !important;
-    margin-top: 15px !important;
-    line-height: 1.1 !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-
-  .row-line {
-    gap: 12px !important;
-    justify-content: center !important;
-    display: flex !important;
-    width: 100% !important;
-    align-items: center !important;
-    flex-wrap: nowrap !important;
-  }
-  .highlight-word-container {
-    min-width: 0 !important;
-    width: auto !important;
-    text-align: left !important;
-  }
-
-  /* --- ОБНОВЛЕННЫЕ СТИКЕРЫ (MOBILE 768px) --- */
-  .s-camera {
-    position: absolute !important;
-    display: block !important;
-    width: 260px !important;
-    top: 40px !important;
-    left: -25px !important;
-    transform: rotate(-12deg) !important;
-    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.4)) !important;
-    z-index: 10 !important; /* Под логотипом, но над фоном */
-  }
-
-  .s-pencil {
-    position: absolute !important;
-    display: block !important;
-    width: 50px !important; /* Уменьшил ширину для баланса */
-    height: auto !important;
-    top: -60px !important;
-    right: 10px !important;
-    bottom: auto !important;
-    left: auto !important;
-    transform: rotate(45deg) !important;
-    filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.3)) !important;
-    z-index: 10 !important;
-  }
-
-  .s-clapper {
-    position: absolute !important;
-    display: block !important;
-    width: 190px !important;
-    bottom: 160px !important; /* Над папкой слева */
-    left: -10px !important;
-    transform: rotate(-15deg) !important;
-    filter: drop-shadow(0 25px 50px rgba(0, 0, 0, 0.45)) !important;
-    z-index: 120 !important; /* Выше всех, создает объем */
-  }
-
-  .s-ssd {
-    position: absolute !important;
-    display: block !important;
-    width: 100px !important;
-    bottom: 120px !important; /* Снизу справа */
-    right: 10px !important;
-    transform: rotate(15deg) !important;
-    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.4)) !important;
-    z-index: 115 !important;
-  }
-
-  .folder-bridge {
-    margin-top: -120px !important;
-    margin-bottom: 60px !important;
-    transform: none !important;
-    position: relative;
-    z-index: 105 !important;
-    max-width: 100% !important;
-  }
-  .mac-folder-realistic {
-    width: 238px !important;
-    height: 147px !important;
-    margin: 0 auto !important;
-  }
-  .folder-file-card {
-    width: 110px !important;
-    height: 135px !important;
-    bottom: 10px !important;
-    left: 28% !important;
-  }
-
-  .mac-folder-realistic.is-open .folder-cards {
-    z-index: 20 !important;
-  }
-  .mac-folder-realistic.is-open .card-1 {
-    opacity: 1 !important;
-    transform: translate(-70px, -40px) rotate(-12deg) !important;
-    transition-delay: 0.1s !important;
-  }
-  .mac-folder-realistic.is-open .card-2 {
-    opacity: 1 !important;
-    transform: translate(0, -80px) rotate(0deg) !important;
-    transition-delay: 0.05s !important;
-  }
-  .mac-folder-realistic.is-open .card-3 {
-    opacity: 1 !important;
-    transform: translate(70px, -40px) rotate(12deg) !important;
-    transition-delay: 0.15s !important;
-  }
-  .mac-folder-realistic.is-open .folder-front-shape {
-    transform: rotateX(-25deg) scaleY(0.95) !important;
-  }
-
-  .vsl-section {
-    padding: 40px 15px 60px 15px !important;
-    overflow-x: hidden !important;
-  }
-  .vsl-headline {
-    font-size: clamp(1.8rem, 6vw, 2.5rem) !important;
-    line-height: 1.1 !important;
-    margin-bottom: 15px !important;
-    word-wrap: break-word !important;
-    hyphens: auto !important;
-  }
-  .vsl-subhead {
-    font-size: 1.1rem !important;
-    margin-bottom: 40px !important;
-  }
-  .btn-outline {
-    font-size: 1.2rem !important;
-    padding: 15px 40px !important;
-  }
-
-  .reviews-headline {
-    font-size: clamp(1.5rem, 6vw, 2rem) !important;
-    padding: 0 15px 40px !important;
-    line-height: 1.2 !important;
-  }
-  .modules-header h2 {
-    font-size: clamp(1.8rem, 6vw, 2.2rem) !important;
-    line-height: 1.1 !important;
-  }
-  .section-title-center {
-    font-size: clamp(1.8rem, 6vw, 2.5rem) !important;
-    line-height: 1.1 !important;
-  }
-
-  /* Lighthouse Opt: Отключение лагающих Blur эффектов для мобилок */
-  .reveal,
-  .stagger-item {
-    filter: none !important;
-  }
-}
-
-@media (max-width: 400px) {
-  .navbar {
-    padding: 15px !important;
-  }
-  .nav-accent-btn {
-    padding: 8px 16px !important;
-    font-size: 0.85rem !important;
-  }
-  .main-title {
-    font-size: clamp(2rem, 24vw, 3rem) !important;
-  }
-  .subtitle-block {
-    font-size: clamp(1.8rem, 10vw, 2.5rem) !important;
-  }
-  .highlight-word {
-    font-size: clamp(2rem, 10vw, 2.8rem) !important;
-  }
-  .highlight-word-container {
-    width: auto !important;
-  }
-  /* --- СТИКЕРЫ ДЛЯ МИКРО-ЭКРАНОВ (400px) --- */
-  .s-camera {
-    width: 160px !important;
-    top: 30px !important;
-    left: -20px !important;
-  }
-
-  .s-pencil {
-    width: 40px !important;
-    top: 50px !important;
-    right: 5px !important;
-  }
-
-  .s-clapper {
-    width: 110px !important;
-    bottom: 180px !important;
-    left: -10px !important;
-  }
-
-  .s-ssd {
-    width: 80px !important;
-    bottom: 140px !important;
-    right: -5px !important;
-  }
-
-  .vsl-headline {
-    font-size: clamp(1.6rem, 8vw, 2.2rem) !important;
-  }
-  .review-item:hover .card-inner {
-    transform: none !important;
-  }
-  .review-item.flipped .card-inner {
-    transform: rotateY(180deg) !important;
-  }
-}
-
-/* --- 6. FOLDER BRIDGE --- */
+/* ==============================================
+   6. FOLDER BRIDGE
+   ============================================== */
 .folder-bridge {
   position: relative;
   z-index: 100;
@@ -654,6 +339,7 @@ body {
   perspective: 1200px;
   pointer-events: none;
 }
+
 .mac-folder-realistic {
   pointer-events: auto;
   position: relative;
@@ -663,6 +349,7 @@ body {
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   transform-style: preserve-3d;
 }
+
 .mac-folder-realistic:hover {
   transform: translateY(-10px) scale(1.02);
 }
@@ -676,6 +363,7 @@ body {
   z-index: 2;
   pointer-events: none;
 }
+
 .folder-file-card {
   position: absolute;
   width: 130px;
@@ -802,7 +490,9 @@ body {
   transform: rotateX(-25deg) scaleY(0.95);
 }
 
-/* --- 6. VSL SECTION (PLIYA + BLUE THEME) --- */
+/* ==============================================
+   7. VSL SECTION
+   ============================================== */
 :root {
   --plyr-color-main: #fa2d1a;
 }
@@ -826,7 +516,7 @@ body {
 .vsl-subhead {
   font-size: clamp(1.1rem, 2vw, 1.5rem);
   font-weight: 500;
-  color: #444; /* Lighthouse Opt Contrast */
+  color: #444;
   line-height: 1.4;
   margin-bottom: 60px;
   max-width: 700px;
@@ -852,7 +542,6 @@ body {
   box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.25);
   border: none !important;
 }
-
 .btn-outline {
   text-decoration: none;
   font-weight: 900;
@@ -876,10 +565,11 @@ body {
   margin-top: 60px;
 }
 
-/* --- 7. SLIDER (УВЕЛИЧЕН НА 30%) --- */
+/* ==============================================
+   8. SLIDER 3D
+   ============================================== */
 :root {
   --card-width: clamp(280px, 80vw, 400px);
-  /* Оригинал: clamp(450px, 60vh, 600px). +30% высоты для комфорта: */
   --card-height: clamp(585px, 75vh, 780px);
   --slider-gap: clamp(20px, 4vw, 50px);
   --transition-speed: 0.9s;
@@ -902,7 +592,7 @@ body {
   position: absolute;
   left: 50%;
   top: 50%;
-  transform: translate(-200px, -50%);
+  transform: translate(calc(var(--card-width) / -2), -50%);
   transform-style: preserve-3d;
   transition: transform var(--transition-speed) var(--ease-smooth);
   will-change: transform;
@@ -939,10 +629,9 @@ body {
   box-shadow: 0 40px 100px -20px rgba(0, 69, 166, 0.25);
   pointer-events: auto;
 }
-
 .card-img-container {
   width: 100%;
-  height: 350px; /* Увеличено (оригинал 290px), чтобы фото выглядело пропорционально новой высоте */
+  height: 350px;
   overflow: hidden;
   position: relative;
   pointer-events: none;
@@ -1066,7 +755,9 @@ body {
   transform: scale(1.1);
 }
 
-/* --- 8. REVIEWS SECTION --- */
+/* ==============================================
+   9. REVIEWS SECTION
+   ============================================== */
 .reviews-section {
   padding: 120px 0;
   border-top: 1px solid var(--border);
@@ -1097,7 +788,6 @@ body {
 .reviews-section.reviews-active {
   background-color: #0047ff !important;
 }
-
 .reviews-headline {
   font-size: clamp(2rem, 3.5vw, 3.5rem);
   padding: 0 clamp(20px, 4vw, 50px) clamp(40px, 6vw, 80px);
@@ -1116,7 +806,6 @@ body {
 .reviews-section.reviews-active .reviews-headline {
   color: #ffffff !important;
 }
-
 .grid-reviews {
   display: grid;
   grid-template-columns: repeat(3, 260px);
@@ -1128,6 +817,7 @@ body {
   position: relative;
   z-index: 5;
 }
+
 .review-item {
   width: 260px;
   height: 400px;
@@ -1284,7 +974,6 @@ body {
   opacity: 0.85;
   text-transform: uppercase;
 }
-
 .reviews-footer {
   padding: 80px 0;
   text-align: center;
@@ -1305,34 +994,9 @@ body {
   transform: translateY(-5px) scale(1.05);
 }
 
-@media (max-width: 1024px) {
-  .grid-reviews {
-    grid-template-columns: repeat(2, 260px);
-  }
-}
-@media (max-width: 768px) {
-  .grid-reviews {
-    grid-template-columns: 280px;
-    gap: 40px;
-  }
-  .review-item {
-    --target-rot: 0deg !important;
-    --target-y: 0px !important;
-    width: 280px;
-  }
-}
-
-#tariffs {
-  margin-top: 40px;
-  padding-bottom: 100px;
-  font-weight: 900;
-  font-size: 2rem;
-  text-align: center;
-}
-
-/* ============================================== */
-/* MOTION DESIGN: REVEAL & STAGGER               */
-/* ============================================== */
+/* ==============================================
+   10. MODULES GRID & MOTION DESIGN
+   ============================================== */
 .reveal,
 .stagger-item {
   opacity: 0;
@@ -1367,9 +1031,6 @@ body {
   transform: translateY(0);
 }
 
-/* ============================================== */
-/* MODULES GRID                                  */
-/* ============================================== */
 .modules-section {
   background: var(--bg-cream);
   border-top: 1px solid var(--border);
@@ -1388,7 +1049,6 @@ body {
   margin: 0;
   letter-spacing: -0.04em;
 }
-
 .modules-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1396,6 +1056,7 @@ body {
   margin: 0 auto;
   border-top: 1px solid var(--border);
 }
+
 .module-card {
   border-right: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
@@ -1406,7 +1067,6 @@ body {
 .module-card:nth-child(3n + 1) {
   border-left: 1px solid var(--border);
 }
-
 .m-cover {
   height: 320px;
   display: flex;
@@ -1508,46 +1168,16 @@ body {
   border-bottom: 1px solid var(--border);
 }
 
-@media (max-width: 1024px) {
-  .modules-header h2 {
-    font-size: 4vw;
-  }
-  .modules-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .module-card:nth-child(3n + 1) {
-    border-left: none;
-  }
-  .module-card:nth-child(2n + 1) {
-    border-left: 1px solid var(--border);
-  }
-  .bonus-card-wrap {
-    grid-column: 1 / span 2;
-    width: 50%;
-    margin: 0 auto;
-    border-left: 1px solid var(--border);
-    border-right: 1px solid var(--border);
-  }
+/* ==============================================
+   11. TARIFFS SECTION
+   ============================================== */
+#tariffs {
+  margin-top: 40px;
+  padding-bottom: 100px;
+  font-weight: 900;
+  font-size: 2rem;
+  text-align: center;
 }
-@media (max-width: 768px) {
-  .modules-header h2 {
-    font-size: 2.5rem;
-  }
-  .modules-grid {
-    grid-template-columns: 1fr;
-  }
-  .module-card:nth-child(2n + 1) {
-    border-left: none;
-  }
-  .bonus-card-wrap {
-    grid-column: 1;
-    width: 100%;
-    border-left: none;
-    border-right: none;
-  }
-}
-
-/* --- 9. NEW SECTION: TARIFFS --- */
 .new-section {
   padding: clamp(60px, 8vw, 100px) 20px;
   position: relative;
@@ -1572,7 +1202,6 @@ body {
   color: var(--accent);
   margin-bottom: 10px;
 }
-
 .tariffs-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1601,6 +1230,7 @@ body {
   --target-y: -10px;
   box-shadow: 0 30px 60px rgba(0, 69, 166, 0.15);
 }
+
 .tariff-card.popular {
   background: var(--blue-deep);
   color: white;
@@ -1646,7 +1276,6 @@ body {
 .mentor .t-header-title {
   color: rgba(255, 255, 255, 0.85);
 }
-
 .t-header-name {
   font-size: clamp(1.5rem, 3vw, 2rem);
   font-weight: 900;
@@ -1817,7 +1446,9 @@ body {
   margin-top: -2px;
 }
 
-/* --- 10. NEW SECTION: ZIG-ZAG TARGET --- */
+/* ==============================================
+   12. ZIG-ZAG TARGET
+   ============================================== */
 .zig-zag-wrapper {
   display: flex;
   flex-direction: column;
@@ -1837,7 +1468,6 @@ body {
   flex: 1;
   max-width: 480px;
 }
-
 .zig-zag-visual {
   flex-shrink: 0;
   width: 420px;
@@ -1866,7 +1496,6 @@ body {
   align-items: center;
   justify-content: center;
 }
-
 .zz-title {
   font-family: "Gramatika", "Inter", sans-serif;
   font-size: clamp(2.2rem, 4vw, 3rem);
@@ -1887,7 +1516,9 @@ body {
   font-weight: 700;
 }
 
-/* --- 11. NEW SECTION: FAQ (2-Col Grid) --- */
+/* ==============================================
+   13. FAQ SECTION
+   ============================================== */
 .faq-grid-2col {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1946,7 +1577,9 @@ body {
   color: #444;
 }
 
-/* --- 12. FOOTER --- */
+/* ==============================================
+   14. FOOTER
+   ============================================== */
 .site-footer {
   background: var(--blue-deep);
   color: rgba(255, 255, 255, 0.6);
@@ -1989,7 +1622,91 @@ body {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+/* ==============================================
+   АДАПТИВНОСТЬ: ЭКРАНЫ ДО 1300PX
+   ============================================== */
+@media (max-width: 1300px) {
+  .s-camera {
+    width: 450px;
+    left: -5%;
+    top: 0%;
+  }
+  .s-camera:hover {
+    transform: rotate(-12deg) scale(1.05);
+  }
+  .s-ssd {
+    right: 5%;
+    bottom: 5%;
+  }
+}
+
+/* ==============================================
+   АДАПТИВНОСТЬ: ЭКРАНЫ ДО 1200PX
+   ============================================== */
+@media (max-width: 1200px) {
+  .s-camera {
+    width: 350px;
+    left: -20px;
+    top: 20px;
+    transform: rotate(-12deg) scale(0.8);
+  }
+  .s-camera:hover {
+    transform: rotate(-12deg) scale(0.85);
+  }
+  .s-pencil {
+    width: 60px;
+    right: 20px;
+    transform: rotate(50deg) scale(0.8);
+  }
+  .s-pencil:hover {
+    transform: rotate(50deg) scale(0.85);
+  }
+  .s-ssd {
+    width: 90px;
+    right: 20px;
+    bottom: 20px;
+    transform: rotate(20deg) scale(0.8);
+  }
+  .s-ssd:hover {
+    transform: rotate(20deg) scale(0.85);
+  }
+  .s-clapper {
+    width: 180px;
+    left: 20px;
+    bottom: 60px;
+    transform: rotate(-15deg) scale(0.9);
+  }
+}
+
+/* ==============================================
+   АДАПТИВНОСТЬ: ЭКРАНЫ ДО 1024PX (ПЛАНШЕТЫ)
+   ============================================== */
 @media (max-width: 1024px) {
+  /* Сетки и Отзывы */
+  .grid-reviews {
+    grid-template-columns: repeat(2, 260px);
+  }
+  .modules-header h2 {
+    font-size: 4vw;
+  }
+  .modules-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .module-card:nth-child(3n + 1) {
+    border-left: none;
+  }
+  .module-card:nth-child(2n + 1) {
+    border-left: 1px solid var(--border);
+  }
+  .bonus-card-wrap {
+    grid-column: 1 / span 2;
+    width: 50%;
+    margin: 0 auto;
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+  }
+
+  /* Тарифы и Zig-Zag */
   .tariffs-grid {
     grid-template-columns: 1fr;
     max-width: 500px;
@@ -2027,50 +1744,286 @@ body {
   }
 }
 
+/* ==============================================
+   АДАПТИВНОСТЬ: ЭКРАНЫ ДО 768PX (МОБИЛКИ ОСНОВНОЕ)
+   ============================================== */
 @media (max-width: 768px) {
-  .footer-content {
-    flex-direction: column;
+  /* Navbar */
+  .navbar {
+    width: 100% !important;
+    max-width: 100% !important;
+    left: 0 !important;
+    top: 0 !important;
+    padding: 15px 20px !important;
+    background: rgba(244, 242, 238, 0.85) !important;
+  }
+  .nav-buttons {
+    gap: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .nav-text-btn {
+    display: none !important;
+  }
+  .nav-accent-btn {
+    display: inline-block !important;
+    padding: 10px 20px !important;
+    font-size: 0.9rem !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
+  }
+
+  /* Hero */
+  .hero-wrapper {
+    height: auto !important;
+    padding: 80px 15px 0px 15px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  .card-shadow-container {
+    height: 872px !important;
+    min-height: 872px !important;
+    max-height: 872px !important;
+    width: 100% !important;
+  }
+  .hero-content {
+    margin: 0 !important;
+    z-index: 100 !important;
+    padding-bottom: 80px !important;
+  }
+  .main-title {
+    font-size: clamp(3rem, 26vw, 6rem) !important;
+    line-height: 0.8 !important;
+    animation: none !important;
+  }
+  .subtitle-block {
+    font-size: clamp(2rem, 8vw, 3rem) !important;
+    margin-top: 15px !important;
+  }
+
+  /* Фикс: прыгающий текст "БЕЗ" */
+  .row-line {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: baseline !important;
+    gap: 12px !important;
+    width: 100% !important;
+    margin-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  .highlight-word-container {
+    width: 180px !important;
+    min-width: 180px !important;
+    text-align: left !important;
+    display: inline-block !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* Обновленные стикеры: плавные + крупные */
+  .s-camera {
+    position: absolute !important;
+    display: block !important;
+    width: clamp(220px, 55vw, 300px) !important;
+    top: 40px !important;
+    left: -20px !important;
+    transform: rotate(-12deg) !important;
+    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.4)) !important;
+    z-index: 10 !important;
+  }
+  .s-pencil {
+    position: absolute !important;
+    display: block !important;
+    width: clamp(50px, 12vw, 70px) !important;
+    height: auto !important;
+    top: -50px !important;
+    right: 10px !important;
+    transform: rotate(45deg) !important;
+    filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.3)) !important;
+    z-index: 10 !important;
+  }
+  .s-clapper {
+    position: absolute !important;
+    display: block !important;
+    width: clamp(160px, 45vw, 230px) !important;
+    bottom: 160px !important;
+    left: -10px !important;
+    transform: rotate(-15deg) !important;
+    filter: drop-shadow(0 25px 50px rgba(0, 0, 0, 0.45)) !important;
+    z-index: 120 !important;
+  }
+  .s-ssd {
+    position: absolute !important;
+    display: block !important;
+    width: clamp(100px, 25vw, 130px) !important;
+    bottom: 120px !important;
+    right: 5px !important;
+    transform: rotate(15deg) !important;
+    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.4)) !important;
+    z-index: 115 !important;
+  }
+
+  /* Папка */
+  .folder-bridge {
+    margin-top: -120px !important;
+    margin-bottom: 60px !important;
+    transform: none !important;
+    position: relative;
+    z-index: 105 !important;
+    max-width: 100% !important;
+  }
+  .mac-folder-realistic {
+    width: 238px !important;
+    height: 147px !important;
+    margin: 0 auto !important;
+  }
+  .folder-file-card {
+    width: 110px !important;
+    height: 135px !important;
+    bottom: 10px !important;
+    left: 28% !important;
+  }
+  .mac-folder-realistic.is-open .folder-cards {
+    z-index: 20 !important;
+  }
+  .mac-folder-realistic.is-open .card-1 {
+    opacity: 1 !important;
+    transform: translate(-70px, -40px) rotate(-12deg) !important;
+    transition-delay: 0.1s !important;
+  }
+  .mac-folder-realistic.is-open .card-2 {
+    opacity: 1 !important;
+    transform: translate(0, -80px) rotate(0deg) !important;
+    transition-delay: 0.05s !important;
+  }
+  .mac-folder-realistic.is-open .card-3 {
+    opacity: 1 !important;
+    transform: translate(70px, -40px) rotate(12deg) !important;
+    transition-delay: 0.15s !important;
+  }
+  .mac-folder-realistic.is-open .folder-front-shape {
+    transform: rotateX(-25deg) scaleY(0.95) !important;
+  }
+
+  /* VSL, Отзывы, Модули */
+  .vsl-section {
+    padding: 40px 15px 60px 15px !important;
+    overflow-x: hidden !important;
+  }
+  .vsl-headline {
+    font-size: clamp(1.8rem, 6vw, 2.5rem) !important;
+    margin-bottom: 15px !important;
+    word-wrap: break-word !important;
+    hyphens: auto !important;
+  }
+  .vsl-subhead {
+    font-size: 1.1rem !important;
+    margin-bottom: 40px !important;
+  }
+  .btn-outline {
+    font-size: 1.2rem !important;
+    padding: 15px 40px !important;
+  }
+  .reviews-headline {
+    font-size: clamp(1.5rem, 6vw, 2rem) !important;
+    padding: 0 15px 40px !important;
+  }
+  .modules-header h2 {
+    font-size: 2.5rem !important;
+  }
+  .modules-grid {
+    grid-template-columns: 1fr;
+  }
+  .module-card:nth-child(2n + 1) {
+    border-left: none;
+  }
+  .bonus-card-wrap {
+    grid-column: 1;
+    width: 100%;
+    border-left: none;
+    border-right: none;
+  }
+
+  /* Сетки и компоненты */
+  .grid-reviews {
+    grid-template-columns: 280px;
+    gap: 40px;
+  }
+  .review-item {
+    --target-rot: 0deg !important;
+    --target-y: 0px !important;
+    width: 280px;
   }
   .faq-question-modern {
     padding: 20px;
   }
+  .footer-content {
+    flex-direction: column;
+  }
+
+  /* Фикс центрирования элементов управления слайдером на мобилках */
+  .story-section-new {
+    width: 100% !important;
+    max-width: 100vw !important;
+    overflow: hidden !important;
+  }
+  .nav-container-3d {
+    width: 100% !important;
+    left: 0 !important;
+    padding: 0 15px !important;
+    box-sizing: border-box !important;
+  }
+  .nav-btn-3d {
+    width: 45px !important;
+    height: 45px !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2) !important;
+  }
+
+  /* Отключение блюр-анимаций для скорости */
   .reveal,
   .stagger-item {
     filter: none !important;
   }
+}
 
-  /* --- ФИКС: ИДЕАЛЬНЫЙ ЦЕНТР И СЛОВО "БЕЗ" БОЛЬШЕ НЕ ПРЫГАЕТ --- */
-
-  @media (max-width: 768px) {
-    .row-line {
-      display: flex !important;
-      justify-content: center !important;
-      align-items: baseline !important;
-      gap: 12px !important;
-      width: 100% !important;
-      margin-left: 0 !important; /* Убиваем отступ 20px, теперь ровно по центру */
-      padding-right: 0 !important;
-    }
-
-    .highlight-word-container {
-      /* Фиксируем ширину! Теперь контейнер всегда одного размера, 
-       и длина слова внутри него не будет толкать слово "БЕЗ" */
-      width: 180px !important;
-      min-width: 180px !important;
-      text-align: left !important;
-      display: inline-block !important;
-      flex-shrink: 0 !important; /* Запрещаем сжиматься */
-    }
+/* ==============================================
+   АДАПТИВНОСТЬ: МИКРО-ЭКРАНЫ ДО 400PX
+   ============================================== */
+@media (max-width: 400px) {
+  .navbar {
+    padding: 15px !important;
+  }
+  .nav-accent-btn {
+    padding: 8px 16px !important;
+    font-size: 0.85rem !important;
+  }
+  .main-title {
+    font-size: clamp(2rem, 24vw, 3rem) !important;
+  }
+  .subtitle-block {
+    font-size: clamp(1.8rem, 10vw, 2.5rem) !important;
+  }
+  .highlight-word {
+    font-size: clamp(2rem, 10vw, 2.8rem) !important;
+  }
+  .vsl-headline {
+    font-size: clamp(1.6rem, 8vw, 2.2rem) !important;
   }
 
-  /* Для самых маленьких экранов (iPhone SE и т.д.) */
-  @media (max-width: 400px) {
-    .highlight-word-container {
-      width: 150px !important; /* Чуть уменьшаем коробку, но она всё равно фиксированная! */
-      min-width: 150px !important;
-    }
-    .row-line {
-      gap: 8px !important; /* Чуть сближаем слова, чтобы точно влезли */
-    }
+  /* Фикс микро-прыжков текста */
+  .highlight-word-container {
+    width: 150px !important;
+    min-width: 150px !important;
+  }
+  .row-line {
+    gap: 8px !important;
+  }
+
+  /* Переворот карточек по тапу */
+  .review-item:hover .card-inner {
+    transform: none !important;
+  }
+  .review-item.flipped .card-inner {
+    transform: rotateY(180deg) !important;
   }
 }

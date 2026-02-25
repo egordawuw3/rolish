@@ -1750,21 +1750,27 @@
         loopNoise();
       }
 
-      // --- 2. ЛОГИКА СЛАЙДЕРА (МАСЛЯНЫЙ СВАЙП) ---
+      // --- 2. ЛОГИКА СЛАЙДЕРА (МАСЛЯНЫЙ СВАЙП - ИДЕАЛЬНЫЙ ЦЕНТР) ---
       let currentSlide = 0;
       const cards = document.querySelectorAll(".card-3d");
       const track = document.getElementById("track3d");
-
-      const cardWidth = 400;
-      const gap = 50;
-      const moveStep = cardWidth + gap;
 
       function move3D(dir) {
         currentSlide += dir;
         if (currentSlide < 0) currentSlide = 0;
         if (currentSlide >= cards.length) currentSlide = cards.length - 1;
 
-        const offset = -(currentSlide * moveStep) - cardWidth / 2;
+        const actualCardWidth = cards[0].offsetWidth;
+
+        // ДИНАМИЧЕСКИЙ ШАГ: измеряем реальное расстояние между карточками с учетом CSS gap!
+        let moveStep = actualCardWidth;
+        if (cards.length > 1) {
+          // Вычисляем точную дистанцию от начала 1-й до начала 2-й карточки
+          moveStep = cards[1].offsetLeft - cards[0].offsetLeft;
+        }
+
+        const offset = -(currentSlide * moveStep) - actualCardWidth / 2;
+
         track.style.transform = `translate(${offset}px, -50%)`;
 
         cards.forEach((card, index) => {
@@ -1776,6 +1782,7 @@
         });
       }
 
+      window.addEventListener("resize", () => move3D(0));
       window.onload = () => move3D(0);
 
       let startX = 0;
@@ -1787,10 +1794,12 @@
         startX = e.pageX;
         currentX = startX;
       });
+
       window.addEventListener("mousemove", (e) => {
         if (!isDraggingSlider) return;
         currentX = e.pageX;
       });
+
       window.addEventListener("mouseup", () => {
         if (!isDraggingSlider) return;
         isDraggingSlider = false;
@@ -1807,6 +1816,7 @@
         },
         { passive: true },
       );
+
       track.addEventListener(
         "touchmove",
         (e) => {
@@ -1814,6 +1824,7 @@
         },
         { passive: true },
       );
+
       track.addEventListener("touchend", () => {
         let diff = currentX - startX;
         if (diff > 50) move3D(-1);
