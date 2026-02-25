@@ -16,7 +16,7 @@
     <link rel="icon" href="favicon.png" type="image/png" />
     <link rel="stylesheet" href="css/index.css" />
 
-    <!-- Скрипт Т-Банка -->
+    <!-- НАСТОЯЩИЙ СКРИПТ Т-БАНКА (РАСКОММЕНТИРОВАТЬ ПЕРЕД СДАЧЕЙ ЗАКАЗЧИКУ) -->
     <script src="https://securepay.tinkoff.ru/html/payForm/js/tinkoff_v2.js"></script>
 
     <style>
@@ -42,7 +42,6 @@
         width: 100%;
         font-family: inherit;
         font-size: 1rem;
-        /* Немного приподнимаем кнопку, чтобы она точно была кликабельной */
         position: relative;
         z-index: 10;
       }
@@ -393,31 +392,39 @@
     </footer>
 
     <script>
-      // ЛОГИКА ОПЛАТЫ Т-БАНК
+      // === ИСПРАВЛЕННАЯ ЛОГИКА ОПЛАТЫ ===
       function payTinkoff(amount, name) {
         console.log("Попытка вызвать оплату. Тариф:", name, "Сумма:", amount);
 
-        // Проверка на блокировку скрипта
-        if (
-          typeof tinkoff === "undefined" ||
-          typeof tinkoff.pay !== "function"
-        ) {
+        if (typeof window.tinkoff === "undefined") {
+          console.error("Объект tinkoff не найден! Скрипт не загрузился.");
           alert(
-            "Скрипт оплаты временно недоступен. Если у вас включен VPN или блокировщик рекламы, пожалуйста, отключите их и обновите страницу.",
+            "Скрипт оплаты временно недоступен. Пожалуйста, отключите VPN/блокировщик рекламы и обновите страницу.",
           );
+          return;
+        }
+
+        if (typeof window.tinkoff.payForm !== "function") {
+          console.error(
+            "Метод tinkoff.payForm не найден! Возможно, скрипт устарел или конфликтует.",
+          );
+          alert("Ошибка загрузки формы оплаты. Обратитесь в поддержку.");
           return;
         }
 
         const orderId = "core_" + Date.now();
 
         try {
-          tinkoff.pay({
+          window.tinkoff.payForm({
             terminalkey: "1771969236568",
-            frame: "true",
+            frame: true,
             language: "ru",
             amount: amount,
             order: orderId,
             description: name,
+            name: "",
+            email: "",
+            phone: "",
           });
         } catch (e) {
           console.error("Ошибка при вызове окна оплаты:", e);
@@ -427,12 +434,12 @@
         }
       }
 
-      // --- 1. ШУМ НА ФОНЕ (ОРИГИНАЛ + СУПЕР-ОПТИМИЗАЦИЯ СДВИГОМ) ---
+      // --- 1. ШУМ НА ФОНЕ (ТВОЙ ОРИГИНАЛЬНЫЙ) ---
       const noiseCanvas = document.getElementById("noise-canvas");
       if (noiseCanvas) {
         const ctx = noiseCanvas.getContext("2d", { alpha: true });
         let pattern;
-        const patternSize = 256; // Размер базового квадрата шума
+        const patternSize = 256;
 
         const resize = () => {
           noiseCanvas.width = window.innerWidth;
@@ -442,7 +449,6 @@
         window.addEventListener("resize", resize);
         resize();
 
-        // Создаем кусочек шума ОДИН РАЗ, используя ТВОЙ ОРИГИНАЛЬНЫЙ КОД
         const createPattern = () => {
           const tile = document.createElement("canvas");
           tile.width = patternSize;
@@ -451,28 +457,23 @@
           const id = tCtx.createImageData(patternSize, patternSize);
           const buffer = new Uint32Array(id.data.buffer);
 
-          // Твои оригинальные цвета и плотность!
           for (let i = 0; i < buffer.length; i++) {
             if (Math.random() < 0.2) {
               buffer[i] = Math.random() < 0.5 ? 0xff000000 : 0x11000000;
             }
           }
-
           tCtx.putImageData(id, 0, 0);
           pattern = ctx.createPattern(tile, "repeat");
         };
-
         createPattern();
 
         const loopNoise = () => {
-          // Случайный сдвиг паттерна каждый кадр (создает иллюзию нового шума)
           const xOff = Math.floor(Math.random() * patternSize);
           const yOff = Math.floor(Math.random() * patternSize);
 
           ctx.clearRect(0, 0, noiseCanvas.width, noiseCanvas.height);
           ctx.fillStyle = pattern;
 
-          // Сдвигаем начало координат и рисуем холст с запасом
           ctx.translate(-xOff, -yOff);
           ctx.fillRect(
             0,
@@ -480,22 +481,21 @@
             noiseCanvas.width + patternSize,
             noiseCanvas.height + patternSize,
           );
-          ctx.setTransform(1, 0, 0, 1, 0, 0); // Возвращаем обратно
+          ctx.setTransform(1, 0, 0, 1, 0, 0);
 
-          // 15 FPS - работает плавно, батарею не садит
           setTimeout(() => requestAnimationFrame(loopNoise), 1000 / 15);
         };
-
         loopNoise();
       }
 
-      // Анимация при скролле (reveal)
+      // --- 2. АНИМАЦИЯ ПРИ СКРОЛЛЕ (ТВОЯ ОРИГИНАЛЬНАЯ) ---
       document.addEventListener("DOMContentLoaded", () => {
         const revealObserver = new IntersectionObserver(
           (entries) => {
             entries.forEach((entry) => {
-              if (entry.isIntersecting)
+              if (entry.isIntersecting) {
                 entry.target.classList.add("reveal-active");
+              }
             });
           },
           { threshold: 0.1 },
