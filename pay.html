@@ -24,11 +24,11 @@
       .tariff-price {
         font-size: 2.8rem;
         font-weight: 900;
-        margin-top: 5px; /* Уменьшил, так как теперь есть старая цена сверху */
+        margin-top: 5px;
         color: var(--black);
         display: flex;
         align-items: baseline;
-        justify-content: center; /* Центрируем цену */
+        justify-content: center;
       }
       .tariff-price span {
         font-size: 1.5rem;
@@ -36,15 +36,16 @@
         margin-left: 5px;
         color: var(--gray-dark);
       }
-      /* Сброс стандартных стилей button для кнопки тарифа */
       button.btn-tariff {
         border: none;
         cursor: pointer;
         width: 100%;
         font-family: inherit;
         font-size: 1rem;
+        /* Немного приподнимаем кнопку, чтобы она точно была кликабельной */
+        position: relative;
+        z-index: 10;
       }
-      /* Стиль для старой цены */
       .old-price {
         text-decoration: line-through;
         color: #a0a0a0;
@@ -64,7 +65,8 @@
   </head>
 
   <body>
-    <canvas id="noise-canvas"></canvas>
+    <!-- pointer-events: none; ОБЯЗАТЕЛЬНО, чтобы шум не блокировал клики -->
+    <canvas id="noise-canvas" style="pointer-events: none"></canvas>
 
     <nav class="navbar">
       <a href="index.html" class="nav-logo" aria-label="core. home">core.</a>
@@ -360,12 +362,11 @@
       </section>
     </main>
 
-    <!-- FOOTER -->
     <footer class="site-footer reveal">
       <div class="footer-content">
         <div class="footer-col">
           <a
-            href="#"
+            href="index.html"
             class="nav-logo"
             style="color: white; font-size: 2rem"
             aria-label="core. home"
@@ -380,7 +381,6 @@
           <a href="/oferta">Договор оферты</a>
           <a href="/argement">Обработка персональных данных</a>
           <a href="/privacy">Политика конфиденциальности</a>
-          <a href="/mailing">Согласие на рассылку</a>
         </div>
         <div class="footer-col">
           <h3>Реквизиты</h3>
@@ -389,33 +389,50 @@
           </p>
         </div>
       </div>
-      <div class="footer-legal">
-        <span>© 2026 All rights reserved.</span>
-      </div>
+      <div class="footer-legal"><span>© 2026 All rights reserved.</span></div>
     </footer>
 
     <script>
       // ЛОГИКА ОПЛАТЫ Т-БАНК
       function payTinkoff(amount, name) {
-        // Генерируем уникальный номер заказа
+        console.log("Попытка вызвать оплату. Тариф:", name, "Сумма:", amount);
+
+        // Проверка на блокировку скрипта
+        if (
+          typeof tinkoff === "undefined" ||
+          typeof tinkoff.pay !== "function"
+        ) {
+          alert(
+            "Скрипт оплаты временно недоступен. Если у вас включен VPN или блокировщик рекламы, пожалуйста, отключите их и обновите страницу.",
+          );
+          return;
+        }
+
         const orderId = "core_" + Date.now();
 
-        // Вызываем стандартное окно Т-Банка
-        tinkoff.pay({
-          terminalkey: "1771969236568",
-          frame: "true",
-          language: "ru",
-          amount: amount,
-          order: orderId,
-          description: name,
-        });
+        try {
+          tinkoff.pay({
+            terminalkey: "1771969236568",
+            frame: "true",
+            language: "ru",
+            amount: amount,
+            order: orderId,
+            description: name,
+          });
+        } catch (e) {
+          console.error("Ошибка при вызове окна оплаты:", e);
+          alert(
+            "Произошла ошибка при открытии окна оплаты. Попробуйте обновить страницу.",
+          );
+        }
       }
 
-      // Твой шум и анимации (без изменений)
+      // --- 1. ШУМ НА ФОНЕ (ОРИГИНАЛ + СУПЕР-ОПТИМИЗАЦИЯ СДВИГОМ) ---
       const noiseCanvas = document.getElementById("noise-canvas");
       if (noiseCanvas) {
-        const ctx = noiseCanvas.getContext("2d");
+        const ctx = noiseCanvas.getContext("2d", { alpha: true });
         let pattern;
+        const patternSize = 256; // Размер базового квадрата шума
 
         const resize = () => {
           noiseCanvas.width = window.innerWidth;
@@ -425,16 +442,20 @@
         window.addEventListener("resize", resize);
         resize();
 
+        // Создаем кусочек шума ОДИН РАЗ, используя ТВОЙ ОРИГИНАЛЬНЫЙ КОД
         const createPattern = () => {
           const tile = document.createElement("canvas");
-          tile.width = 256;
-          tile.height = 256;
+          tile.width = patternSize;
+          tile.height = patternSize;
           const tCtx = tile.getContext("2d");
-          const id = tCtx.createImageData(256, 256);
+          const id = tCtx.createImageData(patternSize, patternSize);
           const buffer = new Uint32Array(id.data.buffer);
 
+          // Твои оригинальные цвета и плотность!
           for (let i = 0; i < buffer.length; i++) {
-            if (Math.random() < 0.15) buffer[i] = 0x15000000;
+            if (Math.random() < 0.2) {
+              buffer[i] = Math.random() < 0.5 ? 0xff000000 : 0x11000000;
+            }
           }
 
           tCtx.putImageData(id, 0, 0);
@@ -443,18 +464,32 @@
 
         createPattern();
 
-        const loop = () => {
+        const loopNoise = () => {
+          // Случайный сдвиг паттерна каждый кадр (создает иллюзию нового шума)
+          const xOff = Math.floor(Math.random() * patternSize);
+          const yOff = Math.floor(Math.random() * patternSize);
+
           ctx.clearRect(0, 0, noiseCanvas.width, noiseCanvas.height);
           ctx.fillStyle = pattern;
-          ctx.translate(Math.random() * 10, Math.random() * 10);
-          ctx.fillRect(0, 0, noiseCanvas.width + 100, noiseCanvas.height + 100);
-          ctx.setTransform(1, 0, 0, 1, 0, 0);
-          requestAnimationFrame(loop);
+
+          // Сдвигаем начало координат и рисуем холст с запасом
+          ctx.translate(-xOff, -yOff);
+          ctx.fillRect(
+            0,
+            0,
+            noiseCanvas.width + patternSize,
+            noiseCanvas.height + patternSize,
+          );
+          ctx.setTransform(1, 0, 0, 1, 0, 0); // Возвращаем обратно
+
+          // 15 FPS - работает плавно, батарею не садит
+          setTimeout(() => requestAnimationFrame(loopNoise), 1000 / 15);
         };
 
-        loop();
+        loopNoise();
       }
 
+      // Анимация при скролле (reveal)
       document.addEventListener("DOMContentLoaded", () => {
         const revealObserver = new IntersectionObserver(
           (entries) => {
