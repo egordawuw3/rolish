@@ -2,126 +2,141 @@
 <html lang="ru">
   <head>
     <meta charset="UTF-8" />
-    <title>Выберите тариф</title>
-    <script src="https://securepay.tinkoff.ru/html/payForm/js/tinkoff_v2.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Оплата заказа | Премиум</title>
+
+    <script
+      src="https://integrationjs.tbank.ru/integration.js"
+      onload="onPaymentIntegrationLoad()"
+      async
+    ></script>
 
     <style>
+      /* Базовые настройки для красивого внешнего вида */
       body {
-        font-family: "Segoe UI", sans-serif;
-        background: #f9f9f9;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+          Arial, sans-serif;
+        background-color: #1a1b22; /* Темный фон, как на скриншоте */
         display: flex;
         justify-content: center;
         align-items: center;
         min-height: 100vh;
         margin: 0;
-      }
-      .tariffs-container {
-        display: flex;
-        gap: 20px;
-        flex-wrap: wrap;
-        justify-content: center;
+        color: #333;
       }
 
-      /* Стиль карточки тарифа */
-      .tariff-card {
-        background: white;
-        padding: 30px;
-        border-radius: 20px;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-        width: 250px;
-        text-align: center;
-        transition: 0.3s;
-        border: 2px solid transparent;
-      }
-      .tariff-card:hover {
-        transform: translateY(-10px);
-        border-color: #ffdd2d;
-      }
-
-      .price {
-        font-size: 32px;
-        font-weight: bold;
-        margin: 20px 0;
-      }
-      .tariff-name {
-        font-size: 20px;
-        color: #555;
-      }
-
-      .buy-btn {
+      /* Белая карточка оплаты */
+      .checkout-modal {
+        background: #ffffff;
+        padding: 40px 30px;
+        border-radius: 24px;
         width: 100%;
-        padding: 12px;
-        background: #ffdd2d;
-        border: none;
-        border-radius: 10px;
-        font-weight: bold;
-        cursor: pointer;
-        font-size: 16px;
+        max-width: 360px;
+        box-shadow: 0 24px 48px rgba(0, 0, 0, 0.2);
+        text-align: center;
+      }
+
+      /* Название товара и цена */
+      .product-title {
+        font-size: 18px;
+        font-weight: 500;
+        color: #111;
+        margin-bottom: 8px;
+      }
+
+      .product-price {
+        font-size: 28px;
+        font-weight: 700;
+        color: #111;
+        margin-bottom: 30px;
+      }
+
+      /* Контейнер, куда Т-Банк вставит свои кнопки */
+      #payment-container {
+        min-height: 200px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .footer-text {
+        margin-top: 25px;
+        font-size: 12px;
+        color: #888;
       }
     </style>
   </head>
   <body>
-    <div class="tariffs-container">
-      <div class="tariff-card">
-        <div class="tariff-name">Базовый</div>
-        <div class="price">1 000 ₽</div>
-        <button class="buy-btn" onclick="buy('1000', 'Тариф Базовый')">
-          Выбрать
-        </button>
+    <div class="checkout-modal">
+      <div class="product-title">Контент-Рулетка С поддержкой</div>
+      <div class="product-price">34 900,00 ₽</div>
+
+      <div id="payment-container">
+        <p style="color: #999; font-size: 14px">Загрузка способов оплаты...</p>
       </div>
 
-      <div class="tariff-card">
-        <div class="tariff-name">Стандарт</div>
-        <div class="price">5 000 ₽</div>
-        <button class="buy-btn" onclick="buy('5000', 'Тариф Стандарт')">
-          Выбрать
-        </button>
-      </div>
-
-      <div class="tariff-card">
-        <div class="tariff-name">Премиум</div>
-        <div class="price">10 000 ₽</div>
-        <button class="buy-btn" onclick="buy('10000', 'Тариф Премиум')">
-          Выбрать
-        </button>
-      </div>
+      <div class="footer-text">🔒 Безопасная оплата через Т-Банк</div>
     </div>
 
-    <form
-      id="payForm"
-      name="TinkoffPayForm"
-      onsubmit="
-        pay(this);
-        return false;
-      "
-      style="display: none"
-    >
-      <input type="hidden" name="terminalkey" value="1771969236528DEMO" />
-      <input type="hidden" name="frame" value="true" />
-      <input type="hidden" name="language" value="ru" />
-      <input type="hidden" name="amount" id="form_amount" />
-      <input type="hidden" name="order" id="form_order" />
-      <input type="hidden" name="description" id="form_description" />
-    </form>
-
     <script>
-      function buy(amount, description) {
-        // Проверяем, загрузился ли скрипт банка
-        if (typeof pay === "undefined") {
-          alert(
-            "Ошибка: Банковский скрипт не загружен. Проверьте VPN/Интернет.",
-          );
-          return;
+      // 1. Конфигурация интеграции
+      const initConfig = {
+        terminalKey: "1771969236528DEMO", // Замените на ваш рабочий TerminalKey
+        product: "eacq",
+        features: {
+          payment: {}, // Включаем модуль кнопок оплаты
+        },
+      };
+
+      // 2. Функция запускается, когда скрипт банка скачался
+      async function onPaymentIntegrationLoad() {
+        try {
+          // Инициализируем интеграцию
+          const integration = await PaymentIntegration.init(initConfig);
+
+          // Получаем объект управления кнопками
+          const mainPaymentIntegration =
+            await integration.payments.get("main-integration");
+
+          // Указываем, в какой div вставить кнопки
+          const container = document.getElementById("payment-container");
+
+          // Очищаем текст "Загрузка..." перед вставкой
+          container.innerHTML = "";
+
+          await mainPaymentIntegration.mount(container);
+
+          // 3. Выбираем, какие методы оплаты показать (они должны быть включены в вашем ЛК)
+          // 'sbp' - СБП, 'tpay' - T-Pay, 'bnpl' - Долями
+          await mainPaymentIntegration.updateWidgetTypes([
+            "sbp",
+            "tpay",
+            "bnpl",
+          ]);
+
+          // 4. Логика при нажатии на кнопку
+          await integration.payments.setPaymentStartCallback(async () => {
+            alert(
+              "Отлично! Кнопка нажата.\n\nТеперь ваш сайт должен запросить у вашего сервера ссылку на оплату (PaymentURL) и вернуть её сюда.",
+            );
+
+            /* ИМЕННО ЗДЕСЬ КРОЕТСЯ СЕКРЕТ.
+                 Чтобы оплата прошла, вам нужно отправить запрос на свой сервер (например, через fetch).
+                 Сервер свяжется с Т-Банком, получит PaymentURL и вернет его обратно.
+                 
+                 Пример реального кода:
+                 const response = await fetch('/api/create-payment', { method: 'POST' });
+                 const data = await response.json();
+                 return data.PaymentURL;
+                */
+          });
+        } catch (error) {
+          console.error("Произошла ошибка при загрузке виджета:", error);
+          document.getElementById("payment-container").innerHTML =
+            '<p style="color: red; font-size: 14px;">Ошибка загрузки. Проверьте ваш IP (нужен РФ) и TerminalKey.</p>';
         }
-
-        // Заполняем скрытую форму данными тарифа
-        document.getElementById("form_amount").value = amount;
-        document.getElementById("form_description").value = description;
-        document.getElementById("form_order").value = "ORDER-" + Date.now();
-
-        // Отправляем форму в банк
-        const form = document.getElementById("payForm");
-        pay(form);
       }
     </script>
   </body>
