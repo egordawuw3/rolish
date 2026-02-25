@@ -3,141 +3,113 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Оплата заказа | Премиум</title>
+    <title>Оплата заказа</title>
 
-    <script
-      src="https://integrationjs.tbank.ru/integration.js"
-      onload="onPaymentIntegrationLoad()"
-      async
-    ></script>
+    <script src="https://securepay.tinkoff.ru/html/payForm/js/tinkoff_v2.js"></script>
 
     <style>
-      /* Базовые настройки для красивого внешнего вида */
       body {
-        font-family:
-          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
-          Arial, sans-serif;
-        background-color: #1a1b22; /* Темный фон, как на скриншоте */
+        font-family: -apple-system, system-ui, sans-serif;
+        background-color: #1a1b22;
         display: flex;
         justify-content: center;
         align-items: center;
-        min-height: 100vh;
+        height: 100vh;
         margin: 0;
-        color: #333;
       }
 
-      /* Белая карточка оплаты */
-      .checkout-modal {
+      .payment-container {
         background: #ffffff;
-        padding: 40px 30px;
-        border-radius: 24px;
-        width: 100%;
-        max-width: 360px;
-        box-shadow: 0 24px 48px rgba(0, 0, 0, 0.2);
+        padding: 40px;
+        border-radius: 28px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
         text-align: center;
+        width: 100%;
+        max-width: 320px;
       }
 
-      /* Название товара и цена */
-      .product-title {
-        font-size: 18px;
-        font-weight: 500;
-        color: #111;
-        margin-bottom: 8px;
+      .product-name {
+        color: #666;
+        font-size: 16px;
+        margin-bottom: 10px;
       }
-
-      .product-price {
-        font-size: 28px;
-        font-weight: 700;
-        color: #111;
+      .price {
+        font-size: 32px;
+        font-weight: 800;
+        color: #000;
         margin-bottom: 30px;
       }
 
-      /* Контейнер, куда Т-Банк вставит свои кнопки */
-      #payment-container {
-        min-height: 200px;
+      .pay-button {
+        background-color: #ffdd2d;
+        color: #000;
+        border: none;
+        padding: 18px;
         width: 100%;
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
+        border-radius: 15px;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.2s ease;
       }
 
-      .footer-text {
-        margin-top: 25px;
+      .pay-button:hover {
+        background-color: #fcc521;
+        transform: translateY(-2px);
+      }
+
+      .pay-button:active {
+        transform: translateY(0);
+      }
+
+      .secure-info {
+        margin-top: 20px;
         font-size: 12px;
-        color: #888;
+        color: #aaa;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
       }
     </style>
   </head>
   <body>
-    <div class="checkout-modal">
-      <div class="product-title">Контент-Рулетка С поддержкой</div>
-      <div class="product-price">34 900,00 ₽</div>
+    <div class="payment-container">
+      <div class="product-name">Контент-Рулетка</div>
+      <div class="price">34 900 ₽</div>
 
-      <div id="payment-container">
-        <p style="color: #999; font-size: 14px">Загрузка способов оплаты...</p>
+      <form
+        name="TinkoffPayForm"
+        onsubmit="
+          pay(this);
+          return false;
+        "
+      >
+        <input type="hidden" name="terminalkey" value="64TW58Yy_FXQMyUU" />
+
+        <input type="hidden" name="amount" value="34900" />
+        <input type="hidden" name="order" id="order_id" />
+        <input
+          type="hidden"
+          name="description"
+          value="Оплата Контент-Рулетки"
+        />
+
+        <input type="hidden" name="frame" value="true" />
+        <input type="hidden" name="language" value="ru" />
+
+        <button type="submit" class="pay-button">Оплатить</button>
+      </form>
+
+      <div class="secure-info">
+        <span>🔒</span> Безопасная оплата через Т-Банк
       </div>
-
-      <div class="footer-text">🔒 Безопасная оплата через Т-Банк</div>
     </div>
 
     <script>
-      // 1. Конфигурация интеграции
-      const initConfig = {
-        terminalKey: "1771969236568", // Замените на ваш рабочий TerminalKey
-        product: "eacq",
-        features: {
-          payment: {}, // Включаем модуль кнопок оплаты
-        },
-      };
-
-      // 2. Функция запускается, когда скрипт банка скачался
-      async function onPaymentIntegrationLoad() {
-        try {
-          // Инициализируем интеграцию
-          const integration = await PaymentIntegration.init(initConfig);
-
-          // Получаем объект управления кнопками
-          const mainPaymentIntegration =
-            await integration.payments.get("main-integration");
-
-          // Указываем, в какой div вставить кнопки
-          const container = document.getElementById("payment-container");
-
-          // Очищаем текст "Загрузка..." перед вставкой
-          container.innerHTML = "";
-
-          await mainPaymentIntegration.mount(container);
-
-          // 3. Выбираем, какие методы оплаты показать (они должны быть включены в вашем ЛК)
-          // 'sbp' - СБП, 'tpay' - T-Pay, 'bnpl' - Долями
-          await mainPaymentIntegration.updateWidgetTypes([
-            "sbp",
-            "tpay",
-            "bnpl",
-          ]);
-
-          // 4. Логика при нажатии на кнопку
-          await integration.payments.setPaymentStartCallback(async () => {
-            alert(
-              "Отлично! Кнопка нажата.\n\nТеперь ваш сайт должен запросить у вашего сервера ссылку на оплату (PaymentURL) и вернуть её сюда.",
-            );
-
-            /* ИМЕННО ЗДЕСЬ КРОЕТСЯ СЕКРЕТ.
-                 Чтобы оплата прошла, вам нужно отправить запрос на свой сервер (например, через fetch).
-                 Сервер свяжется с Т-Банком, получит PaymentURL и вернет его обратно.
-                 
-                 Пример реального кода:
-                 const response = await fetch('/api/create-payment', { method: 'POST' });
-                 const data = await response.json();
-                 return data.PaymentURL;
-                */
-          });
-        } catch (error) {
-          console.error("Произошла ошибка при загрузке виджета:", error);
-          document.getElementById("payment-container").innerHTML =
-            '<p style="color: red; font-size: 14px;">Ошибка загрузки. Проверьте ваш IP (нужен РФ) и TerminalKey.</p>';
-        }
-      }
+      // Генерируем уникальный номер заказа при каждой загрузке страницы
+      // Это критично: банк не даст оплатить дважды по одному ID заказа
+      document.getElementById("order_id").value = "INV-" + Date.now();
     </script>
   </body>
 </html>
