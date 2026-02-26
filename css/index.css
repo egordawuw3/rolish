@@ -325,7 +325,7 @@ main {
 }
 
 /* ==============================================
-6. FOLDER BRIDGE (ОБНОВЛЕННАЯ ФОРМА)
+6. FOLDER BRIDGE
 ============================================== */
 .folder-bridge {
   position: relative;
@@ -343,9 +343,8 @@ main {
 .mac-folder-realistic {
   pointer-events: auto;
   position: relative;
-  /* Пропорции подогнаны под идеальный размер новой SVG маски */
-  width: 266px;
-  height: 212px;
+  width: 266px; /* Новая идеальная ширина из исходника */
+  height: 212px; /* Новая идеальная высота из исходника */
   cursor: pointer;
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   transform-style: preserve-3d;
@@ -370,7 +369,7 @@ main {
   width: 130px;
   height: 170px;
   left: 25%;
-  bottom: 15px;
+  bottom: 25px; /* Чуть приподняли карточки под новую высоту папки */
   border-radius: 8px;
   padding: 10px;
   box-sizing: border-box;
@@ -458,32 +457,37 @@ main {
   transition-delay: 0.15s;
 }
 
-/* === ИНТЕГРАЦИЯ НОВОЙ ФОРМЫ (МАСКИ) ДЛЯ ЗАДНИКА === */
+/* ЗАДНЯЯ ЧАСТЬ ПАПКИ - маска + эффект светлого верхнего блика */
 .folder-back-shape {
   position: absolute;
   width: 100%;
   height: 100%;
-  background: var(--folder-back); /* Твой цвет сохранен */
+  background: var(--folder-back);
+  border-radius: 13.42px;
   z-index: 1;
-  border-radius: 13.42px; /* Радиус из нового кода */
-  /* Применяем SVG маску (она уже включает язычок) */
   -webkit-mask: url("https://framerusercontent.com/images/u6NHrizsQWk4u5sqIM2DGhO2EI.svg")
-    center center / cover no-repeat;
+    center / cover no-repeat;
   mask: url("https://framerusercontent.com/images/u6NHrizsQWk4u5sqIM2DGhO2EI.svg")
-    center center / cover no-repeat;
-  /* box-shadow ломается при масках, поэтому перевел тень на drop-shadow. Выглядит так же круто! */
-  filter: drop-shadow(0 20px 50px rgba(0, 40, 100, 0.3));
+    center / cover no-repeat;
+
+  /* 
+    Магия здесь в первом drop-shadow: 
+    Сдвиг 0 и -2px вверх рисует светлый контур строго по верхним граням, не трогая бока!
+  */
+  filter: drop-shadow(0 -2px 0 rgb(73, 152, 204))
+    drop-shadow(0 20px 40px rgba(0, 40, 100, 0.3))
+    drop-shadow(0 0 1px rgba(0, 0, 0, 0.3));
 }
 
-/* === ПЕРЕДНЯЯ ЧАСТЬ ПАПКИ === */
+/* ПЕРЕДНЯЯ ЧАСТЬ ПАПКИ - Адаптирована под скриншот */
 .folder-front-shape {
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 87%; /* Чуть опустил, чтобы новая маска с язычком была хорошо видна */
-  background: var(--folder-front); /* Твой градиент сохранен */
-  border-radius: 0 0 13.42px 13.42px;
+  height: 78%; /* Снизили высоту, чтобы задник и карточки смотрелись органично */
+  background: var(--folder-front);
+  border-radius: 6px 6px 13.42px 13.42px; /* Мягкие углы сверху, закругление снизу по маске */
   z-index: 3;
   transform-origin: bottom;
   transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
