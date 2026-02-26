@@ -102,78 +102,23 @@
         color: rgba(255, 255, 255, 0.5);
       }
       .mentor .tariff-price {
-        color: #fff;
+        color: white;
       }
 
-      /* Стили для модального окна, которое будет содержать кнопки оплаты */
-      .payment-modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.75);
-        backdrop-filter: blur(10px);
-        z-index: 999999;
-        justify-content: center;
-        align-items: center;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        padding: 20px;
-      }
-      .payment-modal.show {
-        display: flex;
-        opacity: 1;
-      }
-      .payment-modal-content {
-        background: #ffffff;
-        padding: 30px;
-        border-radius: 24px;
-        width: 100%;
-        max-width: 400px;
-        text-align: center;
-        color: #000;
-      }
-      .close-btn {
-        position: absolute;
-        top: 15px;
-        right: 15px;
-        background: #f0f0f0;
-        border: none;
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        font-size: 18px;
-        font-weight: 600;
-        cursor: pointer;
-      }
-      #paymentContainer {
-        min-height: 100px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
+      /* Простой прелоадер для кнопки на время ожидания ответа от бэкенда */
+      .btn-loading {
+        opacity: 0.7;
+        pointer-events: none;
       }
     </style>
   </head>
   <body>
     <canvas id="noise-canvas" style="pointer-events: none"></canvas>
 
-    <!-- МОДАЛЬНОЕ ОКНО ДЛЯ ВИДЖЕТОВ ОПЛАТЫ -->
-    <div id="payment-modal" class="payment-modal">
-      <div class="payment-modal-content">
-        <button class="close-btn" onclick="closeModal()">✕</button>
-        <h3 id="modal-tariff-name">Оформление заказа</h3>
-        <p id="modal-tariff-price" style="color: #666; margin-bottom: 20px">
-          0 ₽
-        </p>
-        <div id="paymentContainer"></div>
-      </div>
-    </div>
-
     <nav class="navbar">
-      <!-- ... Твоя навигация ... -->
+      <a href="index.html" class="nav-logo" aria-label="core. home">core.</a>
     </nav>
+
     <main
       style="
         padding-top: 100px;
@@ -184,112 +129,442 @@
       "
     >
       <section class="new-section" id="tariffs" style="width: 100%; padding: 0">
-        <!-- ... Вся твоя HTML-верстка тарифов ... -->
+        <div
+          class="section-subtitle-small reveal"
+          style="text-align: center; margin-bottom: 10px"
+        >
+          финальный этап
+        </div>
+        <h2 class="section-title-center reveal" style="margin-bottom: 50px">
+          Ты в одном шаге от системы.
+        </h2>
+
+        <div class="tariffs-grid stagger-container">
+          <!-- ТАРИФ 1 -->
+          <div class="tariff-card stagger-item">
+            <div class="t-header-box">
+              <div class="t-header-title">Тариф</div>
+              <div class="t-header-name">core.</div>
+            </div>
+            <div class="t-section">
+              <h3 class="t-section-title">Содержание:</h3>
+              <ul class="t-list">
+                <li>Модуль 1. Креативность</li>
+                <li>Модуль 2. Съемка</li>
+                <li>Модуль 3. Монтаж</li>
+                <li>Модуль 4. Первые деньги</li>
+                <li class="crossed">Модуль 5. Контент-продюсирование</li>
+                <li class="crossed">Модуль 6. Личный бренд</li>
+              </ul>
+            </div>
+            <hr class="t-divider" />
+            <div class="t-section" style="flex-grow: 1">
+              <h3 class="t-section-title">Что внутри?</h3>
+              <ul class="t-list-icons">
+                <li>
+                  <div class="icon-circle">
+                    <svg viewBox="0 0 24 24">
+                      <polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                      ></polygon>
+                    </svg>
+                  </div>
+                  <span>Доступ к материалам 12 месяцев</span>
+                </li>
+                <li>
+                  <div class="icon-circle">
+                    <svg viewBox="0 0 24 24">
+                      <polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                      ></polygon>
+                    </svg>
+                  </div>
+                  <span>Общий чат учеников</span>
+                </li>
+                <li>
+                  <div class="icon-circle">
+                    <svg viewBox="0 0 24 24">
+                      <polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                      ></polygon>
+                    </svg>
+                  </div>
+                  <span>Поддержка от кураторов </span>
+                </li>
+                <li>
+                  <div class="icon-circle">
+                    <svg viewBox="0 0 24 24">
+                      <polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                      ></polygon>
+                    </svg>
+                  </div>
+                  <span>Проверка домашних заданий</span>
+                </li>
+                <li class="crossed">
+                  <div class="icon-circle">
+                    <svg viewBox="0 0 24 24">
+                      <polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                      ></polygon>
+                    </svg>
+                  </div>
+                  <span>Эфиры с разборов участников</span>
+                </li>
+                <li class="crossed">
+                  <div class="icon-circle">
+                    <svg viewBox="0 0 24 24">
+                      <polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                      ></polygon>
+                    </svg>
+                  </div>
+                  <span>Алгоритм на 100.000₽/мес</span>
+                </li>
+              </ul>
+            </div>
+            <div class="price-block" style="margin-bottom: 20px">
+              <span class="old-price">39 900 ₽</span>
+              <div class="tariff-price">19 900<span>₽</span></div>
+            </div>
+            <button
+              class="btn-tariff"
+              onclick="payTinkoff(this, 'Тариф core.')"
+            >
+              <span class="btn-arrow">&gt;</span> Оплатить 19 900 ₽
+            </button>
+          </div>
+
+          <!-- ТАРИФ 2 -->
+          <div class="tariff-card popular stagger-item">
+            <div class="t-header-box">
+              <div class="t-header-title">Тариф</div>
+              <div class="t-header-name">core+</div>
+              <div class="tariff-badge">Самый популярный</div>
+            </div>
+            <div class="t-section">
+              <h3 class="t-section-title">Содержание:</h3>
+              <ul class="t-list">
+                <li>Модуль 1. Креативность</li>
+                <li>Модуль 2. Съемка</li>
+                <li>Модуль 3. Монтаж</li>
+                <li>Модуль 4. Первые деньги</li>
+                <li>Модуль 5. Контент-продюсирование</li>
+                <li>Модуль 6. Личный бренд</li>
+              </ul>
+            </div>
+            <hr class="t-divider" />
+            <div class="t-section" style="flex-grow: 1">
+              <h3 class="t-section-title">Что внутри?</h3>
+              <ul class="t-list-icons">
+                <li>
+                  <div class="icon-circle">
+                    <svg viewBox="0 0 24 24">
+                      <polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                      ></polygon>
+                    </svg>
+                  </div>
+                  <span>Доступ к материалам 12 месяцев</span>
+                </li>
+                <li>
+                  <div class="icon-circle">
+                    <svg viewBox="0 0 24 24">
+                      <polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                      ></polygon>
+                    </svg>
+                  </div>
+                  <span>Общий чат учеников</span>
+                </li>
+                <li>
+                  <div class="icon-circle">
+                    <svg viewBox="0 0 24 24">
+                      <polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                      ></polygon>
+                    </svg>
+                  </div>
+                  <span>Поддержка от кураторов</span>
+                </li>
+                <li>
+                  <div class="icon-circle">
+                    <svg viewBox="0 0 24 24">
+                      <polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                      ></polygon>
+                    </svg>
+                  </div>
+                  <span>Проверка домашних заданий</span>
+                </li>
+                <li>
+                  <div class="icon-circle">
+                    <svg viewBox="0 0 24 24">
+                      <polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                      ></polygon>
+                    </svg>
+                  </div>
+                  <span>Эфиры с разборов участников</span>
+                </li>
+                <li>
+                  <div class="icon-circle">
+                    <svg viewBox="0 0 24 24">
+                      <polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                      ></polygon>
+                    </svg>
+                  </div>
+                  <span>Алгоритм на 100.000₽/мес</span>
+                </li>
+              </ul>
+            </div>
+            <div class="price-block" style="margin-bottom: 20px">
+              <span class="old-price" style="color: rgba(255, 255, 255, 0.5)"
+                >59 900 ₽</span
+              >
+              <div class="tariff-price" style="color: white">
+                29 900 <span>₽</span>
+              </div>
+            </div>
+            <button
+              class="btn-tariff"
+              onclick="payTinkoff(this, 'Тариф core+')"
+            >
+              <span class="btn-arrow">&gt;</span> Оплатить 29 900 ₽
+            </button>
+          </div>
+
+          <!-- ТАРИФ 3 -->
+          <div class="tariff-card mentor stagger-item">
+            <div class="t-header-box">
+              <div class="t-header-title">Тариф</div>
+              <div class="t-header-name">Менторство</div>
+              <div
+                class="tariff-badge"
+                style="background: white; color: var(--blue-bright)"
+              >
+                Места ограничены
+              </div>
+            </div>
+            <div class="t-section">
+              <h3 class="t-section-title">Содержание:</h3>
+              <ul class="t-list">
+                <li>Личная работа 2 месяца</li>
+                <li>Работа до результата</li>
+                <li>от 10 личных созвонов</li>
+                <li>Гарантия трудоустройства в мое агентство</li>
+              </ul>
+            </div>
+            <hr class="t-divider" />
+            <div class="t-section" style="flex-grow: 1">
+              <h3 class="t-section-title">Что внутри?</h3>
+              <ul class="t-list-icons">
+                <li>
+                  <div class="icon-circle">
+                    <svg viewBox="0 0 24 24">
+                      <polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                      ></polygon>
+                    </svg>
+                  </div>
+                  <span>Вечный доступ ко всем курсам </span>
+                </li>
+                <li>
+                  <div class="icon-circle">
+                    <svg viewBox="0 0 24 24">
+                      <polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                      ></polygon>
+                    </svg>
+                  </div>
+                  <span>Вечный доступ к моей личке</span>
+                </li>
+                <li>
+                  <div class="icon-circle">
+                    <svg viewBox="0 0 24 24">
+                      <polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                      ></polygon>
+                    </svg>
+                  </div>
+                  <span>Работаем до результата</span>
+                </li>
+              </ul>
+            </div>
+            <div class="price-block" style="margin-bottom: 20px">
+              <span class="old-price">180 000 ₽</span>
+              <div class="tariff-price" style="color: white">
+                95 000 <span style="color: rgba(255, 255, 255, 0.7)">₽</span>
+              </div>
+            </div>
+            <button
+              class="btn-tariff"
+              onclick="payTinkoff(this, 'Тариф Менторство')"
+            >
+              <span class="btn-arrow">&gt;</span> Оплатить 95 000 ₽
+            </button>
+          </div>
+        </div>
       </section>
     </main>
+
     <footer class="site-footer reveal">
-      <!-- ... Твой футер ... -->
+      <div class="footer-content">
+        <div class="footer-col">
+          <a
+            href="index.html"
+            class="nav-logo"
+            style="color: white; font-size: 2rem"
+            aria-label="core. home"
+            >core.</a
+          >
+          <p style="margin-top: 10px; max-width: 300px">
+            Система создания контента и заработка на творчестве.
+          </p>
+        </div>
+        <div class="footer-col footer-links">
+          <h3>Документы</h3>
+          <a href="/oferta">Договор оферты</a
+          ><a href="/argement">Обработка персональных данных</a
+          ><a href="/privacy">Политика конфиденциальности</a>
+        </div>
+        <div class="footer-col">
+          <h3>Реквизиты</h3>
+          <p style="margin: 0; line-height: 1.6">
+            ИП ЛИ Р.С.<br />ИНН 502760562039
+          </p>
+        </div>
+      </div>
+      <div class="footer-legal"><span>© 2026 All rights reserved.</span></div>
     </footer>
 
-    <!-- НОВЫЙ, ПРАВИЛЬНЫЙ СКРИПТ ИНТЕГРАЦИИ (ПО ДОКУМЕНТАЦИИ) -->
-    <script
-      src="https://integrationjs.tbank.ru/integration.js"
-      onload="onPaymentIntegrationLoad()"
-      async
-    ></script>
+    <!-- ЭТОТ БЛОК ДЛЯ ИФРЕЙМА Т-БАНКА -->
+    <div
+      id="tinkoff-widget-container"
+      style="
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 999999;
+      "
+    >
+      <div
+        style="
+          position: relative;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        "
+      >
+        <button
+          onclick="closeTinkoffWidget()"
+          style="
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 1000000;
+          "
+        >
+          ✕
+        </button>
+        <iframe
+          id="tinkoff-iframe"
+          src=""
+          style="
+            width: 100%;
+            max-width: 500px;
+            height: 80vh;
+            background: #fff;
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+          "
+        ></iframe>
+      </div>
+    </div>
 
     <script>
-      // === 1. ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ===
-      const BACKEND_URL = "http://85.215.137.163:8000/api/get_payment_url"; // <-- IP ТВОЕГО СЕРВЕРА
-      const paymentModal = document.getElementById("payment-modal");
-      const paymentContainer = document.getElementById("paymentContainer");
-      let paymentIntegration;
+      // === IP АДРЕС ТВОЕГО БЭКЕНДА (Python сервера) ===
+      const BACKEND_URL = "http://85.215.137.163:8000/api/get_payment_url";
 
-      // === 2. ИНИЦИАЛИЗАЦИЯ (сработает, когда integration.js загрузится) ===
-      function onPaymentIntegrationLoad() {
-        const initConfig = {
-          terminalKey: "1771969236568",
-          product: "eacq",
-          features: { payment: {} },
-        };
+      // === ЛОГИКА ВЫЗОВА ОПЛАТЫ ЧЕРЕЗ БЭКЕНД ===
+      async function payTinkoff(btnElement, name) {
+        console.log("Попытка вызвать оплату. Тариф:", name);
 
-        PaymentIntegration.init(initConfig)
-          .then((integration) => {
-            console.log(
-              "Виджет Т-Банка (integration.js) успешно инициализирован!",
-            );
-            paymentIntegration = integration;
-          })
-          .catch((error) =>
-            console.error("Ошибка инициализации виджета:", error),
-          );
-      }
-
-      // === 3. ВЫЗОВ ОПЛАТЫ (срабатывает по клику на твои кнопки) ===
-      async function payTinkoff(amount, name) {
-        if (!paymentIntegration) {
-          alert("Платежный модуль еще не загружен, подождите.");
-          return;
-        }
-
-        document.getElementById("modal-tariff-name").innerText = name;
-        document.getElementById("modal-tariff-price").innerText =
-          amount.toLocaleString("ru-RU") + " ₽";
-        paymentModal.classList.add("show");
-        paymentContainer.innerHTML = "Загрузка кнопок оплаты...";
+        // Сохраняем оригинальный текст кнопки и показываем загрузку
+        const originalText = btnElement.innerHTML;
+        btnElement.innerHTML = "Создание платежа...";
+        btnElement.classList.add("btn-loading");
 
         try {
-          // ДОЖИДАЕМСЯ ЗАГРУЗКИ МОДУЛЯ PAYMENTS
-          const paymentsModule = await paymentIntegration.payments;
-
-          // Устанавливаем коллбэк для похода на бэкенд
-          paymentsModule.setPaymentStartCallback(async () => {
-            console.log("Старт платежа, обращаемся к бэкенду...");
-            try {
-              const response = await fetch(BACKEND_URL, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ name: name }),
-              });
-
-              if (!response.ok)
-                throw new Error("Ошибка сервера: " + response.status);
-              const data = await response.json();
-
-              if (typeof ym !== "undefined") {
-                ym(107010402, "reachGoal", "pay_button_click");
-              }
-              return data.payment_url;
-            } catch (error) {
-              console.error("Ошибка получения ссылки от бэкенда:", error);
-              alert(
-                "Не удалось создать платеж. Проверьте консоль (F12) на ошибки.",
-              );
-              closeModal();
-            }
+          // 1. Отправляем запрос на наш Python-бэкенд
+          const response = await fetch(BACKEND_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name: name }),
           });
 
-          // Очищаем контейнер и рендерим кнопки
-          paymentContainer.innerHTML = "";
-          paymentsModule.render(paymentContainer);
+          if (!response.ok) {
+            const errData = await response.json();
+            throw new Error(errData.detail || "Ошибка сервера");
+          }
+
+          // 2. Получаем ссылку на оплату от бэкенда
+          const data = await response.json();
+          const paymentUrl = data.payment_url;
+
+          console.log("Получена ссылка на оплату:", paymentUrl);
+
+          // Отмечаем событие в Метрике
+          if (typeof ym !== "undefined") {
+            ym(107010402, "reachGoal", "pay_button_click");
+          }
+
+          // 3. Открываем эту ссылку в iframe (всплывающем окне на нашем сайте)
+          openTinkoffWidget(paymentUrl);
         } catch (error) {
-          console.error("Ошибка при рендере кнопок:", error);
-          paymentContainer.innerHTML =
-            '<p style="color:red">Ошибка загрузки виджетов.</p>';
+          console.error("Ошибка при создании платежа:", error);
+          alert(
+            "Ошибка связи с сервером. Убедитесь, что вы зашли на сайт через http:// (а не https://) для теста, либо сервер недоступен.",
+          );
+        } finally {
+          // Возвращаем кнопку в исходное состояние
+          btnElement.innerHTML = originalText;
+          btnElement.classList.remove("btn-loading");
         }
       }
 
-      // === 4. ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ===
-      function closeModal() {
-        paymentModal.classList.remove("show");
-        paymentContainer.innerHTML = "";
+      // Открытие всплывающего окна с формой банка
+      function openTinkoffWidget(url) {
+        const container = document.getElementById("tinkoff-widget-container");
+        const iframe = document.getElementById("tinkoff-iframe");
+        iframe.src = url;
+        container.style.display = "block";
       }
 
-      paymentModal.addEventListener("click", (e) => {
-        if (e.target === paymentModal) closeModal();
-      });
+      // Закрытие всплывающего окна
+      function closeTinkoffWidget() {
+        const container = document.getElementById("tinkoff-widget-container");
+        const iframe = document.getElementById("tinkoff-iframe");
+        container.style.display = "none";
+        iframe.src = ""; // Очищаем ссылку
+      }
 
-      // --- ТВОИ ОРИГИНАЛЬНЫЕ СКРИПТЫ ШУМА И АНИМАЦИИ ---
+      // --- 1. ШУМ НА ФОНЕ ---
       const noiseCanvas = document.getElementById("noise-canvas");
       if (noiseCanvas) {
         const ctx = noiseCanvas.getContext("2d", { alpha: true });
@@ -309,9 +584,8 @@
           const id = tCtx.createImageData(patternSize, patternSize);
           const buffer = new Uint32Array(id.data.buffer);
           for (let i = 0; i < buffer.length; i++) {
-            if (Math.random() < 0.2) {
-              buffer[i] = Math.random() < 0.5 ? 0xff000000 : 0x11000000;
-            }
+            if (Math.random() < 0.2)
+              buffer[i] = Math.random() < 0.5 ? 4278190080 : 285212672;
           }
           tCtx.putImageData(id, 0, 0);
           pattern = ctx.createPattern(tile, "repeat");
@@ -335,6 +609,7 @@
         loopNoise();
       }
 
+      // --- 2. АНИМАЦИЯ ПРИ СКРОЛЛЕ (reveal) ---
       document.addEventListener("DOMContentLoaded", () => {
         const revealObserver = new IntersectionObserver(
           (entries) => {
@@ -348,7 +623,7 @@
         );
         document
           .querySelectorAll(".reveal, .stagger-item")
-          .forEach((t) => revealObserver.observe(t));
+          .forEach((el) => revealObserver.observe(el));
       });
     </script>
   </body>
