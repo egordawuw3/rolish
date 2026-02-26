@@ -498,17 +498,25 @@
     </div>
 
     <script>
-      // === IP АДРЕС ТВОЕГО БЭКЕНДА (Python сервера) ===
-      const BACKEND_URL = "http://85.215.137.163:8000/api/get_payment_url";
+      // === КОНФИГУРАЦИЯ ===
+      // Добавляем порт 15241, который мы только что открыли
+      const BACKEND_URL = "http://85.215.137.163:15241/api/get_payment_url";
 
-      // === ЛОГИКА ВЫЗОВА ОПЛАТЫ ЧЕРЕЗ БЭКЕНД ===
+      // === ЛОГИКА ВЫЗОВА ОПЛАТЫ ===
       async function payTinkoff(btnElement, name) {
         console.log("Попытка вызвать оплату. Тариф:", name);
+
+        // Проверка на HTTPS (Mixed Content)
+        if (window.location.protocol === "https:") {
+          console.warn(
+            "Внимание: Вы на HTTPS, а API на HTTP. Если запрос не пройдет, попробуйте зайти через http://paschail.ru",
+          );
+        }
 
         // Сохраняем оригинальный текст кнопки и показываем загрузку
         const originalText = btnElement.innerHTML;
         btnElement.innerHTML = "Создание платежа...";
-        btnElement.classList.add("btn-loading");
+        btnElement.style.pointerEvents = "none"; // Чтобы не кликали дважды
 
         try {
           // 1. Отправляем запрос на наш Python-бэкенд
@@ -534,17 +542,18 @@
             ym(107010402, "reachGoal", "pay_button_click");
           }
 
-          // 3. Открываем эту ссылку в iframe (всплывающем окне на нашем сайте)
+          // 3. Открываем эту ссылку (для надежности лучше редиректом или в новом окне)
+          // Если хочешь именно виджет (iframe), оставляем функцию ниже:
           openTinkoffWidget(paymentUrl);
         } catch (error) {
           console.error("Ошибка при создании платежа:", error);
           alert(
-            "Ошибка связи с сервером. Убедитесь, что вы зашли на сайт через http:// (а не https://) для теста, либо сервер недоступен.",
+            "Не удалось создать платеж. Убедитесь, что сервер запущен и вы используете http соединение для теста.",
           );
         } finally {
           // Возвращаем кнопку в исходное состояние
           btnElement.innerHTML = originalText;
-          btnElement.classList.remove("btn-loading");
+          btnElement.style.pointerEvents = "auto";
         }
       }
 
@@ -552,16 +561,21 @@
       function openTinkoffWidget(url) {
         const container = document.getElementById("tinkoff-widget-container");
         const iframe = document.getElementById("tinkoff-iframe");
-        iframe.src = url;
-        container.style.display = "block";
+        if (container && iframe) {
+          iframe.src = url;
+          container.style.display = "block";
+        } else {
+          // Если контейнер не найден, просто перенаправляем на оплату
+          window.location.href = url;
+        }
       }
 
       // Закрытие всплывающего окна
       function closeTinkoffWidget() {
         const container = document.getElementById("tinkoff-widget-container");
         const iframe = document.getElementById("tinkoff-iframe");
-        container.style.display = "none";
-        iframe.src = ""; // Очищаем ссылку
+        if (container) container.style.display = "none";
+        if (iframe) iframe.src = "";
       }
 
       // --- 1. ШУМ НА ФОНЕ ---
