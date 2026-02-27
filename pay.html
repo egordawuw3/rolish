@@ -41,6 +41,7 @@
         "https://mc.yandex.ru/metrika/tag.js?id=107010402",
         "ym",
       );
+
       ym(107010402, "init", {
         ssr: true,
         webvisor: true,
@@ -52,6 +53,7 @@
     </script>
 
     <style>
+      /* === ОРИГИНАЛЬНЫЕ СТИЛИ ДЛЯ ТАРИФОВ === */
       .tariff-price {
         font-size: 2.8rem;
         font-weight: 900;
@@ -96,12 +98,151 @@
       .mentor .tariff-price {
         color: white;
       }
+
+      /* === КРЕМОВО-СИНИЙ СТИЛЬ МОДАЛЬНОГО ОКНА === */
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(5px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 99999;
+        opacity: 0;
+        visibility: hidden;
+        transition:
+          opacity 0.3s ease,
+          visibility 0.3s ease;
+      }
+      .modal-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+      .modal-content {
+        background: #f4f3ed;
+        padding: 40px 30px;
+        border-radius: 24px;
+        width: 90%;
+        max-width: 400px;
+        position: relative;
+        text-align: center;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+        transform: translateY(20px) scale(0.95);
+        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+      .modal-overlay.active .modal-content {
+        transform: translateY(0) scale(1);
+      }
+      .modal-close {
+        position: absolute;
+        top: 18px;
+        right: 18px;
+        width: 32px;
+        height: 32px;
+        background: #eae9e2;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: #666;
+        transition: all 0.2s;
+      }
+      .modal-close:hover {
+        background: #005bff;
+        color: #fff;
+      }
+      .modal-title {
+        font-size: 1.5rem;
+        font-weight: 800;
+        margin-bottom: 5px;
+        color: #111;
+      }
+      .modal-subtitle {
+        font-size: 1rem;
+        color: #666;
+        margin-bottom: 25px;
+        font-weight: 500;
+      }
+      .modal-input {
+        width: 100%;
+        padding: 15px 20px;
+        margin-bottom: 15px;
+        background: #ffffff;
+        border: 2px solid transparent;
+        border-radius: 14px;
+        font-size: 1rem;
+        font-family: inherit;
+        box-sizing: border-box;
+        outline: none;
+        transition:
+          border-color 0.3s,
+          box-shadow 0.3s;
+        color: #000;
+      }
+      .modal-input::placeholder {
+        color: #a3a3a3;
+      }
+      .modal-input:focus {
+        border-color: #005bff;
+        box-shadow: 0 0 0 4px rgba(0, 91, 255, 0.1);
+      }
+      .payment-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        margin-top: 10px;
+      }
+      .modal-btn {
+        width: 100%;
+        padding: 14px 20px;
+        border: none;
+        border-radius: 14px;
+        font-size: 1.1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition:
+          transform 0.2s,
+          filter 0.2s;
+        font-family: inherit;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+      }
+      .modal-btn:active {
+        transform: scale(0.98);
+      }
+      .btn-tinkoff {
+        background: #ffdd2d;
+        color: #000;
+      }
+      .btn-tinkoff:hover {
+        filter: brightness(0.95);
+      }
+      .btn-split {
+        background: #eae9e2;
+        color: #000;
+      }
+      .btn-split:hover {
+        background: #dfded7;
+      }
+      .btn-img-icon {
+        height: 32px;
+        width: auto;
+        max-width: 110px;
+        object-fit: contain;
+        mix-blend-mode: multiply;
+      }
     </style>
   </head>
 
   <body>
     <canvas id="noise-canvas" style="pointer-events: none"></canvas>
-
     <nav class="navbar">
       <a href="index.html" class="nav-logo" aria-label="core. home">core.</a>
     </nav>
@@ -127,6 +268,7 @@
         </h2>
 
         <div class="tariffs-grid stagger-container">
+          <!-- ТАРИФ 1 -->
           <div class="tariff-card stagger-item">
             <div class="t-header-box">
               <div class="t-header-title">Тариф</div>
@@ -159,12 +301,13 @@
             </div>
             <button
               class="btn-tariff"
-              onclick="payTinkoff(this, 'Тариф core.')"
+              onclick="openPaymentModal('Тариф core.')"
             >
               <span class="btn-arrow">&gt;</span> Оплатить 100 ₽
             </button>
           </div>
 
+          <!-- ТАРИФ 2 -->
           <div class="tariff-card popular stagger-item">
             <div class="t-header-box">
               <div class="t-header-title">Тариф</div>
@@ -202,12 +345,13 @@
             </div>
             <button
               class="btn-tariff"
-              onclick="payTinkoff(this, 'Тариф core+')"
+              onclick="openPaymentModal('Тариф core+')"
             >
               <span class="btn-arrow">&gt;</span> Оплатить 29 900 ₽
             </button>
           </div>
 
+          <!-- ТАРИФ 3 -->
           <div class="tariff-card mentor stagger-item">
             <div class="t-header-box">
               <div class="t-header-title">Тариф</div>
@@ -245,7 +389,7 @@
             </div>
             <button
               class="btn-tariff"
-              onclick="payTinkoff(this, 'Тариф Менторство')"
+              onclick="openPaymentModal('Тариф Менторство')"
             >
               <span class="btn-arrow">&gt;</span> Оплатить 95 000 ₽
             </button>
@@ -254,15 +398,76 @@
       </section>
     </main>
 
-    <!-- FOOTER -->
+    <!-- === КРЕМОВО-СИНИЙ ПОПАП === -->
+    <div class="modal-overlay" id="payment-modal">
+      <div class="modal-content">
+        <div class="modal-close" onclick="closePaymentModal()">
+          <svg
+            width="12"
+            height="12"
+            viewBox="0 0 14 14"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M13 1L1 13M1 1L13 13"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
+        <div class="modal-title">Оформление</div>
+        <div class="modal-subtitle" id="modal-tariff-name">Тариф</div>
+        <input
+          type="text"
+          id="user-name"
+          class="modal-input"
+          placeholder="Ваше имя"
+          required
+        />
+        <input
+          type="email"
+          id="user-email"
+          class="modal-input"
+          placeholder="Ваш email для чека"
+          required
+        />
+
+        <div class="payment-buttons">
+          <button
+            class="modal-btn btn-tinkoff"
+            id="btn-pay-tinkoff"
+            onclick="processPayment('tinkoff')"
+          >
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnkIWpnMUone1D5ZYCjYYqDZheKyGzI7L9XA&s"
+              alt="Т‑Банк"
+              class="btn-img-icon"
+            />
+            Оплата в Т‑Банк
+          </button>
+          <button
+            class="modal-btn btn-split"
+            id="btn-pay-split"
+            onclick="processPayment('split')"
+          >
+            <img
+              src="https://www.splitit.com/wp-content/uploads/2024/11/Splitit-Primary-Logo-1.png"
+              alt="Сплит"
+              class="btn-img-icon"
+            />
+            Оплата в Сплит
+          </button>
+        </div>
+      </div>
+    </div>
+
     <footer class="site-footer reveal">
       <div class="footer-content">
         <div class="footer-col">
-          <a
-            href="#"
-            class="nav-logo"
-            style="color: white; font-size: 2rem"
-            aria-label="core. home"
+          <a href="#" class="nav-logo" style="color: white; font-size: 2rem"
             >core.</a
           >
           <p style="margin-top: 10px; max-width: 300px">
@@ -271,10 +476,10 @@
         </div>
         <div class="footer-col footer-links">
           <h3>Документы</h3>
-          <a href="/oferta">Договор оферты</a>
-          <a href="/argement">Обработка персональных данных</a>
-          <a href="/privacy">Политика конфиденциальности</a>
-          <a href="/mailing">Согласие на рассылку</a>
+          <a href="/oferta">Договор оферты</a
+          ><a href="/argement">Обработка персональных данных</a
+          ><a href="/privacy">Политика конфиденциальности</a
+          ><a href="/mailing">Согласие на рассылку</a>
         </div>
         <div class="footer-col">
           <h3>Реквизиты</h3>
@@ -283,30 +488,93 @@
           </p>
         </div>
       </div>
-      <div class="footer-legal">
-        <span>© 2026 All rights reserved.</span>
-      </div>
+      <div class="footer-legal"><span>© 2026 All rights reserved.</span></div>
     </footer>
 
     <script>
-      function payTinkoff(btnElement, name) {
-        console.log("Starting payment for:", name);
+      let currentTariff = "";
 
-        // Визуальный фидбек
-        btnElement.innerHTML = "Переход к оплате...";
-        btnElement.classList.add("btn-loading");
-
-        // Метрика
-        if (typeof ym !== "undefined") {
-          ym(107010402, "reachGoal", "pay_button_click");
-        }
-
-        // РАБОЧАЯ ЛОГИКА: Редирект на твой Python сервер
-        const paymentUrl = `http://85.215.137.163:15241/api/pay?name=${encodeURIComponent(name)}`;
-        window.location.href = paymentUrl;
+      function openPaymentModal(tariffName) {
+        currentTariff = tariffName;
+        document.getElementById("modal-tariff-name").innerText = tariffName;
+        document.getElementById("payment-modal").classList.add("active");
       }
 
-      // Шум и анимации
+      function closePaymentModal() {
+        document.getElementById("payment-modal").classList.remove("active");
+        document.getElementById("user-name").value = "";
+        document.getElementById("user-email").value = "";
+      }
+
+      document
+        .getElementById("payment-modal")
+        .addEventListener("click", function (e) {
+          if (e.target === this) closePaymentModal();
+        });
+
+      async function processPayment(paymentType) {
+        const nameField = document.getElementById("user-name").value.trim();
+        const emailField = document.getElementById("user-email").value.trim();
+        const btnElement =
+          paymentType === "tinkoff"
+            ? document.getElementById("btn-pay-tinkoff")
+            : document.getElementById("btn-pay-split");
+        const originalHTML = btnElement.innerHTML;
+
+        if (!nameField) {
+          alert("Пожалуйста, укажите ваше имя!");
+          return;
+        }
+        if (!emailField) {
+          alert("Пожалуйста, укажите email для чека!");
+          return;
+        }
+
+        btnElement.innerHTML = "Загрузка...";
+        btnElement.style.pointerEvents = "none";
+        btnElement.style.opacity = "0.7";
+
+        if (typeof ym !== "undefined")
+          ym(107010402, "reachGoal", "pay_button_click");
+
+        try {
+          const response = await fetch("pay.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              tariff_name: currentTariff,
+              name: nameField,
+              email: emailField,
+              payment_method: paymentType,
+            }),
+          });
+
+          if (!response.ok)
+            throw new Error(`HTTP error! status: ${response.status}`);
+          const data = await response.json();
+
+          if (data.payment_url) {
+            window.location.href = data.payment_url;
+          } else {
+            alert(
+              "Ошибка оплаты: " + (data.detail || "Неизвестная ошибка банка"),
+            );
+            resetButton(btnElement, originalHTML);
+          }
+        } catch (error) {
+          console.error("Payment error:", error);
+          alert("Ошибка соединения с сервером. Попробуйте еще раз.");
+          resetButton(btnElement, originalHTML);
+        }
+      }
+
+      function resetButton(btn, html) {
+        btn.innerHTML = html;
+        btn.style.pointerEvents = "auto";
+        btn.style.opacity = "1";
+      }
+
+      // ШУМ
       const noiseCanvas = document.getElementById("noise-canvas");
       if (noiseCanvas) {
         const ctx = noiseCanvas.getContext("2d", { alpha: true });
@@ -325,10 +593,9 @@
           const tCtx = tile.getContext("2d");
           const id = tCtx.createImageData(patternSize, patternSize);
           const buffer = new Uint32Array(id.data.buffer);
-          for (let i = 0; i < buffer.length; i++) {
+          for (let i = 0; i < buffer.length; i++)
             if (Math.random() < 0.2)
               buffer[i] = Math.random() < 0.5 ? 4278190080 : 285212672;
-          }
           tCtx.putImageData(id, 0, 0);
           pattern = ctx.createPattern(tile, "repeat");
         };
@@ -351,6 +618,7 @@
         loopNoise();
       }
 
+      // Анимации при скролле
       document.addEventListener("DOMContentLoaded", () => {
         const revealObserver = new IntersectionObserver(
           (entries) => {
