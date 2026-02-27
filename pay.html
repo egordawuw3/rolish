@@ -512,60 +512,87 @@
           if (e.target === this) closePaymentModal();
         });
 
+      // === НОВАЯ ФУНКЦИЯ ОПЛАТЫ С ЛОГАМИ И ПРЯМОЙ ОТПРАВКОЙ ===
       async function processPayment(paymentType) {
+        console.log("\n=============================================");
+        console.log("🟢 [ФРОНТЕНД] ЗАПУСК ПРОЦЕССА ОПЛАТЫ");
+
         const nameField = document.getElementById("user-name").value.trim();
         const emailField = document.getElementById("user-email").value.trim();
         const btnElement =
           paymentType === "tinkoff"
             ? document.getElementById("btn-pay-tinkoff")
             : document.getElementById("btn-pay-split");
+
         const originalHTML = btnElement.innerHTML;
 
+        console.log(`   ▶ Выбранный тариф: ${currentTariff}`);
+        console.log(`   ▶ Метод оплаты: ${paymentType}`);
+        console.log(
+          `   ▶ Введенное Имя: "${nameField}", Email: "${emailField}"`,
+        );
+
         if (!nameField) {
+          console.warn("⚠️ [ФРОНТЕНД] Ошибка: Не заполнено имя!");
           alert("Пожалуйста, укажите ваше имя!");
           return;
         }
         if (!emailField) {
+          console.warn("⚠️ [ФРОНТЕНД] Ошибка: Не заполнен email!");
           alert("Пожалуйста, укажите email для чека!");
           return;
         }
 
-        btnElement.innerHTML = "Загрузка...";
+        console.log("⏳ [ФРОНТЕНД] Валидация пройдена. Блокируем кнопку...");
+        btnElement.innerHTML = "Перенаправление...";
         btnElement.style.pointerEvents = "none";
         btnElement.style.opacity = "0.7";
 
-        if (typeof ym !== "undefined")
+        if (typeof ym !== "undefined") {
+          console.log(
+            "📊 [ФРОНТЕНД] Отправка цели в Яндекс.Метрику (pay_button_click)",
+          );
           ym(107010402, "reachGoal", "pay_button_click");
-
-        try {
-          const response = await fetch("pay.php", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              tariff_name: currentTariff,
-              name: nameField,
-              email: emailField,
-              payment_method: paymentType,
-            }),
-          });
-
-          if (!response.ok)
-            throw new Error(`HTTP error! status: ${response.status}`);
-          const data = await response.json();
-
-          if (data.payment_url) {
-            window.location.href = data.payment_url;
-          } else {
-            alert(
-              "Ошибка оплаты: " + (data.detail || "Неизвестная ошибка банка"),
-            );
-            resetButton(btnElement, originalHTML);
-          }
-        } catch (error) {
-          console.error("Payment error:", error);
-          alert("Ошибка соединения с сервером. Попробуйте еще раз.");
-          resetButton(btnElement, originalHTML);
         }
+
+        // Создаем невидимую форму для обхода CORS и Mixed Content на GitHub Pages
+        console.log(
+          "⚙️ [ФРОНТЕНД] Создаем скрытую HTML-форму для отправки данных...",
+        );
+        console.log("   ▶ URL назначения: http://85.215.137.163:15241/api/pay");
+
+        const form = document.createElement("form");
+        form.method = "POST";
+        form.action = "http://85.215.137.163:15241/api/pay";
+
+        const data = {
+          tariff_name: currentTariff,
+          name: nameField,
+          email: emailField,
+          payment_method: paymentType,
+        };
+
+        for (const key in data) {
+          const input = document.createElement("input");
+          input.type = "hidden";
+          input.name = key;
+          input.value = data[key];
+          form.appendChild(input);
+          console.log(`   ▶ Добавлено поле: [${key}] = ${data[key]}`);
+        }
+
+        console.log(
+          "🚀 [ФРОНТЕНД] ОТПРАВЛЯЕМ ФОРМУ (SUBMIT)! Сейчас произойдет редирект...",
+        );
+        console.log("=============================================\n");
+
+        document.body.appendChild(form);
+        form.submit(); // Отправляем данные на Python сервер
+
+        // Возвращаем кнопку в исходное состояние (если юзер нажмет "Назад" в браузере)
+        setTimeout(() => {
+          resetButton(btnElement, originalHTML);
+        }, 4000);
       }
 
       function resetButton(btn, html) {
@@ -573,6 +600,7 @@
         btn.style.pointerEvents = "auto";
         btn.style.opacity = "1";
       }
+      // === КОНЕЦ НОВОЙ ФУНКЦИИ ОПЛАТЫ ===
 
       // ШУМ
       const noiseCanvas = document.getElementById("noise-canvas");
