@@ -49,6 +49,27 @@ main {
 }
 
 /* ==============================================
+   УНИВЕРСАЛЬНЫЙ КЛАСС БРЕНДИНГА (core. ядро.)
+   ============================================== */
+.brand-group {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.15em;
+  line-height: 1;
+}
+
+.brand-main {
+  font-weight: 900;
+}
+
+.brand-sub {
+  font-size: 0.5em; /* Текст в 2 раза меньше основы */
+  opacity: 0.6;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+/* ==============================================
    2. TEXTURE (NOISE)
    ============================================== */
 #noise-canvas {
@@ -205,9 +226,22 @@ main {
   }
 }
 
+/* 
+  ГЛАВНЫЙ ВОДЯНОЙ ЗНАК (МАТЕМАТИЧЕСКАЯ ПРОПОРЦИЯ) 
+  Основан на em, поэтому 100% адаптируется на любых экранах без поломок.
+*/
+.main-title-wrapper {
+  position: relative;
+  display: inline-block;
+  font-size: clamp(4rem, 14vw, 15rem); /* Контролирует общий размер лого */
+  margin: 0;
+  padding: 0;
+  z-index: 10;
+}
+
 .main-title {
   font-family: "Inter", sans-serif;
-  font-size: clamp(4rem, 14vw, 15rem);
+  font-size: 1em; /* Наследует размер от wrapper */
   font-weight: 900;
   line-height: 0.85;
   letter-spacing: -0.06em;
@@ -218,10 +252,33 @@ main {
   -webkit-text-fill-color: transparent;
   animation: shimmer 8s infinite linear;
   filter: drop-shadow(0 20px 50px rgba(0, 0, 0, 0.3));
+  position: relative;
+  z-index: 2;
+}
+
+/* ИДЕАЛЬНАЯ ПОДПИСЬ КАК НА РЕФЕРЕНСЕ */
+/* Текст 'ядро.' как водяной знак */
+.core-translation {
+  position: absolute;
+  right: 0;
+  bottom: -0.65em; /* Опустили ниже, чтобы не наезжало на core. */
+  font-family: "Inter", sans-serif;
+  font-size: 0.35em;
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.15);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  z-index: 1;
+  letter-spacing: -0.02em;
 }
 
 .subtitle-block {
-  margin-top: 30px;
+  margin-top: clamp(
+    60px,
+    8vw,
+    10px
+  ); /* Увеличили отступ, чтобы опустить блок с описанием ниже слова ядро. */
   font-family: "Caveat", cursive;
   font-weight: 700;
   font-size: clamp(2.5rem, 4vw, 4rem);
@@ -1287,12 +1344,16 @@ main {
 .mentor .t-header-title {
   color: rgba(255, 255, 255, 0.85);
 }
+
+/* Изменено на flex для красивого выравнивания */
 .t-header-name {
   font-size: clamp(1.5rem, 3vw, 2rem);
   font-weight: 900;
   margin: 0;
   line-height: 1;
   color: var(--blue-bright);
+  display: flex;
+  justify-content: center;
 }
 .popular .t-header-name,
 .mentor .t-header-name {
@@ -1802,14 +1863,24 @@ main {
     z-index: 100 !important;
     padding-bottom: 80px !important;
   }
-  .main-title {
+  .main-title-wrapper {
     font-size: clamp(3rem, 26vw, 6rem) !important;
+  }
+  .main-title {
+    font-size: 1em !important;
     line-height: 0.8 !important;
     animation: none !important;
   }
+  .core-translation {
+    bottom: -0.38em !important; /* На мобилках опускаем пропорционально так же */
+  }
   .subtitle-block {
     font-size: clamp(2rem, 8vw, 3rem) !important;
-    margin-top: 15px !important;
+    margin-top: clamp(
+      45px,
+      12vw,
+      60px
+    ) !important; /* Увеличенный отступ для мобилок */
   }
 
   /* Фикс: прыгающий текст "БЕЗ" */
@@ -2008,17 +2079,11 @@ main {
     padding: 8px 16px !important;
     font-size: 0.85rem !important;
   }
-  .main-title {
+  .main-title-wrapper {
     font-size: clamp(2rem, 24vw, 3rem) !important;
   }
-  .subtitle-block {
-    font-size: clamp(1.8rem, 10vw, 2.5rem) !important;
-  }
-  .highlight-word {
-    font-size: clamp(2rem, 10vw, 2.8rem) !important;
-  }
-  .vsl-headline {
-    font-size: clamp(1.6rem, 8vw, 2.2rem) !important;
+  .main-title {
+    font-size: 1em !important;
   }
 
   /* Фикс микро-прыжков текста */
