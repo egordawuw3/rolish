@@ -518,6 +518,7 @@
 
         const nameField = document.getElementById("user-name").value.trim();
         const emailField = document.getElementById("user-email").value.trim();
+
         const btnElement =
           paymentType === "tinkoff"
             ? document.getElementById("btn-pay-tinkoff")
@@ -529,6 +530,7 @@
           alert("Пожалуйста, укажите ваше имя!");
           return;
         }
+
         if (!emailField) {
           alert("Пожалуйста, укажите email для чека!");
           return;
@@ -546,7 +548,7 @@
         const form = document.createElement("form");
         form.method = "POST";
         form.action = "http://85.215.137.163:15241/api/pay";
-        form.target = "_blank"; // Открываем страницу Тинькофф в соседней вкладке (снимает ошибку безопасности)
+        form.target = "_blank"; // Открываем страницу Тинькофф в соседней вкладке
 
         const data = {
           tariff_name: currentTariff,
@@ -566,7 +568,7 @@
         document.body.appendChild(form);
         form.submit();
 
-        // Через 2 секунды (когда новая вкладка уже откроется) возвращаем сайту исходный вид
+        // Через 2 секунды возвращаем сайту исходный вид
         setTimeout(() => {
           btnElement.innerHTML = originalHTML;
           btnElement.style.pointerEvents = "auto";
@@ -581,12 +583,15 @@
         const ctx = noiseCanvas.getContext("2d", { alpha: true });
         let pattern;
         const patternSize = 256;
+
         const resize = () => {
           noiseCanvas.width = window.innerWidth;
           noiseCanvas.height = window.innerHeight;
         };
+
         window.addEventListener("resize", resize);
         resize();
+
         const createPattern = () => {
           const tile = document.createElement("canvas");
           tile.width = patternSize;
@@ -594,16 +599,21 @@
           const tCtx = tile.getContext("2d");
           const id = tCtx.createImageData(patternSize, patternSize);
           const buffer = new Uint32Array(id.data.buffer);
+
           for (let i = 0; i < buffer.length; i++)
             if (Math.random() < 0.2)
               buffer[i] = Math.random() < 0.5 ? 4278190080 : 285212672;
+
           tCtx.putImageData(id, 0, 0);
           pattern = ctx.createPattern(tile, "repeat");
         };
+
         createPattern();
+
         const loopNoise = () => {
           const xOff = Math.floor(Math.random() * patternSize);
           const yOff = Math.floor(Math.random() * patternSize);
+
           ctx.clearRect(0, 0, noiseCanvas.width, noiseCanvas.height);
           ctx.fillStyle = pattern;
           ctx.translate(-xOff, -yOff);
@@ -613,9 +623,11 @@
             noiseCanvas.width + patternSize,
             noiseCanvas.height + patternSize,
           );
+
           ctx.setTransform(1, 0, 0, 1, 0, 0);
           setTimeout(() => requestAnimationFrame(loopNoise), 1000 / 15);
         };
+
         loopNoise();
       }
 
@@ -630,6 +642,7 @@
           },
           { threshold: 0.1 },
         );
+
         document
           .querySelectorAll(".reveal, .stagger-item")
           .forEach((el) => revealObserver.observe(el));
