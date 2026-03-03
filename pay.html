@@ -391,26 +391,28 @@
         }
 
             /* === СТИЛИ ДЛЯ ТЕКСТА СОГЛАСИЯ В МОДАЛКЕ ОПЛАТЫ === */
+    /* === СТИЛИ ДЛЯ ТЕКСТА СОГЛАСИЯ В МОДАЛКЕ ОПЛАТЫ === */
     .payment-agreement {
       margin-top: 20px;
       margin-bottom: 0;
-      font-size: 0.75rem; /* Мелкий, аккуратный шрифт */
-      color: #999;        /* Серый цвет, чтобы не отвлекать */
+      font-size: 0.75rem; 
+      color: #555; /* Темно-серый, плотный и близкий к черному */
       line-height: 1.4;
       text-align: center;
       font-family: "Inter", sans-serif;
     }
     
     .payment-agreement a {
-      color: #999;
-      text-decoration: underline; /* Подчеркивание ссылок */
+      color: var(--blue-bright); /* Ссылки сразу вашего фирменного синего цвета */
+      text-decoration: underline; 
       text-underline-offset: 3px;
-      transition: color 0.3s var(--ease-smooth);
+      transition: color 0.3s ease;
     }
     
     .payment-agreement a:hover {
-      color: var(--blue-bright); /* При наведении становятся фирменными синими */
+      color: var(--blue-deep); /* При наведении синий становится чуть темнее */
     }
+
 
       }
     </style>
