@@ -389,6 +389,29 @@
           padding: 18px;
           font-size: 1.1rem;
         }
+
+            /* === СТИЛИ ДЛЯ ТЕКСТА СОГЛАСИЯ В МОДАЛКЕ ОПЛАТЫ === */
+    .payment-agreement {
+      margin-top: 20px;
+      margin-bottom: 0;
+      font-size: 0.75rem; /* Мелкий, аккуратный шрифт */
+      color: #999;        /* Серый цвет, чтобы не отвлекать */
+      line-height: 1.4;
+      text-align: center;
+      font-family: "Inter", sans-serif;
+    }
+    
+    .payment-agreement a {
+      color: #999;
+      text-decoration: underline; /* Подчеркивание ссылок */
+      text-underline-offset: 3px;
+      transition: color 0.3s var(--ease-smooth);
+    }
+    
+    .payment-agreement a:hover {
+      color: var(--blue-bright); /* При наведении становятся фирменными синими */
+    }
+
       }
     </style>
   </head>
@@ -588,32 +611,28 @@
           required
         />
 
-        <div class="payment-buttons">
-          <button
-            class="modal-btn btn-tinkoff"
-            id="btn-pay-tinkoff"
-            onclick="processPayment('tinkoff')"
-          >
-            <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnkIWpnMUone1D5ZYCjYYqDZheKyGzI7L9XA&s"
-              alt="Т‑Банк"
-              class="btn-img-icon"
-            />
-            Оплата в Т‑Банк
-          </button>
-          <button
-            class="modal-btn btn-split"
-            id="btn-pay-split"
-            onclick="processPayment('split')"
-          >
-            <img
-              src="https://www.splitit.com/wp-content/uploads/2024/11/Splitit-Primary-Logo-1.png"
-              alt="Сплит"
-              class="btn-img-icon"
-            />
-            Оплата в Сплит
-          </button>
-        </div>
+      <div class="payment-buttons">
+        <button class="modal-btn btn-tinkoff" id="btn-pay-tinkoff" onclick="processPayment('tinkoff')">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnkIWpnMUone1D5ZYCjYYqDZheKyGzI7L9XA&s" alt="Т‑Банк" class="btn-img-icon" />
+          Оплата в Т‑Банк
+        </button>
+        <button class="modal-btn btn-split" id="btn-pay-split" onclick="processPayment('split')">
+          <img src="https://www.splitit.com/wp-content/uploads/2024/11/Splitit-Primary-Logo-1.png" alt="Сплит" class="btn-img-icon" />
+          Оплата в Сплит
+        </button>
+      </div>
+
+      <!-- НОВЫЙ БЛОК СОГЛАСИЯ -->
+      <p class="payment-agreement">
+        Нажимая на кнопку, вы соглашаетесь с условиями 
+        <a href="/oferta" target="_blank">договора оферты</a> и политикой обработки 
+        <a href="/privacy" target="_blank">персональных данных</a>.
+      </p>
+      <!-- КОНЕЦ НОВОГО БЛОКА -->
+
+    </div>
+  </div>
+
       </div>
     </div>
 
