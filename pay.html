@@ -390,28 +390,38 @@
           font-size: 1.1rem;
         }
 
-            /* === СТИЛИ ДЛЯ ТЕКСТА СОГЛАСИЯ В МОДАЛКЕ ОПЛАТЫ === */
-    /* === СТИЛИ ДЛЯ ТЕКСТА СОГЛАСИЯ В МОДАЛКЕ ОПЛАТЫ === */
-    .payment-agreement {
+    /* === СТИЛИ ДЛЯ ТЕКСТА ВНИЗУ МОДАЛКИ (VPN + СОГЛАСИЕ) === */
+    .payment-footer-text {
       margin-top: 20px;
-      margin-bottom: 0;
-      font-size: 0.75rem; 
-      color: #fe0000; /* Темно-серый, плотный и близкий к черному */
-      line-height: 1.4;
       text-align: center;
       font-family: "Inter", sans-serif;
     }
     
+    .vpn-warning {
+      margin: 0 0 10px 0;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--accent); /* Ваш фирменный красный цвет, чтобы точно заметили */
+    }
+    
+    .payment-agreement {
+      margin: 0;
+      font-size: 0.75rem; 
+      color: #555; /* Темно-серый, почти черный */
+      line-height: 1.4;
+    }
+    
     .payment-agreement a {
-      color: var(--blue-bright); /* Ссылки сразу вашего фирменного синего цвета */
+      color: var(--blue-bright); /* Фирменный синий для ссылок */
       text-decoration: underline; 
       text-underline-offset: 3px;
       transition: color 0.3s ease;
     }
     
     .payment-agreement a:hover {
-      color: var(--blue-deep); /* При наведении синий становится чуть темнее */
+      color: var(--blue-deep);
     }
+
 
 
       }
@@ -623,16 +633,19 @@
           Оплата в Сплит
         </button>
       </div>
-
-      <!-- НОВЫЙ БЛОК СОГЛАСИЯ -->
-      <p class="payment-agreement">
-        Нажимая на кнопку, вы соглашаетесь с условиями 
-        <a href="/oferta" target="_blank">договора оферты</a> и политикой обработки 
-        <a href="/privacy" target="_blank">персональных данных</a>.
-      </p>
+      <!-- НОВЫЙ БЛОК СОГЛАСИЯ И VPN -->
+      <div class="payment-footer-text">
+        <p class="vpn-warning">
+          ⚠️ Для корректной оплаты, пожалуйста, отключите VPN
+        </p>
+        <p class="payment-agreement">
+          Нажимая на кнопку, вы соглашаетесь с условиями 
+          <a href="/oferta" target="_blank">договора оферты</a> и политикой обработки 
+          <a href="/privacy" target="_blank">персональных данных</a>.
+        </p>
+      </div>
       <!-- КОНЕЦ НОВОГО БЛОКА -->
 
-    </div>
   </div>
 
       </div>
