@@ -9,17 +9,13 @@
     />
     <title>core. ядро.</title>
 
-    <!-- 1. Ускорение соединения со сторонними доменами -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://www.transparenttextures.com" />
-    <!-- Добавлено для текстур -->
 
-    <!-- 2. Предзагрузка критических стилей -->
     <link rel="preload" href="css/index.css" as="style" />
     <link rel="preload" href="https://cdn.plyr.io/3.7.8/plyr.css" as="style" />
 
-    <!-- 3. Асинхронная загрузка шрифтов (Убирает Render-blocking в Lighthouse) -->
     <link
       rel="preload"
       as="style"
@@ -31,7 +27,6 @@
       media="print"
       onload="this.media = 'all'"
     />
-    <!-- Заглушка, если у пользователя отключен JavaScript -->
     <noscript>
       <link
         rel="stylesheet"
@@ -39,21 +34,15 @@
       />
     </noscript>
 
-    <!-- 4. Остальные стили и скрипты -->
     <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
     <link rel="icon" href="favicon.png" type="image/png" />
     <script src="https://cdn.plyr.io/3.7.8/plyr.js" defer></script>
     <link rel="stylesheet" href="css/index.css" />
-    <link
-      rel="preload"
-      as="image"
-      href="assets/camera.webp"
-      fetchpriority="high"
-    />
+    <link rel="preload" as="image" href="assets/camera.webp" fetchpriority="high" />
   </head>
 
   <body>
-    <!-- Твой оригинальный интерактивный шум -->
+    <!-- Интерактивный шум -->
     <canvas id="noise-canvas"></canvas>
 
     <nav class="navbar">
@@ -72,45 +61,17 @@
     <main>
       <div class="hero-wrapper">
         <div class="card-shadow-container">
-          <!-- ОРИГИНАЛЬНЫЕ стикеры -->
-          <img
-            src="assets/camera_1x.webp"
-            srcset="assets/camera_1x.webp 1x, assets/camera_2x.webp 2x"
-            class="sticker-img s-camera"
-            alt="Camera"
-            fetchpriority="high"
-          />
-
-          <img
-            src="assets/pencil_1x.webp"
-            srcset="assets/pencil_1x.webp 1x, assets/pencil_2x.webp 2x"
-            class="sticker-img s-pencil"
-            alt="Pencil"
-            fetchpriority="high"
-          />
-
-          <img
-            src="assets/microssd.webp"
-            class="sticker-img s-ssd"
-            alt="SSD"
-            fetchpriority="high"
-          />
-
-          <img
-            src="assets/clapper.webp"
-            class="sticker-img s-clapper"
-            alt="Clapper"
-            fetchpriority="high"
-          />
+          <img src="assets/camera_1x.webp" srcset="assets/camera_1x.webp 1x, assets/camera_2x.webp 2x" class="sticker-img s-camera" alt="Camera" fetchpriority="high" />
+          <img src="assets/pencil_1x.webp" srcset="assets/pencil_1x.webp 1x, assets/pencil_2x.webp 2x" class="sticker-img s-pencil" alt="Pencil" fetchpriority="high" />
+          <img src="assets/microssd.webp" class="sticker-img s-ssd" alt="SSD" fetchpriority="high" />
+          <img src="assets/clapper.webp" class="sticker-img s-clapper" alt="Clapper" fetchpriority="high" />
 
           <div class="hero-card" id="hero-card">
             <div class="hero-content">
-              <!-- ДОБАВЛЕНА ОБЕРТКА И ПРИПИСКА ЯДРО ДЛЯ ГЛАВНОГО ЭКРАНА -->
               <div class="main-title-wrapper">
                 <h1 class="main-title" id="main-blur-title">core.</h1>
                 <span class="core-translation">ядро.</span>
               </div>
-
               <div class="subtitle-block">
                 <div class="row-line">
                   <span>без</span>
@@ -118,585 +79,220 @@
                     <span class="highlight-word" id="word-rotator">воды</span>
                   </div>
                 </div>
-                <!-- Меняем отступ на отрицательный: -->
                 <div style="margin-top: -15px">только система.</div>
               </div>
             </div>
           </div>
-          <a href="#tariffs" class="hero-btn-overlap">ВЫБРАТЬ ТАРИФ</a>
+          
+          <!-- ПРОЗРАЧНАЯ СТЕКЛЯННАЯ КНОПКА (МЕЖДУ HERO И VSL) -->
+          <a href="#tariffs" class="hero-btn-overlap"
+             style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); color: #ffffff; transition: all 0.3s ease;"
+             onmouseover="this.style.background='rgba(255, 255, 255, 0.2)'; this.style.borderColor='rgba(255, 255, 255, 0.5)';"
+             onmouseout="this.style.background='rgba(255, 255, 255, 0.05)'; this.style.borderColor='rgba(255, 255, 255, 0.2)';">
+            Получить систему
+          </a>
+
         </div>
       </div>
 
       <div class="vsl-section">
         <div style="max-width: 1000px; margin: 0 auto">
-          <h2 class="vsl-headline" id="vsl-blur-title">
-            Внимание — суперсила 21 века
-          </h2>
-          <p class="vsl-subhead reveal">
-            Если ты умеешь удерживать внимание и конвертировать его в ₽₽₽ — ты
-            автоматически богат.
-          </p>
-          <div
-            class="video-box reveal"
-            style="border-radius: 32px; overflow: hidden"
-          >
-            <!-- <video
-              id="player"
-              playsinline
-              controls
-              data-poster="assets/preview.jpg"
-            >
+          <h2 class="vsl-headline" id="vsl-blur-title">Внимание — суперсила 21 века</h2>
+          <p class="vsl-subhead reveal">Если ты умеешь удерживать внимание и конвертировать его в ₽₽₽ — ты автоматически богат.</p>
+          <div class="video-box reveal" style="border-radius: 32px; overflow: hidden">
+            <!-- <video id="player" playsinline controls data-poster="assets/preview.jpg">
               <source src="assets/Videos/VSL%201.mp4" type="video/mp4" />
-              <track
-                kind="captions"
-                label="Русские субтитры"
-                srclang="ru"
-                src="captions.vtt"
-                default
-              />
+              <track kind="captions" label="Русские субтитры" srclang="ru" src="captions.vtt" default />
             </video> -->
           </div>
-          <a href="#tariffs" class="btn-outline btn-buy reveal"
-            >Получить систему</a
-          >
+          <a href="#tariffs" class="btn-outline btn-buy reveal">Выбрать тариф</a>
         </div>
       </div>
 
       <section class="story-section-new reveal" id="table-of-contents">
         <div class="nav-container-3d">
-          <button
-            class="nav-btn-3d"
-            aria-label="Предыдущий слайд"
-            onclick="move3D(-1)"
-          >
-            <svg
-              width="32"
-              height="32"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="3"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M15 18l-6-6 6-6" />
-            </svg>
+          <button class="nav-btn-3d" aria-label="Предыдущий слайд" onclick="move3D(-1)">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6" /></svg>
           </button>
-          <button
-            class="nav-btn-3d"
-            aria-label="Следующий слайд"
-            onclick="move3D(1)"
-          >
-            <svg
-              width="32"
-              height="32"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="3"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M9 18l6-6-6-6" />
-            </svg>
+          <button class="nav-btn-3d" aria-label="Следующий слайд" onclick="move3D(1)">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6" /></svg>
           </button>
         </div>
 
         <div class="track-3d" id="track3d">
-          <!-- Оригинальные 13 карточек -->
           <div class="card-3d active">
             <div class="card-img-container">
-              <img
-                src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=60&w=600&auto=format,compress&fit=crop"
-                alt="Ваня Паскаль 1"
-                class="card-img"
-                loading="lazy"
-              />
+              <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=60&w=600&auto=format,compress&fit=crop" alt="Ваня Паскаль 1" class="card-img" loading="lazy" />
             </div>
             <div class="black-bar"><h2>Ваня Паскаль</h2></div>
             <div class="card-body" style="text-align: center !important">
               <div class="slider-stats">
+                <div class="s-item"><div class="s-pill">400.000₽</div><div class="s-script">личный доход</div></div>
+                <div class="s-item"><div class="s-pill">50+</div><div class="s-script">довольных учеников</div></div>
+                <div class="s-item"><div class="s-pill">3 года</div><div class="s-script">создаю контент</div></div>
                 <div class="s-item">
-                  <div class="s-pill">400.000₽</div>
-                  <div class="s-script">личный доход</div>
-                </div>
-                <div class="s-item">
-                  <div class="s-pill">50+</div>
-                  <div class="s-script">довольных учеников</div>
-                </div>
-                <div class="s-item">
-                  <div class="s-pill">3 года</div>
-                  <div class="s-script">создаю контент</div>
-                </div>
-                <div class="s-item">
-                  <div
-                    class="s-pill"
-                    style="
-                      display: flex;
-                      justify-content: center;
-                      align-items: center;
-                      gap: 4px;
-                    "
-                  >
-                    10.000
-                    <svg
-                      width="14"
-                      height="14"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="3"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    >
-                      <path
-                        d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"
-                      ></path>
-                      <circle cx="9" cy="7" r="4"></circle>
-                      <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                      <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                    </svg>
+                  <div class="s-pill" style="display: flex; justify-content: center; align-items: center; gap: 4px;">
+                    10.000 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                   </div>
                   <div class="s-script">в личных каналах</div>
                 </div>
               </div>
-              <p
-                style="
-                  font-size: 1.15rem;
-                  color: var(--black);
-                  font-weight: 500;
-                  margin-bottom: auto;
-                  margin-top: 15px;
-                "
-              >
-                Но хочу, чтобы ты знал — <br /><strong
-                  >я абсолютно такой же, как и ты.</strong
-                >
-              </p>
+              <p style="font-size: 1.15rem; color: var(--black); font-weight: 500; margin-bottom: auto; margin-top: 15px;">Но хочу, чтобы ты знал — <br /><strong>я абсолютно такой же, как и ты.</strong></p>
               <div class="s-logo">01</div>
             </div>
           </div>
           <div class="card-3d">
-            <div class="card-img-container">
-              <img
-                src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=60&w=400&auto=format,compress&fit=crop"
-                alt="Ваня Паскаль 2"
-                class="card-img"
-                loading="lazy"
-              />
-            </div>
+            <div class="card-img-container"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=60&w=400&auto=format,compress&fit=crop" alt="Ваня Паскаль 2" class="card-img" loading="lazy" /></div>
             <div class="card-body" style="justify-content: center">
-              <p class="story-quote">
-                У меня нет богатых родителей, никогда не было лишних денег, и уж
-                точно никогда не было другого плана, кроме как
-                <strong
-                  >11 лет школы, 4 года в вузе, хорошая работа и пенсия в
-                  75.</strong
-                >
-              </p>
+              <p class="story-quote">У меня нет богатых родителей, никогда не было лишних денег, и уж точно никогда не было другого плана, кроме как <strong>11 лет школы, 4 года в вузе, хорошая работа и пенсия в 75.</strong></p>
               <div class="s-logo">02</div>
             </div>
           </div>
           <div class="card-3d">
-            <div class="card-img-container">
-              <img
-                src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=60&w=600&auto=format,compress&fit=crop"
-                alt="Ваня Паскаль 3"
-                class="card-img"
-                loading="lazy"
-              />
-            </div>
+            <div class="card-img-container"><img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=60&w=600&auto=format,compress&fit=crop" alt="Ваня Паскаль 3" class="card-img" loading="lazy" /></div>
             <div class="card-body" style="justify-content: center">
-              <p class="story-quote">
-                Я очень хотел <strong>помочь своей мам</strong>, видя, как она
-                усердно работает, чтобы у меня было здоровое детство. И даже в
-                ранее возрасте я понимал, что надо как-то выкручиваться...
-              </p>
+              <p class="story-quote">Я очень хотел <strong>помочь своей мам</strong>, видя, как она усердно работает, чтобы у меня было здоровое детство. И даже в ранее возрасте я понимал, что надо как-то выкручиваться...</p>
               <div class="s-logo">03</div>
             </div>
           </div>
           <div class="card-3d">
-            <div class="card-img-container">
-              <img
-                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=60&w=400&auto=format,compress&fit=crop"
-                alt="Ваня Паскаль 4"
-                class="card-img"
-                loading="lazy"
-              />
-            </div>
+            <div class="card-img-container"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=60&w=400&auto=format,compress&fit=crop" alt="Ваня Паскаль 4" class="card-img" loading="lazy" /></div>
             <div class="card-body" style="justify-content: center">
-              <p class="story-quote">
-                С 2023 года я начал свой <strong>путь к 30к/мес</strong> —
-                просто считайте:) Я был:
-              </p>
+              <p class="story-quote">С 2023 года я начал свой <strong>путь к 30к/мес</strong> — просто считайте:) Я был:</p>
               <div class="s-logo">04</div>
             </div>
           </div>
           <div class="card-3d">
-            <div class="card-img-container">
-              <img
-                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=60&w=400&auto=format,compress&fit=crop"
-                alt="Ваня Паскаль 5"
-                class="card-img"
-                loading="lazy"
-              />
-            </div>
+            <div class="card-img-container"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=60&w=400&auto=format,compress&fit=crop" alt="Ваня Паскаль 5" class="card-img" loading="lazy" /></div>
             <div class="card-body" style="justify-content: center">
-              <p class="story-quote">
-                Менеджером, закупщиком и креативщиком в Телеграме.
-              </p>
+              <p class="story-quote">Менеджером, закупщиком и креативщиком в Телеграме.</p>
               <div class="s-logo">05</div>
             </div>
           </div>
-
           <div class="card-3d">
-            <div class="card-img-container">
-              <img
-                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=60&w=400&auto=format,compress&fit=crop"
-                alt="Ваня Паскаль 6"
-                class="card-img"
-                loading="lazy"
-              />
-            </div>
-            <div class="card-body" style="justify-content: center">
-              <p class="story-quote">Продавал кроссовки на Авито</p>
+            <div class="card-img-container"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=60&w=400&auto=format,compress&fit=crop" alt="Ваня Паскаль 6" class="card-img" loading="lazy" /></div>
+            <div class="card-body" style="justify-content: center; text-align: center">
+              <p class="story-quote" style="font-size: 1.6rem; font-weight: 900; color: #000">Продавал кроссовки на Авито.</p>
               <div class="s-logo">06</div>
             </div>
           </div>
-
           <div class="card-3d">
-            <div class="card-img-container">
-              <img
-                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=60&w=400&auto=format,compress&fit=crop"
-                alt="Ваня Паскаль 7"
-                class="card-img"
-                loading="lazy"
-              />
-            </div>
-            <div class="card-body" style="justify-content: center">
-              <p class="story-quote">Перепродавал Айфоны.</p>
+            <div class="card-img-container"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=60&w=400&auto=format,compress&fit=crop" alt="Ваня Паскаль 7" class="card-img" loading="lazy" /></div>
+            <div class="card-body" style="justify-content: center; text-align: center">
+              <p class="story-quote" style="font-size: 1.6rem; font-weight: 900; color: #000">Перепродавал Айфоны.</p>
               <div class="s-logo">07</div>
             </div>
           </div>
           <div class="card-3d">
-            <div class="card-img-container">
-              <img
-                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=60&w=400&auto=format,compress&fit=crop"
-                alt="Ваня Паскаль 8"
-                class="card-img"
-                loading="lazy"
-              />
-            </div>
-            <div class="card-body" style="justify-content: center">
-              <p class="story-quote">Делал превью для микро-блогеров.</p>
+            <div class="card-img-container"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=60&w=400&auto=format,compress&fit=crop" alt="Ваня Паскаль 8" class="card-img" loading="lazy" /></div>
+            <div class="card-body" style="justify-content: center; text-align: center">
+              <p class="story-quote" style="font-size: 1.6rem; font-weight: 900; color: #000">Делал превью для микро-блогеров.</p>
               <div class="s-logo">08</div>
             </div>
           </div>
           <div class="card-3d">
-            <div class="card-img-container">
-              <img
-                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=60&w=400&auto=format,compress&fit=crop"
-                alt="Ваня Паскаль 9"
-                class="card-img"
-                loading="lazy"
-              />
-            </div>
-            <div class="card-body" style="justify-content: center">
-              <p class="story-quote">Писал сценарии на заказ.</p>
+            <div class="card-img-container"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=60&w=400&auto=format,compress&fit=crop" alt="Ваня Паскаль 9" class="card-img" loading="lazy" /></div>
+            <div class="card-body" style="justify-content: center; text-align: center">
+              <p class="story-quote" style="font-size: 1.6rem; font-weight: 900; color: #000">Писал сценарии на заказ.</p>
               <div class="s-logo">09</div>
             </div>
           </div>
           <div class="card-3d">
-            <div class="card-img-container">
-              <img
-                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=60&w=400&auto=format,compress&fit=crop"
-                alt="Ваня Паскаль 10"
-                class="card-img"
-                loading="lazy"
-              />
-            </div>
+            <div class="card-img-container"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=60&w=400&auto=format,compress&fit=crop" alt="Ваня Паскаль 10" class="card-img" loading="lazy" /></div>
             <div class="card-body" style="justify-content: center">
-              <p class="story-quote">
-                И лишь к концу 23 года я понял, что мне
-                <strong>реально приносит удовольствие...</strong>
-              </p>
+              <p class="story-quote">И лишь к концу 23 года я понял, что мне <strong>реально приносит удовольствие...</strong></p>
               <div class="s-logo">10</div>
             </div>
           </div>
           <div class="card-3d">
-            <div class="card-img-container">
-              <img
-                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=60&w=600&auto=format,compress&fit=crop"
-                alt="Ваня Паскаль 11"
-                class="card-img"
-                loading="lazy"
-              />
-            </div>
+            <div class="card-img-container"><img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=60&w=600&auto=format,compress&fit=crop" alt="Ваня Паскаль 11" class="card-img" loading="lazy" /></div>
             <div class="card-body" style="justify-content: center">
-              <p
-                class="story-quote"
-                style="
-                  font-size: 2.5rem;
-                  font-weight: 900;
-                  text-align: center;
-                  color: var(--accent);
-                  margin-top: auto;
-                  margin-bottom: auto;
-                  background: none;
-                  padding: 0;
-                "
-              >
-                Монтаж роликов
-              </p>
+              <p class="story-quote" style="font-size: 2.5rem; font-weight: 900; text-align: center; color: var(--accent); margin-top: auto; margin-bottom: auto; background: none; padding: 0;">Монтаж роликов</p>
               <div class="s-logo">11</div>
             </div>
           </div>
           <div class="card-3d">
-            <div class="card-img-container">
-              <img
-                src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=60&w=600&auto=format,compress&fit=crop"
-                alt="Ваня Паскаль 12"
-                class="card-img"
-                loading="lazy"
-              />
-            </div>
+            <div class="card-img-container"><img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=60&w=600&auto=format,compress&fit=crop" alt="Ваня Паскаль 12" class="card-img" loading="lazy" /></div>
             <div class="card-body" style="justify-content: center">
-              <p class="story-quote">
-                В конце 2023г я активно занялся монтажем роликов. У меня никогда
-                не было крупных проектов, но даже работа с ноунеймами смогла
-                вывести меня на <strong>первые 100к/месяц</strong>, чему я был
-                безумно рад.
-              </p>
+              <p class="story-quote">В конце 2023г я активно занялся монтажем роликов. У меня никогда не было крупных проектов, но даже работа с ноунеймами смогла вывести меня на <strong>первые 100к/месяц</strong>, чему я был безумно рад.</p>
               <div class="s-logo">12</div>
             </div>
           </div>
           <div class="card-3d">
-            <div class="card-img-container">
-              <img
-                src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=60&w=600&auto=format,compress&fit=crop"
-                alt="Ваня Паскаль 13"
-                class="card-img"
-                loading="lazy"
-              />
-            </div>
+            <div class="card-img-container"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=60&w=600&auto=format,compress&fit=crop" alt="Ваня Паскаль 13" class="card-img" loading="lazy" /></div>
             <div class="card-body" style="justify-content: center">
-              <p class="story-quote">
-                Но все же, через какое-то время
-                <strong>я уперся в потолок</strong>: искать новых клиентов
-                становилось все сложнее, качество работ не росло, а чек как был
-                невысоким, так и остался таким.
-              </p>
+              <p class="story-quote">Но все же, через какое-то время <strong>я уперся в потолок</strong>: искать новых клиентов становилось все сложнее, качество работ не росло, а чек как был невысоким, так и остался таким.</p>
               <div class="s-logo">13</div>
             </div>
           </div>
           <div class="card-3d">
-            <div class="card-img-container">
-              <img
-                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=60&w=400&auto=format,compress&fit=crop"
-                alt="Ваня Паскаль 14"
-                class="card-img"
-                loading="lazy"
-              />
-            </div>
+            <div class="card-img-container"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=60&w=400&auto=format,compress&fit=crop" alt="Ваня Паскаль 14" class="card-img" loading="lazy" /></div>
             <div class="card-body" style="justify-content: center">
-              <p class="story-quote">
-                <strong>Я понял, что что-то надо менять...</strong>
-              </p>
+              <p class="story-quote"><strong>Я понял, что что-то надо менять...</strong></p>
               <div class="s-logo">14</div>
             </div>
           </div>
           <div class="card-3d">
-            <div class="card-img-container">
-              <img
-                src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=60&w=600&auto=format,compress&fit=crop"
-                alt="Ваня Паскаль 15"
-                class="card-img"
-                loading="lazy"
-              />
-            </div>
+            <div class="card-img-container"><img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=60&w=600&auto=format,compress&fit=crop" alt="Ваня Паскаль 15" class="card-img" loading="lazy" /></div>
             <div class="card-body" style="justify-content: center">
-              <p class="story-quote">
-                В конце 2024 года я впервые познакомился с
-                <strong>запусками и продюссированием.</strong>
-              </p>
+              <p class="story-quote">В конце 2024 года я впервые познакомился с <strong>запусками и продюссированием.</strong></p>
               <div class="s-logo">15</div>
             </div>
           </div>
           <div class="card-3d">
-            <div class="card-img-container">
-              <img
-                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=60&w=400&auto=format,compress&fit=crop"
-                alt="Ваня Паскаль 16"
-                class="card-img"
-                loading="lazy"
-              />
-            </div>
+            <div class="card-img-container"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=60&w=400&auto=format,compress&fit=crop" alt="Ваня Паскаль 16" class="card-img" loading="lazy" /></div>
             <div class="card-body" style="justify-content: center">
-              <p class="story-quote">
-                Эта профессия заключала в себе все, что я так любил:
-                <strong
-                  >креативность, монтаж, съемка, продажи, создание
-                  продуктов.</strong
-                >
-              </p>
+              <p class="story-quote">Эта профессия заключала в себе все, что я так любил: <strong>креативность, монтаж, съемка, продажи, создание продуктов.</strong></p>
               <div class="s-logo">16</div>
             </div>
           </div>
           <div class="card-3d">
-            <div class="card-img-container">
-              <img
-                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=60&w=400&auto=format,compress&fit=crop"
-                alt="Ваня Паскаль 17"
-                class="card-img"
-                loading="lazy"
-              />
-            </div>
+            <div class="card-img-container"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=60&w=400&auto=format,compress&fit=crop" alt="Ваня Паскаль 17" class="card-img" loading="lazy" /></div>
             <div class="card-body" style="justify-content: center">
-              <p class="story-quote">
-                Именно тогда я начал сотрудничать с
-                <strong>первыми крупными клиентами</strong>, и именно тогда я
-                начал делать <strong>первые реально хорошие деньги.</strong>
-              </p>
+              <p class="story-quote">Именно тогда я начал сотрудничать с <strong>первыми крупными клиентами</strong>, и именно тогда я начал делать <strong>первые реально хорошие деньги.</strong></p>
               <div class="s-logo">17</div>
             </div>
           </div>
           <div class="card-3d">
-            <div class="card-img-container">
-              <img
-                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=60&w=400&auto=format,compress&fit=crop"
-                alt="Ваня Паскаль 18"
-                class="card-img"
-                loading="lazy"
-              />
-            </div>
+            <div class="card-img-container"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=60&w=400&auto=format,compress&fit=crop" alt="Ваня Паскаль 18" class="card-img" loading="lazy" /></div>
             <div class="card-body" style="justify-content: center">
-              <p class="story-quote">
-                Но во всем этом плане не хватало <strong>одного шага</strong>,
-                который я начал исправлять лишь недавно...
-              </p>
+              <p class="story-quote">Но во всем этом плане не хватало <strong>одного шага</strong>, который я начал исправлять лишь недавно...</p>
               <div class="s-logo">18</div>
             </div>
           </div>
           <div class="card-3d">
-            <div class="card-img-container">
-              <img
-                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=60&w=400&auto=format,compress&fit=crop"
-                alt="Ваня Паскаль 19"
-                class="card-img"
-                loading="lazy"
-              />
-            </div>
+            <div class="card-img-container"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=60&w=400&auto=format,compress&fit=crop" alt="Ваня Паскаль 19" class="card-img" loading="lazy" /></div>
             <div class="card-body" style="justify-content: center">
-              <p class="story-quote">
-                Сейчас я активно
-                <strong
-                  >развиваю свою медийку и агентство, продюсирую соц. сети
-                  крупных экспертов и бизнесов.</strong
-                >
-              </p>
+              <p class="story-quote">Сейчас я активно <strong>развиваю свою медийку и агентство, продюсирую соц. сети крупных экспертов и бизнесов.</strong></p>
               <div class="s-logo">19</div>
             </div>
           </div>
           <div class="card-3d">
-            <div class="card-img-container">
-              <img
-                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=60&w=400&auto=format,compress&fit=crop"
-                alt="Ваня Паскаль 20"
-                class="card-img"
-                loading="lazy"
-              />
-            </div>
+            <div class="card-img-container"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=60&w=400&auto=format,compress&fit=crop" alt="Ваня Паскаль 20" class="card-img" loading="lazy" /></div>
             <div class="card-body" style="justify-content: center">
-              <p class="story-quote">
-                А также помогаю
-                <strong>десяткам других ребят</strong> развиваться вместе со
-                мной.
-              </p>
+              <p class="story-quote">А также помогаю <strong>десяткам других ребят</strong> развиваться вместе со мной.</p>
               <div class="s-logo">20</div>
             </div>
           </div>
           <div class="card-3d">
-            <div class="card-img-container">
-              <img
-                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=60&w=400&auto=format,compress&fit=crop"
-                alt="Ваня Паскаль 21"
-                class="card-img"
-                loading="lazy"
-              />
-            </div>
+            <div class="card-img-container"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=60&w=400&auto=format,compress&fit=crop" alt="Ваня Паскаль 21" class="card-img" loading="lazy" /></div>
             <div class="card-body" style="justify-content: center">
-              <p class="story-quote">
-                Как видишь, в моей истории
-                <strong>нету никакой красивой сказки</strong>, а только сложный
-                путь в несколько лет.
-              </p>
+              <p class="story-quote">Как видишь, в моей истории <strong>нету никакой красивой сказки</strong>, а только сложный путь в несколько лет.</p>
               <div class="s-logo">21</div>
             </div>
           </div>
           <div class="card-3d">
-            <div class="card-img-container">
-              <img
-                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=60&w=400&auto=format,compress&fit=crop"
-                alt="Ваня Паскаль 22"
-                class="card-img"
-                loading="lazy"
-              />
-            </div>
+            <div class="card-img-container"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=60&w=400&auto=format,compress&fit=crop" alt="Ваня Паскаль 22" class="card-img" loading="lazy" /></div>
             <div class="card-body" style="justify-content: center">
-              <p class="story-quote">
-                Если ты прочитал все до конца, то
-                <strong>вот тебе мой совет:</strong>
-              </p>
+              <p class="story-quote">Если ты прочитал все до конца, то <strong>вот тебе мой совет:</strong></p>
               <div class="s-logo">22</div>
             </div>
           </div>
           <div class="card-3d" style="background: #fa2d1a">
-            <div
-              class="card-body"
-              style="
-                justify-content: center;
-                height: 100%;
-                color: white;
-                padding-top: 60px !important;
-              "
-            >
-              <h2
-                style="
-                  font-weight: 900;
-                  font-size: 2.2rem;
-                  text-transform: uppercase;
-                  margin-bottom: 30px;
-                  text-align: center;
-                  color: white;
-                "
-              >
-                Совет
-              </h2>
-              <p
-                style="
-                  color: white;
-                  font-family: &quot;Caveat&quot;;
-                  font-size: 2.5rem;
-                  transform: rotate(-2deg);
-                  line-height: 1.1;
-                  text-align: center;
-                  font-weight: normal;
-                  margin-top: 10px;
-                "
-              >
-                "Хотя бы раз в жизни включи голову, и используй свои возможности
-                на максимум."
-              </p>
-              <div
-                class="s-logo"
-                style="
-                  border-color: rgba(255, 255, 255, 0.3);
-                  color: white;
-                  margin-top: 60px;
-                "
-              >
-                23
-              </div>
+            <div class="card-body" style="justify-content: center; height: 100%; color: white; padding-top: 60px !important;">
+              <h2 style="font-weight: 900; font-size: 2.2rem; text-transform: uppercase; margin-bottom: 30px; text-align: center; color: white;">Совет</h2>
+              <p style="color: white; font-family: &quot;Caveat&quot;; font-size: 2.5rem; transform: rotate(-2deg); line-height: 1.1; text-align: center; font-weight: normal; margin-top: 10px;">"Хотя бы раз в жизни включи голову, и используй свои возможности на максимум."</p>
+              <div class="s-logo" style="border-color: rgba(255, 255, 255, 0.3); color: white; margin-top: 60px;">23</div>
             </div>
           </div>
         </div>
@@ -715,217 +311,90 @@
 
         <div class="modules-grid stagger-container">
           <div class="module-card stagger-item">
-            <div class="m-cover c1">
-              <div class="m-cover-text">creators<br />mindset</div>
-            </div>
+            <div class="m-cover c1"><div class="m-cover-text">creators<br />mindset</div></div>
             <div class="m-info">
-              <div class="m-duration">
-                <svg viewBox="0 0 24 24">
-                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                </svg>
-                8 глав
-              </div>
+              <div class="m-duration"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg> 8 глав</div>
               <h3 class="m-title">Модуль 1. Креативность</h3>
-              <p class="m-desc">
-                90% успеха ролика зависят от идеи и сценария. Научись писать
-                удерживающие сценарии, делать продающие воронки и мыслить как
-                автор, который играет вдолгую.
-              </p>
+              <p class="m-desc">90% успеха ролика зависят от идеи и сценария. Научись писать удерживающие сценарии, делать продающие воронки и мыслить как автор, который играет вдолгую.</p>
             </div>
           </div>
-
           <div class="module-card stagger-item">
-            <div class="m-cover c2">
-              <div class="m-cover-text">CONTENT</div>
-            </div>
+            <div class="m-cover c2"><div class="m-cover-text">CONTENT</div></div>
             <div class="m-info">
-              <div class="m-duration">
-                <svg viewBox="0 0 24 24">
-                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                </svg>
-                4 главы
-              </div>
+              <div class="m-duration"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg> 4 главы</div>
               <h3 class="m-title">Модуль 2. Съемка</h3>
-              <p class="m-desc">
-                Ты перестанешь жаловаться на "плохую камеру" и начнешь управлять
-                вниманием : светом, глубиной, движением, паузой. Разберешься,
-                как даже на микроволновке делать красивую картинку, которая
-                выглядит дорого и работает на удержание
-              </p>
+              <p class="m-desc">Ты перестанешь жаловаться на "плохую камеру" и начнешь управлять вниманием : светом, глубиной, движением, паузой. Разберешься, как даже на микроволновке делать красивую картинку, которая выглядит дорого и работает на удержание</p>
             </div>
           </div>
-
           <div class="module-card stagger-item">
-            <div class="m-cover c3">
-              <div class="m-cover-text">CREATORS<br />TOOLKIT</div>
-            </div>
+            <div class="m-cover c3"><div class="m-cover-text">CREATORS<br />TOOLKIT</div></div>
             <div class="m-info">
-              <div class="m-duration">
-                <svg viewBox="0 0 24 24">
-                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                </svg>
-                12 глав
-              </div>
+              <div class="m-duration"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg> 12 глав</div>
               <h3 class="m-title">Модуль 3. Монтаж</h3>
-              <p class="m-desc">
-                Ты научишься монтировать так, чтобы зрители досматривали,
-                пересматривали и покупали. Отлично прокачает навыки новичков, и
-                будет полезен уже умелым монтажерам.
-              </p>
+              <p class="m-desc">Ты научишься монтировать так, чтобы зрители досматривали, пересматривали и покупали. Отлично прокачает навыки новичков, и будет полезен уже умелым монтажерам.</p>
             </div>
           </div>
           <div class="module-card stagger-item">
-            <div class="m-cover c6">
-              <div class="m-cover-text">GROWTH</div>
-            </div>
+            <div class="m-cover c6"><div class="m-cover-text">GROWTH</div></div>
             <div class="m-info">
-              <div class="m-duration">
-                <svg viewBox="0 0 24 24">
-                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                </svg>
-                12 глав
-              </div>
+              <div class="m-duration"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg> 12 глав</div>
               <h3 class="m-title">Модуль 4. Первые ₽$€</h3>
-              <p class="m-desc">
-                Ты получишь структуру выхода на рынок: где искать клиентов, как
-                вести диалог и грамотно закрывать сделки. И сможешь обогнать 95%
-                "конкурентов", просто за счет правильного подхода.
-              </p>
+              <p class="m-desc">Ты получишь структуру выхода на рынок: где искать клиентов, как вести диалог и грамотно закрывать сделки. И сможешь обогнать 95% "конкурентов", просто за счет правильного подхода.</p>
             </div>
           </div>
           <div class="module-card stagger-item">
-            <div class="m-cover c4">
-              <div class="m-cover-text">sound<br />space</div>
-            </div>
+            <div class="m-cover c4"><div class="m-cover-text">sound<br />space</div></div>
             <div class="m-info">
-              <div class="m-duration">
-                <svg viewBox="0 0 24 24">
-                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                </svg>
-                8 глав
-              </div>
+              <div class="m-duration"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg> 8 глав</div>
               <h3 class="m-title">Модуль 5. Контент-продюсирование</h3>
-              <p class="m-desc">
-                По настоящему большие деньги лежат тут. Переход от “просто
-                монтажера” до эксперта который выстраивает полную систему
-                контента, от идеи и позиционирования до воронки и продаж. Ты
-                поймешь как создавать реально большие запуски
-              </p>
+              <p class="m-desc">По настоящему большие деньги лежат тут. Переход от “просто монтажера” до эксперта который выстраивает полную систему контента, от идеи и позиционирования до воронки и продаж. Ты поймешь как создавать реально большие запуски</p>
             </div>
           </div>
           <div class="module-card stagger-item">
-            <div class="m-cover c5">
-              <div class="m-cover-text">personal<br />brand</div>
-            </div>
+            <div class="m-cover c5"><div class="m-cover-text">personal<br />brand</div></div>
             <div class="m-info">
-              <div class="m-duration">
-                <svg viewBox="0 0 24 24">
-                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                </svg>
-                11 глав
-              </div>
+              <div class="m-duration"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg> 11 глав</div>
               <h3 class="m-title">Модуль 6. Личный бренд</h3>
-              <p class="m-desc">
-                Это не про аватарку в пиджаке и 3 сториса с кофе. Это чёткая
-                позиция, ценности и постоянная коммуникация. Я научу тебя
-                выстраивать образ, которому доверяют и у которого покупают.
-              </p>
+              <p class="m-desc">Это не про аватарку в пиджаке и 3 сториса с кофе. Это чёткая позиция, ценности и постоянная коммуникация. Я научу тебя выстраивать образ, которому доверяют и у которого покупают.</p>
             </div>
           </div>
         </div>
 
         <div class="modules-grid bonus-grid stagger-container">
           <div class="bonus-card-wrap stagger-item">
-            <div
-              class="m-cover c2"
-              style="
-                background: radial-gradient(
-                  circle at center,
-                  #900000 0%,
-                  #300000 100%
-                );
-              "
-            >
-              <div
-                class="m-cover-text"
-                style="
-                  font-family: &quot;Caveat&quot;, cursive;
-                  font-size: 4rem;
-                  transform: rotate(-4deg);
-                  text-transform: none;
-                  font-style: normal;
-                  color: white;
-                  font-weight: 700;
-                "
-              >
-                * бонус *
-              </div>
+            <div class="m-cover c2" style="background: radial-gradient(circle at center, #900000 0%, #300000 100%);">
+              <div class="m-cover-text" style="font-family: &quot;Caveat&quot;, cursive; font-size: 4rem; transform: rotate(-4deg); text-transform: none; font-style: normal; color: white; font-weight: 700;">* бонус *</div>
             </div>
             <div class="m-info">
-              <div class="m-duration" style="color: var(--accent)">
-                <svg viewBox="0 0 24 24">
-                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                </svg>
-                Подарок
-              </div>
-              <h3 class="m-title" style="color: var(--blue-bright)">
-                Алгоритм на первые 100.000₽
-              </h3>
-              <p class="m-desc">
-                В подарок ко всему, я дам тебе пошаговый алгоритм: от выбора
-                ниши и упаковки до клиентов и масштабирования дохода.
-              </p>
+              <div class="m-duration" style="color: var(--accent)"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg> Подарок</div>
+              <h3 class="m-title" style="color: var(--blue-bright)">Алгоритм на первые 100.000₽</h3>
+              <p class="m-desc">В подарок ко всему, я дам тебе пошаговый алгоритм: от выбора ниши и упаковки до клиентов и масштабирования дохода.</p>
             </div>
           </div>
         </div>
-        <div
-          style="
-            display: flex;
-            justify-content: center;
-            padding: 60px 20px;
-            width: 100%;
-            box-sizing: border-box;
-          "
-        >
-          <a href="#" class="btn-outline"> ВСЁ НАПОЛНЕНИЕ </a>
+        
+        <!-- КНОПКА ОТКРЫТИЯ ПДФ -->
+        <div style="display: flex; justify-content: center; padding: 60px 20px; width: 100%; box-sizing: border-box;">
+          <a href="javascript:void(0);" class="btn-outline" id="btn-open-pdf">ВСЁ НАПОЛНЕНИЕ</a>
         </div>
       </section>
 
-      <!-- СЕКЦИЯ ОТЗЫВОВ (Восстановлен оригинальный формат картинок .jpg / .JPG) -->
       <section class="reviews-section">
-        <h2 class="reviews-headline reveal">
-          Они доверили мне свою экспертность, и вот что вышло :
-        </h2>
+        <h2 class="reviews-headline reveal">Они доверили мне свою экспертность, и вот что вышло :</h2>
         <div class="grid-reviews stagger-container">
           <div class="review-item stagger-item">
             <div class="card-inner">
               <div class="side side-front">
-                <div class="rev-img">
-                  <img
-                    src="assets/Софа1.webp"
-                    alt="Отзыв Софы"
-                    loading="lazy"
-                  />
-                </div>
+                <div class="rev-img"><img src="assets/Софа1.webp" alt="Отзыв Софы" loading="lazy" /></div>
                 <div class="rev-info">
-                  <div class="rev-name-box">
-                    <h3>Софа</h3>
-                    <p>21 год / @Sofik0</p>
-                  </div>
+                  <div class="rev-name-box"><h3>Софа</h3><p>21 год / @Sofik0</p></div>
                   <div class="rev-income">120.000₽</div>
                 </div>
               </div>
-              <div
-                class="side side-back"
-                style="--rev-bg: url(&quot;/assets/Софа1.webp&quot;)"
-              >
+              <div class="side side-back" style="--rev-bg: url(&quot;/assets/Софа1.webp&quot;)">
                 <div class="back-content">
                   <h4>Результат</h4>
-                  <p>
-                    За первый месяц обучения взяла в работу на
-                    контент-продюсирование крупного эксперта в TG с оффером на
-                    120.000₽. Купила новый 17 pro max.
-                  </p>
+                  <p>За первый месяц обучения взяла в работу на контент-продюсирование крупного эксперта в TG с оффером на 120.000₽. Купила новый 17 pro max.</p>
                   <div class="tg-user">@Sofik0</div>
                 </div>
               </div>
@@ -934,32 +403,16 @@
           <div class="review-item stagger-item">
             <div class="card-inner">
               <div class="side side-front">
-                <div class="rev-img">
-                  <img
-                    src="assets/Влад1.webp"
-                    alt="Отзыв Влада"
-                    loading="lazy"
-                  />
-                </div>
+                <div class="rev-img"><img src="assets/Влад1.webp" alt="Отзыв Влада" loading="lazy" /></div>
                 <div class="rev-info">
-                  <div class="rev-name-box">
-                    <h3>Влад</h3>
-                    <p>18 лет / @Iw1ns</p>
-                  </div>
+                  <div class="rev-name-box"><h3>Влад</h3><p>18 лет / @Iw1ns</p></div>
                   <div class="rev-income">80.000₽</div>
                 </div>
               </div>
-              <div
-                class="side side-back"
-                style="--rev-bg: url(&quot;/assets/Влад1.webp&quot;)"
-              >
+              <div class="side side-back" style="--rev-bg: url(&quot;/assets/Влад1.webp&quot;)">
                 <div class="back-content">
                   <h4>Результат</h4>
-                  <p>
-                    С нуля за 2 месяца дошел до прайса 4.000₽ за видео. Работает
-                    с бизнесами (пекарня и пиццерия), делает по 10 роликов в
-                    месяц.
-                  </p>
+                  <p>С нуля за 2 месяца дошел до прайса 4.000₽ за видео. Работает с бизнесами (пекарня и пиццерия), делает по 10 роликов в месяц.</p>
                   <div class="tg-user">@Iw1ns</div>
                 </div>
               </div>
@@ -968,28 +421,16 @@
           <div class="review-item stagger-item">
             <div class="card-inner">
               <div class="side side-front">
-                <div class="rev-img">
-                  <img src="assets/Аня1.webp" alt="Отзыв Ани" loading="lazy" />
-                </div>
+                <div class="rev-img"><img src="assets/Аня1.webp" alt="Отзыв Ани" loading="lazy" /></div>
                 <div class="rev-info">
-                  <div class="rev-name-box">
-                    <h3>Аня</h3>
-                    <p>19 лет / @wswktww</p>
-                  </div>
+                  <div class="rev-name-box"><h3>Аня</h3><p>19 лет / @wswktww</p></div>
                   <div class="rev-income">105.000₽</div>
                 </div>
               </div>
-              <div
-                class="side side-back"
-                style="--rev-bg: url(&quot;/assets/Аня1.webp&quot;)"
-              >
+              <div class="side side-back" style="--rev-bg: url(&quot;/assets/Аня1.webp&quot;)">
                 <div class="back-content">
                   <h4>Результат</h4>
-                  <p>
-                    Устроилась СММ в магазин танцевальных платьев (60к + KПИ).
-                    Дополнительно монтирует коротких видеороликов для
-                    интервьюера (3к/ролик).
-                  </p>
+                  <p>Устроилась СММ в магазин танцевальных платьев (60к + KПИ). Дополнительно монтирует коротких видеороликов для интервьюера (3к/ролик).</p>
                   <div class="tg-user">@wswktww</div>
                 </div>
               </div>
@@ -998,31 +439,16 @@
           <div class="review-item stagger-item">
             <div class="card-inner">
               <div class="side side-front">
-                <div class="rev-img">
-                  <img
-                    src="assets/Даня1.webp"
-                    alt="Отзыв Дани"
-                    loading="lazy"
-                  />
-                </div>
+                <div class="rev-img"><img src="assets/Даня1.webp" alt="Отзыв Дани" loading="lazy" /></div>
                 <div class="rev-info">
-                  <div class="rev-name-box">
-                    <h3>Даня</h3>
-                    <p>18 лет / @Usaund</p>
-                  </div>
+                  <div class="rev-name-box"><h3>Даня</h3><p>18 лет / @Usaund</p></div>
                   <div class="rev-income">150.000₽</div>
                 </div>
               </div>
-              <div
-                class="side side-back"
-                style="--rev-bg: url(&quot;/assets/Даня1.webp&quot;)"
-              >
+              <div class="side side-back" style="--rev-bg: url(&quot;/assets/Даня1.webp&quot;)">
                 <div class="back-content">
                   <h4>Результат</h4>
-                  <p>
-                    За 2 месяца залил +15.000 нового трафика с TikTok-видео в
-                    свой канал тематики одежды. Освоил сценарии и монтаж.
-                  </p>
+                  <p>За 2 месяца залил +15.000 нового трафика с TikTok-видео в свой канал тематики одежды. Освоил сценарии и монтаж.</p>
                   <div class="tg-user">@Usaund</div>
                 </div>
               </div>
@@ -1031,31 +457,16 @@
           <div class="review-item stagger-item">
             <div class="card-inner">
               <div class="side side-front">
-                <div class="rev-img">
-                  <img
-                    src="assets/Ваня1.webp"
-                    alt="Отзыв Вани"
-                    loading="lazy"
-                  />
-                </div>
+                <div class="rev-img"><img src="assets/Ваня1.webp" alt="Отзыв Вани" loading="lazy" /></div>
                 <div class="rev-info">
-                  <div class="rev-name-box">
-                    <h3>Ваня</h3>
-                    <p>16 лет / @Ively69</p>
-                  </div>
+                  <div class="rev-name-box"><h3>Ваня</h3><p>16 лет / @Ively69</p></div>
                   <div class="rev-income">45.000₽</div>
                 </div>
               </div>
-              <div
-                class="side side-back"
-                style="--rev-bg: url(&quot;/assets/Ваня1.webp&quot;)"
-              >
+              <div class="side side-back" style="--rev-bg: url(&quot;/assets/Ваня1.webp&quot;)">
                 <div class="back-content">
                   <h4>Результат</h4>
-                  <p>
-                    За 2 месяца обучился монтажу с нуля и устроился в агентство
-                    монтажером, где получает по 1.500₽ за каждый ролик.
-                  </p>
+                  <p>За 2 месяца обучился монтажу с нуля и устроился в агентство монтажером, где получает по 1.500₽ за каждый ролик.</p>
                   <div class="tg-user">@Ively69</div>
                 </div>
               </div>
@@ -1064,67 +475,37 @@
           <div class="review-item stagger-item">
             <div class="card-inner">
               <div class="side side-front">
-                <div class="rev-img">
-                  <img src="assets/Тим1.webp" alt="Отзыв Тима" loading="lazy" />
-                </div>
+                <div class="rev-img"><img src="assets/Тим1.webp" alt="Отзыв Тима" loading="lazy" /></div>
                 <div class="rev-info">
-                  <div class="rev-name-box">
-                    <h3>Тим</h3>
-                    <p>21 год / @silagod</p>
-                  </div>
+                  <div class="rev-name-box"><h3>Тим</h3><p>21 год / @silagod</p></div>
                   <div class="rev-income">120.000₽</div>
                 </div>
               </div>
-              <div
-                class="side side-back"
-                style="--rev-bg: url(&quot;/assets/Тим1.webp&quot;)"
-              >
+              <div class="side side-back" style="--rev-bg: url(&quot;/assets/Тим1.webp&quot;)">
                 <div class="back-content">
                   <h4>Результат</h4>
-                  <p>
-                    Устроился оператором в студию подкастов (60к) и
-                    дополнительно монтирует выпуски (20к/шт) параллельно с
-                    учебой.
-                  </p>
+                  <p>Устроился оператором в студию подкастов (60к) и дополнительно монтирует выпуски (20к/шт) параллельно с учебой.</p>
                   <div class="tg-user">@silagod</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
         <div class="reviews-footer">
-          <a
-            href="https://t.me/ТВОЙ_КАНАЛ"
-            target="_blank"
-            class="btn-outline reveal"
-            >Все отзывы</a
-          >
+          <a href="https://t.me/ТВОЙ_КАНАЛ" target="_blank" class="btn-outline reveal">Все отзывы</a>
         </div>
       </section>
 
-      <!-- SECTION: TARIFFS -->
       <section class="new-section" id="tariffs">
-        <div class="section-subtitle-small reveal">
-          все что тебе нужно — здесь
-        </div>
-        <h2 class="section-title-center reveal">
-          Выбери что подойдет<br />именно тебе
-        </h2>
+        <div class="section-subtitle-small reveal">все что тебе нужно — здесь</div>
+        <h2 class="section-title-center reveal">Выбери что подойдет<br />именно тебе</h2>
 
         <div class="tariffs-grid stagger-container">
-          <!-- TARIFF 1 -->
           <div class="tariff-card stagger-item">
             <div class="t-header-box">
               <div class="t-header-title">Тариф</div>
-              <div class="t-header-name">
-                <span class="brand-group">
-                  <span class="brand-main">core.</span>
-                  <span class="brand-sub">ядро.</span>
-                </span>
-              </div>
+              <div class="t-header-name"><span class="brand-group"><span class="brand-main">core.</span><span class="brand-sub">ядро.</span></span></div>
             </div>
-
             <div class="t-section">
               <h3 class="t-section-title">Содержание:</h3>
               <ul class="t-list">
@@ -1136,93 +517,27 @@
                 <li class="crossed">Модуль 6. Личный бренд</li>
               </ul>
             </div>
-
             <hr class="t-divider" />
-
             <div class="t-section">
               <h3 class="t-section-title">Что внутри?</h3>
               <ul class="t-list-icons">
-                <li>
-                  <div class="icon-circle">
-                    <svg viewBox="0 0 24 24">
-                      <polygon
-                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-                      ></polygon>
-                    </svg>
-                  </div>
-                  <span>Доступ к материалам 12 месяцев </span>
-                </li>
-                <li>
-                  <div class="icon-circle">
-                    <svg viewBox="0 0 24 24">
-                      <polygon
-                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-                      ></polygon>
-                    </svg>
-                  </div>
-                  <span>Общий чат учеников</span>
-                </li>
-                <li>
-                  <div class="icon-circle">
-                    <svg viewBox="0 0 24 24">
-                      <polygon
-                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-                      ></polygon>
-                    </svg>
-                  </div>
-                  <span>Поддержка от кураторов </span>
-                </li>
-                <li>
-                  <div class="icon-circle">
-                    <svg viewBox="0 0 24 24">
-                      <polygon
-                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-                      ></polygon>
-                    </svg>
-                  </div>
-                  <span>Проверка домашних заданий</span>
-                </li>
-                <li class="crossed">
-                  <div class="icon-circle">
-                    <svg viewBox="0 0 24 24">
-                      <polygon
-                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-                      ></polygon>
-                    </svg>
-                  </div>
-                  <span>Эфиры с разборов участников</span>
-                </li>
-                <li class="crossed">
-                  <div class="icon-circle">
-                    <svg viewBox="0 0 24 24">
-                      <polygon
-                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-                      ></polygon>
-                    </svg>
-                  </div>
-                  <span>Алгоритм на 100.000₽/мес</span>
-                </li>
+                <li><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div><span>Доступ к материалам 12 месяцев </span></li>
+                <li><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div><span>Общий чат учеников</span></li>
+                <li><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div><span>Поддержка от кураторов </span></li>
+                <li><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div><span>Проверка домашних заданий</span></li>
+                <li class="crossed"><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div><span>Эфиры с разборов участников</span></li>
+                <li class="crossed"><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div><span>Алгоритм на 100.000₽/мес</span></li>
               </ul>
             </div>
-
-            <a href="#" class="btn-tariff"
-              ><span class="btn-arrow">&gt;</span> Получить систему</a
-            >
+            <a href="#" class="btn-tariff"><span class="btn-arrow">&gt;</span> Получить систему</a>
           </div>
 
-          <!-- TARIFF 2 -->
           <div class="tariff-card popular stagger-item">
             <div class="t-header-box">
               <div class="t-header-title">Тариф</div>
-              <div class="t-header-name">
-                <span class="brand-group">
-                  <span class="brand-main">core+</span>
-                  <span class="brand-sub" style="opacity: 0.85">ядро+</span>
-                </span>
-              </div>
+              <div class="t-header-name"><span class="brand-group"><span class="brand-main">core+</span><span class="brand-sub" style="opacity: 0.85">ядро+</span></span></div>
               <div class="tariff-badge">Самый популярный</div>
             </div>
-
             <div class="t-section">
               <h3 class="t-section-title">Содержание:</h3>
               <ul class="t-list">
@@ -1234,93 +549,27 @@
                 <li>Модуль 6. Личный бренд</li>
               </ul>
             </div>
-
             <hr class="t-divider" />
-
             <div class="t-section">
               <h3 class="t-section-title">Что внутри?</h3>
               <ul class="t-list-icons">
-                <li>
-                  <div class="icon-circle">
-                    <svg viewBox="0 0 24 24">
-                      <polygon
-                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-                      ></polygon>
-                    </svg>
-                  </div>
-                  <span>Доступ к материалам 12 месяцев</span>
-                </li>
-                <li>
-                  <div class="icon-circle">
-                    <svg viewBox="0 0 24 24">
-                      <polygon
-                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-                      ></polygon>
-                    </svg>
-                  </div>
-                  <span>Общий чат учеников</span>
-                </li>
-                <li>
-                  <div class="icon-circle">
-                    <svg viewBox="0 0 24 24">
-                      <polygon
-                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-                      ></polygon>
-                    </svg>
-                  </div>
-                  <span>Поддержка от кураторов</span>
-                </li>
-                <li>
-                  <div class="icon-circle">
-                    <svg viewBox="0 0 24 24">
-                      <polygon
-                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-                      ></polygon>
-                    </svg>
-                  </div>
-                  <span>Проверка домашних заданий</span>
-                </li>
-                <li>
-                  <div class="icon-circle">
-                    <svg viewBox="0 0 24 24">
-                      <polygon
-                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-                      ></polygon>
-                    </svg>
-                  </div>
-                  <span>Эфиры с разборов участников</span>
-                </li>
-                <li>
-                  <div class="icon-circle">
-                    <svg viewBox="0 0 24 24">
-                      <polygon
-                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-                      ></polygon>
-                    </svg>
-                  </div>
-                  <span>Алгоритм на 100.000₽/мес</span>
-                </li>
+                <li><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div><span>Доступ к материалам 12 месяцев</span></li>
+                <li><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div><span>Общий чат учеников</span></li>
+                <li><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div><span>Поддержка от кураторов</span></li>
+                <li><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div><span>Проверка домашних заданий</span></li>
+                <li><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div><span>Эфиры с разборов участников</span></li>
+                <li><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div><span>Алгоритм на 100.000₽/мес</span></li>
               </ul>
             </div>
-
-            <a href="#" class="btn-tariff"
-              ><span class="btn-arrow">&gt;</span> Получить систему</a
-            >
+            <a href="#" class="btn-tariff"><span class="btn-arrow">&gt;</span> Получить систему</a>
           </div>
 
-          <!-- TARIFF 3 -->
           <div class="tariff-card mentor stagger-item">
             <div class="t-header-box">
               <div class="t-header-title">Тариф</div>
               <div class="t-header-name">Менторство</div>
-              <div
-                class="tariff-badge"
-                style="background: white; color: var(--blue-bright)"
-              >
-                Места ограничены
-              </div>
+              <div class="tariff-badge" style="background: white; color: var(--blue-bright)">Места ограничены</div>
             </div>
-
             <div class="t-section">
               <h3 class="t-section-title">Содержание:</h3>
               <ul class="t-list">
@@ -1329,380 +578,136 @@
                 <li>от 10 личных созвонов</li>
               </ul>
             </div>
-
             <hr class="t-divider" />
-
             <div class="t-section">
               <h3 class="t-section-title">Что внутри?</h3>
               <ul class="t-list-icons">
-                <li>
-                  <div class="icon-circle">
-                    <svg viewBox="0 0 24 24">
-                      <polygon
-                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-                      ></polygon>
-                    </svg>
-                  </div>
-                  <span>Вечный доступ ко всем курсам </span>
-                </li>
-                <li>
-                  <div class="icon-circle">
-                    <svg viewBox="0 0 24 24">
-                      <polygon
-                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-                      ></polygon>
-                    </svg>
-                  </div>
-                  <span>Вечный доступ к моей личке</span>
-                </li>
-                <li>
-                  <div class="icon-circle">
-                    <svg viewBox="0 0 24 24">
-                      <polygon
-                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-                      ></polygon>
-                    </svg>
-                  </div>
-                  <span>Работаем до результата</span>
-                </li>
+                <li><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div><span>Вечный доступ ко всем курсам </span></li>
+                <li><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div><span>Вечный доступ к моей личке</span></li>
+                <li><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div><span>Работаем до результата</span></li>
               </ul>
             </div>
-
-            <a href="#" class="btn-tariff"
-              ><span class="btn-arrow">&gt;</span> Зайти на менторство</a
-            >
+            <a href="#" class="btn-tariff"><span class="btn-arrow">&gt;</span> Зайти на менторство</a>
           </div>
         </div>
       </section>
 
-      <!-- NEW SECTION: SHORT VIDEOS -->
       <section class="new-section video-section-large" id="short-videos">
-        <!-- Верхняя надпись: Большая и синяя (Без точки) -->
         <h2 class="video-section-title reveal">Посмотри это</h2>
-
-        <!-- Нижняя надпись: Меньше и Оранж -->
-        <div class="video-section-subtitle reveal">
-          Перед тем как заходить в контент-продюсирование
-        </div>
-
+        <div class="video-section-subtitle reveal">Перед тем как заходить в контент-продюсирование</div>
         <div class="video-grid stagger-container">
-          <!-- Видео 1 -->
           <div class="video-item stagger-item">
             <div class="video-wrapper">
-              <video
-                playsinline
-                controls
-                preload="metadata"
-                poster="assets/poster1.jpg"
-              >
+              <video playsinline controls preload="metadata" poster="assets/poster1.jpg">
                 <source src="assets/video1.mp4" type="video/mp4" />
               </video>
             </div>
             <h3 class="video-title">Монтаж умер</h3>
-            <!-- Точку убрали -->
           </div>
-
-          <!-- Видео 2 -->
           <div class="video-item stagger-item">
             <div class="video-wrapper">
-              <video
-                playsinline
-                controls
-                preload="metadata"
-                poster="assets/poster2.jpg"
-              >
+              <video playsinline controls preload="metadata" poster="assets/poster2.jpg">
                 <source src="assets/video2.mp4" type="video/mp4" />
               </video>
             </div>
             <h3 class="video-title">Конкуренция в продюсировании</h3>
-            <!-- Точку убрали -->
           </div>
-
-          <!-- Видео 3 -->
           <div class="video-item stagger-item">
             <div class="video-wrapper">
-              <video
-                playsinline
-                controls
-                preload="metadata"
-                poster="assets/poster3.jpg"
-              >
+              <video playsinline controls preload="metadata" poster="assets/poster3.jpg">
                 <source src="assets/video3.mp4" type="video/mp4" />
               </video>
             </div>
             <h3 class="video-title">Сколько это приносит ₽</h3>
-            <!-- Точку убрали -->
           </div>
         </div>
       </section>
 
-      <!-- NEW SECTION: ZIG-ZAG TARGET AUDIENCE -->
       <section class="new-section">
         <h2 class="section-title-center reveal">Кому подойдет?</h2>
         <div class="zig-zag-wrapper">
           <div class="zig-zag-row reveal">
             <div class="zig-zag-content">
               <h3 class="zz-title">Фрилансерам.</h3>
-              <p class="zz-desc">
-                Новичкам в контент-продюсировании или уже действующим
-                фрилансерам , которые хотят
-                <strong>приумножить доход и масштабироваться</strong>
-              </p>
+              <p class="zz-desc">Новичкам в контент-продюсировании или уже действующим фрилансерам , которые хотят <strong>приумножить доход и масштабироваться</strong></p>
             </div>
             <div class="zig-zag-visual">
-              <div class="visual-placeholder">
-                <img
-                  src="https://images.unsplash.com/photo-1542626991-cbc4e32524cc?q=60&w=600&auto=format,compress&fit=crop"
-                  alt="Фрилансер"
-                  loading="lazy"
-                />
-              </div>
+              <div class="visual-placeholder"><img src="https://images.unsplash.com/photo-1542626991-cbc4e32524cc?q=60&w=600&auto=format,compress&fit=crop" alt="Фрилансер" loading="lazy" /></div>
             </div>
           </div>
           <div class="zig-zag-row reverse reveal">
             <div class="zig-zag-content">
               <h3 class="zz-title">Инфлюенсерам.</h3>
-              <p class="zz-desc">
-                Если ты уже занимаешься контентом, но не получаешь желаемых
-                просмотров и не знаешь, как
-                <strong>монетизировать свое творчество</strong>
-              </p>
+              <p class="zz-desc">Если ты уже занимаешься контентом, но не получаешь желаемых просмотров и не знаешь, как <strong>монетизировать свое творчество</strong></p>
             </div>
             <div class="zig-zag-visual">
-              <div class="visual-placeholder">
-                <img
-                  src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=60&w=600&auto=format,compress&fit=crop"
-                  alt="Инфлюенсер"
-                  loading="lazy"
-                />
-              </div>
+              <div class="visual-placeholder"><img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=60&w=600&auto=format,compress&fit=crop" alt="Инфлюенсер" loading="lazy" /></div>
             </div>
           </div>
           <div class="zig-zag-row reveal">
             <div class="zig-zag-content">
               <h3 class="zz-title">Предпринимателям.</h3>
-              <p class="zz-desc">
-                Которые хотят приумножать выручку и
-                <strong>приводить новых покупателей</strong>
-                через длинный и короткий контент
-              </p>
+              <p class="zz-desc">Которые хотят приумножать выручку и <strong>приводить новых покупателей</strong> через длинный и короткий контент</p>
             </div>
             <div class="zig-zag-visual">
-              <div class="visual-placeholder">
-                <img
-                  src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=60&w=600&auto=format,compress&fit=crop"
-                  alt="Предприниматель"
-                  loading="lazy"
-                />
-              </div>
+              <div class="visual-placeholder"><img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=60&w=600&auto=format,compress&fit=crop" alt="Предприниматель" loading="lazy" /></div>
             </div>
           </div>
           <div class="zig-zag-row reverse reveal">
             <div class="zig-zag-content">
               <h3 class="zz-title">Экспертам.</h3>
-              <p class="zz-desc">
-                Которые хотят построить твердый личный бренд с целью привлечь
-                новых клиентов и
-                <strong>монетизировать свои знания</strong> через инфопродукты
-              </p>
+              <p class="zz-desc">Которые хотят построить твердый личный бренд с целью привлечь новых клиентов и <strong>монетизировать свои знания</strong> через инфопродукты</p>
             </div>
             <div class="zig-zag-visual">
-              <div class="visual-placeholder">
-                <img
-                  src="https://images.unsplash.com/photo-1542626991-cbc4e32524cc?q=60&w=600&auto=format,compress&fit=crop"
-                  alt="Эксперт"
-                  loading="lazy"
-                />
-              </div>
+              <div class="visual-placeholder"><img src="https://images.unsplash.com/photo-1542626991-cbc4e32524cc?q=60&w=600&auto=format,compress&fit=crop" alt="Эксперт" loading="lazy" /></div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- NEW SECTION: FAQ -->
       <section class="new-section">
-        <div class="section-subtitle-small reveal">
-          Все что нужно знать перед началом
-        </div>
+        <div class="section-subtitle-small reveal">Все что нужно знать перед началом</div>
         <h2 class="section-title-center reveal">Частые вопросы</h2>
-
         <div class="faq-grid-2col stagger-container">
           <div class="faq-col">
             <div class="faq-item-modern stagger-item">
-              <div
-                class="faq-question-modern"
-                role="button"
-                tabindex="0"
-                aria-expanded="false"
-              >
-                Можно ли совмещать обучение с учебой/работой?
-                <svg class="faq-icon-modern" viewBox="0 0 24 24">
-                  <path
-                    d="M12 5v14M5 12h14"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </div>
-              <div class="faq-answer-modern">
-                <p>
-                  Да, я подстроил материалы на период обучения так, чтобы каждый
-                  смог совмещать курс с ежедневной рутиной. При полном
-                  погружении в материал и выполнении всех д/з – нужно не более
-                  1-2 часов в день
-                </p>
-              </div>
+              <div class="faq-question-modern" role="button" tabindex="0" aria-expanded="false">Можно ли совмещать обучение с учебой/работой?<svg class="faq-icon-modern" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-linejoin="round" /></svg></div>
+              <div class="faq-answer-modern"><p>Да, я подстроил материалы на период обучения так, чтобы каждый смог совмещать курс с ежедневной рутиной. При полном погружении в материал и выполнении всех д/з – нужно не более 1-2 часов в день</p></div>
             </div>
             <div class="faq-item-modern stagger-item" style="margin-top: 20px">
-              <div
-                class="faq-question-modern"
-                role="button"
-                tabindex="0"
-                aria-expanded="false"
-              >
-                Нужно ли дорогое оборудование чтобы начать?
-                <svg class="faq-icon-modern" viewBox="0 0 24 24">
-                  <path
-                    d="M12 5v14M5 12h14"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </div>
-              <div class="faq-answer-modern">
-                <p>
-                  Совершенно нет. Я сам начинал с простенького ноутбука за
-                  20.000₽ и iPhone 10. Если ты хочешь только монтировать или
-                  только снимать – тебе вообще нужно что-то одно из этого)
-                </p>
-              </div>
+              <div class="faq-question-modern" role="button" tabindex="0" aria-expanded="false">Нужно ли дорогое оборудование чтобы начать?<svg class="faq-icon-modern" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-linejoin="round" /></svg></div>
+              <div class="faq-answer-modern"><p>Совершенно нет. Я сам начинал с простенького ноутбука за 20.000₽ и iPhone 10. Если ты хочешь только монтировать или только снимать – тебе вообще нужно что-то одно из этого)</p></div>
             </div>
             <div class="faq-item-modern stagger-item" style="margin-top: 20px">
-              <div
-                class="faq-question-modern"
-                role="button"
-                tabindex="0"
-                aria-expanded="false"
-              >
-                Как происходит оплата?
-                <svg class="faq-icon-modern" viewBox="0 0 24 24">
-                  <path
-                    d="M12 5v14M5 12h14"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </div>
-              <div class="faq-answer-modern">
-                <p>
-                  Мы работаем максимально честно, официально, со всеми чеками и
-                  документами. Оплата происходит сразу на сайте и возможен
-                  возврат средств. Также возможно оплатить частями! (Сплит,
-                  Долями, Рассрочка). Все также официально и с возможностью
-                  возврата средств
-                </p>
-              </div>
+              <div class="faq-question-modern" role="button" tabindex="0" aria-expanded="false">Как происходит оплата?<svg class="faq-icon-modern" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-linejoin="round" /></svg></div>
+              <div class="faq-answer-modern"><p>Мы работаем максимально честно, официально, со всеми чеками и документами. Оплата происходит сразу на сайте и возможен возврат средств. Также возможно оплатить частями! (Сплит, Долями, Рассрочка). Все также официально и с возможностью возврата средств</p></div>
             </div>
           </div>
-
           <div class="faq-col">
             <div class="faq-item-modern stagger-item">
-              <div
-                class="faq-question-modern"
-                role="button"
-                tabindex="0"
-                aria-expanded="false"
-              >
-                Как максимально быстро окупить ядро.?
-                <svg class="faq-icon-modern" viewBox="0 0 24 24">
-                  <path
-                    d="M12 5v14M5 12h14"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </div>
-              <div class="faq-answer-modern">
-                <p>
-                  Достаточно просто внимать во все предоставленные уроки и
-                  вовремя выполнять д/з. Сразу после теории мы переходим к
-                  поиску первых заказов и максимально работает с каждым до
-                  получения первых крупных заказов
-                </p>
-              </div>
+              <div class="faq-question-modern" role="button" tabindex="0" aria-expanded="false">Как максимально быстро окупить ядро.?<svg class="faq-icon-modern" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-linejoin="round" /></svg></div>
+              <div class="faq-answer-modern"><p>Достаточно просто внимать во все предоставленные уроки и вовремя выполнять д/з. Сразу после теории мы переходим к поиску первых заказов и максимально работает с каждым до получения первых крупных заказов</p></div>
             </div>
             <div class="faq-item-modern stagger-item" style="margin-top: 20px">
-              <div
-                class="faq-question-modern"
-                role="button"
-                tabindex="0"
-                aria-expanded="false"
-              >
-                Как проходит обучение в ядро.?
-                <svg class="faq-icon-modern" viewBox="0 0 24 24">
-                  <path
-                    d="M12 5v14M5 12h14"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </div>
-              <div class="faq-answer-modern">
-                <p>
-                  Как проходит обучение в ядро.? После оплаты менеджер добавляет
-                  тебя в общий чат участников и закрытый tg-канал, где будут
-                  выходить уроки и проводиться разборы. Также за тобой закрепят
-                  куратора, который будет проверять твои домашние задания и
-                  сопровождать во время всего обучения
-                </p>
-              </div>
+              <div class="faq-question-modern" role="button" tabindex="0" aria-expanded="false">Как проходит обучение в ядро.?<svg class="faq-icon-modern" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-linejoin="round" /></svg></div>
+              <div class="faq-answer-modern"><p>Как проходит обучение в ядро.? После оплаты менеджер добавляет тебя в общий чат участников и закрытый tg-канал, где будут выходить уроки и проводиться разборы. Также за тобой закрепят куратора, который будет проверять твои домашние задания и сопровождать во время всего обучения</p></div>
             </div>
             <div class="faq-item-modern stagger-item" style="margin-top: 20px">
-              <div
-                class="faq-question-modern"
-                role="button"
-                tabindex="0"
-                aria-expanded="false"
-              >
-                Что делать после прохождения курса?
-                <svg class="faq-icon-modern" viewBox="0 0 24 24">
-                  <path
-                    d="M12 5v14M5 12h14"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </div>
-              <div class="faq-answer-modern">
-                <p>
-                  Доступ к материалам остается на 12 месяцев. Поддержка в чате
-                  выпускников бессрочная.
-                </p>
-              </div>
+              <div class="faq-question-modern" role="button" tabindex="0" aria-expanded="false">Что делать после прохождения курса?<svg class="faq-icon-modern" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-linejoin="round" /></svg></div>
+              <div class="faq-answer-modern"><p>Доступ к материалам остается на 12 месяцев. Поддержка в чате выпускников бессрочная.</p></div>
             </div>
           </div>
         </div>
       </section>
     </main>
 
-    <!-- FOOTER -->
     <footer class="site-footer reveal">
       <div class="footer-content">
         <div class="footer-col">
-          <a
-            href="#"
-            class="nav-logo"
-            style="color: white; font-size: 2rem"
-            aria-label="core. ядро."
-          >
-            <span class="brand-group">
-              <span class="brand-main">core.</span>
-              <span class="brand-sub">ядро.</span>
-            </span>
+          <a href="#" class="nav-logo" style="color: white; font-size: 2rem" aria-label="core. ядро.">
+            <span class="brand-group"><span class="brand-main">core.</span><span class="brand-sub">ядро.</span></span>
           </a>
-          <p style="margin-top: 10px; max-width: 300px">
-            Система создания контента и заработка на творчестве.
-          </p>
+          <p style="margin-top: 10px; max-width: 300px">Система создания контента и заработка на творчестве.</p>
         </div>
         <div class="footer-col footer-links">
           <h3>Документы</h3>
@@ -1713,9 +718,7 @@
         </div>
         <div class="footer-col">
           <h3>Реквизиты</h3>
-          <p style="margin: 0; line-height: 1.6">
-            ИП ЛИ Р.С.<br />ИНН 502760562039
-          </p>
+          <p style="margin: 0; line-height: 1.6">ИП ЛИ Р.С.<br />ИНН 502760562039</p>
         </div>
       </div>
       <div class="footer-legal">
@@ -1726,62 +729,35 @@
     <script>
       // --- 1. ШУМ НА ФОНЕ (ОРИГИНАЛ + СУПЕР-ОПТИМИЗАЦИЯ СДВИГОМ) ---
       const noiseCanvas = document.getElementById("noise-canvas");
-
       if (noiseCanvas) {
         const ctx = noiseCanvas.getContext("2d", { alpha: true });
         let pattern;
-        const patternSize = 256; // Размер базового квадрата шума
-
-        const resize = () => {
-          noiseCanvas.width = window.innerWidth;
-          noiseCanvas.height = window.innerHeight;
-        };
-        window.addEventListener("resize", resize);
-        resize();
-
-        // Создаем кусочек шума ОДИН РАЗ, используя ТВОЙ ОРИГИНАЛЬНЫЙ КОД
+        const patternSize = 256; 
+        const resize = () => { noiseCanvas.width = window.innerWidth; noiseCanvas.height = window.innerHeight; };
+        window.addEventListener("resize", resize); resize();
         const createPattern = () => {
           const tile = document.createElement("canvas");
-          tile.width = patternSize;
-          tile.height = patternSize;
+          tile.width = patternSize; tile.height = patternSize;
           const tCtx = tile.getContext("2d");
           const id = tCtx.createImageData(patternSize, patternSize);
           const buffer = new Uint32Array(id.data.buffer);
-
-          // Твои оригинальные цвета и плотность!
           for (let i = 0; i < buffer.length; i++) {
-            if (Math.random() < 0.2) {
-              buffer[i] = Math.random() < 0.5 ? 0xff000000 : 0x11000000;
-            }
+            if (Math.random() < 0.2) buffer[i] = Math.random() < 0.5 ? 0xff000000 : 0x11000000;
           }
           tCtx.putImageData(id, 0, 0);
           pattern = ctx.createPattern(tile, "repeat");
         };
-
         createPattern();
-
         const loopNoise = () => {
-          // Случайный сдвиг паттерна каждый кадр (создает иллюзию нового шума)
           const xOff = Math.floor(Math.random() * patternSize);
           const yOff = Math.floor(Math.random() * patternSize);
-
           ctx.clearRect(0, 0, noiseCanvas.width, noiseCanvas.height);
           ctx.fillStyle = pattern;
-
-          // Сдвигаем начало координат и рисуем холст с запасом
           ctx.translate(-xOff, -yOff);
-          ctx.fillRect(
-            0,
-            0,
-            noiseCanvas.width + patternSize,
-            noiseCanvas.height + patternSize,
-          );
-          ctx.setTransform(1, 0, 0, 1, 0, 0); // Возвращаем обратно
-
-          // 15 FPS - работает плавно, батарею не садит
+          ctx.fillRect(0, 0, noiseCanvas.width + patternSize, noiseCanvas.height + patternSize);
+          ctx.setTransform(1, 0, 0, 1, 0, 0); 
           setTimeout(() => requestAnimationFrame(loopNoise), 1000 / 15);
         };
-
         loopNoise();
       }
 
@@ -1789,81 +765,37 @@
       let currentSlide = 0;
       const cards = document.querySelectorAll(".card-3d");
       const track = document.getElementById("track3d");
-
       function move3D(dir) {
         currentSlide += dir;
         if (currentSlide < 0) currentSlide = 0;
         if (currentSlide >= cards.length) currentSlide = cards.length - 1;
-
         const actualCardWidth = cards[0].offsetWidth;
-
-        // ДИНАМИЧЕСКИЙ ШАГ: измеряем реальное расстояние между карточками с учетом CSS gap!
         let moveStep = actualCardWidth;
-        if (cards.length > 1) {
-          // Вычисляем точную дистанцию от начала 1-й до начала 2-й карточки
-          moveStep = cards[1].offsetLeft - cards[0].offsetLeft;
-        }
-
+        if (cards.length > 1) moveStep = cards[1].offsetLeft - cards[0].offsetLeft;
         const offset = -(currentSlide * moveStep) - actualCardWidth / 2;
-
         track.style.transform = `translate(${offset}px, -50%)`;
-
         cards.forEach((card, index) => {
-          if (index === currentSlide) {
-            card.classList.add("active");
-          } else {
-            card.classList.remove("active");
-          }
+          if (index === currentSlide) card.classList.add("active");
+          else card.classList.remove("active");
         });
       }
-
       window.addEventListener("resize", () => move3D(0));
       window.onload = () => move3D(0);
 
-      let startX = 0;
-      let currentX = 0;
-      let isDraggingSlider = false;
-
-      track.addEventListener("mousedown", (e) => {
-        isDraggingSlider = true;
-        startX = e.pageX;
-        currentX = startX;
-      });
-
-      window.addEventListener("mousemove", (e) => {
-        if (!isDraggingSlider) return;
-        currentX = e.pageX;
-      });
-
+      let startX = 0, currentX = 0, isDraggingSlider = false;
+      track.addEventListener("mousedown", (e) => { isDraggingSlider = true; startX = e.pageX; currentX = startX; });
+      window.addEventListener("mousemove", (e) => { if (!isDraggingSlider) return; currentX = e.pageX; });
       window.addEventListener("mouseup", () => {
         if (!isDraggingSlider) return;
         isDraggingSlider = false;
         let diff = currentX - startX;
-        if (diff > 60) move3D(-1);
-        else if (diff < -60) move3D(1);
+        if (diff > 60) move3D(-1); else if (diff < -60) move3D(1);
       });
-
-      track.addEventListener(
-        "touchstart",
-        (e) => {
-          startX = e.touches[0].clientX;
-          currentX = startX;
-        },
-        { passive: true },
-      );
-
-      track.addEventListener(
-        "touchmove",
-        (e) => {
-          currentX = e.touches[0].clientX;
-        },
-        { passive: true },
-      );
-
+      track.addEventListener("touchstart", (e) => { startX = e.touches[0].clientX; currentX = startX; }, { passive: true });
+      track.addEventListener("touchmove", (e) => { currentX = e.touches[0].clientX; }, { passive: true });
       track.addEventListener("touchend", () => {
         let diff = currentX - startX;
-        if (diff > 50) move3D(-1);
-        else if (diff < -50) move3D(1);
+        if (diff > 50) move3D(-1); else if (diff < -50) move3D(1);
       });
 
       // --- 3. BLUR ТЕКСТА НА ЭКРАНЕ HERO ---
@@ -1871,80 +803,49 @@
         const el = document.getElementById(elementId);
         if (!el) return;
         const words = el.innerText.split(" ");
-        el.innerHTML = words
-          .map(
-            (w, i) =>
-              `<span class="blur-word" style="transition-delay: ${i * delayStep}ms">${w}&nbsp;</span>`,
-          )
-          .join("");
-
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                el.querySelectorAll(".blur-word").forEach((w) =>
-                  w.classList.add("visible"),
-                );
-                observer.unobserve(el);
-              }
-            });
-          },
-          { threshold: 0.1 },
-        );
+        el.innerHTML = words.map((w, i) => `<span class="blur-word" style="transition-delay: ${i * delayStep}ms">${w}&nbsp;</span>`).join("");
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              el.querySelectorAll(".blur-word").forEach((w) => w.classList.add("visible"));
+              observer.unobserve(el);
+            }
+          });
+        }, { threshold: 0.1 });
         observer.observe(el);
       }
 
       // --- 4. SCROLL REVEAL И СТРУКТУРНЫЙ КАСКАД (STAGGER) ---
       document.addEventListener("DOMContentLoaded", () => {
         const transitionDuration = 1000;
-
         const revealElements = document.querySelectorAll(".reveal");
-        const revealObserver = new IntersectionObserver(
-          (entries, observer) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add("reveal-active");
-                setTimeout(() => {
-                  entry.target.classList.remove("reveal", "reveal-active");
-                }, transitionDuration);
-                observer.unobserve(entry.target);
-              }
-            });
-          },
-          { threshold: 0.15, rootMargin: "0px 0px -40px 0px" },
-        );
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("reveal-active");
+              setTimeout(() => { entry.target.classList.remove("reveal", "reveal-active"); }, transitionDuration);
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.15, rootMargin: "0px 0px -40px 0px" });
         revealElements.forEach((el) => revealObserver.observe(el));
 
-        const staggerContainers =
-          document.querySelectorAll(".stagger-container");
-        const staggerObserver = new IntersectionObserver(
-          (entries, observer) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                const items = entry.target.querySelectorAll(".stagger-item");
-                items.forEach((item, index) => {
-                  const delayMs = index * 120;
-                  item.style.transitionDelay = `${delayMs}ms`;
-
-                  requestAnimationFrame(() => {
-                    item.classList.add("reveal-active");
-                  });
-
-                  setTimeout(() => {
-                    item.style.transitionDelay = "";
-                    item.classList.remove("stagger-item", "reveal-active");
-                  }, transitionDuration + delayMs);
-                });
-                observer.unobserve(entry.target);
-              }
-            });
-          },
-          { threshold: 0.1, rootMargin: "0px 0px -40px 0px" },
-        );
-
-        staggerContainers.forEach((container) =>
-          staggerObserver.observe(container),
-        );
+        const staggerContainers = document.querySelectorAll(".stagger-container");
+        const staggerObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const items = entry.target.querySelectorAll(".stagger-item");
+              items.forEach((item, index) => {
+                const delayMs = index * 120;
+                item.style.transitionDelay = `${delayMs}ms`;
+                requestAnimationFrame(() => { item.classList.add("reveal-active"); });
+                setTimeout(() => { item.style.transitionDelay = ""; item.classList.remove("stagger-item", "reveal-active"); }, transitionDuration + delayMs);
+              });
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.1, rootMargin: "0px 0px -40px 0px" });
+        staggerContainers.forEach((container) => staggerObserver.observe(container));
       });
 
       // --- 5. ROTATOR ОПТИМИЗИРОВАННЫЙ ---
@@ -1954,37 +855,23 @@
       if (elRot) {
         setInterval(() => {
           wordIndex = (wordIndex + 1) % wordsArr.length;
-          elRot.style.opacity = 0; // Блюр убран ради производительности
-          setTimeout(() => {
-            elRot.innerText = wordsArr[wordIndex];
-            elRot.style.opacity = 1;
-          }, 400);
+          elRot.style.opacity = 0; 
+          setTimeout(() => { elRot.innerText = wordsArr[wordIndex]; elRot.style.opacity = 1; }, 400);
         }, 2200);
       }
 
       // --- 6. STICKERS ---
       document.querySelectorAll(".sticker-img").forEach((sticker) => {
         sticker.onload = () => (sticker.style.display = "block");
-        let isDragging = false,
-          startX,
-          startY,
-          initLeft,
-          initTop;
-
+        let isDragging = false, startX, startY, initLeft, initTop;
         sticker.addEventListener("mousedown", (e) => {
-          isDragging = true;
-          startX = e.clientX;
-          startY = e.clientY;
+          isDragging = true; startX = e.clientX; startY = e.clientY;
           const rect = sticker.getBoundingClientRect();
           const parentRect = sticker.offsetParent.getBoundingClientRect();
-          initLeft = rect.left - parentRect.left;
-          initTop = rect.top - parentRect.top;
-          sticker.style.bottom = "auto";
-          sticker.style.right = "auto";
-          sticker.style.cursor = "grabbing";
+          initLeft = rect.left - parentRect.left; initTop = rect.top - parentRect.top;
+          sticker.style.bottom = "auto"; sticker.style.right = "auto"; sticker.style.cursor = "grabbing";
           e.preventDefault();
         });
-
         window.addEventListener("mousemove", (e) => {
           if (isDragging) {
             sticker.style.left = initLeft + (e.clientX - startX) + "px";
@@ -1993,25 +880,20 @@
         });
         window.addEventListener("mouseup", () => {
           isDragging = false;
-          if (sticker.style.cursor === "grabbing")
-            sticker.style.cursor = "grab";
+          if (sticker.style.cursor === "grabbing") sticker.style.cursor = "grab";
         });
       });
 
-      // --- 7. FAQ (Добавлена поддержка Accessibility) ---
+      // --- 7. FAQ ---
       document.querySelectorAll(".faq-question-modern").forEach((button) => {
         button.addEventListener("click", () => {
           const faqItem = button.parentElement;
           const isActive = faqItem.classList.contains("active");
-
           document.querySelectorAll(".faq-item-modern").forEach((item) => {
             item.classList.remove("active");
             item.querySelector(".faq-answer-modern").style.maxHeight = null;
-            item
-              .querySelector(".faq-question-modern")
-              .setAttribute("aria-expanded", "false");
+            item.querySelector(".faq-question-modern").setAttribute("aria-expanded", "false");
           });
-
           if (!isActive) {
             faqItem.classList.add("active");
             button.setAttribute("aria-expanded", "true");
@@ -2024,18 +906,12 @@
       // --- 8. REVIEWS BG ---
       const reviewsSection = document.querySelector(".reviews-section");
       if (reviewsSection) {
-        const reviewsObserver = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                reviewsSection.classList.add("reviews-active");
-              } else {
-                reviewsSection.classList.remove("reviews-active");
-              }
-            });
-          },
-          { threshold: 0.3 },
-        );
+        const reviewsObserver = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) reviewsSection.classList.add("reviews-active");
+            else reviewsSection.classList.remove("reviews-active");
+          });
+        }, { threshold: 0.3 });
         reviewsObserver.observe(reviewsSection);
       }
 
@@ -2046,14 +922,9 @@
           folder.removeAttribute("onclick");
           folder.addEventListener("click", function (e) {
             if (window.innerWidth <= 768) {
-              if (!this.classList.contains("is-open")) {
-                this.classList.add("is-open");
-                return;
-              }
+              if (!this.classList.contains("is-open")) { this.classList.add("is-open"); return; }
             }
-            document
-              .getElementById("tariffs")
-              .scrollIntoView({ behavior: "smooth" });
+            document.getElementById("tariffs").scrollIntoView({ behavior: "smooth" });
           });
         }
       });
@@ -2066,9 +937,7 @@
             if (window.innerWidth <= 768) {
               const isFlipped = this.classList.contains("flipped");
               reviewItems.forEach((card) => card.classList.remove("flipped"));
-              if (!isFlipped) {
-                this.classList.add("flipped");
-              }
+              if (!isFlipped) this.classList.add("flipped");
             }
           });
         });
@@ -2077,26 +946,172 @@
       document.addEventListener("DOMContentLoaded", () => {
         if (typeof Plyr !== "undefined") {
           const player = new Plyr("#player", {
-            controls: [
-              "play-large",
-              "play",
-              "progress",
-              "current-time",
-              "mute",
-              "volume",
-              "fullscreen",
-            ],
+            controls: ["play-large", "play", "progress", "current-time", "mute", "volume", "fullscreen"],
             ratio: "16:9",
-            youtube: {
-              noCookie: true,
-              rel: 0,
-              showinfo: 0,
-              iv_load_policy: 3,
-              modestbranding: 1,
-            },
+            youtube: { noCookie: true, rel: 0, showinfo: 0, iv_load_policy: 3, modestbranding: 1 },
           });
         }
       });
     </script>
+
+    <!-- ======================================================== -->
+    <!-- ФИНАЛЬНОЕ ОКНО ПРЕЗЕНТАЦИИ (ПРЕМИУМ ДИЗАЙН + АДАПТИВ)    -->
+    <!-- ======================================================== -->
+    <style>
+      .pdf-modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 26, 64, 0.7);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        z-index: 10005;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: opacity 0.4s ease, visibility 0.4s ease;
+        padding: 24px;
+        box-sizing: border-box;
+      }
+      .pdf-modal-overlay.active {
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
+      }
+      .pdf-modal-content {
+        background: #ffffff;
+        border-radius: 24px;
+        width: 95vw;
+        max-width: 1400px;
+        height: 95vh;
+        position: relative;
+        box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+        transform: translateY(30px) scale(0.97);
+        transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+        display: flex;
+        overflow: hidden; 
+      }
+      .pdf-modal-overlay.active .pdf-modal-content {
+        transform: translateY(0) scale(1);
+      }
+      .pdf-modal-close {
+        position: absolute;
+        top: 24px;
+        right: 24px;
+        width: 48px;
+        height: 48px;
+        background: rgba(255, 255, 255, 0.8); 
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(0, 69, 166, 0.1); 
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: #0045a6;
+        z-index: 50; 
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12); 
+        transition: all 0.25s ease;
+        padding: 0;
+      }
+      .pdf-modal-close svg {
+        width: 22px;
+        height: 22px;
+        stroke: currentColor;
+      }
+      .pdf-modal-close:hover {
+        background: #ffffff;
+        transform: scale(1.08) rotate(90deg);
+        box-shadow: 0 12px 30px rgba(0, 69, 166, 0.2);
+      }
+      .pdf-iframe-container {
+        width: 100%;
+        height: 100%;
+        flex-grow: 1;
+        background: #ffffff;
+        -webkit-overflow-scrolling: touch; 
+        overflow-y: auto; 
+      }
+      .pdf-iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        display: block;
+      }
+      @media (max-width: 768px) {
+        .pdf-modal-overlay { padding: 0; }
+        .pdf-modal-content {
+          width: 100vw;
+          height: 100dvh;
+          border-radius: 0;
+          transform: translateY(100px);
+        }
+        .pdf-modal-close {
+          top: 16px;
+          right: 16px;
+          width: 42px;
+          height: 42px;
+          background: rgba(255, 255, 255, 0.95);
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .pdf-modal-close:hover { transform: scale(1.05) rotate(90deg); }
+      }
+    </style>
+
+    <!-- САМ HTML ОКНА (Скрыто до клика) -->
+    <div class="pdf-modal-overlay" id="pdf-modal" style="opacity: 0; visibility: hidden; pointer-events: none;">
+      <div class="pdf-modal-content">
+        <button class="pdf-modal-close" id="pdf-modal-close" aria-label="Закрыть">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+        <div class="pdf-iframe-container">
+          <iframe src="assets/без цен.pdf#toolbar=0&navpanes=0&scrollbar=0&view=FitH" class="pdf-iframe" title="Презентация"></iframe>
+        </div>
+      </div>
+    </div>
+
+    <!-- СКРИПТ УПРАВЛЕНИЯ МОДАЛЬНЫМ ОКНОМ -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const btnOpenPdf = document.getElementById("btn-open-pdf");
+        const modalPdf = document.getElementById("pdf-modal");
+        const btnClosePdf = document.getElementById("pdf-modal-close");
+
+        if (btnOpenPdf && modalPdf && btnClosePdf) {
+          btnOpenPdf.addEventListener("click", function(e) {
+            e.preventDefault();
+            modalPdf.classList.add("active");
+            document.body.style.overflow = "hidden";
+          });
+
+          btnClosePdf.addEventListener("click", function() {
+            modalPdf.classList.remove("active");
+            document.body.style.overflow = "";
+          });
+
+          modalPdf.addEventListener("click", function(e) {
+            if (e.target === modalPdf) {
+              modalPdf.classList.remove("active");
+              document.body.style.overflow = "";
+            }
+          });
+
+          document.addEventListener('keydown', function(e) {
+            if (e.key === "Escape" && modalPdf.classList.contains("active")) {
+              modalPdf.classList.remove("active");
+              document.body.style.overflow = "";
+            }
+          });
+        }
+      });
+    </script>
+    <!-- ======================================================== -->
+
   </body>
 </html>

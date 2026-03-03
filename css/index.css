@@ -1694,17 +1694,10 @@ main {
   padding-top: 30px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
-@keyframes btnGradientFlow {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
+
+/* ==============================================
+   ПРЕМИУМ-КНОПКА НА СТЫКЕ (ЧИСТАЯ БЕЛАЯ)
+   ============================================== */
 .hero-btn-overlap {
   position: absolute;
   bottom: 0;
@@ -1712,13 +1705,13 @@ main {
   transform: translate(-50%, 50%);
   z-index: 1000;
 
-  /* Цвет совпадает с нижним фоном */
-  background: var(--bg-cream);
+  /* Чистый белый цвет без обводки */
+  background: #ffffff;
   color: var(--blue-bright);
   border: none;
 
-  /* Тень направлена только вверх, чтобы отделить от синего фона */
-  box-shadow: 0 -10px 30px rgba(0, 20, 60, 0.15);
+  /* Аккуратная мягкая тень */
+  box-shadow: 0 15px 35px rgba(0, 20, 60, 0.15);
 
   text-decoration: none;
   font-weight: 900;
@@ -1731,19 +1724,12 @@ main {
   white-space: nowrap;
 }
 
+/* При наведении: заливается синим */
 .hero-btn-overlap:hover {
-  background: #ffffff;
-  transform: translate(-50%, calc(50% - 4px));
-  box-shadow: 0 -15px 40px rgba(0, 20, 60, 0.2);
-}
-
-/* Мобильная версия (в самом низу) */
-@media (max-width: 768px) {
-  .hero-btn-overlap {
-    font-size: 1rem !important;
-    padding: 15px 30px !important;
-    border: none !important;
-  }
+  background: var(--blue-bright);
+  color: #ffffff;
+  transform: translate(-50%, calc(50% - 4px)); /* Слегка приподнимается */
+  box-shadow: 0 20px 40px rgba(0, 69, 166, 0.3);
 }
 
 /* ==============================================
@@ -2118,6 +2104,11 @@ main {
   .stagger-item {
     filter: none !important;
   }
+  .hero-btn-overlap {
+    font-size: 1rem !important;
+    padding: 15px 30px !important;
+    border: none !important;
+  }
 }
 
 /* ==============================================
@@ -2156,17 +2147,45 @@ main {
   }
 }
 /* ==============================================
-   15. SHORT VIDEOS SECTION
+   15. SHORT VIDEOS SECTION (3 ВИДЕО В РЯД)
    ============================================== */
+
+.video-section-large {
+  position: relative;
+  max-width: 1350px !important; /* Широкий контейнер, чтобы 3 видео влезли красиво */
+  margin: 0 auto;
+  padding: 40px 20px 120px;
+  z-index: 5;
+}
+
+/* Мягкое фоновое свечение */
+.video-section-large::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -40%);
+  width: 90%;
+  height: 90%;
+  background: radial-gradient(
+    circle at center,
+    rgba(0, 69, 166, 0.08) 0%,
+    transparent 60%
+  );
+  filter: blur(60px);
+  z-index: -1;
+  pointer-events: none;
+}
 
 .video-section-title {
   text-align: center;
-  font-size: clamp(2.5rem, 4vw, 4rem);
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
   font-weight: 900;
   color: var(--blue-bright);
   margin-bottom: 10px;
   letter-spacing: -0.04em;
   line-height: 1;
+  position: relative;
 }
 
 .video-section-subtitle {
@@ -2174,25 +2193,27 @@ main {
   font-size: clamp(1.2rem, 2vw, 1.8rem);
   font-weight: 800;
   color: var(--accent);
-  margin-bottom: 40px;
+  margin-bottom: 60px;
   line-height: 1.3;
+  position: relative;
 }
 
-.video-section-large {
-  max-width: 1350px !important;
-}
-
+/* СЕТКА: Ровно 3 колонки в один ряд */
 .video-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: clamp(20px, 3vw, 40px);
-  margin-top: 60px;
+  position: relative;
 }
 
 .video-item {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .video-wrapper {
@@ -2200,16 +2221,59 @@ main {
   width: 100%;
   aspect-ratio: 16 / 9;
   background: #050505;
-  border-radius: 12px; /* Меньшее скругление */
+  border-radius: 20px;
   overflow: hidden;
-  /* Оригинальная тень из секции "Кому подойдет" (спокойное состояние) */
-  box-shadow: 0 20px 60px rgba(0, 69, 166, 0.1);
-  transition: box-shadow 0.6s var(--ease-smooth);
+  box-shadow:
+    0 30px 60px -15px rgba(0, 20, 60, 0.25),
+    0 0 0 1px rgba(0, 69, 166, 0.1);
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Оригинальное "свечение" (тень) из секции "Кому подойдет" при наведении */
+/* Красивый блик-рамка как у техники Apple */
+.video-wrapper::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  box-shadow:
+    inset 0 2px 4px rgba(255, 255, 255, 0.15),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Эффект при наведении "взлет" и ЯРКОЕ СВЕЧЕНИЕ */
+.video-item:hover {
+  transform: translateY(-10px) scale(1.02);
+  z-index: 10;
+}
+
 .video-item:hover .video-wrapper {
-  box-shadow: 0 40px 80px rgba(0, 69, 166, 0.2);
+  /* Яркая синяя рамка и неоновое свечение вокруг видео */
+  box-shadow:
+    0 0 40px rgba(0, 69, 166, 0.4),
+    /* Эффект синего неона */ 0 30px 60px -10px rgba(0, 69, 166, 0.5),
+    /* Глубокая синяя тень внизу */ 0 0 0 3px var(--blue-bright); /* Плотный синий контур */
+}
+
+/* Опционально: можно сделать так, чтобы текст под видео тоже менял цвет */
+.video-item:hover .video-title {
+  color: var(--accent); /* При наведении заголовок станет оранжево-красным */
+  transition: color 0.4s var(--ease-smooth);
+}
+
+.video-title {
+  font-size: clamp(1.2rem, 1.6vw, 1.5rem);
+  font-weight: 900;
+  color: var(--blue-bright);
+  margin: 0;
+  text-align: center;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  transition: color 0.4s var(--ease-smooth); /* Добавили плавность тексту */
 }
 
 .video-wrapper video {
@@ -2217,6 +2281,7 @@ main {
   height: 100%;
   object-fit: cover;
   display: block;
+  transform: scale(1.01);
 }
 
 .video-wrapper video:focus {
@@ -2224,44 +2289,47 @@ main {
 }
 
 .video-title {
-  font-size: clamp(1.2rem, 1.5vw, 1.4rem);
+  font-size: clamp(1.2rem, 1.6vw, 1.5rem);
   font-weight: 900;
   color: var(--blue-bright);
   margin: 0;
   text-align: center;
   letter-spacing: -0.02em;
-  line-height: 1.3;
+  line-height: 1.2;
 }
 
-/* Адаптивность для планшетов */
+/* Адаптивность для планшетов (2 видео в ряд, третье снизу по центру) */
 @media (max-width: 1024px) {
   .video-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-  .video-item:last-child {
+  .video-item:nth-child(3) {
     grid-column: 1 / span 2;
     max-width: 70%;
     margin: 0 auto;
   }
 }
 
-/* Адаптивность для телефонов */
+/* Адаптивность для телефонов (1 видео в ряд) */
 @media (max-width: 768px) {
+  .video-section-large {
+    padding-bottom: 60px;
+  }
   .video-grid {
     grid-template-columns: 1fr;
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
-    gap: 40px;
+    gap: 50px;
   }
-  .video-item:last-child {
+  .video-item:nth-child(3) {
     grid-column: 1;
     max-width: 100%;
   }
   .video-title {
-    font-size: 1.3rem;
+    font-size: 1.5rem;
   }
   .video-wrapper {
-    border-radius: 8px;
+    border-radius: 16px;
+  }
+  .video-wrapper::after {
+    border-radius: 16px;
   }
 }
