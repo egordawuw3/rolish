@@ -8,13 +8,13 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preload" href="css/tariff.css" as="style" />
+    <link rel="preload" href="/css/tariff.css" as="style" />
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=Caveat:wght@700&display=swap"
     />
     <link rel="icon" href="favicon.png" type="image/png" />
-    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="/css/index.css" />
 
     <script type="text/javascript">
       (function (m, e, t, r, i, k, a) {
@@ -53,6 +53,19 @@
     </script>
 
     <style>
+      /* === ПЕРЕМЕННЫЕ ВАШЕГО ДИЗАЙНА === */
+      :root {
+        --bg-cream: #f4f2ee;
+        --blue-deep: #00388d;
+        --blue-bright: #0045a6;
+        --accent: #fa2d1a;
+        --white: #ffffff;
+        --black: #050505;
+        --border: rgba(0, 69, 166, 0.15);
+        --radius: 32px;
+        --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
       /* === ОРИГИНАЛЬНЫЕ СТИЛИ ДЛЯ ТАРИФОВ === */
       .tariff-price {
         font-size: 2.8rem;
@@ -99,7 +112,7 @@
         color: white;
       }
 
-      /* === КРЕМОВО-СИНИЙ СТИЛЬ МОДАЛЬНОГО ОКНА === */
+      /* === КРЕМОВО-СИНИЙ СТИЛЬ МОДАЛЬНОГО ОКНА ОПЛАТЫ === */
       .modal-overlay {
         position: fixed;
         top: 0;
@@ -111,7 +124,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        z-index: 99999;
+        z-index: 99998;
         opacity: 0;
         visibility: hidden;
         transition:
@@ -238,11 +251,144 @@
         object-fit: contain;
         mix-blend-mode: multiply;
       }
+
+      /* === СТИЛИ ДЛЯ КРАСИВОГО ПОПАПА УСПЕШНОЙ ОПЛАТЫ (В СТИЛЕ АНКЕТЫ) === */
+      .modal-overlay-styled {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(244, 242, 238, 0.75); /* Кремовый полупрозрачный фон */
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 99999;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.6s var(--ease-smooth);
+      }
+      .modal-overlay-styled.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .modal-content-styled {
+        background: var(--white);
+        border-radius: var(--radius);
+        padding: 50px 40px;
+        width: 90%;
+        max-width: 480px;
+        text-align: center;
+        box-shadow: 0 25px 60px rgba(0, 69, 166, 0.1);
+        border: 1px solid var(--border);
+        transform: translateY(40px) scale(0.95);
+        transition: all 0.8s var(--ease-smooth);
+        position: relative;
+      }
+      .modal-overlay-styled.active .modal-content-styled {
+        transform: translateY(0) scale(1);
+      }
+
+      .close-btn-styled {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+        background: var(--bg-cream);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--blue-bright);
+        cursor: pointer;
+        transition: all 0.4s var(--ease-smooth);
+      }
+      .close-btn-styled:hover {
+        background: var(--blue-bright);
+        color: var(--white);
+        transform: rotate(90deg);
+      }
+
+      .success-title-modal {
+        font-family: "Inter", sans-serif;
+        font-size: 3.2rem;
+        font-weight: 900;
+        color: var(--blue-bright);
+        line-height: 1;
+        margin: 0 0 5px 0;
+        letter-spacing: -0.04em;
+      }
+
+      .success-subtitle-modal {
+        font-family: "Caveat", cursive;
+        font-size: 2.8rem;
+        color: var(--accent);
+        transform: rotate(-3deg);
+        display: inline-block;
+        margin-bottom: 25px;
+      }
+
+      .modal-desc-styled {
+        font-family: "Inter", sans-serif;
+        font-size: 1.15rem;
+        color: #444;
+        font-weight: 500;
+        line-height: 1.5;
+        margin-bottom: 35px;
+      }
+
+      .tg-btn-styled {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: 22px;
+        font-family: "Inter", sans-serif;
+        font-size: 1.2rem;
+        font-weight: 900;
+        color: var(--white);
+        background: var(--blue-bright);
+        border: none;
+        border-radius: 100px;
+        cursor: pointer;
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        box-shadow: 0 15px 30px rgba(0, 69, 166, 0.2);
+        transition: all 0.5s var(--ease-smooth);
+        box-sizing: border-box;
+      }
+      .tg-btn-styled:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 25px 50px rgba(0, 69, 166, 0.35);
+        background: var(--blue-deep);
+      }
+
+      @media (max-width: 768px) {
+        .modal-content-styled {
+          padding: 40px 25px;
+        }
+        .success-title-modal {
+          font-size: 2.5rem;
+        }
+        .success-subtitle-modal {
+          font-size: 2.2rem;
+        }
+        .tg-btn-styled {
+          padding: 18px;
+          font-size: 1.1rem;
+        }
+      }
     </style>
   </head>
 
   <body>
     <canvas id="noise-canvas" style="pointer-events: none"></canvas>
+
     <nav class="navbar">
       <a href="index.html" class="nav-logo" aria-label="core. home">core.</a>
     </nav>
@@ -398,7 +544,7 @@
       </section>
     </main>
 
-    <!-- === КРЕМОВО-СИНИЙ ПОПАП === -->
+    <!-- === МОДАЛЬНОЕ ОКНО ВЫБОРА ОПЛАТЫ === -->
     <div class="modal-overlay" id="payment-modal">
       <div class="modal-content">
         <div class="modal-close" onclick="closePaymentModal()">
@@ -476,10 +622,10 @@
         </div>
         <div class="footer-col footer-links">
           <h3>Документы</h3>
-          <a href="/oferta">Договор оферты</a
-          ><a href="/argement">Обработка персональных данных</a
-          ><a href="/privacy">Политика конфиденциальности</a
-          ><a href="/mailing">Согласие на рассылку</a>
+          <a href="/oferta">Договор оферты</a>
+          <a href="/argement">Обработка персональных данных</a>
+          <a href="/privacy">Политика конфиденциальности</a>
+          <a href="/mailing">Согласие на рассылку</a>
         </div>
         <div class="footer-col">
           <h3>Реквизиты</h3>
@@ -490,6 +636,46 @@
       </div>
       <div class="footer-legal"><span>© 2026 All rights reserved.</span></div>
     </footer>
+
+    <!-- === КРАСИВЫЙ ПОПАП УСПЕШНОЙ ОПЛАТЫ === -->
+    <div class="modal-overlay-styled" id="success-modal">
+      <div class="modal-content-styled">
+        <div class="close-btn-styled" onclick="closeSuccessModal()">
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 14 14"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M13 1L1 13M1 1L13 13"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
+
+        <div class="success-title-modal">Платеж прошел</div>
+        <div class="success-subtitle-modal">успешно!</div>
+
+        <p class="modal-desc-styled">
+          Спасибо за доверие!<br />
+          Пожалуйста, скиньте чек об оплате нам в Telegram, чтобы мы открыли вам
+          доступ.
+        </p>
+
+        <a
+          href="https://t.me/paschail_manag"
+          target="_blank"
+          class="tg-btn-styled"
+        >
+          Написать @paschail_manag
+        </a>
+      </div>
+    </div>
 
     <script>
       let currentTariff = "";
@@ -512,25 +698,21 @@
           if (e.target === this) closePaymentModal();
         });
 
-      // === ФИНАЛЬНАЯ ФУНКЦИЯ ОПЛАТЫ (ОТКРЫТИЕ В НОВОЙ ВКЛАДКЕ) ===
+      // === ФУНКЦИЯ ОПЛАТЫ (БЕЗ ОТКРЫТИЯ В НОВОЙ ВКЛАДКЕ) ===
       async function processPayment(paymentType) {
         console.log("🟢 Запуск оплаты. Метод:", paymentType);
-
         const nameField = document.getElementById("user-name").value.trim();
         const emailField = document.getElementById("user-email").value.trim();
-
         const btnElement =
           paymentType === "tinkoff"
             ? document.getElementById("btn-pay-tinkoff")
             : document.getElementById("btn-pay-split");
-
         const originalHTML = btnElement.innerHTML;
 
         if (!nameField) {
           alert("Пожалуйста, укажите ваше имя!");
           return;
         }
-
         if (!emailField) {
           alert("Пожалуйста, укажите email для чека!");
           return;
@@ -544,7 +726,7 @@
           ym(107010402, "reachGoal", "pay_button_click");
         }
 
-        // Создаем форму, которая отправит данные на сервер и откроет ответ в НОВОЙ вкладке
+        // Форма для бэкенда. ОБРАТИТЕ ВНИМАНИЕ: form.target = "_blank" УДАЛЕНО!
         const form = document.createElement("form");
         form.method = "POST";
         form.action = "http://85.215.137.163:15241/api/pay";
@@ -555,7 +737,6 @@
           email: emailField,
           payment_method: paymentType,
         };
-
         for (const key in data) {
           const input = document.createElement("input");
           input.type = "hidden";
@@ -563,16 +744,14 @@
           input.value = data[key];
           form.appendChild(input);
         }
-
         document.body.appendChild(form);
         form.submit();
 
-        // Через 2 секунды возвращаем сайту исходный вид
         setTimeout(() => {
           btnElement.innerHTML = originalHTML;
           btnElement.style.pointerEvents = "auto";
           btnElement.style.opacity = "1";
-          closePaymentModal(); // Закрываем модалку
+          closePaymentModal();
         }, 2000);
       }
 
@@ -582,15 +761,12 @@
         const ctx = noiseCanvas.getContext("2d", { alpha: true });
         let pattern;
         const patternSize = 256;
-
         const resize = () => {
           noiseCanvas.width = window.innerWidth;
           noiseCanvas.height = window.innerHeight;
         };
-
         window.addEventListener("resize", resize);
         resize();
-
         const createPattern = () => {
           const tile = document.createElement("canvas");
           tile.width = patternSize;
@@ -598,21 +774,16 @@
           const tCtx = tile.getContext("2d");
           const id = tCtx.createImageData(patternSize, patternSize);
           const buffer = new Uint32Array(id.data.buffer);
-
           for (let i = 0; i < buffer.length; i++)
             if (Math.random() < 0.2)
               buffer[i] = Math.random() < 0.5 ? 4278190080 : 285212672;
-
           tCtx.putImageData(id, 0, 0);
           pattern = ctx.createPattern(tile, "repeat");
         };
-
         createPattern();
-
         const loopNoise = () => {
           const xOff = Math.floor(Math.random() * patternSize);
           const yOff = Math.floor(Math.random() * patternSize);
-
           ctx.clearRect(0, 0, noiseCanvas.width, noiseCanvas.height);
           ctx.fillStyle = pattern;
           ctx.translate(-xOff, -yOff);
@@ -622,11 +793,9 @@
             noiseCanvas.width + patternSize,
             noiseCanvas.height + patternSize,
           );
-
           ctx.setTransform(1, 0, 0, 1, 0, 0);
           setTimeout(() => requestAnimationFrame(loopNoise), 1000 / 15);
         };
-
         loopNoise();
       }
 
@@ -641,79 +810,14 @@
           },
           { threshold: 0.1 },
         );
-
         document
           .querySelectorAll(".reveal, .stagger-item")
           .forEach((el) => revealObserver.observe(el));
       });
-    </script>
 
-<!-- === КРАСИВЫЙ ПОПАП УСПЕШНОЙ ОПЛАТЫ === -->
-<div class="modal-overlay-styled" id="success-modal">
-  <div class="modal-content-styled">
-    <div class="close-btn-styled" onclick="closeSuccessModal()">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M13 1L1 13M1 1L13 13" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </div>
-    
-    <div class="success-title-modal">Платеж прошел</div>
-    <div class="success-subtitle-modal">успешно!</div>
-    
-    <p class="modal-desc-styled">
-      Спасибо за доверие!<br>
-      Пожалуйста, скиньте чек об оплате нам в Telegram, чтобы мы открыли вам доступ.
-    </p>
-    
-    <a href="https://t.me/paschail_manag" target="_blank" class="tg-btn-styled">
-      Написать @paschail_manag
-    </a>
-  </div>
-</div>
-
-        <div
-          class="modal-subtitle"
-          style="
-            margin-top: 15px;
-            font-size: 1.1rem;
-            color: #666;
-            line-height: 1.5;
-          "
-        >
-          Спасибо за оплату!<br />
-          Пожалуйста, скиньте чек об оплате нам в Telegram, чтобы мы открыли вам
-          доступ:
-        </div>
-        <a
-          href="https://t.me/paschail_manag"
-          target="_blank"
-          style="
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            width: 100%;
-            padding: 16px 20px;
-            background: #0088cc;
-            color: white;
-            border-radius: 14px;
-            font-weight: 700;
-            text-decoration: none;
-            margin-top: 10px;
-            font-size: 1.1rem;
-            transition: transform 0.2s;
-          "
-        >
-          Написать @paschail_manag
-        </a>
-      </div>
-    </div>
-
-    <script>
-      // === ЛОГИКА ОКНА УСПЕШНОЙ ОПЛАТЫ ===
+      // === ЖЕЛЕЗОБЕТОННАЯ ЛОГИКА ОКНА УСПЕШНОЙ ОПЛАТЫ ===
       function closeSuccessModal() {
         document.getElementById("success-modal").classList.remove("active");
-        // Очищаем ссылку от ?payment=success, чтобы окно не появлялось при обновлении страницы
         window.history.replaceState(
           {},
           document.title,
@@ -721,14 +825,15 @@
         );
       }
 
-      document.addEventListener("DOMContentLoaded", () => {
-        // Проверяем, есть ли в ссылке параметр успешной оплаты
+      function checkPaymentStatus() {
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get("payment") === "success") {
-          // Показываем попап
-          setTimeout(() => {
-            document.getElementById("success-modal").classList.add("active");
-          }, 500); // небольшая задержка для плавности
+          const modal = document.getElementById("success-modal");
+          if (modal) {
+            setTimeout(() => {
+              modal.classList.add("active");
+            }, 300);
+          }
         } else if (urlParams.get("payment") === "error") {
           alert(
             "К сожалению, оплата не прошла или была отменена. Попробуйте еще раз.",
@@ -739,14 +844,20 @@
             window.location.pathname,
           );
         }
-      });
+      }
 
-      // Закрытие по клику на темный фон
-      document
-        .getElementById("success-modal")
-        .addEventListener("click", function (e) {
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", checkPaymentStatus);
+      } else {
+        checkPaymentStatus();
+      }
+
+      const modalOverlayStyled = document.getElementById("success-modal");
+      if (modalOverlayStyled) {
+        modalOverlayStyled.addEventListener("click", function (e) {
           if (e.target === this) closeSuccessModal();
         });
+      }
     </script>
   </body>
 </html>
