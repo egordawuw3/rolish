@@ -2303,10 +2303,11 @@
     </div>
 
     <script>
-      // === ЛОГИКА ОКНА УСПЕШНОЙ ОПЛАТЫ ===
+      // === ЖЕЛЕЗОБЕТОННАЯ ЛОГИКА ОКНА УСПЕШНОЙ ОПЛАТЫ ===
+      console.log("Скрипт проверки оплаты загружен!"); // Для дебага
+
       function closeSuccessModal() {
         document.getElementById("success-modal").classList.remove("active");
-        // Очищаем ссылку от ?payment=success, чтобы окно не появлялось при обновлении страницы
         window.history.replaceState(
           {},
           document.title,
@@ -2314,14 +2315,24 @@
         );
       }
 
-      document.addEventListener("DOMContentLoaded", () => {
-        // Проверяем, есть ли в ссылке параметр успешной оплаты
+      function checkPaymentStatus() {
+        console.log("Проверяем адресную строку...");
         const urlParams = new URLSearchParams(window.location.search);
+
         if (urlParams.get("payment") === "success") {
-          // Показываем попап
-          setTimeout(() => {
-            document.getElementById("success-modal").classList.add("active");
-          }, 500); // небольшая задержка для плавности
+          console.log("ПАРАМЕТР НАЙДЕН! Пытаемся открыть окно...");
+          const modal = document.getElementById("success-modal");
+
+          if (modal) {
+            setTimeout(() => {
+              modal.classList.add("active");
+              console.log("Окно успешно открыто!");
+            }, 300);
+          } else {
+            console.error(
+              "ОШИБКА: HTML-код окна success-modal не найден на странице!",
+            );
+          }
         } else if (urlParams.get("payment") === "error") {
           alert(
             "К сожалению, оплата не прошла или была отменена. Попробуйте еще раз.",
@@ -2332,14 +2343,22 @@
             window.location.pathname,
           );
         }
-      });
+      }
+
+      // Запускаем проверку максимально надежно:
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", checkPaymentStatus);
+      } else {
+        checkPaymentStatus(); // Если страница уже загрузилась
+      }
 
       // Закрытие по клику на темный фон
-      document
-        .getElementById("success-modal")
-        .addEventListener("click", function (e) {
+      const modalOverlay = document.getElementById("success-modal");
+      if (modalOverlay) {
+        modalOverlay.addEventListener("click", function (e) {
           if (e.target === this) closeSuccessModal();
         });
+      }
     </script>
   </body>
 </html>
