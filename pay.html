@@ -647,5 +647,107 @@
           .forEach((el) => revealObserver.observe(el));
       });
     </script>
+
+    <!-- === ПОПАП УСПЕШНОЙ ОПЛАТЫ === -->
+    <div class="modal-overlay" id="success-modal">
+      <div class="modal-content" style="padding: 50px 30px">
+        <div class="modal-close" onclick="closeSuccessModal()">
+          <svg
+            width="12"
+            height="12"
+            viewBox="0 0 14 14"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M13 1L1 13M1 1L13 13"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
+        <div style="font-size: 40px; margin-bottom: 15px">🎉</div>
+        <div class="modal-title" style="color: #111">
+          Платеж прошел успешно!
+        </div>
+        <div
+          class="modal-subtitle"
+          style="
+            margin-top: 15px;
+            font-size: 1.1rem;
+            color: #666;
+            line-height: 1.5;
+          "
+        >
+          Спасибо за оплату!<br />
+          Пожалуйста, скиньте чек об оплате нам в Telegram, чтобы мы открыли вам
+          доступ:
+        </div>
+        <a
+          href="https://t.me/paschail_manag"
+          target="_blank"
+          style="
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 16px 20px;
+            background: #0088cc;
+            color: white;
+            border-radius: 14px;
+            font-weight: 700;
+            text-decoration: none;
+            margin-top: 10px;
+            font-size: 1.1rem;
+            transition: transform 0.2s;
+          "
+        >
+          Написать @paschail_manag
+        </a>
+      </div>
+    </div>
+
+    <script>
+      // === ЛОГИКА ОКНА УСПЕШНОЙ ОПЛАТЫ ===
+      function closeSuccessModal() {
+        document.getElementById("success-modal").classList.remove("active");
+        // Очищаем ссылку от ?payment=success, чтобы окно не появлялось при обновлении страницы
+        window.history.replaceState(
+          {},
+          document.title,
+          window.location.pathname,
+        );
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        // Проверяем, есть ли в ссылке параметр успешной оплаты
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get("payment") === "success") {
+          // Показываем попап
+          setTimeout(() => {
+            document.getElementById("success-modal").classList.add("active");
+          }, 500); // небольшая задержка для плавности
+        } else if (urlParams.get("payment") === "error") {
+          alert(
+            "К сожалению, оплата не прошла или была отменена. Попробуйте еще раз.",
+          );
+          window.history.replaceState(
+            {},
+            document.title,
+            window.location.pathname,
+          );
+        }
+      });
+
+      // Закрытие по клику на темный фон
+      document
+        .getElementById("success-modal")
+        .addEventListener("click", function (e) {
+          if (e.target === this) closeSuccessModal();
+        });
+    </script>
   </body>
 </html>
