@@ -404,25 +404,22 @@
       color: var(--accent); /* Ваш фирменный красный цвет, чтобы точно заметили */
     }
 .payment-agreement {
-  margin: 20px 0 0; /* Добавил отступ сверху, как на скрине */
-  font-size: 11px;  /* На скрине текст совсем мелкий */
-  color: #9baec4;   /* Светлый серо-голубой оттенок */
-  line-height: 1.3;
-  text-align: center; /* Центрирование, как в модальном окне */
-  opacity: 0.8;      /* Дополнительная прозрачность */
+  margin: 15px 0 0;
+  font-size: 11px;
+  text-align: center;
+  /* Цвет остается серым, но мы делаем его очень прозрачным */
+  color: #555; 
+  opacity: 0.5; /* 50% прозрачности — текст станет очень бледным */
+  line-height: 1.4;
 }
 
 .payment-agreement a {
-  color: #9baec4;   /* Ссылки того же цвета, что и текст */
-  text-decoration: underline; 
-  text-underline-offset: 2px;
-  /* Убираем лишнюю яркость, чтобы ссылка не выбивалась */
-  opacity: 0.9;
+  color: inherit; /* Ссылка берет тот же цвет и прозрачность, что и текст */
+  text-decoration: underline;
 }
 
 .payment-agreement a:hover {
-  opacity: 1;
-  color: #7a8fa6; /* Чуть темнее при наведении */
+  opacity: 1; /* При наведении текст становится четким и ярким */
 }
 
 
