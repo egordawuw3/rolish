@@ -404,22 +404,26 @@
       color: var(--accent); /* Ваш фирменный красный цвет, чтобы точно заметили */
     }
 .payment-agreement {
-  margin: 15px 0 0;
-  font-size: 11px;
+  margin: 16px 0 0;
+  font-size: 0.75rem; 
   text-align: center;
-  /* Цвет остается серым, но мы делаем его очень прозрачным */
-  color: #555; 
-  opacity: 0.5; /* 50% прозрачности — текст станет очень бледным */
+  /* Возвращаем ваш исходный цвет, но добавляем 40% прозрачности */
+  color: rgba(85, 85, 85, 0.4); 
   line-height: 1.4;
 }
 
 .payment-agreement a {
-  color: inherit; /* Ссылка берет тот же цвет и прозрачность, что и текст */
-  text-decoration: underline;
+  /* Ссылка берет тот же цвет и прозрачность, что и основной текст */
+  color: inherit; 
+  text-decoration: underline; 
+  text-underline-offset: 3px;
+  transition: opacity 0.3s ease;
 }
 
+/* Эффект наведения работает ТОЛЬКО для ссылок */
 .payment-agreement a:hover {
-  opacity: 1; /* При наведении текст становится четким и ярким */
+  opacity: 1; /* Ссылка становится четкой (100% видимости) */
+  color: #333; /* И чуть темнее для акцента */
 }
 
 
