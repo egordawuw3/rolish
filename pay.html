@@ -403,24 +403,27 @@
       font-weight: 700;
       color: var(--accent); /* Ваш фирменный красный цвет, чтобы точно заметили */
     }
-    
-    .payment-agreement {
-      margin: 0;
-      font-size: 0.75rem; 
-      color: #555; /* Темно-серый, почти черный */
-      line-height: 1.4;
-    }
-    
-    .payment-agreement a {
-      color: var(--blue-bright); /* Фирменный синий для ссылок */
-      text-decoration: underline; 
-      text-underline-offset: 3px;
-      transition: color 0.3s ease;
-    }
-    
-    .payment-agreement a:hover {
-      color: var(--blue-deep);
-    }
+.payment-agreement {
+  margin: 20px 0 0; /* Добавил отступ сверху, как на скрине */
+  font-size: 11px;  /* На скрине текст совсем мелкий */
+  color: #9baec4;   /* Светлый серо-голубой оттенок */
+  line-height: 1.3;
+  text-align: center; /* Центрирование, как в модальном окне */
+  opacity: 0.8;      /* Дополнительная прозрачность */
+}
+
+.payment-agreement a {
+  color: #9baec4;   /* Ссылки того же цвета, что и текст */
+  text-decoration: underline; 
+  text-underline-offset: 2px;
+  /* Убираем лишнюю яркость, чтобы ссылка не выбивалась */
+  opacity: 0.9;
+}
+
+.payment-agreement a:hover {
+  opacity: 1;
+  color: #7a8fa6; /* Чуть темнее при наведении */
+}
 
 
 
@@ -636,7 +639,7 @@
       <!-- НОВЫЙ БЛОК СОГЛАСИЯ И VPN -->
       <div class="payment-footer-text">
         <p class="vpn-warning">
-          ⚠️ Для корректной оплаты, пожалуйста, отключите VPN
+          ⚠️ Для корректной оплаты, пожалуйста, отключите ВПН
         </p>
         <p class="payment-agreement">
           Нажимая на кнопку, вы соглашаетесь с условиями 
