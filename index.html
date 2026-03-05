@@ -38,6 +38,7 @@
     <link rel="icon" href="favicon.png" type="image/png" />
     <script src="https://cdn.plyr.io/3.7.8/plyr.js" defer></script>
     <link rel="stylesheet" href="css/index.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <link
       rel="preload"
       as="image"
@@ -2205,38 +2206,75 @@
 
     <!-- СКРИПТ УПРАВЛЕНИЯ МОДАЛЬНЫМ ОКНОМ -->
     <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const btnOpenPdf = document.getElementById("btn-open-pdf");
-        const modalPdf = document.getElementById("pdf-modal");
-        const btnClosePdf = document.getElementById("pdf-modal-close");
+document.addEventListener("DOMContentLoaded", () => {
+  const btnOpenPdf = document.getElementById("btn-open-pdf");
+  const modalPdf = document.getElementById("pdf-modal");
+  const btnClosePdf = document.getElementById("pdf-modal-close");
+  const pdfViewer = document.getElementById("pdf-viewer");
 
-        if (btnOpenPdf && modalPdf && btnClosePdf) {
-          btnOpenPdf.addEventListener("click", function (e) {
-            e.preventDefault();
-            modalPdf.classList.add("active");
-            document.body.style.overflow = "hidden";
-          });
+  // Настройки PDF.js
+  const pdfUrl = 'assets/core_program.pdf'; // Путь к файлу
+  const pdfjsLib = window['pdfjs-dist/build/pdf'];
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-          btnClosePdf.addEventListener("click", function () {
-            modalPdf.classList.remove("active");
-            document.body.style.overflow = "";
-          });
+  let isLoaded = false; // Чтобы не грузить файл каждый раз заново
 
-          modalPdf.addEventListener("click", function (e) {
-            if (e.target === modalPdf) {
-              modalPdf.classList.remove("active");
-              document.body.style.overflow = "";
-            }
-          });
+  async function renderPDF() {
+    if (isLoaded) return; // Если уже загрузили, выходим
+    
+    pdfViewer.innerHTML = '<p style="color:white; text-align:center; padding:20px;">Загрузка презентации...</p>';
+    
+    try {
+      const loadingTask = pdfjsLib.getDocument(pdfUrl);
+      const pdf = await loadingTask.promise;
+      pdfViewer.innerHTML = ''; // Очищаем текст загрузки
 
-          document.addEventListener("keydown", function (e) {
-            if (e.key === "Escape" && modalPdf.classList.contains("active")) {
-              modalPdf.classList.remove("active");
-              document.body.style.overflow = "";
-            }
-          });
-        }
-      });
+      for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+        const page = await pdf.getPage(pageNum);
+        
+        // scale: 2 делает картинку четкой на iPhone/Retina
+        const viewport = page.getViewport({ scale: 2 }); 
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+        canvas.style.width = "100%"; // Растягиваем по ширине контейнера
+        canvas.style.display = "block";
+        canvas.style.marginBottom = "10px"; // Отступ между слайдами
+
+        pdfViewer.appendChild(canvas);
+        await page.render({ canvasContext: context, viewport: viewport }).promise;
+      }
+      isLoaded = true;
+    } catch (err) {
+      pdfViewer.innerHTML = '<p style="color:red;">Ошибка загрузки PDF</p>';
+      console.error(err);
+    }
+  }
+
+  if (btnOpenPdf && modalPdf && btnClosePdf) {
+    btnOpenPdf.addEventListener("click", function (e) {
+      e.preventDefault();
+      modalPdf.classList.add("active");
+      document.body.style.overflow = "hidden";
+      renderPDF(); // Запускаем отрисовку при открытии
+    });
+
+    btnClosePdf.addEventListener("click", function () {
+      modalPdf.classList.remove("active");
+      document.body.style.overflow = "";
+    });
+
+    // Закрытие по клику вне окна
+    modalPdf.addEventListener("click", function (e) {
+      if (e.target === modalPdf) {
+        modalPdf.classList.remove("active");
+        document.body.style.overflow = "";
+      }
+    });
+  }
+});
     </script>
     <!-- ======================================================== -->
   </body>
