@@ -403,3 +403,149 @@ body {
     filter: none !important;
   }
 }
+
+/* --- 8. МАСЛЯНЫЕ ЧЕКБОКСЫ СОГЛАСИЯ (БЕЗ ДВИЖЕНИЯ) --- */
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+/* Оформляем чекбокс как статичную плашку */
+.custom-checkbox {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  padding: 16px 20px;
+  background: var(--white);
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  /* Убрали трансформации, оставили только цвет и тень */
+  transition: background-color 0.4s var(--ease-smooth), 
+              border-color 0.4s var(--ease-smooth), 
+              box-shadow 0.4s var(--ease-smooth);
+  user-select: none;
+}
+
+/* При наведении меняем только тень и границы, карточка не двигается */
+.custom-checkbox:hover {
+  box-shadow: 0 4px 15px rgba(0, 69, 166, 0.05);
+  border-color: rgba(0, 69, 166, 0.2);
+}
+
+/* Эффект нажатия тоже делаем без изменения размера, чтобы не дергалось */
+.custom-checkbox:active {
+  background-color: #f9f9f9;
+}
+
+.custom-checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Квадратик для галочки */
+.checkmark {
+  height: 22px;
+  width: 22px;
+  background-color: var(--bg-cream);
+  border: 2px solid rgba(0, 69, 166, 0.2);
+  border-radius: 7px;
+  margin-right: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.4s var(--ease-smooth);
+  flex-shrink: 0;
+}
+
+/* При фокусе на инпуте подсвечиваем рамку квадратика */
+.custom-checkbox:hover input ~ .checkmark {
+  border-color: var(--blue-bright);
+}
+
+/* Заливка квадратика при чеке */
+.custom-checkbox input:checked ~ .checkmark {
+  background-color: var(--blue-bright);
+  border-color: var(--blue-bright);
+}
+
+/* Рисуем галочку */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+  width: 5px;
+  height: 10px;
+  border: solid var(--white);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  margin-bottom: 2px;
+}
+
+.custom-checkbox input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.checkbox-text {
+  font-family: "Inter", sans-serif;
+  font-size: 0.95rem;
+  color: #444;
+  line-height: 1.4;
+  font-weight: 500;
+}
+
+/* Ссылки внутри текста */
+.checkbox-text a {
+  color: var(--blue-bright);
+  text-decoration: underline;
+  text-decoration-color: rgba(0, 69, 166, 0.2);
+  text-underline-offset: 4px;
+}
+
+
+/* --- 9. ЭКРАН УСПЕХА: МЯГКИЕ ПОЯВЛЕНИЯ --- */
+
+/* Красная надпись выплывает сверху */
+.success-subtitle {
+  margin-top: 0;
+  margin-bottom: 15px;
+  transform: rotate(-3deg) translateY(-40px); 
+  opacity: 0;
+  transition: transform 1.2s var(--ease-smooth) 0.1s, opacity 1s var(--ease-smooth) 0.1s;
+}
+
+.success-screen.active .success-subtitle {
+  transform: rotate(-3deg) translateY(0);
+  opacity: 1;
+}
+
+/* Текст про менеджера выплывает снизу с легким увеличением */
+.success-manager {
+  font-family: "Inter", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #444;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(30px) scale(0.95);
+  transition: all 1.2s var(--ease-smooth) 0.3s; /* Появляется после главного заголовка */
+}
+
+.success-screen.active .success-manager {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Микро-взаимодействие: иконка ТГ отпрыгивает при наведении на текст */
+.success-manager svg {
+  transition: transform 0.5s var(--ease-smooth);
+}
+.success-manager:hover svg {
+  transform: translateY(-3px) scale(1.1) !important;
+}
