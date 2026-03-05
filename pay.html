@@ -253,7 +253,6 @@
       }
 
       /* === СТИЛИ ДЛЯ КРАСИВОГО ПОПАПА УСПЕШНОЙ ОПЛАТЫ (В СТИЛЕ АНКЕТЫ) === */
-      /* === СТИЛИ ДЛЯ КРАСИВОГО ПОПАПА УСПЕШНОЙ ОПЛАТЫ (В СТИЛЕ АНКЕТЫ) === */
       .modal-overlay-styled {
         position: fixed;
         top: 0;
@@ -390,46 +389,66 @@
           font-size: 1.1rem;
         }
 
-    /* === СТИЛИ ДЛЯ ТЕКСТА ВНИЗУ МОДАЛКИ (VPN + СОГЛАСИЕ) === */
-    .payment-footer-text {
-      margin-top: 20px;
-      text-align: center;
-      font-family: "Inter", sans-serif;
-    }
-    
-    .vpn-warning {
-      margin: 0 0 10px 0;
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: var(--accent); /* Ваш фирменный красный цвет, чтобы точно заметили */
-    }
+/* === СТИЛИ ДЛЯ ТЕКСТА ВНИЗУ МОДАЛКИ (ОБЩИЕ) === */
+.payment-footer-text {
+  margin-top: 20px;
+  text-align: center;
+  font-family: "Inter", sans-serif;
+  width: 100%; /* Гарантируем ширину */
+}
+
+.vpn-warning {
+  margin: 0 0 10px 0;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #fa2d1a; /* Напрямую используем --accent */
+  display: block;
+  opacity: 1 !important; /* Убираем прозрачность, чтобы текст был ярким */
+}
+
 .payment-agreement {
-  opacity: 0.2;
   margin: 16px 0 0;
   font-size: 0.75rem; 
   text-align: center;
-  /* Возвращаем ваш исходный цвет, но добавляем 40% прозрачности */
-  color: rgba(85, 85, 85, 0.4); 
+  color: rgba(85, 85, 85, 0.4); /* 40% прозрачности как вы просили */
   line-height: 1.4;
 }
 
 .payment-agreement a {
-  /* Ссылка берет тот же цвет и прозрачность, что и основной текст */
   color: inherit; 
   text-decoration: underline; 
   text-underline-offset: 3px;
   transition: opacity 0.3s ease;
 }
 
-/* Эффект наведения работает ТОЛЬКО для ссылок */
 .payment-agreement a:hover {
-  opacity: 1; /* Ссылка становится четкой (100% видимости) */
-  color: #333; /* И чуть темнее для акцента */
+  opacity: 1;
+  color: #333;
 }
 
-
-
-      }
+/* === АДАПТИВНОСТЬ ДЛЯ МОБИЛЬНЫХ === */
+@media (max-width: 768px) {
+  .modal-content-styled {
+    padding: 40px 25px;
+  }
+  .success-title-modal {
+    font-size: 2.5rem;
+  }
+  .success-subtitle-modal {
+    font-size: 2.2rem;
+  }
+  .tg-btn-styled {
+    padding: 18px;
+    font-size: 1.1rem;
+  }
+  /* На телефоне чуть увеличим шрифт для читабельности */
+  .vpn-warning {
+    font-size: 0.9rem;
+  }
+  .payment-agreement {
+    font-size: 0.8rem;
+  }
+}
     </style>
   </head>
 
