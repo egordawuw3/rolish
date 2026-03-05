@@ -2177,62 +2177,45 @@
       id="pdf-modal"
       style="opacity: 0; visibility: hidden; pointer-events: none"
     >
-      <div class="pdf-modal-content">
-        <button
-          class="pdf-modal-close"
-          id="pdf-modal-close"
-          aria-label="Закрыть"
-        >
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke-width="2.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
-        </button>
-        <div class="pdf-iframe-container">
-          <iframe
-            src="presentation.pdf"
-            class="pdf-iframe"
-            title="Презентация"
-          ></iframe>
-        </div>
-      </div>
+<div class="pdf-modal-content">
+  <button class="pdf-modal-close" id="pdf-modal-close" aria-label="Закрыть">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <path d="M18 6L6 18M6 6l12 12" />
+    </svg>
+  </button>
+
+  <div class="pdf-iframe-container" id="pdf-viewer" style="background: #1a1a1a; overflow-y: auto;">
+    <div id="pdf-loader" style="color: white; text-align: center; padding: 50px; font-family: Inter, sans-serif;">
+      Загрузка презентации...
+    </div>
+  </div>
+</div>
     </div>
 
     <!-- СКРИПТ УПРАВЛЕНИЯ МОДАЛЬНЫМ ОКНОМ -->
-    <script>
-document.addEventListener("DOMContentLoaded", () => {
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
   const btnOpenPdf = document.getElementById("btn-open-pdf");
   const modalPdf = document.getElementById("pdf-modal");
   const btnClosePdf = document.getElementById("pdf-modal-close");
   const pdfViewer = document.getElementById("pdf-viewer");
-
-  // Настройки PDF.js
-  const pdfUrl = 'assets/core_program.pdf'; // Путь к файлу
-  const pdfjsLib = window['pdfjs-dist/build/pdf'];
-  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-
-  let isLoaded = false; // Чтобы не грузить файл каждый раз заново
+  
+  const pdfUrl = "presentation.pdf"; // Укажите путь к вашему файлу
+  let isLoaded = false;
 
   async function renderPDF() {
-    if (isLoaded) return; // Если уже загрузили, выходим
+    if (isLoaded) return;
     
-    pdfViewer.innerHTML = '<p style="color:white; text-align:center; padding:20px;">Загрузка презентации...</p>';
-    
+    const loadingTask = pdfjsLib.getDocument(pdfUrl);
     try {
-      const loadingTask = pdfjsLib.getDocument(pdfUrl);
       const pdf = await loadingTask.promise;
-      pdfViewer.innerHTML = ''; // Очищаем текст загрузки
+      pdfViewer.innerHTML = ""; // Очищаем лоадер
 
+      // Проходим по всем страницам и рисуем их
       for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
         const page = await pdf.getPage(pageNum);
         
-        // scale: 2 делает картинку четкой на iPhone/Retina
+        // Scale 2.0 дает идеальную четкость на iPhone/Retina
         const viewport = page.getViewport({ scale: 2 }); 
         const canvas = document.createElement('canvas');
         const context = canvas.getContext('2d');
@@ -2248,7 +2231,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       isLoaded = true;
     } catch (err) {
-      pdfViewer.innerHTML = '<p style="color:red;">Ошибка загрузки PDF</p>';
+      pdfViewer.innerHTML = '<p style="color:red; text-align:center; padding:20px;">Ошибка загрузки PDF</p>';
       console.error(err);
     }
   }
@@ -2266,7 +2249,6 @@ document.addEventListener("DOMContentLoaded", () => {
       document.body.style.overflow = "";
     });
 
-    // Закрытие по клику вне окна
     modalPdf.addEventListener("click", function (e) {
       if (e.target === modalPdf) {
         modalPdf.classList.remove("active");
@@ -2275,7 +2257,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
-    </script>
+</script>
     <!-- ======================================================== -->
   </body>
 </html>
