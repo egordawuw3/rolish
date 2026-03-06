@@ -612,6 +612,7 @@ main {
   border: none !important;
 }
 .btn-outline {
+  display: inline-block;
   text-decoration: none;
   font-weight: 900;
   font-size: clamp(1.2rem, 2vw, 1.8rem);
@@ -619,10 +620,15 @@ main {
   border: 3px solid var(--blue-bright);
   padding: clamp(15px, 2vw, 20px) clamp(40px, 5vw, 60px);
   border-radius: 100px;
-  display: inline-block;
   text-transform: uppercase;
   transition: 0.5s var(--ease-smooth);
   background: transparent;
+  cursor: pointer;
+  font-family: inherit;
+  outline: none;
+  line-height: 1;
+  appearance: none; /* Убирает системные стили iOS */
+  -webkit-appearance: none;
 }
 .btn-outline:hover {
   background: var(--blue-bright);
@@ -1704,15 +1710,10 @@ main {
   left: 50%;
   transform: translate(-50%, 50%);
   z-index: 1000;
-
-  /* Чистый белый цвет без обводки */
   background: #ffffff;
   color: var(--blue-bright);
   border: none;
-
-  /* Аккуратная мягкая тень */
   box-shadow: 0 15px 35px rgba(0, 20, 60, 0.15);
-
   text-decoration: none;
   font-weight: 900;
   font-size: clamp(1.2rem, 2vw, 1.8rem);
@@ -1722,13 +1723,13 @@ main {
   text-transform: uppercase;
   transition: all 0.3s ease;
   white-space: nowrap;
+  cursor: pointer;
 }
 
-/* При наведении: заливается синим */
 .hero-btn-overlap:hover {
   background: var(--blue-bright);
   color: #ffffff;
-  transform: translate(-50%, calc(50% - 4px)); /* Слегка приподнимается */
+  transform: translate(-50%, calc(50% - 4px));
   box-shadow: 0 20px 40px rgba(0, 69, 166, 0.3);
 }
 
