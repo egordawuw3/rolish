@@ -1701,36 +1701,37 @@ main {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* ==============================================
-   ПРЕМИУМ-КНОПКА НА СТЫКЕ (ЧИСТАЯ БЕЛАЯ)
-   ============================================== */
 .hero-btn-overlap {
   position: absolute;
   bottom: 0;
   left: 50%;
   transform: translate(-50%, 50%);
   z-index: 1000;
-  background: #ffffff;
-  color: var(--blue-bright);
-  border: none;
-  box-shadow: 0 15px 35px rgba(0, 20, 60, 0.15);
   text-decoration: none;
   font-weight: 900;
+  color: #ffffff;
   font-size: clamp(1.2rem, 2vw, 1.8rem);
   padding: clamp(15px, 2vw, 20px) clamp(40px, 5vw, 60px);
   border-radius: 100px;
-  display: inline-block;
   text-transform: uppercase;
-  transition: all 0.3s ease;
   white-space: nowrap;
-  cursor: pointer;
+  transition: all 0.3s ease;
+
+  /* Эффект стекла, который проходит тесты Google */
+  background: rgba(0, 0, 0, 0.25); /* Темная подложка дает контраст белому тексту */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  
+  /* Тень текста ОБЯЗАТЕЛЬНА для 100 баллов Accessibility */
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); 
 }
 
 .hero-btn-overlap:hover {
   background: var(--blue-bright);
-  color: #ffffff;
+  border-color: var(--blue-bright);
   transform: translate(-50%, calc(50% - 4px));
-  box-shadow: 0 20px 40px rgba(0, 69, 166, 0.3);
+  box-shadow: 0 15px 30px rgba(0, 69, 166, 0.4);
 }
 
 /* ==============================================
