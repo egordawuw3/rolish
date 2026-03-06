@@ -1,0 +1,471 @@
+
+      /* === ПЕРЕМЕННЫЕ ВАШЕГО ДИЗАЙНА === */
+      :root {
+        --bg-cream: #f4f2ee;
+        --blue-deep: #00388d;
+        --blue-bright: #0045a6;
+        --accent: #fa2d1a;
+        --white: #ffffff;
+        --black: #050505;
+        --border: rgba(0, 69, 166, 0.15);
+        --radius: 32px;
+        --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      /* === ОРИГИНАЛЬНЫЕ СТИЛИ ДЛЯ ТАРИФОВ === */
+      .tariff-price {
+        font-size: 2.8rem;
+        font-weight: 900;
+        margin-top: 5px;
+        color: var(--black);
+        display: flex;
+        align-items: baseline;
+        justify-content: center;
+      }
+      .tariff-price span {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-left: 5px;
+        color: var(--gray-dark);
+      }
+      button.btn-tariff {
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        font-family: inherit;
+        font-size: 1rem;
+        position: relative;
+        z-index: 10;
+        transition: opacity 0.3s;
+      }
+      .btn-loading {
+        opacity: 0.7;
+        pointer-events: none;
+      }
+      .old-price {
+        text-decoration: line-through;
+        color: #a0a0a0;
+        font-size: 1.2rem;
+        display: block;
+        margin-bottom: -5px;
+        font-weight: 500;
+        text-align: center;
+      }
+      .mentor .old-price {
+        color: rgba(255, 255, 255, 0.5);
+      }
+      .mentor .tariff-price {
+        color: white;
+      }
+
+      /* === КРЕМОВО-СИНИЙ СТИЛЬ МОДАЛЬНОГО ОКНА ОПЛАТЫ === */
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(5px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 99998;
+        opacity: 0;
+        visibility: hidden;
+        transition:
+          opacity 0.3s ease,
+          visibility 0.3s ease;
+      }
+      .modal-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+      .modal-content {
+        background: #f4f3ed;
+        padding: 40px 30px;
+        border-radius: 24px;
+        width: 90%;
+        max-width: 400px;
+        position: relative;
+        text-align: center;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+        transform: translateY(20px) scale(0.95);
+        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+      .modal-overlay.active .modal-content {
+        transform: translateY(0) scale(1);
+      }
+      .modal-close {
+        position: absolute;
+        top: 18px;
+        right: 18px;
+        width: 32px;
+        height: 32px;
+        background: #eae9e2;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: #666;
+        transition: all 0.2s;
+      }
+      .modal-close:hover {
+        background: #005bff;
+        color: #fff;
+      }
+      .modal-title {
+        font-size: 1.5rem;
+        font-weight: 800;
+        margin-bottom: 5px;
+        color: #111;
+      }
+      .modal-subtitle {
+        font-size: 1rem;
+        color: #666;
+        margin-bottom: 25px;
+        font-weight: 500;
+      }
+      .modal-input {
+        width: 100%;
+        padding: 15px 20px;
+        margin-bottom: 15px;
+        background: #ffffff;
+        border: 2px solid transparent;
+        border-radius: 14px;
+        font-size: 1rem;
+        font-family: inherit;
+        box-sizing: border-box;
+        outline: none;
+        transition:
+          border-color 0.3s,
+          box-shadow 0.3s;
+        color: #000;
+      }
+      .modal-input::placeholder {
+        color: #a3a3a3;
+      }
+      .modal-input:focus {
+        border-color: #005bff;
+        box-shadow: 0 0 0 4px rgba(0, 91, 255, 0.1);
+      }
+      .payment-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        margin-top: 10px;
+      }
+      .modal-btn {
+        width: 100%;
+        padding: 14px 20px;
+        border: none;
+        border-radius: 14px;
+        font-size: 1.1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition:
+          transform 0.2s,
+          filter 0.2s;
+        font-family: inherit;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+      }
+      .modal-btn:active {
+        transform: scale(0.98);
+      }
+      .btn-tinkoff {
+        background: #ffdd2d;
+        color: #000;
+      }
+      .btn-tinkoff:hover {
+        filter: brightness(0.95);
+      }
+      .btn-split {
+        background: #eae9e2;
+        color: #000;
+      }
+      .btn-split:hover {
+        background: #dfded7;
+      }
+      .btn-img-icon {
+        height: 32px;
+        width: auto;
+        max-width: 110px;
+        object-fit: contain;
+        mix-blend-mode: multiply;
+      }
+
+      /* === СТИЛИ ДЛЯ КРАСИВОГО ПОПАПА УСПЕШНОЙ ОПЛАТЫ (В СТИЛЕ АНКЕТЫ) === */
+      .modal-overlay-styled {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(
+          0,
+          0,
+          0,
+          0.65
+        ); /* Глубокое темное затемнение как на скрине */
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px); /* Усиленный блюр */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 99999;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.6s var(--ease-smooth);
+      }
+
+      .modal-overlay-styled.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .modal-content-styled {
+        background: var(--white);
+        border-radius: var(--radius);
+        padding: 50px 40px;
+        width: 90%;
+        max-width: 480px;
+        text-align: center;
+        box-shadow: 0 25px 60px rgba(0, 69, 166, 0.1);
+        border: 1px solid var(--border);
+        transform: translateY(40px) scale(0.95);
+        transition: all 0.8s var(--ease-smooth);
+        position: relative;
+      }
+      .modal-overlay-styled.active .modal-content-styled {
+        transform: translateY(0) scale(1);
+      }
+
+      .close-btn-styled {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+        background: var(--bg-cream);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--blue-bright);
+        cursor: pointer;
+        transition: all 0.4s var(--ease-smooth);
+      }
+      .close-btn-styled:hover {
+        background: var(--blue-bright);
+        color: var(--white);
+        transform: rotate(90deg);
+      }
+
+      .success-title-modal {
+        font-family: "Inter", sans-serif;
+        font-size: 3.2rem;
+        font-weight: 900;
+        color: var(--blue-bright);
+        line-height: 1;
+        margin: 0 0 5px 0;
+        letter-spacing: -0.04em;
+      }
+
+      .success-subtitle-modal {
+        font-family: "Caveat", cursive;
+        font-size: 2.8rem;
+        color: var(--accent);
+        transform: rotate(-3deg);
+        display: inline-block;
+        margin-bottom: 25px;
+      }
+
+      .modal-desc-styled {
+        font-family: "Inter", sans-serif;
+        font-size: 1.15rem;
+        color: #444;
+        font-weight: 500;
+        line-height: 1.5;
+        margin-bottom: 35px;
+      }
+
+      .tg-btn-styled {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: 22px;
+        font-family: "Inter", sans-serif;
+        font-size: 1.2rem;
+        font-weight: 900;
+        color: var(--white);
+        background: var(--blue-bright);
+        border: none;
+        border-radius: 100px;
+        cursor: pointer;
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        box-shadow: 0 15px 30px rgba(0, 69, 166, 0.2);
+        transition: all 0.5s var(--ease-smooth);
+        box-sizing: border-box;
+      }
+      .tg-btn-styled:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 25px 50px rgba(0, 69, 166, 0.35);
+        background: var(--blue-deep);
+      }
+
+      @media (max-width: 768px) {
+        .modal-content-styled {
+          padding: 40px 25px;
+        }
+        .success-title-modal {
+          font-size: 2.5rem;
+        }
+        .success-subtitle-modal {
+          font-size: 2.2rem;
+        }
+        .tg-btn-styled {
+          padding: 18px;
+          font-size: 1.1rem;
+        }
+
+/* === СТИЛИ ДЛЯ ТЕКСТА ВНИЗУ МОДАЛКИ (ОБЩИЕ) === */
+.payment-footer-text {
+  margin-top: 20px;
+  text-align: center;
+  font-family: "Inter", sans-serif;
+  width: 100%; /* Гарантируем ширину */
+}
+
+.vpn-warning {
+  margin: 0 0 10px 0;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #fa2d1a; /* Напрямую используем --accent */
+  display: block;
+  opacity: 1 !important; /* Убираем прозрачность, чтобы текст был ярким */
+}
+
+.payment-agreement {
+  margin: 16px 0 0;
+  font-size: 0.75rem; 
+  text-align: center;
+  color: rgba(85, 85, 85, 0.4); /* 40% прозрачности как вы просили */
+  line-height: 1.4;
+}
+
+.payment-agreement a {
+  color: inherit; 
+  text-decoration: underline; 
+  text-underline-offset: 3px;
+  transition: opacity 0.3s ease;
+}
+
+.payment-agreement a:hover {
+  opacity: 1;
+  color: #333;
+}
+
+/* === АДАПТИВНОСТЬ ДЛЯ МОБИЛЬНЫХ === */
+@media (max-width: 768px) {
+  .modal-content-styled {
+    padding: 40px 25px;
+  }
+  .success-title-modal {
+    font-size: 2.5rem;
+  }
+  .success-subtitle-modal {
+    font-size: 2.2rem;
+  }
+  .tg-btn-styled {
+    padding: 18px;
+    font-size: 1.1rem;
+  }
+  /* На телефоне чуть увеличим шрифт для читабельности */
+  .vpn-warning {
+    font-size: 0.9rem;
+  }
+  .payment-agreement {
+    font-size: 0.8rem;
+  }
+}
+
+/* === КРАСИВЫЙ БЛОК ПОДДЕРЖКИ === */
+.support-section {
+  width: 100%;
+  max-width: 1200px;
+  margin: 120px auto 60px; /* Большой отступ сверху для "воздуха" */
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.support-card {
+  background: var(--white);
+  border-radius: var(--radius); /* Используем твои 32px */
+  padding: 80px 40px;
+  text-align: center;
+  border: 1px solid var(--border);
+  box-shadow: 0 30px 80px rgba(0, 56, 141, 0.08); /* Мягкая тень */
+  transition: transform 0.6s var(--ease-smooth);
+}
+
+.support-title {
+  font-family: "Inter", sans-serif;
+  font-size: 3.5rem;
+  font-weight: 900;
+  color: var(--black);
+  text-transform: uppercase;
+  margin: 0 0 20px 0;
+  letter-spacing: -0.05em;
+  line-height: 0.9;
+}
+
+.support-text {
+  font-family: "Inter", sans-serif;
+  font-size: 1.25rem;
+  color: #444;
+  max-width: 500px;
+  margin: 0 auto 45px;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+/* Кнопка в стиле твоих модалок */
+.support-btn-tg {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 60px;
+  font-family: "Inter", sans-serif;
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: var(--white);
+  background: var(--blue-bright);
+  border-radius: 100px;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  box-shadow: 0 15px 35px rgba(0, 69, 166, 0.25);
+  transition: all 0.5s var(--ease-smooth);
+}
+
+.support-btn-tg:hover {
+  transform: translateY(-8px) scale(1.02);
+  background: var(--blue-deep);
+  box-shadow: 0 25px 50px rgba(0, 69, 166, 0.4);
+}
+
+/* Адаптация под мобилки */
+@media (max-width: 768px) {
+  .support-section { margin-top: 80px; }
+  .support-card { padding: 50px 20px; }
+  .support-title { font-size: 2.2rem; }
+  .support-text { font-size: 1.1rem; }
+  .support-btn-tg { width: 100%; padding: 20px; font-size: 1.1rem; box-sizing: border-box; }
+}
