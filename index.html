@@ -1664,255 +1664,290 @@
       </div>
     </footer>
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  // --- 1. ШУМ НА ФОНЕ (ОПТИМИЗИРОВАННЫЙ) ---
-  const noiseCanvas = document.getElementById("noise-canvas");
-  if (noiseCanvas) {
-    const ctx = noiseCanvas.getContext("2d", { alpha: true });
-    let pattern;
-    const patternSize = 256;
-    
-    const resize = () => {
-      noiseCanvas.width = window.innerWidth;
-      noiseCanvas.height = window.innerHeight;
-    };
-    window.addEventListener("resize", resize);
-    resize();
-
-    const createPattern = () => {
-      const tile = document.createElement("canvas");
-      tile.width = patternSize;
-      tile.height = patternSize;
-      const tCtx = tile.getContext("2d");
-      const id = tCtx.createImageData(patternSize, patternSize);
-      const buffer = new Uint32Array(id.data.buffer);
-      for (let i = 0; i < buffer.length; i++) {
-        if (Math.random() < 0.2) buffer[i] = Math.random() < 0.5 ? 0xff000000 : 0x11000000;
+    <script>
+      // --- 1. ШУМ НА ФОНЕ (ОРИГИНАЛ + СУПЕР-ОПТИМИЗАЦИЯ СДВИГОМ) ---
+      const noiseCanvas = document.getElementById("noise-canvas");
+      if (noiseCanvas) {
+        const ctx = noiseCanvas.getContext("2d", { alpha: true });
+        let pattern;
+        const patternSize = 256;
+        const resize = () => {
+          noiseCanvas.width = window.innerWidth;
+          noiseCanvas.height = window.innerHeight;
+        };
+        window.addEventListener("resize", resize);
+        resize();
+        const createPattern = () => {
+          const tile = document.createElement("canvas");
+          tile.width = patternSize;
+          tile.height = patternSize;
+          const tCtx = tile.getContext("2d");
+          const id = tCtx.createImageData(patternSize, patternSize);
+          const buffer = new Uint32Array(id.data.buffer);
+          for (let i = 0; i < buffer.length; i++) {
+            if (Math.random() < 0.2)
+              buffer[i] = Math.random() < 0.5 ? 0xff000000 : 0x11000000;
+          }
+          tCtx.putImageData(id, 0, 0);
+          pattern = ctx.createPattern(tile, "repeat");
+        };
+        createPattern();
+        const loopNoise = () => {
+          const xOff = Math.floor(Math.random() * patternSize);
+          const yOff = Math.floor(Math.random() * patternSize);
+          ctx.clearRect(0, 0, noiseCanvas.width, noiseCanvas.height);
+          ctx.fillStyle = pattern;
+          ctx.translate(-xOff, -yOff);
+          ctx.fillRect(
+            0,
+            0,
+            noiseCanvas.width + patternSize,
+            noiseCanvas.height + patternSize,
+          );
+          ctx.setTransform(1, 0, 0, 1, 0, 0);
+          setTimeout(() => requestAnimationFrame(loopNoise), 1000 / 15);
+        };
+        loopNoise();
       }
-      tCtx.putImageData(id, 0, 0);
-      pattern = ctx.createPattern(tile, "repeat");
-    };
-    createPattern();
 
-    const loopNoise = () => {
-      const xOff = Math.floor(Math.random() * patternSize);
-      const yOff = Math.floor(Math.random() * patternSize);
-      ctx.clearRect(0, 0, noiseCanvas.width, noiseCanvas.height);
-      ctx.fillStyle = pattern;
-      ctx.translate(-xOff, -yOff);
-      ctx.fillRect(0, 0, noiseCanvas.width + patternSize, noiseCanvas.height + patternSize);
-      ctx.setTransform(1, 0, 0, 1, 0, 0);
-      setTimeout(() => requestAnimationFrame(loopNoise), 1000 / 15);
-    };
-    loopNoise();
-  }
+      // --- 2. ЛОГИКА СЛАЙДЕРА (МАСЛЯНЫЙ СВАЙП - ИДЕАЛЬНЫЙ ЦЕНТР) ---
+      let currentSlide = 0;
+      const cards = document.querySelectorAll(".card-3d");
+      const track = document.getElementById("track3d");
+      function move3D(dir) {
+        currentSlide += dir;
+        if (currentSlide < 0) currentSlide = 0;
+        if (currentSlide >= cards.length) currentSlide = cards.length - 1;
+        const actualCardWidth = cards[0].offsetWidth;
+        let moveStep = actualCardWidth;
+        if (cards.length > 1)
+          moveStep = cards[1].offsetLeft - cards[0].offsetLeft;
+        const offset = -(currentSlide * moveStep) - actualCardWidth / 2;
+        track.style.transform = `translate(${offset}px, -50%)`;
+        cards.forEach((card, index) => {
+          if (index === currentSlide) card.classList.add("active");
+          else card.classList.remove("active");
+        });
+      }
+      window.addEventListener("resize", () => move3D(0));
+      window.onload = () => move3D(0);
 
-  // --- 2. ЛОГИКА СЛАЙДЕРА (БЕЗ FORCED REFLOW) ---
-  let currentSlide = 0;
-  const cards = document.querySelectorAll(".card-3d");
-  const track = document.getElementById("track3d");
-
-  function move3D(dir) {
-    if (!track || cards.length === 0) return;
-    currentSlide += dir;
-    if (currentSlide < 0) currentSlide = 0;
-    if (currentSlide >= cards.length) currentSlide = cards.length - 1;
-
-    requestAnimationFrame(() => {
-      const actualCardWidth = cards[0].offsetWidth;
-      let moveStep = actualCardWidth;
-      if (cards.length > 1) moveStep = cards[1].offsetLeft - cards[0].offsetLeft;
-      
-      const offset = -(currentSlide * moveStep) - actualCardWidth / 2;
-      track.style.transform = `translate(${offset}px, -50%)`;
-      
-      cards.forEach((card, index) => {
-        card.classList.toggle("active", index === currentSlide);
+      let startX = 0,
+        currentX = 0,
+        isDraggingSlider = false;
+      track.addEventListener("mousedown", (e) => {
+        isDraggingSlider = true;
+        startX = e.pageX;
+        currentX = startX;
       });
-    });
-  }
-
-  window.addEventListener("resize", () => move3D(0));
-  // Инициализация после отрисовки
-  requestAnimationFrame(() => move3D(0));
-
-  let startX = 0, currentX = 0, isDraggingSlider = false;
-  if (track) {
-    track.addEventListener("mousedown", (e) => { isDraggingSlider = true; startX = e.pageX; currentX = startX; });
-    window.addEventListener("mousemove", (e) => { if (isDraggingSlider) currentX = e.pageX; });
-    window.addEventListener("mouseup", () => {
-      if (!isDraggingSlider) return;
-      isDraggingSlider = false;
-      let diff = currentX - startX;
-      if (Math.abs(diff) > 60) move3D(diff > 0 ? -1 : 1);
-    });
-    track.addEventListener("touchstart", (e) => { startX = e.touches[0].clientX; currentX = startX; }, { passive: true });
-    track.addEventListener("touchmove", (e) => { currentX = e.touches[0].clientX; }, { passive: true });
-    track.addEventListener("touchend", () => {
-      let diff = currentX - startX;
-      if (Math.abs(diff) > 50) move3D(diff > 0 ? -1 : 1);
-    }, { passive: true });
-  }
-
-  // --- 3. BLUR ТЕКСТА ---
-  const initBlurText = (elementId, delayStep = 100) => {
-    const el = document.getElementById(elementId);
-    if (!el) return;
-    const words = el.innerText.split(" ");
-    el.innerHTML = words.map((w, i) => `<span class="blur-word" style="transition-delay: ${i * delayStep}ms">${w}&nbsp;</span>`).join("");
-    
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          el.querySelectorAll(".blur-word").forEach((w) => w.classList.add("visible"));
-          observer.unobserve(el);
-        }
+      window.addEventListener("mousemove", (e) => {
+        if (!isDraggingSlider) return;
+        currentX = e.pageX;
       });
-    }, { threshold: 0.1 });
-    observer.observe(el);
-  };
-  initBlurText("hero-title"); // Вызови для своего ID
+      window.addEventListener("mouseup", () => {
+        if (!isDraggingSlider) return;
+        isDraggingSlider = false;
+        let diff = currentX - startX;
+        if (diff > 60) move3D(-1);
+        else if (diff < -60) move3D(1);
+      });
+      track.addEventListener(
+        "touchstart",
+        (e) => {
+          startX = e.touches[0].clientX;
+          currentX = startX;
+        },
+        { passive: true },
+      );
+      track.addEventListener(
+        "touchmove",
+        (e) => {
+          currentX = e.touches[0].clientX;
+        },
+        { passive: true },
+      );
+      track.addEventListener("touchend", () => {
+        let diff = currentX - startX;
+        if (diff > 50) move3D(-1);
+        else if (diff < -50) move3D(1);
+      });
 
-  // --- 4. SCROLL REVEAL & STAGGER ---
-  const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        if (entry.target.classList.contains('stagger-container')) {
-          entry.target.querySelectorAll(".stagger-item").forEach((item, i) => {
-            item.style.transitionDelay = `${i * 120}ms`;
-            item.classList.add("reveal-active");
+      // --- 3. BLUR ТЕКСТА НА ЭКРАНЕ HERO ---
+      function initBlurText(elementId, delayStep = 100) {
+        const el = document.getElementById(elementId);
+        if (!el) return;
+        const words = el.innerText.split(" ");
+        el.innerHTML = words
+          .map(
+            (w, i) =>
+              `<span class="blur-word" style="transition-delay: ${i * delayStep}ms">${w}&nbsp;</span>`,
+          )
+          .join("");
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                el.querySelectorAll(".blur-word").forEach((w) =>
+                  w.classList.add("visible"),
+                );
+                observer.unobserve(el);
+              }
+            });
+          },
+          { threshold: 0.1 },
+        );
+        observer.observe(el);
+      }
+
+      // --- 4. SCROLL REVEAL И СТРУКТУРНЫЙ КАСКАД (STAGGER) ---
+      document.addEventListener("DOMContentLoaded", () => {
+        const transitionDuration = 1000;
+        const revealElements = document.querySelectorAll(".reveal");
+        const revealObserver = new IntersectionObserver(
+          (entries, observer) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("reveal-active");
+                setTimeout(() => {
+                  entry.target.classList.remove("reveal", "reveal-active");
+                }, transitionDuration);
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.15, rootMargin: "0px 0px -40px 0px" },
+        );
+        revealElements.forEach((el) => revealObserver.observe(el));
+
+        const staggerContainers =
+          document.querySelectorAll(".stagger-container");
+        const staggerObserver = new IntersectionObserver(
+          (entries, observer) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                const items = entry.target.querySelectorAll(".stagger-item");
+                items.forEach((item, index) => {
+                  const delayMs = index * 120;
+                  item.style.transitionDelay = `${delayMs}ms`;
+                  requestAnimationFrame(() => {
+                    item.classList.add("reveal-active");
+                  });
+                  setTimeout(() => {
+                    item.style.transitionDelay = "";
+                    item.classList.remove("stagger-item", "reveal-active");
+                  }, transitionDuration + delayMs);
+                });
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.1, rootMargin: "0px 0px -40px 0px" },
+        );
+        staggerContainers.forEach((container) =>
+          staggerObserver.observe(container),
+        );
+      });
+
+      // --- 5. ROTATOR ОПТИМИЗИРОВАННЫЙ ---
+      const wordsArr = ["воды", "трендов", "ху#ни"];
+      let wordIndex = 0;
+      const elRot = document.getElementById("word-rotator");
+      if (elRot) {
+        setInterval(() => {
+          wordIndex = (wordIndex + 1) % wordsArr.length;
+          elRot.style.opacity = 0;
+          setTimeout(() => {
+            elRot.innerText = wordsArr[wordIndex];
+            elRot.style.opacity = 1;
+          }, 400);
+        }, 2200);
+      }
+
+      // --- 6. STICKERS ---
+      document.querySelectorAll(".sticker-img").forEach((sticker) => {
+        sticker.onload = () => (sticker.style.display = "block");
+        let isDragging = false,
+          startX,
+          startY,
+          initLeft,
+          initTop;
+        sticker.addEventListener("mousedown", (e) => {
+          isDragging = true;
+          startX = e.clientX;
+          startY = e.clientY;
+          const rect = sticker.getBoundingClientRect();
+          const parentRect = sticker.offsetParent.getBoundingClientRect();
+          initLeft = rect.left - parentRect.left;
+          initTop = rect.top - parentRect.top;
+          sticker.style.bottom = "auto";
+          sticker.style.right = "auto";
+          sticker.style.cursor = "grabbing";
+          e.preventDefault();
+        });
+        window.addEventListener("mousemove", (e) => {
+          if (isDragging) {
+            sticker.style.left = initLeft + (e.clientX - startX) + "px";
+            sticker.style.top = initTop + (e.clientY - startY) + "px";
+          }
+        });
+        window.addEventListener("mouseup", () => {
+          isDragging = false;
+          if (sticker.style.cursor === "grabbing")
+            sticker.style.cursor = "grab";
+        });
+      });
+
+      // --- 7. FAQ ---
+      document.querySelectorAll(".faq-question-modern").forEach((button) => {
+        button.addEventListener("click", () => {
+          const faqItem = button.parentElement;
+          const isActive = faqItem.classList.contains("active");
+          document.querySelectorAll(".faq-item-modern").forEach((item) => {
+            item.classList.remove("active");
+            item.querySelector(".faq-answer-modern").style.maxHeight = null;
+            item
+              .querySelector(".faq-question-modern")
+              .setAttribute("aria-expanded", "false");
           });
-        } else {
-          entry.target.classList.add("reveal-active");
-        }
-        revealObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.15, rootMargin: "0px 0px -40px 0px" });
-  document.querySelectorAll(".reveal, .stagger-container").forEach(el => revealObserver.observe(el));
-
-  // --- 5. ROTATOR ---
-  const wordsArr = ["воды", "трендов", "ху#ни"];
-  let wordIndex = 0;
-  const elRot = document.getElementById("word-rotator");
-  if (elRot) {
-    setInterval(() => {
-      wordIndex = (wordIndex + 1) % wordsArr.length;
-      elRot.style.opacity = 0;
-      setTimeout(() => { elRot.innerText = wordsArr[wordIndex]; elRot.style.opacity = 1; }, 400);
-    }, 2200);
-  }
-
-  // --- 6. STICKERS ---
-  document.querySelectorAll(".sticker-img").forEach((sticker) => {
-    sticker.onload = () => (sticker.style.display = "block");
-    let isDragging = false, startX, startY, initLeft, initTop;
-    
-    sticker.addEventListener("mousedown", (e) => {
-      isDragging = true;
-      startX = e.clientX; startY = e.clientY;
-      const rect = sticker.getBoundingClientRect();
-      const parentRect = sticker.offsetParent.getBoundingClientRect();
-      initLeft = rect.left - parentRect.left;
-      initTop = rect.top - parentRect.top;
-      sticker.style.bottom = "auto"; sticker.style.right = "auto";
-      sticker.style.cursor = "grabbing";
-      e.preventDefault();
-    });
-    window.addEventListener("mousemove", (e) => {
-      if (isDragging) {
-        sticker.style.left = initLeft + (e.clientX - startX) + "px";
-        sticker.style.top = initTop + (e.clientY - startY) + "px";
-      }
-    });
-    window.addEventListener("mouseup", () => {
-      isDragging = false;
-      sticker.style.cursor = "grab";
-    });
-  });
-
-  // --- 7. FAQ ---
-  document.querySelectorAll(".faq-question-modern").forEach((button) => {
-    button.addEventListener("click", () => {
-      const faqItem = button.parentElement;
-      const isActive = faqItem.classList.contains("active");
-      document.querySelectorAll(".faq-item-modern").forEach((item) => {
-        item.classList.remove("active");
-        item.querySelector(".faq-answer-modern").style.maxHeight = null;
+          if (!isActive) {
+            faqItem.classList.add("active");
+            button.setAttribute("aria-expanded", "true");
+            const answer = faqItem.querySelector(".faq-answer-modern");
+            answer.style.maxHeight = answer.scrollHeight + "px";
+          }
+        });
       });
-      if (!isActive) {
-        faqItem.classList.add("active");
-        const answer = faqItem.querySelector(".faq-answer-modern");
-        answer.style.maxHeight = answer.scrollHeight + "px";
+
+      // --- 8. REVIEWS BG ---
+      const reviewsSection = document.querySelector(".reviews-section");
+      if (reviewsSection) {
+        const reviewsObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting)
+                reviewsSection.classList.add("reviews-active");
+              else reviewsSection.classList.remove("reviews-active");
+            });
+          },
+          { threshold: 0.3 },
+        );
+        reviewsObserver.observe(reviewsSection);
       }
-    });
-  });
 
-  // --- 8. PDF MODAL (ULTRA OPTIMIZED) ---
-  const btnOpenPdf = document.getElementById("btn-open-pdf");
-  const modalPdf = document.getElementById("pdf-modal");
-  const btnClosePdf = document.getElementById("pdf-modal-close");
-  const pdfViewer = document.getElementById("pdf-viewer");
-  let isPdfLoaded = false;
-
-  const toggleScroll = (lock) => {
-    if (typeof bodyScrollLock !== 'undefined') {
-      lock ? bodyScrollLock.disableBodyScroll(modalPdf) : bodyScrollLock.enableBodyScroll(modalPdf);
-    } else {
-      document.body.style.overflow = lock ? 'hidden' : '';
-    }
-  };
-
-  async function renderPDF() {
-    if (isPdfLoaded) return;
-    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
-    try {
-      const pdf = await pdfjsLib.getDocument("presentation.pdf").promise;
-      pdfViewer.innerHTML = ""; 
-      for (let n = 1; n <= pdf.numPages; n++) {
-        const page = await pdf.getPage(n);
-        const viewport = page.getViewport({ scale: window.innerWidth < 768 ? 1.5 : 2 });
-        const canvas = document.createElement('canvas');
-        canvas.style.width = "100%"; canvas.style.display = "block"; canvas.style.marginBottom = "10px";
-        pdfViewer.appendChild(canvas);
-        await page.render({ canvasContext: canvas.getContext('2d'), viewport }).promise;
-      }
-      isPdfLoaded = true;
-    } catch (err) {
-      pdfViewer.innerHTML = '<p style="color:red; text-align:center;">Ошибка загрузки</p>';
-    }
-  }
-
-  btnOpenPdf?.addEventListener("click", async (e) => {
-    e.preventDefault();
-    modalPdf.classList.add("active");
-    toggleScroll(true);
-    if (typeof window.pdfjsLib === 'undefined') {
-      const s = document.createElement('script');
-      s.src = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
-      document.body.appendChild(s);
-      await new Promise(r => s.onload = r);
-    }
-    renderPDF();
-  });
-
-  const closeM = () => { modalPdf.classList.remove("active"); toggleScroll(false); };
-  btnClosePdf?.addEventListener("click", closeM);
-  modalPdf?.addEventListener("click", (e) => { if (e.target === modalPdf) closeM(); });
-
-  // --- 9. MOBILE REVIEWS FLIP ---
-  document.querySelectorAll(".review-item").forEach((item) => {
-    item.addEventListener("click", function () {
-      if (window.innerWidth <= 768) {
-        const isFlipped = this.classList.contains("flipped");
-        document.querySelectorAll(".review-item").forEach((card) => card.classList.remove("flipped"));
-        if (!isFlipped) this.classList.add("flipped");
-      }
-    });
-  });
-});
-</script>
+      // --- ПЕРЕВОРОТ КАРТОЧЕК ОТЗЫВОВ ПО ТАПУ НА МОБИЛКЕ ---
+      document.addEventListener("DOMContentLoaded", () => {
+        const reviewItems = document.querySelectorAll(".review-item");
+        reviewItems.forEach((item) => {
+          item.addEventListener("click", function () {
+            if (window.innerWidth <= 768) {
+              const isFlipped = this.classList.contains("flipped");
+              reviewItems.forEach((card) => card.classList.remove("flipped"));
+              if (!isFlipped) this.classList.add("flipped");
+            }
+          });
+        });
+      });
+    </script>
 
     <!-- САМ HTML ОКНА (Скрыто до клика) -->
     <div
