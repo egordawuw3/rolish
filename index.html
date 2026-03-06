@@ -14,7 +14,8 @@
     <link rel="preconnect" href="https://www.transparenttextures.com" />
 
     <link rel="preload" href="css/index.css" as="style" />
-    <link rel="preload" href="https://cdn.plyr.io/3.7.8/plyr.css" as="style" />
+    <link rel="preload" href="https://cdn.plyr.io/3.7.8/plyr.css" as="style" /
+    
 
     <link
       rel="preload"
@@ -39,6 +40,7 @@
     <script src="https://cdn.plyr.io/3.7.8/plyr.js" defer></script>    
     <link rel="stylesheet" href="css/index.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/body-scroll-lock@4.0.0-beta.0/lib/bodyScrollLock.min.js" defer></script>
     <link
       rel="preload"
       as="image"
@@ -100,7 +102,7 @@
           <div class="hero-card" id="hero-card">
             <div class="hero-content">
               <div class="main-title-wrapper">
-                <h1 class="main-title" id="main-blur-title">core.</h1>
+                <h1 class="main-title" id="main-blur-title">сиси-масиси.</h1>
                 <span class="core-translation">ядро.</span>
               </div>
               <div class="subtitle-block">
@@ -1377,7 +1379,7 @@
                 preload="metadata"
                 poster=""
               >
-                <source src="" type="video/mp4" />
+                <source src="assets/мотаж умер.mp4" type="video/mp4" />
               </video>
             </div>
             <h3 class="video-title">Монтаж умер</h3>
@@ -1390,7 +1392,7 @@
                 preload="metadata"
                 poster="assets/poster2.jpg"
               >
-                <source src="assets/video2.mp4" type="video/mp4" />
+                <source src="assets/конкуренция.mp4" type="video/mp4" />
               </video>
             </div>
             <h3 class="video-title">Конкуренция в продюсировании</h3>
@@ -1403,7 +1405,7 @@
                 preload="metadata"
                 poster="assets/poster3.jpg"
               >
-                <source src="assets/video3.mp4" type="video/mp4" />
+                <source src="assets/сколько получмшь.mp4" type="video/mp4" />
               </video>
             </div>
             <h3 class="video-title">Сколько это приносит ₽</h3>
@@ -2169,13 +2171,17 @@
 
     <!-- СКРИПТ УПРАВЛЕНИЯ МОДАЛЬНЫМ ОКНОМ -->
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
   const btnOpenPdf = document.getElementById("btn-open-pdf");
   const modalPdf = document.getElementById("pdf-modal");
   const btnClosePdf = document.getElementById("pdf-modal-close");
   const pdfViewer = document.getElementById("pdf-viewer");
   
-  const pdfUrl = "presentation.pdf"; // Укажите путь к вашему файлу
+  // Функции блокировки из библиотеки
+  const disableBodyScroll = bodyScrollLock.disableBodyScroll;
+  const enableBodyScroll = bodyScrollLock.enableBodyScroll;
+
+  const pdfUrl = "presentation.pdf"; 
   let isLoaded = false;
 
   async function renderPDF() {
@@ -2184,22 +2190,20 @@
     const loadingTask = pdfjsLib.getDocument(pdfUrl);
     try {
       const pdf = await loadingTask.promise;
-      pdfViewer.innerHTML = ""; // Очищаем лоадер
+      pdfViewer.innerHTML = ""; 
 
-      // Проходим по всем страницам и рисуем их
       for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
         const page = await pdf.getPage(pageNum);
         
-        // Scale 2.0 дает идеальную четкость на iPhone/Retina
         const viewport = page.getViewport({ scale: 2 }); 
         const canvas = document.createElement('canvas');
         const context = canvas.getContext('2d');
         
         canvas.height = viewport.height;
         canvas.width = viewport.width;
-        canvas.style.width = "100%"; // Растягиваем по ширине контейнера
+        canvas.style.width = "100%"; 
         canvas.style.display = "block";
-        canvas.style.marginBottom = "10px"; // Отступ между слайдами
+        canvas.style.marginBottom = "10px"; 
 
         pdfViewer.appendChild(canvas);
         await page.render({ canvasContext: context, viewport: viewport }).promise;
@@ -2211,23 +2215,28 @@
     }
   }
 
+  // Функция для закрытия модалки и разблокировки скролла
+  const closeModal = () => {
+    modalPdf.classList.remove("active");
+    enableBodyScroll(modalPdf); // Возвращаем скролл
+  };
+
   if (btnOpenPdf && modalPdf && btnClosePdf) {
     btnOpenPdf.addEventListener("click", function (e) {
       e.preventDefault();
       modalPdf.classList.add("active");
-      document.body.style.overflow = "hidden";
-      renderPDF(); // Запускаем отрисовку при открытии
+      
+      // Блокируем скролл фона (теперь страница не улетит вверх)
+      disableBodyScroll(modalPdf);
+      
+      renderPDF(); 
     });
 
-    btnClosePdf.addEventListener("click", function () {
-      modalPdf.classList.remove("active");
-      document.body.style.overflow = "";
-    });
+    btnClosePdf.addEventListener("click", closeModal);
 
     modalPdf.addEventListener("click", function (e) {
       if (e.target === modalPdf) {
-        modalPdf.classList.remove("active");
-        document.body.style.overflow = "";
+        closeModal();
       }
     });
   }
