@@ -9,15 +9,14 @@
     <link rel="preload" as="image" href="assets/pencil_2x.webp" fetchpriority="high">
     <link rel="preload" as="image" href="assets/camera_2x.webp" fetchpriority="high">
 
+    <link rel="preconnect" href="https://www.transparenttextures.com" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://cdn.plyr.io" />
-
-    <link rel="stylesheet" href="css/index.css" />
     
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=Caveat:wght@700&display=swap" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="css/index.css" />
 
-    <script src="https://cdn.plyr.io/3.7.8/plyr.js" defer></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=Caveat:wght@700&display=swap" media="print" onload="this.media='all'" />
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/body-scroll-lock@4.0.0-beta.0/lib/bodyScrollLock.min.js" defer></script>
     
@@ -1983,30 +1982,6 @@
             }
           });
         });
-      });
-
-      document.addEventListener("DOMContentLoaded", () => {
-        if (typeof Plyr !== "undefined") {
-          const player = new Plyr("#player", {
-            controls: [
-              "play-large",
-              "play",
-              "progress",
-              "current-time",
-              "mute",
-              "volume",
-              "fullscreen",
-            ],
-            ratio: "16:9",
-            youtube: {
-              noCookie: true,
-              rel: 0,
-              showinfo: 0,
-              iv_load_policy: 3,
-              modestbranding: 1,
-            },
-          });
-        }
       });
     </script>
 
