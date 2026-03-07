@@ -1957,98 +1957,59 @@
     </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-  const btnOpenPdf = document.getElementById("btn-open-pdf");
-  const modalPdf = document.getElementById("pdf-modal");
-  const btnClosePdf = document.getElementById("pdf-modal-close");
-  const pdfViewer = document.getElementById("pdf-viewer");
-  
-  // Безопасное получение функций блокировки скролла
-  const disableBodyScroll = (typeof bodyScrollLock !== 'undefined') ? bodyScrollLock.disableBodyScroll : (el) => { document.body.style.overflow = 'hidden'; };
-  const enableBodyScroll = (typeof bodyScrollLock !== 'undefined') ? bodyScrollLock.enableBodyScroll : (el) => { document.body.style.overflow = ''; };
+async function renderPDF() {
+  if (isLoaded) return;
 
-  const pdfUrl = "presentation.pdf"; 
-  let isLoaded = false;
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
-  async function renderPDF() {
-    if (isLoaded) return;
-    
-    // Указываем путь к воркеру (необходим для работы PDF.js)
-    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
-    
-    try {
-      const loadingTask = pdfjsLib.getDocument(pdfUrl);
-      const pdf = await loadingTask.promise;
-      pdfViewer.innerHTML = ""; 
+  try {
+    const loadingTask = pdfjsLib.getDocument(pdfUrl);
+    const pdf = await loadingTask.promise;
 
-      for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-        const page = await pdf.getPage(pageNum);
-        
-        // Масштаб 2 дает четкую картинку, но если будет подлагивать - можно снизить до 1.5
-        const viewport = page.getViewport({ scale: 2 }); 
-        const canvas = document.createElement('canvas');
-        const context = canvas.getContext('2d');
-        
-        canvas.height = viewport.height;
-        canvas.width = viewport.width;
-        canvas.style.width = "100%"; 
-        canvas.style.display = "block";
-        canvas.style.marginBottom = "10px"; 
+    pdfViewer.innerHTML = "";
 
-        pdfViewer.appendChild(canvas);
-        await page.render({ canvasContext: context, viewport: viewport }).promise;
-      }
-      isLoaded = true;
-    } catch (err) {
-      pdfViewer.innerHTML = '<p style="color:red; text-align:center; padding:20px;">Ошибка загрузки презентации</p>';
-      console.error("PDF Render Error:", err);
+    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+
+      const page = await pdf.getPage(pageNum);
+
+      // уменьшенный масштаб для iPhone
+      const viewport = page.getViewport({ scale: 1.4 });
+
+      const canvas = document.createElement("canvas");
+      const context = canvas.getContext("2d");
+
+      canvas.height = viewport.height;
+      canvas.width = viewport.width;
+
+      canvas.style.width = "100%";
+      canvas.style.maxWidth = "900px";
+      canvas.style.display = "block";
+      canvas.style.margin = "0 auto 10px";
+
+      pdfViewer.appendChild(canvas);
+
+      await page.render({
+        canvasContext: context,
+        viewport: viewport
+      }).promise;
+
+      // очистка памяти страницы
+      page.cleanup();
+
+      // небольшая пауза чтобы Safari не перегружался
+      await new Promise(r => setTimeout(r, 30));
     }
+
+    isLoaded = true;
+
+  } catch (err) {
+    pdfViewer.innerHTML =
+      '<p style="color:red;text-align:center;padding:20px;">Ошибка загрузки презентации</p>';
+
+    console.error("PDF Render Error:", err);
   }
-
-  const closeModal = () => {
-    modalPdf.classList.remove("active");
-    // Плавное скрытие (согласовано со стилями CSS)
-    modalPdf.style.opacity = "0";
-    setTimeout(() => {
-        modalPdf.style.visibility = "hidden";
-        modalPdf.style.pointerEvents = "none";
-    }, 300);
-    enableBodyScroll(modalPdf);
-  };
-
-  if (btnOpenPdf && modalPdf) {
-    btnOpenPdf.addEventListener("click", async function (e) {
-      e.preventDefault();
-      
-      // Показываем модалку
-      modalPdf.classList.add("active");
-      modalPdf.style.visibility = "visible";
-      modalPdf.style.opacity = "1";
-      modalPdf.style.pointerEvents = "all";
-      
-      disableBodyScroll(modalPdf);
-      
-      // ДИНАМИЧЕСКАЯ ЗАГРУЗКА БИБЛИОТЕКИ PDF.JS
-      if (typeof window.pdfjsLib === 'undefined') {
-        pdfViewer.innerHTML = '<p style="text-align:center; padding:40px; color:var(--blue-bright); font-weight:600; font-family:Inter,sans-serif;">Загрузка движка...</p>';
-        
-        const script = document.createElement('script');
-        script.src = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
-        document.body.appendChild(script);
-        
-        await new Promise(resolve => script.onload = resolve);
-      }
-      
-      renderPDF(); 
-    });
-
-    btnClosePdf?.addEventListener("click", closeModal);
-
-    modalPdf.addEventListener("click", (e) => {
-      if (e.target === modalPdf) closeModal();
-    });
-  }
-});
+}
 </script>
   </body>
 </html>
