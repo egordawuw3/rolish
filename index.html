@@ -1963,104 +1963,123 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnClosePdf = document.getElementById("pdf-modal-close");
   const pdfViewer = document.getElementById("pdf-viewer");
 
-  // Блокировка скролла (из первого кода)
-  const disableBodyScroll = (typeof bodyScrollLock !== 'undefined') ? bodyScrollLock.disableBodyScroll : (el) => { document.body.style.overflow = 'hidden'; };
-  const enableBodyScroll = (typeof bodyScrollLock !== 'undefined') ? bodyScrollLock.enableBodyScroll : (el) => { document.body.style.overflow = ''; };
-
   const pdfUrl = "presentation.pdf";
   let isLoaded = false;
+  let pdfDoc = null;
 
-  // Логика асинхронной загрузки библиотеки (из второго кода) + стили текста (из первого)
+  // 1. Блокировка скролла с защитой
+  const disableBodyScroll = () => {
+    document.body.style.overflow = 'hidden';
+    document.body.style.touchAction = 'none'; // Важно для iOS
+  };
+  const enableBodyScroll = () => {
+    document.body.style.overflow = '';
+    document.body.style.touchAction = '';
+  };
+
+  // 2. Асинхронная загрузка PDF.js
   async function loadPdfJs() {
     if (window.pdfjsLib) return;
-
+    
     pdfViewer.innerHTML = '<p style="text-align:center; padding:40px; color:var(--blue-bright); font-weight:600; font-family:Inter,sans-serif;">Загрузка движка...</p>';
 
     return new Promise((resolve, reject) => {
       const script = document.createElement("script");
       script.src = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
-
       script.onload = resolve;
       script.onerror = reject;
-
       document.body.appendChild(script);
     });
   }
 
-  // Логика рендера страниц (из второго кода) + размеры (scale: 2, 100%) (из первого)
+  // 3. Умный рендер с защитой от вылетов на iOS
   async function renderPDF() {
     if (isLoaded) return;
 
     pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
-    
-    const pdf = await pdfjsLib.getDocument(pdfUrl).promise;
-    pdfViewer.innerHTML = "";
 
-    for (let i = 1; i <= pdf.numPages; i++) {
-      const page = await pdf.getPage(i);
+    try {
+      pdfDoc = await pdfjsLib.getDocument(pdfUrl).promise;
+      pdfViewer.innerHTML = "";
 
-      // Масштаб 2 для четкой картинки (из первого кода)
-      const viewport = page.getViewport({ scale: 2 });
+      // Определяем iOS
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+                    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      
+      // На iOS ставим 1.5 для баланса четкости и памяти. На десктопе — 2.
+      const renderScale = isIOS ? 1.5 : 2;
 
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
+      for (let i = 1; i <= pdfDoc.numPages; i++) {
+        const page = await pdfDoc.getPage(i);
+        const viewport = page.getViewport({ scale: renderScale });
 
-      canvas.width = viewport.width;
-      canvas.height = viewport.height;
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d", { alpha: false }); // Оптимизация: отключаем прозрачность
 
-      // Стили отображения canvas (из первого кода)
-      canvas.style.width = "100%";
-      canvas.style.display = "block";
-      canvas.style.marginBottom = "10px";
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
 
-      pdfViewer.appendChild(canvas);
+        // Стили для корректного отображения и аппаратного ускорения
+        canvas.style.width = "100%";
+        canvas.style.height = "auto";
+        canvas.style.display = "block";
+        canvas.style.marginBottom = "15px";
+        canvas.style.transform = "translateZ(0)"; // Включаем GPU ускорение
+        canvas.style.webkitTransform = "translateZ(0)";
 
-      await page.render({
-        canvasContext: ctx,
-        viewport: viewport
-      }).promise;
+        pdfViewer.appendChild(canvas);
 
-      // Очистка памяти и пауза для плавности интерфейса (из второго кода)
-      page.cleanup();
-      await new Promise(r => setTimeout(r, 30));
+        const renderContext = {
+          canvasContext: ctx,
+          viewport: viewport,
+          enableWebGL: true // Ускоряем рендер, если доступно
+        };
+
+        await page.render(renderContext).promise;
+
+        // ПРИНУДИТЕЛЬНАЯ ОЧИСТКА после каждой страницы
+        page.cleanup();
+        
+        // Даем браузеру «продышаться» между страницами (особенно важно для Safari)
+        await new Promise(r => setTimeout(r, isIOS ? 100 : 30));
+      }
+
+      isLoaded = true;
+    } catch (err) {
+      console.error("Render Error:", err);
+      pdfViewer.innerHTML = '<p style="color:red; text-align:center; padding:20px;">Ошибка при чтении PDF</p>';
     }
-
-    isLoaded = true;
   }
 
-  // Открытие модалки со всеми анимациями и локом скролла
+  // 4. Управление модальным окном
   function openModal() {
-    modalPdf.classList.add("active");
-    modalPdf.style.visibility = "visible";
-    modalPdf.style.opacity = "1";
-    modalPdf.style.pointerEvents = "all";
-    disableBodyScroll(modalPdf);
+    modalPdf.style.display = "flex"; // Или блок, зависит от вашего CSS
+    setTimeout(() => {
+        modalPdf.style.visibility = "visible";
+        modalPdf.style.opacity = "1";
+        modalPdf.style.pointerEvents = "all";
+    }, 10);
+    disableBodyScroll();
   }
 
-  // Закрытие модалки с таймаутом для плавности
   function closeModal() {
-    modalPdf.classList.remove("active");
     modalPdf.style.opacity = "0";
-
     setTimeout(() => {
       modalPdf.style.visibility = "hidden";
       modalPdf.style.pointerEvents = "none";
+      enableBodyScroll();
     }, 300);
-
-    enableBodyScroll(modalPdf);
   }
 
-  // Основной обработчик клика с try-catch (из второго кода)
+  // Обработчики событий
   btnOpenPdf?.addEventListener("click", async (e) => {
     e.preventDefault();
     openModal();
-
     try {
       await loadPdfJs();
       await renderPDF();
     } catch (err) {
-      console.error("PDF Render Error:", err);
-      pdfViewer.innerHTML = '<p style="color:red; text-align:center; padding:20px;">Ошибка загрузки презентации</p>';
+      pdfViewer.innerHTML = "Ошибка загрузки библиотеки";
     }
   });
 
@@ -2069,7 +2088,6 @@ document.addEventListener("DOMContentLoaded", () => {
   modalPdf.addEventListener("click", (e) => {
     if (e.target === modalPdf) closeModal();
   });
-
 });
 </script>
   </body>
