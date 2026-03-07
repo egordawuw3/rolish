@@ -1718,91 +1718,54 @@
     }, 2500);
   }
 
-// --- 2. ЛОГИКА СЛАЙДЕРА (МАКСИМАЛЬНО ОПТИМИЗИРОВАННАЯ) ---
-(function() {
-  const track = document.getElementById("track3d");
-  const cards = document.querySelectorAll(".card-3d");
-  
-  if (!track || cards.length === 0) return; // Защита от ошибок, если элементов нет
-
+// --- 2. ЛОГИКА СЛАЙДЕРА (ZERO REFLOW) ---
   let currentSlide = 0;
-  let sliderMetrics = { width: 0, step: 0, initialized: false };
+  const cards = document.querySelectorAll(".card-3d");
+  const track = document.getElementById("track3d");
+  
+  let sliderMetrics = { width: 0, step: 0 };
 
-  // 1. ФАЗА ЧТЕНИЯ (Строго без изменения DOM, чтобы не вызывать Reflow)
-  function measureMetrics() {
-    // Используем offsetWidth/offsetLeft вместо getBoundingClientRect().
-    // Это невероятно важно, так как offset-свойства игнорируют текущий transform (сдвиг),
-    // и возвращают реальные базовые размеры, не ломая логику при ресайзе!
-    const cardWidth = cards[0].offsetWidth;
-    
-    sliderMetrics.width = cardWidth;
-    
-    // Шаг - это расстояние между началами двух соседних карточек
-    sliderMetrics.step = cards.length > 1 
-      ? cards[1].offsetLeft - cards[0].offsetLeft 
-      : cardWidth;
-      
-    sliderMetrics.initialized = true;
+  // Функция замера, вызывается только когда реально нужно
+  function getMetrics() {
+    if (!cards.length) return;
+    const rect = cards[0].getBoundingClientRect();
+    sliderMetrics.width = rect.width;
+    sliderMetrics.step = cards.length > 1 ? 
+      cards[1].getBoundingClientRect().left - rect.left : rect.width;
   }
 
-  // 2. ФАЗА ЗАПИСИ (Строго без чтения DOM, только применение стилей)
-  function renderSlide() {
-    if (!sliderMetrics.initialized) return;
-    
-    // Рассчитываем сдвиг
+  function renderSlider() {
+    if (!track || sliderMetrics.width === 0) return;
     const offset = -(currentSlide * sliderMetrics.step) - (sliderMetrics.width / 2);
-    
-    // Применяем аппаратно-ускоренную трансформацию
     track.style.transform = `translate3d(${offset}px, -50%, 0)`;
-    
-    // Обновляем активные классы без лишних вызовов
-    cards.forEach((c, i) => {
-      if (i === currentSlide) {
-        c.classList.add("active");
-      } else {
-        c.classList.remove("active");
-      }
+    cards.forEach((card, index) => {
+      card.classList.toggle("active", index === currentSlide);
     });
   }
 
-  // 3. Отложенная инициализация (только когда слайдер появляется на экране)
-  const sliderObserver = new IntersectionObserver((entries) => {
-    if (entries[0].isIntersecting && !sliderMetrics.initialized) {
-      measureMetrics();
-      requestAnimationFrame(renderSlide);
-    }
-  }, { threshold: 0.1 });
-  
-  sliderObserver.observe(track);
-
-  // 4. Глобальная функция для кнопок (т.к. у тебя в HTML onclick="move3D(...)")
-  window.move3D = function(dir) {
-    // На случай, если кликнули до того, как сработал Observer
-    if (!sliderMetrics.initialized) {
-      measureMetrics();
-    }
+  function move3D(dir) {
+    if (!cards.length) return;
+    if (sliderMetrics.width === 0) getMetrics(); // Замеряем только при первом клике/свайпе
     
-    // Ограничиваем индекс слайда, чтобы не уходил за пределы
     currentSlide = Math.max(0, Math.min(cards.length - 1, currentSlide + dir));
-    
-    // Запускаем рендер в следующем кадре для плавности
-    requestAnimationFrame(renderSlide);
-  };
+    requestAnimationFrame(renderSlider);
+  }
 
-  // 5. Умный обработчик ресайза (Debounce + rAF)
-  let resizeTimer;
+  // ВАЖНО: Убираем замеры из window.onload
+  window.addEventListener("load", () => {
+    // Просто ставим начальный активный класс без тяжелых расчетов
+    if (cards[0]) cards[0].classList.add("active");
+    // Если нужно центрировать сразу — делаем это через 500мс, когда LCP уже пройден
+    setTimeout(() => {
+      getMetrics();
+      renderSlider();
+    }, 500); 
+  });
+
   window.addEventListener("resize", () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => {
-      // При ресайзе нужно перемерить элементы и заново отрендерить
-      requestAnimationFrame(() => {
-        measureMetrics();
-        renderSlide();
-      });
-    }, 200); // Ждем 200мс после окончания изменения размера окна
+    getMetrics();
+    renderSlider();
   }, { passive: true });
-
-})();
 
   // --- 3. ОСТАЛЬНАЯ ЛОГИКА (BLUR, REVEAL, FAQ) ---
   // Оборачиваем в DOMContentLoaded, но расчеты выносим в rAF
