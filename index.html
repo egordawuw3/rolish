@@ -1957,59 +1957,131 @@
     </div>
 
 <script>
-async function renderPDF() {
-  if (isLoaded) return;
+
+document.addEventListener("DOMContentLoaded", () => {
+
+const btnOpenPdf = document.getElementById("btn-open-pdf");
+const modalPdf = document.getElementById("pdf-modal");
+const btnClosePdf = document.getElementById("pdf-modal-close");
+const pdfViewer = document.getElementById("pdf-viewer");
+
+const pdfUrl = "presentation.pdf";
+let isLoaded = false;
+
+async function loadPdfJs(){
+
+  if(window.pdfjsLib) return;
+
+  return new Promise((resolve,reject)=>{
+
+    const script=document.createElement("script");
+    script.src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
+
+    script.onload=resolve;
+    script.onerror=reject;
+
+    document.body.appendChild(script);
+
+  });
+
+}
+
+async function renderPDF(){
+
+  if(isLoaded) return;
 
   pdfjsLib.GlobalWorkerOptions.workerSrc =
-    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+  "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
-  try {
-    const loadingTask = pdfjsLib.getDocument(pdfUrl);
-    const pdf = await loadingTask.promise;
+  const pdf = await pdfjsLib.getDocument(pdfUrl).promise;
 
-    pdfViewer.innerHTML = "";
+  pdfViewer.innerHTML="";
 
-    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+  for(let i=1;i<=pdf.numPages;i++){
 
-      const page = await pdf.getPage(pageNum);
+    const page=await pdf.getPage(i);
 
-      // уменьшенный масштаб для iPhone
-      const viewport = page.getViewport({ scale: 1.4 });
+    const viewport=page.getViewport({scale:1.4});
 
-      const canvas = document.createElement("canvas");
-      const context = canvas.getContext("2d");
+    const canvas=document.createElement("canvas");
+    const ctx=canvas.getContext("2d");
 
-      canvas.height = viewport.height;
-      canvas.width = viewport.width;
+    canvas.width=viewport.width;
+    canvas.height=viewport.height;
 
-      canvas.style.width = "100%";
-      canvas.style.maxWidth = "900px";
-      canvas.style.display = "block";
-      canvas.style.margin = "0 auto 10px";
+    canvas.style.width="100%";
+    canvas.style.maxWidth="900px";
+    canvas.style.display="block";
+    canvas.style.margin="0 auto 10px";
 
-      pdfViewer.appendChild(canvas);
+    pdfViewer.appendChild(canvas);
 
-      await page.render({
-        canvasContext: context,
-        viewport: viewport
-      }).promise;
+    await page.render({
+      canvasContext:ctx,
+      viewport:viewport
+    }).promise;
 
-      // очистка памяти страницы
-      page.cleanup();
+    page.cleanup();
 
-      // небольшая пауза чтобы Safari не перегружался
-      await new Promise(r => setTimeout(r, 30));
-    }
+    await new Promise(r=>setTimeout(r,30));
 
-    isLoaded = true;
-
-  } catch (err) {
-    pdfViewer.innerHTML =
-      '<p style="color:red;text-align:center;padding:20px;">Ошибка загрузки презентации</p>';
-
-    console.error("PDF Render Error:", err);
   }
+
+  isLoaded=true;
+
 }
+
+function openModal(){
+
+  modalPdf.style.visibility="visible";
+  modalPdf.style.opacity="1";
+  modalPdf.style.pointerEvents="all";
+
+}
+
+function closeModal(){
+
+  modalPdf.style.opacity="0";
+
+  setTimeout(()=>{
+
+    modalPdf.style.visibility="hidden";
+    modalPdf.style.pointerEvents="none";
+
+  },300);
+
+}
+
+btnOpenPdf?.addEventListener("click", async e=>{
+
+  e.preventDefault();
+
+  openModal();
+
+  try{
+
+    await loadPdfJs();
+    await renderPDF();
+
+  }catch(err){
+
+    console.error(err);
+    pdfViewer.innerHTML="Ошибка загрузки PDF";
+
+  }
+
+});
+
+btnClosePdf?.addEventListener("click",closeModal);
+
+modalPdf.addEventListener("click",e=>{
+
+  if(e.target===modalPdf) closeModal();
+
+});
+
+});
+
 </script>
   </body>
 </html>
