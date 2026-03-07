@@ -2417,8 +2417,4 @@ section.reviews-section {
 	visibility: visible !important
 }
 
-.pdf-iframe-container{
-  overflow-y:auto;
-  -webkit-overflow-scrolling:auto;
-  overscroll-behavior:contain;
-}
+
