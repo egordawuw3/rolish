@@ -1737,7 +1737,7 @@
   function renderSlider() {
     if (!track || sliderMetrics.width === 0) return;
     const offset = -(currentSlide * sliderMetrics.step) - (sliderMetrics.width / 2);
-    track.style.transform = `translate(${offset}px, -50%)`;
+    track.style.transform = `translate3d(${offset}px, -50%, 0)`;
     cards.forEach((card, index) => {
       card.classList.toggle("active", index === currentSlide);
     });
