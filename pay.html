@@ -237,13 +237,6 @@
       .btn-tinkoff:hover {
         filter: brightness(0.95);
       }
-      .btn-split {
-        background: #eae9e2;
-        color: #000;
-      }
-      .btn-split:hover {
-        background: #dfded7;
-      }
       .btn-img-icon {
         height: 32px;
         width: auto;
@@ -401,7 +394,7 @@
   margin: 0 0 10px 0;
   font-size: 0.85rem;
   font-weight: 700;
-  color: #fa2d1a; /* Напрямую используем --accent */
+  color: #000000; /* Напрямую используем --accent */
   display: block;
   opacity: 1 !important; /* Убираем прозрачность, чтобы текст был ярким */
 }
@@ -445,9 +438,25 @@
   .vpn-warning {
     font-size: 0.9rem;
   }
-  .payment-agreement {
-    font-size: 0.8rem;
-  }
+.payment-agreement {
+  margin: 16px 0 0;
+  font-size: 0.8rem; 
+  text-align: center;
+  color: rgba(85, 85, 85, 0.4); /* 40% прозрачности как вы просили */
+  line-height: 1.4;
+}
+
+.payment-agreement a {
+  color: inherit; 
+  text-decoration: underline; 
+  text-underline-offset: 3px;
+  transition: opacity 0.3s ease;
+}
+
+.payment-agreement a:hover {
+  opacity: 1;
+  color: #333;
+}
 }
 
 /* === КРАСИВЫЙ БЛОК ПОДДЕРЖКИ === */
@@ -734,12 +743,7 @@
 
       <div class="payment-buttons">
         <button class="modal-btn btn-tinkoff" id="btn-pay-tinkoff" onclick="processPayment('tinkoff')">
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnkIWpnMUone1D5ZYCjYYqDZheKyGzI7L9XA&s" alt="Т‑Банк" class="btn-img-icon" />
-          Оплата в Т‑Банк
-        </button>
-        <button class="modal-btn btn-split" id="btn-pay-split" onclick="processPayment('split')">
-          <img src="https://www.splitit.com/wp-content/uploads/2024/11/Splitit-Primary-Logo-1.png" alt="Сплит" class="btn-img-icon" />
-          Оплата в Сплит
+          Оплатить 
         </button>
       </div>
       <!-- НОВЫЙ БЛОК СОГЛАСИЯ И VPN -->
