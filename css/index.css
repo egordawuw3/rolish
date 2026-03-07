@@ -2416,3 +2416,9 @@ section.reviews-section {
 	opacity: 1 !important;
 	visibility: visible !important
 }
+
+.pdf-iframe-container{
+  overflow-y:auto;
+  -webkit-overflow-scrolling:auto;
+  overscroll-behavior:contain;
+}
