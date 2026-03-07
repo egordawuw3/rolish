@@ -1876,6 +1876,22 @@
       });
     });
   });
+
+        // --- 8. REVIEWS BG ---
+      const reviewsSection = document.querySelector(".reviews-section");
+      if (reviewsSection) {
+        const reviewsObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting)
+                reviewsSection.classList.add("reviews-active");
+              else reviewsSection.classList.remove("reviews-active");
+            });
+          },
+          { threshold: 0.3 },
+        );
+        reviewsObserver.observe(reviewsSection);
+      }
 </script>
     <!-- САМ HTML ОКНА (Скрыто до клика) -->
     <div
