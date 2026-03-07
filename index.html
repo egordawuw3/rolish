@@ -1957,131 +1957,120 @@
     </div>
 
 <script>
-
 document.addEventListener("DOMContentLoaded", () => {
+  const btnOpenPdf = document.getElementById("btn-open-pdf");
+  const modalPdf = document.getElementById("pdf-modal");
+  const btnClosePdf = document.getElementById("pdf-modal-close");
+  const pdfViewer = document.getElementById("pdf-viewer");
 
-const btnOpenPdf = document.getElementById("btn-open-pdf");
-const modalPdf = document.getElementById("pdf-modal");
-const btnClosePdf = document.getElementById("pdf-modal-close");
-const pdfViewer = document.getElementById("pdf-viewer");
+  // Блокировка скролла (из первого кода)
+  const disableBodyScroll = (typeof bodyScrollLock !== 'undefined') ? bodyScrollLock.disableBodyScroll : (el) => { document.body.style.overflow = 'hidden'; };
+  const enableBodyScroll = (typeof bodyScrollLock !== 'undefined') ? bodyScrollLock.enableBodyScroll : (el) => { document.body.style.overflow = ''; };
 
-const pdfUrl = "presentation.pdf";
-let isLoaded = false;
+  const pdfUrl = "presentation.pdf";
+  let isLoaded = false;
 
-async function loadPdfJs(){
+  // Логика асинхронной загрузки библиотеки (из второго кода) + стили текста (из первого)
+  async function loadPdfJs() {
+    if (window.pdfjsLib) return;
 
-  if(window.pdfjsLib) return;
+    pdfViewer.innerHTML = '<p style="text-align:center; padding:40px; color:var(--blue-bright); font-weight:600; font-family:Inter,sans-serif;">Загрузка движка...</p>';
 
-  return new Promise((resolve,reject)=>{
+    return new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
 
-    const script=document.createElement("script");
-    script.src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
+      script.onload = resolve;
+      script.onerror = reject;
 
-    script.onload=resolve;
-    script.onerror=reject;
+      document.body.appendChild(script);
+    });
+  }
 
-    document.body.appendChild(script);
+  // Логика рендера страниц (из второго кода) + размеры (scale: 2, 100%) (из первого)
+  async function renderPDF() {
+    if (isLoaded) return;
 
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+    
+    const pdf = await pdfjsLib.getDocument(pdfUrl).promise;
+    pdfViewer.innerHTML = "";
+
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
+
+      // Масштаб 2 для четкой картинки (из первого кода)
+      const viewport = page.getViewport({ scale: 2 });
+
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
+
+      // Стили отображения canvas (из первого кода)
+      canvas.style.width = "100%";
+      canvas.style.display = "block";
+      canvas.style.marginBottom = "10px";
+
+      pdfViewer.appendChild(canvas);
+
+      await page.render({
+        canvasContext: ctx,
+        viewport: viewport
+      }).promise;
+
+      // Очистка памяти и пауза для плавности интерфейса (из второго кода)
+      page.cleanup();
+      await new Promise(r => setTimeout(r, 30));
+    }
+
+    isLoaded = true;
+  }
+
+  // Открытие модалки со всеми анимациями и локом скролла
+  function openModal() {
+    modalPdf.classList.add("active");
+    modalPdf.style.visibility = "visible";
+    modalPdf.style.opacity = "1";
+    modalPdf.style.pointerEvents = "all";
+    disableBodyScroll(modalPdf);
+  }
+
+  // Закрытие модалки с таймаутом для плавности
+  function closeModal() {
+    modalPdf.classList.remove("active");
+    modalPdf.style.opacity = "0";
+
+    setTimeout(() => {
+      modalPdf.style.visibility = "hidden";
+      modalPdf.style.pointerEvents = "none";
+    }, 300);
+
+    enableBodyScroll(modalPdf);
+  }
+
+  // Основной обработчик клика с try-catch (из второго кода)
+  btnOpenPdf?.addEventListener("click", async (e) => {
+    e.preventDefault();
+    openModal();
+
+    try {
+      await loadPdfJs();
+      await renderPDF();
+    } catch (err) {
+      console.error("PDF Render Error:", err);
+      pdfViewer.innerHTML = '<p style="color:red; text-align:center; padding:20px;">Ошибка загрузки презентации</p>';
+    }
   });
 
-}
+  btnClosePdf?.addEventListener("click", closeModal);
 
-async function renderPDF(){
-
-  if(isLoaded) return;
-
-  pdfjsLib.GlobalWorkerOptions.workerSrc =
-  "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
-
-  const pdf = await pdfjsLib.getDocument(pdfUrl).promise;
-
-  pdfViewer.innerHTML="";
-
-  for(let i=1;i<=pdf.numPages;i++){
-
-    const page=await pdf.getPage(i);
-
-    const viewport=page.getViewport({scale:1.4});
-
-    const canvas=document.createElement("canvas");
-    const ctx=canvas.getContext("2d");
-
-    canvas.width=viewport.width;
-    canvas.height=viewport.height;
-
-    canvas.style.width="100%";
-    canvas.style.maxWidth="900px";
-    canvas.style.display="block";
-    canvas.style.margin="0 auto 10px";
-
-    pdfViewer.appendChild(canvas);
-
-    await page.render({
-      canvasContext:ctx,
-      viewport:viewport
-    }).promise;
-
-    page.cleanup();
-
-    await new Promise(r=>setTimeout(r,30));
-
-  }
-
-  isLoaded=true;
-
-}
-
-function openModal(){
-
-  modalPdf.style.visibility="visible";
-  modalPdf.style.opacity="1";
-  modalPdf.style.pointerEvents="all";
-
-}
-
-function closeModal(){
-
-  modalPdf.style.opacity="0";
-
-  setTimeout(()=>{
-
-    modalPdf.style.visibility="hidden";
-    modalPdf.style.pointerEvents="none";
-
-  },300);
-
-}
-
-btnOpenPdf?.addEventListener("click", async e=>{
-
-  e.preventDefault();
-
-  openModal();
-
-  try{
-
-    await loadPdfJs();
-    await renderPDF();
-
-  }catch(err){
-
-    console.error(err);
-    pdfViewer.innerHTML="Ошибка загрузки PDF";
-
-  }
+  modalPdf.addEventListener("click", (e) => {
+    if (e.target === modalPdf) closeModal();
+  });
 
 });
-
-btnClosePdf?.addEventListener("click",closeModal);
-
-modalPdf.addEventListener("click",e=>{
-
-  if(e.target===modalPdf) closeModal();
-
-});
-
-});
-
 </script>
   </body>
 </html>
