@@ -1718,53 +1718,52 @@
     }, 2500);
   }
 
-// --- 2. ЛОГИКА СЛАЙДЕРА (ZERO REFLOW) ---
+// --- 2. ЛОГИКА СЛАЙДЕРА (ULTRA-LAZY) ---
   let currentSlide = 0;
   const cards = document.querySelectorAll(".card-3d");
   const track = document.getElementById("track3d");
-  
-  let sliderMetrics = { width: 0, step: 0 };
+  let sliderMetrics = { width: 0, step: 0, initialized: false };
 
-  // Функция замера, вызывается только когда реально нужно
-  function getMetrics() {
+  function updateMetrics() {
     if (!cards.length) return;
     const rect = cards[0].getBoundingClientRect();
     sliderMetrics.width = rect.width;
     sliderMetrics.step = cards.length > 1 ? 
       cards[1].getBoundingClientRect().left - rect.left : rect.width;
+    sliderMetrics.initialized = true;
   }
 
-  function renderSlider() {
-    if (!track || sliderMetrics.width === 0) return;
+  function render() {
+    if (!track || !sliderMetrics.initialized) return;
     const offset = -(currentSlide * sliderMetrics.step) - (sliderMetrics.width / 2);
+    // Используем translate3d для GPU-ускорения
     track.style.transform = `translate3d(${offset}px, -50%, 0)`;
-    cards.forEach((card, index) => {
-      card.classList.toggle("active", index === currentSlide);
-    });
+    cards.forEach((c, i) => c.classList.toggle("active", i === currentSlide));
   }
+
+  // Инициализация ТОЛЬКО когда слайдер появился в поле зрения
+  const sliderObserver = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting && !sliderMetrics.initialized) {
+      updateMetrics();
+      render();
+    }
+  }, { threshold: 0.1 });
+  if (track) sliderObserver.observe(track);
 
   function move3D(dir) {
-    if (!cards.length) return;
-    if (sliderMetrics.width === 0) getMetrics(); // Замеряем только при первом клике/свайпе
-    
+    if (!sliderMetrics.initialized) updateMetrics();
     currentSlide = Math.max(0, Math.min(cards.length - 1, currentSlide + dir));
-    requestAnimationFrame(renderSlider);
+    requestAnimationFrame(render);
   }
 
-  // ВАЖНО: Убираем замеры из window.onload
-  window.addEventListener("load", () => {
-    // Просто ставим начальный активный класс без тяжелых расчетов
-    if (cards[0]) cards[0].classList.add("active");
-    // Если нужно центрировать сразу — делаем это через 500мс, когда LCP уже пройден
-    setTimeout(() => {
-      getMetrics();
-      renderSlider();
-    }, 500); 
-  });
-
+  // На ресайз вешаем debounce
+  let resizeTimer;
   window.addEventListener("resize", () => {
-    getMetrics();
-    renderSlider();
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      updateMetrics();
+      render();
+    }, 200);
   }, { passive: true });
 
   // --- 3. ОСТАЛЬНАЯ ЛОГИКА (BLUR, REVEAL, FAQ) ---
