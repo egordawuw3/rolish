@@ -459,32 +459,36 @@
 }
 }
 
-/* === КРАСИВЫЙ БЛОК ПОДДЕРЖКИ (ПО РЕФЕРЕНСУ) === */
+/* === КРАСИВЫЙ БЛОК ПОДДЕРЖКИ === */
 .support-section {
   width: 100%;
   max-width: 900px;
-  margin: 100px auto 60px;
+  /* 150px - это огромный отступ сверху, чтобы оторвать блок от тарифов */
+  margin: 150px auto 80px; 
   padding: 0 20px;
   text-align: center;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .support-title {
   font-family: "Inter", sans-serif;
-  font-size: 4.5rem; /* Огромный заголовок как на референсе */
+  font-size: 4rem; /* Огромный размер, как на референсе */
   font-weight: 900;
-  color: var(--black);
+  color: var(--black); /* Строгий черный цвет, как у других заголовков сайта */
   text-transform: uppercase;
   margin: 0 0 15px 0;
-  letter-spacing: -0.04em; /* Сужаем буквы для монолитности */
+  letter-spacing: -0.04em;
   line-height: 1;
 }
 
 .support-text {
   font-family: "Inter", sans-serif;
-  font-size: 1.35rem;
-  color: #555; /* Мягкий серый, чтобы не спорил с заголовком */
-  margin: 0 auto 50px;
+  font-size: 1.3rem;
+  color: #555; /* Мягкий серый, не спорит с заголовком */
+  margin: 0 auto 45px;
   font-weight: 500;
 }
 
@@ -493,38 +497,37 @@
   align-items: center;
   justify-content: center;
   padding: 22px 60px;
-  min-width: 360px; /* Делаем кнопку широкой */
+  min-width: 350px;
   font-family: "Inter", sans-serif;
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   font-weight: 800;
-  color: var(--white);
-  background: var(--blue-bright);
-  border-radius: 16px; /* Закругленный прямоугольник, как на картинке */
-  text-decoration: none;
-  /* Добавляем эффект свечения, но в фирменном синем цвете */
-  box-shadow: 0 10px 40px rgba(0, 69, 166, 0.35);
-  transition: all 0.4s var(--ease-smooth);
+  color: var(--white) !important;
+  background: var(--blue-bright); /* Фирменный яркий синий */
+  border-radius: 100px; /* Круглые края, в стиле core. */
+  text-decoration: none !important; /* Убираем уродливое подчеркивание ссылки */
+  box-shadow: 0 15px 40px rgba(0, 69, 166, 0.3); /* Красивое мягкое свечение */
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .support-btn-tg:hover {
-  transform: translateY(-4px);
+  transform: translateY(-6px); /* Кнопка красиво приподнимается */
   background: var(--blue-deep);
-  box-shadow: 0 15px 50px rgba(0, 69, 166, 0.55); /* Усиливаем свечение при наведении */
+  box-shadow: 0 20px 50px rgba(0, 69, 166, 0.5); /* Свечение усиливается при наведении */
 }
 
-/* Адаптация под мобилки */
+/* Адаптация под телефоны */
 @media (max-width: 768px) {
-  .support-section { margin-top: 80px; }
-  .support-title { font-size: 2.8rem; }
-  .support-text { font-size: 1.15rem; margin-bottom: 35px;}
+  .support-section { margin-top: 100px; }
+  .support-title { font-size: 2.5rem; }
+  .support-text { font-size: 1.1rem; margin-bottom: 35px;}
   .support-btn-tg { 
     width: 100%; 
     min-width: 100%; 
     padding: 20px; 
     font-size: 1.1rem; 
-    box-sizing: border-box; 
   }
 }
+
 
     </style>
   </head>
