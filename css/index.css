@@ -1999,8 +1999,7 @@ main {
 	}
 
 	.main-title-wrapper {
-		font-size: clamp(3rem, 26vw, 6rem) !important
-	}
+		font-size: clamp(4.5rem, 28vw, 8rem) !important;}
 
 	.main-title {
 		font-size: 1em !important;
@@ -2008,8 +2007,9 @@ main {
 		animation: none !important
 	}
 
-	.core-translation {
-		bottom: -.38em !important
+.core-translation {
+		right: 0% !important; /* Сдвигаем на 50% */
+		bottom: -.65em !important; /* Чуть опустили, чтобы не сливалось */
 	}
 
 	.subtitle-block {
@@ -2034,13 +2034,41 @@ main {
 		flex-shrink: 0 !important
 	}
 
-	.s-camera,
-	.s-clapper,
-	.s-pencil,
-	.s-ssd {
-		position: absolute !important;
-		display: block !important
+	.s-camera {
+		width: clamp(160px, 40vw, 220px) !important;
+		top: 18% !important; /* Спускаем ближе к заголовку */
+		left: -2% !important;
+		transform: rotate(-15deg) !important;
+		filter: drop-shadow(0 20px 40px rgba(0, 0, 0, .4)) !important;
 	}
+
+	.s-pencil {
+		width: clamp(70px, 15vw, 90px) !important; /* Жестко ограничиваем размер карандаша */
+		height: auto !important;
+		top: 15% !important;
+		right: 5% !important;
+		transform: rotate(35deg) !important;
+		filter: drop-shadow(0 15px 30px rgba(0, 0, 0, .3)) !important;
+	}
+
+	.s-clapper {
+		width: clamp(140px, 35vw, 190px) !important;
+		bottom: 22% !important; /* Поднимаем выше со дна */
+		left: 0% !important;
+		transform: rotate(-12deg) !important;
+		filter: drop-shadow(0 25px 50px rgba(0, 0, 0, .45)) !important;
+		z-index: 120 !important;
+	}
+
+	.s-ssd {
+		width: clamp(80px, 20vw, 110px) !important;
+		bottom: 26% !important;
+		right: 8% !important;
+		transform: rotate(20deg) !important;
+		filter: drop-shadow(0 20px 40px rgba(0, 0, 0, .4)) !important;
+		z-index: 115 !important;
+	}
+
 
 	.s-camera {
 		width: clamp(220px, 55vw, 300px) !important;
@@ -2061,7 +2089,7 @@ main {
 
 	.s-clapper {
 		width: clamp(160px, 45vw, 230px) !important;
-		bottom: 160px !important;
+		bottom: 160px !important; 
 		left: -10px !important;
 		transform: rotate(-15deg) !important;
 		filter: drop-shadow(0 25px 50px rgba(0, 0, 0, .45)) !important;
@@ -2227,8 +2255,7 @@ main {
 	}
 
 	.main-title-wrapper {
-		font-size: clamp(2rem, 24vw, 3rem) !important
-	}
+		font-size: clamp(3.5rem, 26vw, 4.5rem) !important /* Было 2rem, стало 3.5rem */	}
 
 	.main-title {
 		font-size: 1em !important

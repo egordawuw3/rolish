@@ -1853,12 +1853,12 @@
       // --- 6. STICKERS ---
       document.querySelectorAll(".sticker-img").forEach((sticker) => {
         sticker.onload = () => (sticker.style.display = "block");
-        let isDragging = false,
-          startX,
-          startY,
-          initLeft,
-          initTop;
-        sticker.addEventListener("mousedown", (e) => {
+        let isDragging = false, startX, startY, initLeft, initTop;
+
+        // Отключаем скролл страницы при касании картинки на телефоне
+        sticker.style.touchAction = "none";
+
+        sticker.addEventListener("pointerdown", (e) => {
           isDragging = true;
           startX = e.clientX;
           startY = e.clientY;
@@ -1869,18 +1869,31 @@
           sticker.style.bottom = "auto";
           sticker.style.right = "auto";
           sticker.style.cursor = "grabbing";
+          
+          // Захватываем указатель, чтобы палец не терялся при быстром свайпе
+          sticker.setPointerCapture(e.pointerId);
           e.preventDefault();
         });
-        window.addEventListener("mousemove", (e) => {
+
+        sticker.addEventListener("pointermove", (e) => {
           if (isDragging) {
             sticker.style.left = initLeft + (e.clientX - startX) + "px";
             sticker.style.top = initTop + (e.clientY - startY) + "px";
           }
         });
-        window.addEventListener("mouseup", () => {
+
+        sticker.addEventListener("pointerup", (e) => {
           isDragging = false;
-          if (sticker.style.cursor === "grabbing")
+          if (sticker.style.cursor === "grabbing") {
             sticker.style.cursor = "grab";
+          }
+          sticker.releasePointerCapture(e.pointerId);
+        });
+
+        sticker.addEventListener("pointercancel", (e) => {
+          isDragging = false;
+          sticker.style.cursor = "grab";
+          sticker.releasePointerCapture(e.pointerId);
         });
       });
 
