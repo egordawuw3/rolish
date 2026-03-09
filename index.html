@@ -1850,7 +1850,7 @@
         }, 2200);
       }
 
-      // --- 6. STICKERS ---
+            // --- 6. STICKERS ---
       document.querySelectorAll(".sticker-img").forEach((sticker) => {
         sticker.onload = () => (sticker.style.display = "block");
         let isDragging = false, startX, startY, initLeft, initTop;
@@ -1862,23 +1862,36 @@
           isDragging = true;
           startX = e.clientX;
           startY = e.clientY;
+          
+          // Вычисляем текущую позицию элемента перед тем, как его "оторвать"
           const rect = sticker.getBoundingClientRect();
           const parentRect = sticker.offsetParent.getBoundingClientRect();
           initLeft = rect.left - parentRect.left;
           initTop = rect.top - parentRect.top;
-          sticker.style.bottom = "auto";
-          sticker.style.right = "auto";
+          
+          // ЖЕСТКО отвязываем элемент от bottom и right, перебивая CSS !important
+          sticker.style.setProperty('bottom', 'auto', 'important');
+          sticker.style.setProperty('right', 'auto', 'important');
+          
+          // ЖЕСТКО задаем стартовые координаты через left и top
+          sticker.style.setProperty('left', initLeft + 'px', 'important');
+          sticker.style.setProperty('top', initTop + 'px', 'important');
+          
           sticker.style.cursor = "grabbing";
           
-          // Захватываем указатель, чтобы палец не терялся при быстром свайпе
+          // Захватываем указатель, чтобы палец не терялся
           sticker.setPointerCapture(e.pointerId);
           e.preventDefault();
         });
 
         sticker.addEventListener("pointermove", (e) => {
           if (isDragging) {
-            sticker.style.left = initLeft + (e.clientX - startX) + "px";
-            sticker.style.top = initTop + (e.clientY - startY) + "px";
+            let newLeft = initLeft + (e.clientX - startX);
+            let newTop = initTop + (e.clientY - startY);
+            
+            // Двигаем элемент, также перебивая любые CSS правила
+            sticker.style.setProperty('left', newLeft + 'px', 'important');
+            sticker.style.setProperty('top', newTop + 'px', 'important');
           }
         });
 
@@ -1896,6 +1909,7 @@
           sticker.releasePointerCapture(e.pointerId);
         });
       });
+
 
       // --- 7. FAQ ---
       document.querySelectorAll(".faq-question-modern").forEach((button) => {
