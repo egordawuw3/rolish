@@ -87,6 +87,12 @@
       .modal-input { width: 100%; padding: 15px 20px; margin-bottom: 15px; background: #ffffff; border: 2px solid transparent; border-radius: 14px; font-size: 1rem; font-family: inherit; box-sizing: border-box; outline: none; transition: border-color 0.3s, box-shadow 0.3s; color: #000; }
       .modal-input::placeholder { color: #a3a3a3; }
       .modal-input:focus { border-color: #005bff; box-shadow: 0 0 0 4px rgba(0, 91, 255, 0.1); }
+      
+      /* Добавлено для стилизации поля промокода */
+      #promo-code { text-transform: uppercase; }
+      #promo-code::placeholder { text-transform: none; }
+      #promo-message { font-size: 0.9rem; margin-top: -5px; margin-bottom: 15px; font-weight: 600; text-align: center; transition: all 0.3s; min-height: 20px; }
+
       .payment-buttons { display: flex; flex-direction: column; gap: 14px; margin-top: 10px; }
       .modal-btn { width: 100%; padding: 14px 20px; border: none; border-radius: 14px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: transform 0.2s, filter 0.2s; font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 12px; }
       .modal-btn:active { transform: scale(0.98); }
@@ -118,7 +124,7 @@
       .support-section {
         width: 100%;
         max-width: 900px;
-        margin: 150px auto 80px; /* Огромный отступ 150px от тарифов */
+        margin: 150px auto 80px;
         padding: 0 20px;
         text-align: center;
         box-sizing: border-box;
@@ -128,7 +134,7 @@
       }
       .support-title {
         font-family: "Inter", sans-serif;
-        font-size: 4.5rem; /* Гигантский размер заголовка */
+        font-size: 4.5rem;
         font-weight: 900;
         color: var(--black); 
         text-transform: uppercase;
@@ -148,7 +154,7 @@
         align-items: center;
         justify-content: center;
         padding: 22px 60px;
-        min-width: 380px; /* Широкая кнопка */
+        min-width: 380px; 
         font-family: "Inter", sans-serif;
         font-size: 1.25rem;
         font-weight: 800;
@@ -156,28 +162,22 @@
         background: var(--blue-bright); 
         border-radius: 100px; 
         text-decoration: none !important; 
-        box-shadow: 0 15px 40px rgba(0, 69, 166, 0.3); /* Синее свечение */
+        box-shadow: 0 15px 40px rgba(0, 69, 166, 0.3);
         transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
       }
       .support-btn-tg:hover {
         transform: translateY(-6px); 
         background: var(--blue-deep);
-        box-shadow: 0 20px 50px rgba(0, 69, 166, 0.5); /* Усиленное свечение при наведении */
+        box-shadow: 0 20px 50px rgba(0, 69, 166, 0.5); 
       }
 
-      /* === АДАПТИВНОСТЬ ДЛЯ МОБИЛЬНЫХ (ОШИБКА ИСПРАВЛЕНА!) === */
       @media (max-width: 768px) {
-        /* Модальные окна */
         .modal-content-styled { padding: 40px 25px; }
         .success-title-modal { font-size: 2.5rem; }
         .success-subtitle-modal { font-size: 2.2rem; }
         .tg-btn-styled { padding: 18px; font-size: 1.1rem; }
-        
-        /* Мелкий текст */
         .vpn-warning { font-size: 0.9rem; }
         .payment-agreement { font-size: 0.8rem; }
-        
-        /* Блок поддержки */
         .support-section { margin-top: 100px; }
         .support-title { font-size: 2.5rem; }
         .support-text { font-size: 1.1rem; margin-bottom: 35px;}
@@ -390,6 +390,17 @@
           required
         />
 
+        <!-- === НОВОЕ ПОЛЕ: ПРОМОКОД === -->
+        <input
+          type="text"
+          id="promo-code"
+          class="modal-input"
+          placeholder="Промокод (если есть)"
+          autocomplete="off"
+        />
+        <div id="promo-message"></div>
+        <!-- === КОНЕЦ НОВОГО ПОЛЯ === -->
+
       <div class="payment-buttons">
         <button class="modal-btn btn-tinkoff" id="btn-pay-tinkoff" onclick="processPayment('tinkoff')">
           Оплатить 
@@ -481,11 +492,30 @@
     </div>
 
     <script>
+      // === БАЗОВЫЕ ЦЕНЫ И ПРОМОКОДЫ ===
+      const basePrices = {
+        'Тариф core.': 19900,
+        'Тариф core+': 29900,
+        'Тариф Менторство': 95000
+      };
+
+      const promos = {
+        'HB13': -0.13,   // -13%
+        'START2': -0.10, // -10%
+        '6MES': 0.05,    // +5% наценка 
+        '12MES': 0.10    // +10% наценка
+      };
+
       let currentTariff = "";
+      let currentPrice = 0;
 
       function openPaymentModal(tariffName) {
         currentTariff = tariffName;
-        document.getElementById("modal-tariff-name").innerText = tariffName;
+        currentPrice = basePrices[tariffName] || 0;
+        
+        // При открытии ставим базовую цену
+        document.getElementById("modal-tariff-name").innerText = `${tariffName} — ${currentPrice.toLocaleString('ru-RU')} ₽`;
+        document.getElementById("btn-pay-tinkoff").innerText = `Оплатить ${currentPrice.toLocaleString('ru-RU')} ₽`;
         document.getElementById("payment-modal").classList.add("active");
       }
 
@@ -493,6 +523,8 @@
         document.getElementById("payment-modal").classList.remove("active");
         document.getElementById("user-name").value = "";
         document.getElementById("user-email").value = "";
+        document.getElementById("promo-code").value = "";
+        document.getElementById("promo-message").innerText = "";
       }
 
       document
@@ -501,15 +533,45 @@
           if (e.target === this) closePaymentModal();
         });
 
-      // === ФУНКЦИЯ ОПЛАТЫ (БЕЗ ОТКРЫТИЯ В НОВОЙ ВКЛАДКЕ) ===
+      // === Пересчет цены на лету при вводе промокода ===
+      document.addEventListener("DOMContentLoaded", () => {
+        const promoInput = document.getElementById("promo-code");
+        if(promoInput) {
+          promoInput.addEventListener("input", function(e) {
+            let code = e.target.value.trim().toUpperCase();
+            let messageEl = document.getElementById("promo-message");
+            let btn = document.getElementById("btn-pay-tinkoff");
+            
+            if (promos.hasOwnProperty(code)) {
+              let modifier = promos[code];
+              let newPrice = currentPrice * (1 + modifier);
+              let percentStr = Math.round(Math.abs(modifier * 100));
+              
+              if (modifier < 0) {
+                messageEl.style.color = "#00a100"; // Зеленый цвет для скидки
+                messageEl.innerText = `Скидка ${percentStr}% применена!`;
+              } else {
+                messageEl.style.color = "#d97706"; // Оранжевый цвет для наценки рассрочки
+                messageEl.innerText = `Добавлена банковская комиссия ${percentStr}%`;
+              }
+              btn.innerText = `Оплатить ${Math.round(newPrice).toLocaleString('ru-RU')} ₽`;
+            } else {
+              messageEl.innerText = "";
+              btn.innerText = `Оплатить ${currentPrice.toLocaleString('ru-RU')} ₽`;
+            }
+          });
+        }
+      });
+
+      // === ФУНКЦИЯ ОПЛАТЫ ===
       async function processPayment(paymentType) {
         console.log("🟢 Запуск оплаты. Метод:", paymentType);
         const nameField = document.getElementById("user-name").value.trim();
         const emailField = document.getElementById("user-email").value.trim();
-        const btnElement =
-          paymentType === "tinkoff"
-            ? document.getElementById("btn-pay-tinkoff")
-            : document.getElementById("btn-pay-split");
+        // Получаем промокод
+        const promoField = document.getElementById("promo-code") ? document.getElementById("promo-code").value.trim() : "";
+        
+        const btnElement = document.getElementById("btn-pay-tinkoff");
         const originalHTML = btnElement.innerHTML;
 
         if (!nameField) {
@@ -529,7 +591,7 @@
           ym(107010402, "reachGoal", "pay_button_click");
         }
 
-        // Форма для бэкенда. ОБРАТИТЕ ВНИМАНИЕ: form.target = "_blank" УДАЛЕНО!
+        // Форма для бэкенда
         const form = document.createElement("form");
         form.method = "POST";
         form.action = "http://85.215.137.163:15241/api/pay";
@@ -539,7 +601,9 @@
           name: nameField,
           email: emailField,
           payment_method: paymentType,
+          promo_code: promoField // <--- Отправляем промокод на сервер!
         };
+        
         for (const key in data) {
           const input = document.createElement("input");
           input.type = "hidden";
