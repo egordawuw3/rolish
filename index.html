@@ -2110,7 +2110,7 @@ document.addEventListener("DOMContentLoaded", () => {
     window.scrollTo(0, scrollPosition);
   };
 
-  // Оставили блокировку только для фона, зум ВНУТРИ презентации теперь работает
+  // Разрешаем зум внутри презы, блокируем только фон
   modalPdf.addEventListener('touchmove', function(e) {
     if (!e.target.closest('#pdf-viewer')) {
       e.preventDefault(); 
@@ -2136,35 +2136,45 @@ document.addEventListener("DOMContentLoaded", () => {
       pdfDoc = await pdfjsLib.getDocument(pdfUrl).promise;
       pdfViewer.innerHTML = "";
 
-      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
       const isMobile = window.innerWidth <= 768;
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
       
-      let renderScale = (isIOS && isMobile) ? 0.8 : (isMobile ? 1.0 : 1.5);
+      // На мобилках ставим масштаб 1.0 (качество картинки), на ПК можно 1.5
+      let renderScale = isMobile ? 1.0 : 1.5;
 
       for (let i = 1; i <= pdfDoc.numPages; i++) {
         const page = await pdfDoc.getPage(i);
         const viewport = page.getViewport({ scale: renderScale });
 
+        // Создаем временный невидимый холст
         const canvas = document.createElement("canvas");
         const ctx = canvas.getContext("2d", { alpha: false });
 
         canvas.width = Math.floor(viewport.width);
         canvas.height = Math.floor(viewport.height);
 
-        // СЛАЙДЫ НА ВСЮ ШИРИНУ
-        canvas.style.width = "100%";
-        canvas.style.maxWidth = "none"; 
-        canvas.style.height = "auto";
-        canvas.style.display = "block";
-        canvas.style.margin = "0 0 6px 0"; // МАЛЕНЬКОЕ РАССТОЯНИЕ МЕЖДУ СЛАЙДАМИ
-        canvas.style.transform = "translateZ(0)"; 
-
-        pdfViewer.appendChild(canvas);
-
+        // Рендерим PDF на холст
         await page.render({ canvasContext: ctx, viewport: viewport, enableWebGL: true }).promise;
+
+        // === ГЛАВНЫЙ ФИКС ПРОТИВ ВЫЛЕТОВ ===
+        // Превращаем тяжелый Canvas в легкий JPEG (качество 85%)
+        const img = document.createElement("img");
+        img.src = canvas.toDataURL("image/jpeg", 0.85); 
+        img.style.width = "100%";
+        img.style.height = "auto";
+        img.style.display = "block";
+        img.style.margin = "0 0 6px 0"; // Расстояние 6px между слайдами
+
+        // Добавляем КАРТИНКУ, а не canvas
+        pdfViewer.appendChild(img);
+
+        // ЖЕСТКАЯ ОЧИСТКА ПАМЯТИ: полностью уничтожаем холст
+        canvas.width = 0;
+        canvas.height = 0;
         page.cleanup();
         
-        await new Promise(r => setTimeout(r, isIOS ? 100 : 20));
+        // Даем процессору телефона 50 миллисекунд отдыха между слайдами
+        await new Promise(r => setTimeout(r, 50));
       }
       isLoaded = true;
     } catch (err) {
@@ -2203,6 +2213,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 </script>
+
   </body>
 </html>
 
