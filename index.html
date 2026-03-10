@@ -21,7 +21,125 @@
     <link rel="icon" href="favicon.png" type="image/png" />
 
 <style>
-  .pdf-modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,26,64,.7);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);z-index:10005;display:flex;justify-content:center;align-items:center;transition:opacity .4s,visibility .4s;padding:24px;box-sizing:border-box}.pdf-modal-overlay.active{opacity:1!important;visibility:visible!important;pointer-events:auto!important}.pdf-modal-content{background:#fff;border-radius:24px;width:95vw;max-width:1400px;height:95vh;position:relative;box-shadow:0 40px 100px rgba(0,0,0,.5);transform:translateY(30px) scale(.97);transition:transform .5s cubic-bezier(.19, 1, .22, 1);display:flex;overflow:hidden}.pdf-modal-overlay.active .pdf-modal-content{transform:translateY(0) scale(1)}.pdf-modal-close{position:absolute;top:24px;right:24px;width:48px;height:48px;background:rgba(255,255,255,.8);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(0,69,166,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#0045a6;z-index:50;box-shadow:0 8px 24px rgba(0,0,0,.12);transition:.25s;padding:0}.pdf-modal-close svg{width:22px;height:22px;stroke:currentColor}.pdf-modal-close:hover{background:#fff;transform:scale(1.08) rotate(90deg);box-shadow:0 12px 30px rgba(0,69,166,.2)}.pdf-iframe-container{width:100%;height:100%;flex-grow:1;background:#fff;-webkit-overflow-scrolling:touch;overflow-y:auto}.pdf-iframe{width:100%;height:100%;border:none;display:block}@media (max-width:768px){.pdf-modal-overlay{padding:0}.pdf-modal-content{width:100vw;height:100dvh;border-radius:0;transform:translateY(100px)}.pdf-modal-close{top:16px;right:16px;width:42px;height:42px;background:rgba(255,255,255,.95);box-shadow:0 4px 15px rgba(0,0,0,.2)}.pdf-modal-close:hover{transform:scale(1.05) rotate(90deg)}}
+  /* Твой крутой оверлей с блюром */
+  .pdf-modal-overlay {
+    position: fixed;
+    inset: 0; /* Фикс для iOS: прибивает ко всем краям */
+    width: 100vw;
+    height: 100dvh; /* dVH решает проблему с нижней панелью Safari */
+    background: rgba(0, 26, 64, .7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 10005;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .4s, visibility .4s;
+    padding: 24px;
+    box-sizing: border-box;
+  }
+  .pdf-modal-overlay.active {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+  }
+
+  /* Твое белое окно */
+  .pdf-modal-content {
+    background: #fff;
+    border-radius: 24px;
+    width: 95vw;
+    max-width: 1400px;
+    height: 95dvh;
+    position: relative;
+    box-shadow: 0 40px 100px rgba(0, 0, 0, .5);
+    transform: translateY(30px) scale(.97);
+    transition: transform .5s cubic-bezier(.19, 1, .22, 1);
+    display: flex;
+    flex-direction: column; /* Важно для центрирования контента */
+    overflow: hidden;
+  }
+  
+  /* Фикс: Окно всегда встает ровно по центру при открытии */
+  .pdf-modal-overlay.active .pdf-modal-content {
+    transform: translateY(0) scale(1) !important;
+  }
+
+  /* Твоя кнопка закрытия */
+  .pdf-modal-close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    width: 48px;
+    height: 48px;
+    background: rgba(255, 255, 255, .8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 69, 166, .1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #0045a6;
+    z-index: 50;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .12);
+    transition: .25s;
+    padding: 0;
+  }
+  .pdf-modal-close svg {
+    width: 22px;
+    height: 22px;
+    stroke: currentColor;
+  }
+  .pdf-modal-close:hover {
+    background: #fff;
+    transform: scale(1.08) rotate(90deg);
+    box-shadow: 0 12px 30px rgba(0, 69, 166, .2);
+  }
+
+  /* Контейнер для слайдов */
+  .pdf-iframe-container {
+    width: 100%;
+    height: 100%;
+    flex-grow: 1;
+    background: #fff;
+    -webkit-overflow-scrolling: touch;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior: none; /* Убирает пружинку на iOS */
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  /* Твой мобильный адаптив + ФИКС ЦЕНТРИРОВАНИЯ */
+  @media (max-width: 768px) {
+    .pdf-modal-overlay {
+      padding: 0;
+    }
+    .pdf-modal-content {
+      width: 100vw;
+      height: 100dvh;
+      border-radius: 0;
+      transform: translateY(100px) scale(0.95); /* Старт анимации снизу */
+    }
+    .pdf-modal-close {
+      top: 16px;
+      right: 16px;
+      width: 42px;
+      height: 42px;
+      background: rgba(255, 255, 255, .95);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, .2);
+    }
+    .pdf-modal-close:hover {
+      transform: scale(1.05) rotate(90deg);
+    }
+    .pdf-iframe-container {
+      padding: 10px;
+    }
+  }
 </style>
 </head>
 
@@ -1962,26 +2080,21 @@
         });
       });
 </script>
-    <!-- САМ HTML ОКНА (Скрыто до клика) -->
-    <div
-      class="pdf-modal-overlay"
-      id="pdf-modal"
-      style="opacity: 0; visibility: hidden; pointer-events: none"
-    >
-<div class="pdf-modal-content">
-  <button class="pdf-modal-close" id="pdf-modal-close" aria-label="Закрыть">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-      <path d="M18 6L6 18M6 6l12 12" />
-    </svg>
-  </button>
-
-  <div class="pdf-iframe-container" id="pdf-viewer" style="background: #1a1a1a; overflow-y: auto;">
-    <div id="pdf-loader" style="color: white; text-align: center; padding: 50px; font-family: Inter, sans-serif;">
-      Загрузка презентации...
+<div class="pdf-modal-overlay" id="pdf-modal">
+  <div class="pdf-modal-content">
+    <button class="pdf-modal-close" id="pdf-modal-close" aria-label="Закрыть">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M18 6L6 18M6 6l12 12" />
+      </svg>
+    </button>
+    <div class="pdf-iframe-container" id="pdf-viewer">
+      <!-- Текст загрузки в синем цвете под твой дизайн -->
+      <div id="pdf-loader" style="color: #0045a6; text-align: center; padding-top: 40vh; font-family: Inter, sans-serif; font-size: 1.2rem; font-weight: 600;">
+        Загрузка презентации...
+      </div>
     </div>
   </div>
 </div>
-    </div>
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
@@ -1994,36 +2107,34 @@ document.addEventListener("DOMContentLoaded", () => {
   let isLoaded = false;
   let pdfDoc = null;
 
-  // 1. Блокировка скролла страницы
+  // --- ЖЕСТКАЯ БЛОКИРОВКА СКРОЛЛА САЙТА ДЛЯ iOS ---
+  let scrollPosition = 0;
   const disableBodyScroll = () => {
+    scrollPosition = window.scrollY;
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${scrollPosition}px`;
+    document.body.style.width = '100%';
     document.body.style.overflow = 'hidden';
-    document.body.style.touchAction = 'none';
   };
+  
   const enableBodyScroll = () => {
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
     document.body.style.overflow = '';
-    document.body.style.touchAction = '';
+    window.scrollTo(0, scrollPosition);
   };
 
-  // --- 100% БЛОКИРОВКА ПРИБЛИЖЕНИЯ (ZOOM) НА iOS ---
-  // Блокируем свайп двумя пальцами (щипок)
+  // Блокируем зум щипком (Pinch-to-zoom)
   modalPdf.addEventListener('touchmove', function(e) {
-    if (e.touches.length > 1) {
+    if (e.touches.length > 1 || !e.target.closest('#pdf-viewer')) {
       e.preventDefault(); 
     }
   }, { passive: false });
 
-  // Глушим системный жест увеличения масштаба Safari
-  document.addEventListener('gesturestart', function(e) {
-    if (modalPdf.style.visibility === "visible") {
-      e.preventDefault();
-    }
-  }, { passive: false });
-
-
-  // 2. Асинхронная загрузка PDF.js
+  // Загружаем PDF.js
   async function loadPdfJs() {
     if (window.pdfjsLib) return;
-    pdfViewer.innerHTML = '<p style="text-align:center; padding:40px; color:var(--blue-bright); font-weight:600; font-family:Inter,sans-serif;">Загрузка движка...</p>';
     return new Promise((resolve, reject) => {
       const script = document.createElement("script");
       script.src = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
@@ -2033,96 +2144,62 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // 3. Умный рендер с защитой от вылетов на iOS
+  // Рендер с защитой от вылетов ОЗУ
   async function renderPDF() {
     if (isLoaded) return;
-
     pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
     try {
       pdfDoc = await pdfjsLib.getDocument(pdfUrl).promise;
       pdfViewer.innerHTML = "";
 
-      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
-                    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
       const isMobile = window.innerWidth <= 768;
       
-      // КРИТИЧЕСКОЕ РЕШЕНИЕ ПРОТИВ ВЫЛЕТОВ: 
-      // Снижаем scale для iPhone. Уменьшенные холсты потребляют в 3-4 раза меньше оперативной памяти.
-      // Благодаря width: 100% CSS всё равно растянет их на весь экран.
-      let renderScale = 1.5;
-      if (isIOS && isMobile) {
-          renderScale = 0.8; // Защита от OOM (Out of memory) на iPhone
-      } else if (isMobile) {
-          renderScale = 1.0;
-      }
+      // На айфоне рендерим меньше пикселей (scale 0.8), чтобы не крашился браузер!
+      let renderScale = (isIOS && isMobile) ? 0.8 : (isMobile ? 1.0 : 1.5);
 
       for (let i = 1; i <= pdfDoc.numPages; i++) {
         const page = await pdfDoc.getPage(i);
         const viewport = page.getViewport({ scale: renderScale });
 
         const canvas = document.createElement("canvas");
-        const ctx = canvas.getContext("2d", { alpha: false }); // alpha: false экономит память
+        const ctx = canvas.getContext("2d", { alpha: false });
 
         canvas.width = Math.floor(viewport.width);
         canvas.height = Math.floor(viewport.height);
 
-        // Растягиваем строго по ширине окна
+        // Идеальное позиционирование слайдов по центру твоего белого контейнера
         canvas.style.width = "100%";
+        canvas.style.maxWidth = "900px"; 
         canvas.style.height = "auto";
         canvas.style.display = "block";
-        canvas.style.marginBottom = "15px";
-        
-        // Легкое GPU-ускорение (предотвращает фризы при скролле)
-        canvas.style.transform = "translateZ(0)";
-        canvas.style.willChange = "transform";
+        canvas.style.margin = "0 auto 20px auto"; // Центрирует канвас
+        canvas.style.boxShadow = "0 10px 30px rgba(0,69,166,0.1)"; // Легкая синяя тень под слайдом
+        canvas.style.transform = "translateZ(0)"; 
 
         pdfViewer.appendChild(canvas);
 
-        const renderContext = {
-          canvasContext: ctx,
-          viewport: viewport,
-          enableWebGL: true
-        };
-
-        await page.render(renderContext).promise;
-
-        page.cleanup(); // Очистка кэша страницы
+        await page.render({ canvasContext: ctx, viewport: viewport, enableWebGL: true }).promise;
+        page.cleanup();
         
-        // Даем сборщику мусора iOS Safari больше времени (150мс), чтобы очистить ОЗУ перед следующим слайдом
-        await new Promise(r => setTimeout(r, isIOS ? 150 : 30));
+        await new Promise(r => setTimeout(r, isIOS ? 100 : 20));
       }
-
       isLoaded = true;
     } catch (err) {
-      console.error("Render Error:", err);
-      pdfViewer.innerHTML = '<p style="color:red; text-align:center; padding:20px;">Ошибка при чтении PDF</p>';
+      console.error(err);
+      pdfViewer.innerHTML = '<p style="color:#ff4444; text-align:center; padding-top:40vh; font-size:1.2rem;">Ошибка при загрузке презентации</p>';
     }
   }
 
-  // 4. Управление модальным окном
   function openModal() {
-    modalPdf.style.display = "flex"; 
-    
-    // Блокируем "резинку" и зум непосредственно на скроллируемом контейнере
-    pdfViewer.style.touchAction = "pan-y";
-    pdfViewer.style.overscrollBehavior = "none";
-
-    setTimeout(() => {
-        modalPdf.style.visibility = "visible";
-        modalPdf.style.opacity = "1";
-        modalPdf.style.pointerEvents = "all";
-    }, 10);
+    modalPdf.classList.add("active");
     disableBodyScroll();
   }
 
   function closeModal() {
-    modalPdf.style.opacity = "0";
-    setTimeout(() => {
-      modalPdf.style.visibility = "hidden";
-      modalPdf.style.pointerEvents = "none";
-      enableBodyScroll();
-    }, 300);
+    modalPdf.classList.remove("active");
+    enableBodyScroll();
   }
 
   btnOpenPdf?.addEventListener("click", async (e) => {
@@ -2139,7 +2216,9 @@ document.addEventListener("DOMContentLoaded", () => {
   btnClosePdf?.addEventListener("click", closeModal);
 
   modalPdf.addEventListener("click", (e) => {
-    if (e.target === modalPdf) closeModal();
+    if (e.target === modalPdf || e.target === modalPdf.querySelector('.pdf-modal-content')) {
+      closeModal();
+    }
   });
 });
 </script>
