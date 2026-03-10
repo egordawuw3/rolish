@@ -88,12 +88,12 @@
       .modal-input::placeholder { color: #a3a3a3; }
       .modal-input:focus { border-color: #005bff; box-shadow: 0 0 0 4px rgba(0, 91, 255, 0.1); }
       
-      /* Добавлено для стилизации поля промокода */
-      #promo-code { text-transform: uppercase; }
+      /* Стилизация поля промокода */
+      #promo-code { text-transform: uppercase; margin-bottom: 5px; } 
       #promo-code::placeholder { text-transform: none; }
-      #promo-message { font-size: 0.9rem; margin-top: -5px; margin-bottom: 15px; font-weight: 600; text-align: center; transition: all 0.3s; min-height: 20px; }
+      #promo-message { font-size: 0.9rem; margin-bottom: 15px; font-weight: 600; text-align: center; color: #00a100; min-height: 18px; }
 
-      .payment-buttons { display: flex; flex-direction: column; gap: 14px; margin-top: 10px; }
+      .payment-buttons { display: flex; flex-direction: column; gap: 14px; margin-top: 5px; }
       .modal-btn { width: 100%; padding: 14px 20px; border: none; border-radius: 14px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: transform 0.2s, filter 0.2s; font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 12px; }
       .modal-btn:active { transform: scale(0.98); }
       .btn-tinkoff { background: #ffdd2d; color: #000; }
@@ -513,7 +513,7 @@
         currentTariff = tariffName;
         currentPrice = basePrices[tariffName] || 0;
         
-        // При открытии ставим базовую цену
+        // При открытии ставим базовую цену в заголовок и на кнопку
         document.getElementById("modal-tariff-name").innerText = `${tariffName} — ${currentPrice.toLocaleString('ru-RU')} ₽`;
         document.getElementById("btn-pay-tinkoff").innerText = `Оплатить ${currentPrice.toLocaleString('ru-RU')} ₽`;
         document.getElementById("payment-modal").classList.add("active");
@@ -539,25 +539,25 @@
         if(promoInput) {
           promoInput.addEventListener("input", function(e) {
             let code = e.target.value.trim().toUpperCase();
-            let messageEl = document.getElementById("promo-message");
             let btn = document.getElementById("btn-pay-tinkoff");
+            let title = document.getElementById("modal-tariff-name");
+            let messageEl = document.getElementById("promo-message");
             
             if (promos.hasOwnProperty(code)) {
               let modifier = promos[code];
-              let newPrice = currentPrice * (1 + modifier);
-              let percentStr = Math.round(Math.abs(modifier * 100));
+              let newPrice = Math.round(currentPrice * (1 + modifier));
               
-              if (modifier < 0) {
-                messageEl.style.color = "#00a100"; // Зеленый цвет для скидки
-                messageEl.innerText = `Скидка ${percentStr}% применена!`;
-              } else {
-                messageEl.style.color = "#d97706"; // Оранжевый цвет для наценки рассрочки
-                messageEl.innerText = `Добавлена банковская комиссия ${percentStr}%`;
-              }
-              btn.innerText = `Оплатить ${Math.round(newPrice).toLocaleString('ru-RU')} ₽`;
+              // Меняем цену на кнопке и в заголовке
+              btn.innerText = `Оплатить ${newPrice.toLocaleString('ru-RU')} ₽`;
+              title.innerText = `${currentTariff} — ${newPrice.toLocaleString('ru-RU')} ₽`;
+              
+              // Показываем сообщение об успехе
+              messageEl.innerText = "Промокод успешно применен!";
             } else {
-              messageEl.innerText = "";
+              // Если промокод стерт или неверный — возвращаем базовую цену
               btn.innerText = `Оплатить ${currentPrice.toLocaleString('ru-RU')} ₽`;
+              title.innerText = `${currentTariff} — ${currentPrice.toLocaleString('ru-RU')} ₽`;
+              messageEl.innerText = "";
             }
           });
         }
@@ -568,7 +568,6 @@
         console.log("🟢 Запуск оплаты. Метод:", paymentType);
         const nameField = document.getElementById("user-name").value.trim();
         const emailField = document.getElementById("user-email").value.trim();
-        // Получаем промокод
         const promoField = document.getElementById("promo-code") ? document.getElementById("promo-code").value.trim() : "";
         
         const btnElement = document.getElementById("btn-pay-tinkoff");
@@ -601,7 +600,7 @@
           name: nameField,
           email: emailField,
           payment_method: paymentType,
-          promo_code: promoField // <--- Отправляем промокод на сервер!
+          promo_code: promoField // Отправляем промокод на сервер
         };
         
         for (const key in data) {
