@@ -1468,7 +1468,8 @@ letter-spacing: -.02em
 .t-list-icons {
 list-style: none;
 padding: 0;
-margin: 0
+margin: 0;
+text-align: left
 }
 
 .t-list li {
