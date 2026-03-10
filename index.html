@@ -1994,22 +1994,36 @@ document.addEventListener("DOMContentLoaded", () => {
   let isLoaded = false;
   let pdfDoc = null;
 
-  // 1. Блокировка скролла с защитой
+  // 1. Блокировка скролла страницы
   const disableBodyScroll = () => {
     document.body.style.overflow = 'hidden';
-    document.body.style.touchAction = 'none'; // Важно для iOS
+    document.body.style.touchAction = 'none';
   };
   const enableBodyScroll = () => {
     document.body.style.overflow = '';
     document.body.style.touchAction = '';
   };
 
+  // --- 100% БЛОКИРОВКА ПРИБЛИЖЕНИЯ (ZOOM) НА iOS ---
+  // Блокируем свайп двумя пальцами (щипок)
+  modalPdf.addEventListener('touchmove', function(e) {
+    if (e.touches.length > 1) {
+      e.preventDefault(); 
+    }
+  }, { passive: false });
+
+  // Глушим системный жест увеличения масштаба Safari
+  document.addEventListener('gesturestart', function(e) {
+    if (modalPdf.style.visibility === "visible") {
+      e.preventDefault();
+    }
+  }, { passive: false });
+
+
   // 2. Асинхронная загрузка PDF.js
   async function loadPdfJs() {
     if (window.pdfjsLib) return;
-    
     pdfViewer.innerHTML = '<p style="text-align:center; padding:40px; color:var(--blue-bright); font-weight:600; font-family:Inter,sans-serif;">Загрузка движка...</p>';
-
     return new Promise((resolve, reject) => {
       const script = document.createElement("script");
       script.src = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
@@ -2029,46 +2043,54 @@ document.addEventListener("DOMContentLoaded", () => {
       pdfDoc = await pdfjsLib.getDocument(pdfUrl).promise;
       pdfViewer.innerHTML = "";
 
-      // Определяем iOS
       const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
                     (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      const isMobile = window.innerWidth <= 768;
       
-      // На iOS ставим 1.5 для баланса четкости и памяти. На десктопе — 2.
-      const renderScale = isIOS ? 1.5 : 2;
+      // КРИТИЧЕСКОЕ РЕШЕНИЕ ПРОТИВ ВЫЛЕТОВ: 
+      // Снижаем scale для iPhone. Уменьшенные холсты потребляют в 3-4 раза меньше оперативной памяти.
+      // Благодаря width: 100% CSS всё равно растянет их на весь экран.
+      let renderScale = 1.5;
+      if (isIOS && isMobile) {
+          renderScale = 0.8; // Защита от OOM (Out of memory) на iPhone
+      } else if (isMobile) {
+          renderScale = 1.0;
+      }
 
       for (let i = 1; i <= pdfDoc.numPages; i++) {
         const page = await pdfDoc.getPage(i);
         const viewport = page.getViewport({ scale: renderScale });
 
         const canvas = document.createElement("canvas");
-        const ctx = canvas.getContext("2d", { alpha: false }); // Оптимизация: отключаем прозрачность
+        const ctx = canvas.getContext("2d", { alpha: false }); // alpha: false экономит память
 
-        canvas.width = viewport.width;
-        canvas.height = viewport.height;
+        canvas.width = Math.floor(viewport.width);
+        canvas.height = Math.floor(viewport.height);
 
-        // Стили для корректного отображения и аппаратного ускорения
+        // Растягиваем строго по ширине окна
         canvas.style.width = "100%";
         canvas.style.height = "auto";
         canvas.style.display = "block";
         canvas.style.marginBottom = "15px";
-        canvas.style.transform = "translateZ(0)"; // Включаем GPU ускорение
-        canvas.style.webkitTransform = "translateZ(0)";
+        
+        // Легкое GPU-ускорение (предотвращает фризы при скролле)
+        canvas.style.transform = "translateZ(0)";
+        canvas.style.willChange = "transform";
 
         pdfViewer.appendChild(canvas);
 
         const renderContext = {
           canvasContext: ctx,
           viewport: viewport,
-          enableWebGL: true // Ускоряем рендер, если доступно
+          enableWebGL: true
         };
 
         await page.render(renderContext).promise;
 
-        // ПРИНУДИТЕЛЬНАЯ ОЧИСТКА после каждой страницы
-        page.cleanup();
+        page.cleanup(); // Очистка кэша страницы
         
-        // Даем браузеру «продышаться» между страницами (особенно важно для Safari)
-        await new Promise(r => setTimeout(r, isIOS ? 100 : 30));
+        // Даем сборщику мусора iOS Safari больше времени (150мс), чтобы очистить ОЗУ перед следующим слайдом
+        await new Promise(r => setTimeout(r, isIOS ? 150 : 30));
       }
 
       isLoaded = true;
@@ -2080,7 +2102,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 4. Управление модальным окном
   function openModal() {
-    modalPdf.style.display = "flex"; // Или блок, зависит от вашего CSS
+    modalPdf.style.display = "flex"; 
+    
+    // Блокируем "резинку" и зум непосредственно на скроллируемом контейнере
+    pdfViewer.style.touchAction = "pan-y";
+    pdfViewer.style.overscrollBehavior = "none";
+
     setTimeout(() => {
         modalPdf.style.visibility = "visible";
         modalPdf.style.opacity = "1";
@@ -2098,7 +2125,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 300);
   }
 
-  // Обработчики событий
   btnOpenPdf?.addEventListener("click", async (e) => {
     e.preventDefault();
     openModal();
