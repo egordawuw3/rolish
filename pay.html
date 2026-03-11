@@ -564,69 +564,71 @@
       });
 
 // === ФУНКЦИЯ ОПЛАТЫ ===
-      async function processPayment(paymentType) {
-        console.log("🟢 Запуск оплаты. Метод:", paymentType);
-        const nameField = document.getElementById("user-name").value.trim();
-        const emailField = document.getElementById("user-email").value.trim();
-        const promoField = document.getElementById("promo-code") ? document.getElementById("promo-code").value.trim() : "";
-        
-        const btnElement = document.getElementById("btn-pay-tinkoff");
-        const originalHTML = btnElement.innerHTML;
+async function processPayment(paymentType) {
+  console.log("🟢 Запуск оплаты. Метод:", paymentType);
+  const nameField = document.getElementById("user-name").value.trim();
+  const emailField = document.getElementById("user-email").value.trim();
+  const promoField = document.getElementById("promo-code") ? document.getElementById("promo-code").value.trim() : "";
+  
+  const btnElement = document.getElementById("btn-pay-tinkoff");
+  const originalHTML = btnElement.innerHTML;
 
-        // --- ВАЛИДАЦИЯ ИМЕНИ И ПОЧТЫ ---
-        // Имя: только буквы (рус/англ), пробел и дефис. От 2 до 50 символов.
-        const nameRegex = /^[а-яА-ЯёЁa-zA-Z\s\-]{2,50}$/;
-        // Email: стандартная проверка на наличие @ и домена
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  // --- РЕГУЛЯРНЫЕ ВЫРАЖЕНИЯ ДЛЯ ПРОВЕРКИ ---
+  // Имя: только буквы (русские/английские), пробелы и дефис. Длина от 2 символов.
+  const nameRegex = /^[а-яА-ЯёЁa-zA-Z\s\-]{2,50}$/;
+  // Email: проверка на наличие символа "@" и точки после него.
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-        if (!nameField) {
-          alert("Пожалуйста, укажите ваше имя!");
-          return;
-        }
-        if (!nameRegex.test(nameField)) {
-          alert("Пожалуйста, введите настоящее имя (только буквы, без цифр и лишних символов).");
-          return;
-        }
+  // --- ПРОВЕРКА ПОЛЯ "ИМЯ" ---
+  if (!nameField) {
+    alert("Укажи свое имя");
+    return;
+  }
+  if (!nameRegex.test(nameField)) {
+    alert("Введи нормальное имя (только буквы, без цифр и спецсимволов).");
+    return;
+  }
 
-        if (!emailField) {
-          alert("Пожалуйста, укажите email для чека!");
-          return;
-        }
-        if (!emailRegex.test(emailField)) {
-          alert("Пожалуйста, введите корректный email (например: mymail@yandex.ru).");
-          return;
-        }
-        // --- КОНЕЦ ВАЛИДАЦИИ ---
+  // --- ПРОВЕРКА ПОЛЯ "EMAIL" ---
+  if (!emailField) {
+    alert("Укажи свой email для чека");
+    return;
+  }
+  if (!emailRegex.test(emailField)) {
+    alert("Введи правильный email (например: tvoipochta@yandex.ru).");
+    return;
+  }
 
-        btnElement.innerHTML = "Перенаправление...";
-        btnElement.style.pointerEvents = "none";
-        btnElement.style.opacity = "0.7";
+  btnElement.innerHTML = "Перенаправление...";
+  btnElement.style.pointerEvents = "none";
+  btnElement.style.opacity = "0.7";
 
-        if (typeof ym !== "undefined") {
-          ym(107010402, "reachGoal", "pay_button_click");
-        }
+  if (typeof ym !== "undefined") {
+    ym(107010402, "reachGoal", "pay_button_click");
+  }
 
-        // === ОБХОД БЛОКИРОВКИ БРАУЗЕРА (Mixed Content) ===
-        const baseUrl = "http://85.215.137.163:15241/api/pay";
-        const params = new URLSearchParams({
-          tariff_name: currentTariff,
-          name: nameField,
-          email: emailField,
-          payment_method: paymentType,
-          promo_code: promoField
-        });
+  // === ОБХОД БЛОКИРОВКИ БРАУЗЕРА (Mixed Content) ===
+  // Вместо создания <form>, мы собираем данные в ссылку
+  // и направляем пользователя на сервер FastAPI напрямую.
+  const baseUrl = "http://85.215.137.163:15241/api/pay";
+  const params = new URLSearchParams({
+    tariff_name: currentTariff,
+    name: nameField,
+    email: emailField,
+    payment_method: paymentType,
+    promo_code: promoField
+  });
 
-        // Открываем URL. FastAPI примет данные и тут же перекинет в Тинькофф
-        window.location.href = `${baseUrl}?${params.toString()}`;
+  // Открываем URL. FastAPI примет данные и тут же перекинет в Тинькофф
+  window.location.href = `${baseUrl}?${params.toString()}`;
 
-        setTimeout(() => {
-          btnElement.innerHTML = originalHTML;
-          btnElement.style.pointerEvents = "auto";
-          btnElement.style.opacity = "1";
-          closePaymentModal();
-        }, 3000);
-      }
-      // ШУМ
+  setTimeout(() => {
+    btnElement.innerHTML = originalHTML;
+    btnElement.style.pointerEvents = "auto";
+    btnElement.style.opacity = "1";
+    closePaymentModal();
+  }, 3000);
+}      // ШУМ
       const noiseCanvas = document.getElementById("noise-canvas");
       if (noiseCanvas) {
         const ctx = noiseCanvas.getContext("2d", { alpha: true });
