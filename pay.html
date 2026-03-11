@@ -563,7 +563,7 @@
         }
       });
 
-      // === ФУНКЦИЯ ОПЛАТЫ ===
+// === ФУНКЦИЯ ОПЛАТЫ ===
       async function processPayment(paymentType) {
         console.log("🟢 Запуск оплаты. Метод:", paymentType);
         const nameField = document.getElementById("user-name").value.trim();
@@ -590,35 +590,27 @@
           ym(107010402, "reachGoal", "pay_button_click");
         }
 
-        // Форма для бэкенда
-        const form = document.createElement("form");
-        form.method = "POST";
-        form.action = "http://85.215.137.163:15241/api/pay";
-
-        const data = {
+        // === ОБХОД БЛОКИРОВКИ БРАУЗЕРА (Mixed Content) ===
+        // Вместо создания <form>, мы собираем данные в ссылку
+        // и направляем пользователя на сервер FastAPI напрямую.
+        const baseUrl = "http://85.215.137.163:15241/api/pay";
+        const params = new URLSearchParams({
           tariff_name: currentTariff,
           name: nameField,
           email: emailField,
           payment_method: paymentType,
-          promo_code: promoField // Отправляем промокод на сервер
-        };
-        
-        for (const key in data) {
-          const input = document.createElement("input");
-          input.type = "hidden";
-          input.name = key;
-          input.value = data[key];
-          form.appendChild(input);
-        }
-        document.body.appendChild(form);
-        form.submit();
+          promo_code: promoField
+        });
+
+        // Открываем URL. FastAPI примет данные и тут же перекинет в Тинькофф
+        window.location.href = `${baseUrl}?${params.toString()}`;
 
         setTimeout(() => {
           btnElement.innerHTML = originalHTML;
           btnElement.style.pointerEvents = "auto";
           btnElement.style.opacity = "1";
           closePaymentModal();
-        }, 2000);
+        }, 3000);
       }
 
       // ШУМ
