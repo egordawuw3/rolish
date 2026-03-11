@@ -13,12 +13,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://www.transparenttextures.com" />
-    <!-- Текстуры в anketa.css тоже есть -->
 
     <!-- Предзагрузка главного CSS-файла -->
     <link rel="preload" href="css/anketa.css" as="style" />
 
-    <!-- Асинхронная загрузка шрифтов (Убирает Render-blocking) -->
+    <!-- Асинхронная загрузка шрифтов -->
     <link
       rel="preload"
       as="style"
@@ -42,7 +41,7 @@
   </head>
 
   <body>
-    <!-- Возвращен твой оригинальный интерактивный Canvas-шум -->
+    <!-- Интерактивный Canvas-шум -->
     <canvas id="noise-canvas"></canvas>
 
     <nav class="navbar">
@@ -59,8 +58,8 @@
         </p>
       </div>
 
-        <form id="anketa-form" action="https://script.google.com/macros/s/AKfycbzjjPObVOfRBdQl7D07R0g-tNYhXiLhp4vz3eUigdKvGBJ-kwcK4mFKxxt9faMDvDAQnA/exec" method="POST">        
-          <div class="form-block reveal">
+      <form id="anketa-form" action="https://script.google.com/macros/s/AKfycbzjjPObVOfRBdQl7D07R0g-tNYhXiLhp4vz3eUigdKvGBJ-kwcK4mFKxxt9faMDvDAQnA/exec" method="POST">        
+        <div class="form-block reveal">
           <div style="margin-bottom: 30px">
             <label for="user-name" class="block-title">Имя :</label>
             <input
@@ -74,12 +73,14 @@
           </div>
           <div>
             <label for="user-tg" class="block-title">Ник в TG (@юзер) :</label>
+            <!-- ПРАВКА 2: Знак @ по умолчанию -->
             <input
               type="text"
               id="user-tg"
               name="Telegram"
               class="input-text"
-              placeholder="*ввод*"
+              placeholder="@username"
+              value="@"
               required
             />
           </div>
@@ -117,12 +118,7 @@
           </div>
           <div class="tiles-grid" role="group" aria-labelledby="problem-group">
             <label class="tile">
-              <input
-                type="radio"
-                name="Проблема"
-                value="Нехватка скиллов"
-                required
-              />
+              <input type="radio" name="Проблема" value="Нехватка скиллов" required />
               <span>Нехватка скиллов</span>
             </label>
             <label class="tile">
@@ -142,11 +138,7 @@
               <span>Нет четкого плана</span>
             </label>
             <label class="tile">
-              <input
-                type="radio"
-                name="Проблема"
-                value="Лень, но готов побороть"
-              />
+              <input type="radio" name="Проблема" value="Лень, но готов побороть" />
               <span>Лень, но готов побороть</span>
             </label>
           </div>
@@ -188,11 +180,7 @@
           <div class="block-title" id="ready-group">
             Насколько ты готов к обучению :
           </div>
-          <div
-            class="tiles-grid single-col"
-            role="group"
-            aria-labelledby="ready-group"
-          >
+          <div class="tiles-grid single-col" role="group" aria-labelledby="ready-group">
             <label class="tile">
               <input type="radio" name="Готовность" value="1/10" required />
               <span>1/10 - Пока думаю</span>
@@ -212,16 +200,12 @@
           </div>
         </div>
 
+        <!-- ПРАВКА 3: Галочки объединены и включены по умолчанию (checked) -->
         <div class="checkbox-group reveal">
           <label class="custom-checkbox">
-            <input type="checkbox" name="Согласие_ПД" required />
+            <input type="checkbox" name="Согласие_и_Оферта" checked required />
             <span class="checkmark"></span>
-            <span class="checkbox-text">Я согласен на <a>обработку персональных данных</a> и получение новостей</span>
-          </label>
-          <label class="custom-checkbox">
-            <input type="checkbox" name="Договор_оферты" required />
-            <span class="checkmark"></span>
-            <span class="checkbox-text">Я принимаю условия <a>договора оферты</a></span>
+            <span class="checkbox-text">Я согласен на <a>обработку персональных данных</a>, получение новостей и принимаю условия <a>договора оферты</a></span>
           </label>
         </div>
 
@@ -231,7 +215,7 @@
       </form>
     </div>
 
-<div class="success-screen" id="success-screen">
+    <div class="success-screen" id="success-screen">
       <div class="success-subtitle">Анкета успешно отправлена</div>
       <h1 class="success-title">ГОТОВО!</h1>
       <div class="success-manager">
@@ -244,13 +228,13 @@
     </div>
 
     <script>
-      // --- 1. ШУМ НА ФОНЕ (ОРИГИНАЛ + СУПЕР-ОПТИМИЗАЦИЯ СДВИГОМ) ---
+      // --- 1. ШУМ НА ФОНЕ ---
       const noiseCanvas = document.getElementById("noise-canvas");
 
       if (noiseCanvas) {
         const ctx = noiseCanvas.getContext("2d", { alpha: true });
         let pattern;
-        const patternSize = 256; // Размер базового квадрата шума
+        const patternSize = 256; 
 
         const resize = () => {
           noiseCanvas.width = window.innerWidth;
@@ -259,7 +243,6 @@
         window.addEventListener("resize", resize);
         resize();
 
-        // Создаем кусочек шума ОДИН РАЗ, используя ТВОЙ ОРИГИНАЛЬНЫЙ КОД
         const createPattern = () => {
           const tile = document.createElement("canvas");
           tile.width = patternSize;
@@ -268,7 +251,6 @@
           const id = tCtx.createImageData(patternSize, patternSize);
           const buffer = new Uint32Array(id.data.buffer);
 
-          // Твои оригинальные цвета и плотность!
           for (let i = 0; i < buffer.length; i++) {
             if (Math.random() < 0.2) {
               buffer[i] = Math.random() < 0.5 ? 0xff000000 : 0x11000000;
@@ -281,14 +263,12 @@
         createPattern();
 
         const loopNoise = () => {
-          // Случайный сдвиг паттерна каждый кадр (создает иллюзию нового шума)
           const xOff = Math.floor(Math.random() * patternSize);
           const yOff = Math.floor(Math.random() * patternSize);
 
           ctx.clearRect(0, 0, noiseCanvas.width, noiseCanvas.height);
           ctx.fillStyle = pattern;
 
-          // Сдвигаем начало координат и рисуем холст с запасом
           ctx.translate(-xOff, -yOff);
           ctx.fillRect(
             0,
@@ -296,16 +276,15 @@
             noiseCanvas.width + patternSize,
             noiseCanvas.height + patternSize,
           );
-          ctx.setTransform(1, 0, 0, 1, 0, 0); // Возвращаем обратно
+          ctx.setTransform(1, 0, 0, 1, 0, 0); 
 
-          // 15 FPS - работает плавно, батарею не са  дит
           setTimeout(() => requestAnimationFrame(loopNoise), 1000 / 15);
         };
 
         loopNoise();
       }
 
-      // --- 2. УМНАЯ СУПЕР-ПЛАВНАЯ АНИМАЦИЯ ПО СКРОЛЛУ ---
+      // --- 2. АНИМАЦИЯ ПО СКРОЛЛУ ---
       document.addEventListener("DOMContentLoaded", () => {
         const revealElements = document.querySelectorAll(".reveal");
 
@@ -332,7 +311,8 @@
 
         revealElements.forEach((el) => revealObserver.observe(el));
       });
-// --- 3. МОМЕНТАЛЬНАЯ AJAX ОТПРАВКА ---
+
+      // --- 3. МОМЕНТАЛЬНАЯ AJAX ОТПРАВКА ---
       const form = document.getElementById("anketa-form");
       const formContainer = document.getElementById("form-container");
       const successScreen = document.getElementById("success-screen");
@@ -340,6 +320,15 @@
 
       form.addEventListener("submit", function(e) {
         e.preventDefault(); 
+
+        // ПРАВКА 1: Проверка на правильность ввода имени (только буквы)
+        const nameInput = document.getElementById("user-name").value.trim();
+        const nameRegex = /^[A-Za-zА-Яа-яЁё\s\-]+$/; // Разрешены только буквы, пробел и дефис
+        
+        if (!nameRegex.test(nameInput)) {
+          alert("Пожалуйста напиши своё настоящее имя");
+          return; // Прерываем отправку формы, если есть цифры
+        }
 
         submitBtn.innerText = "Отправка...";
         submitBtn.disabled = true;
@@ -354,7 +343,6 @@
         }).catch(err => console.error("Ошибка отправки в фоне:", err));
 
         // 2. НЕ ЖДЕМ ОТВЕТА! Сразу запускаем твою красивую анимацию
-        // Даем микро-задержку в 300мс, чтобы человек успел заметить текст "Отправка..."
         setTimeout(() => {
           formContainer.style.opacity = "0";
           formContainer.style.transform = "translateY(-30px)";
