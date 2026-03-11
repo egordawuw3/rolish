@@ -573,14 +573,30 @@
         const btnElement = document.getElementById("btn-pay-tinkoff");
         const originalHTML = btnElement.innerHTML;
 
+        // --- ВАЛИДАЦИЯ ИМЕНИ И ПОЧТЫ ---
+        // Имя: только буквы (рус/англ), пробел и дефис. От 2 до 50 символов.
+        const nameRegex = /^[а-яА-ЯёЁa-zA-Z\s\-]{2,50}$/;
+        // Email: стандартная проверка на наличие @ и домена
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
         if (!nameField) {
           alert("Пожалуйста, укажите ваше имя!");
           return;
         }
+        if (!nameRegex.test(nameField)) {
+          alert("Пожалуйста, введите настоящее имя (только буквы, без цифр и лишних символов).");
+          return;
+        }
+
         if (!emailField) {
           alert("Пожалуйста, укажите email для чека!");
           return;
         }
+        if (!emailRegex.test(emailField)) {
+          alert("Пожалуйста, введите корректный email (например: mymail@yandex.ru).");
+          return;
+        }
+        // --- КОНЕЦ ВАЛИДАЦИИ ---
 
         btnElement.innerHTML = "Перенаправление...";
         btnElement.style.pointerEvents = "none";
@@ -591,8 +607,6 @@
         }
 
         // === ОБХОД БЛОКИРОВКИ БРАУЗЕРА (Mixed Content) ===
-        // Вместо создания <form>, мы собираем данные в ссылку
-        // и направляем пользователя на сервер FastAPI напрямую.
         const baseUrl = "http://85.215.137.163:15241/api/pay";
         const params = new URLSearchParams({
           tariff_name: currentTariff,
@@ -612,7 +626,6 @@
           closePaymentModal();
         }, 3000);
       }
-
       // ШУМ
       const noiseCanvas = document.getElementById("noise-canvas");
       if (noiseCanvas) {
