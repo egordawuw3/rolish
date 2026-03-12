@@ -703,11 +703,13 @@ pointer-events: auto
 
 .card-img-container {
     width: 100%;
-    height: 50%; /* Задаем высоту в 50% от карточки */
-    flex: 0 0 50%; /* Запрещаем сжиматься и жестко фиксируем размер в половину карточки */
+    height: 50%; 
+    flex: 0 0 50%; 
     overflow: hidden;
     position: relative;
     pointer-events: none;
+    /* ДОБАВЛЕНО: красивый цвет-заглушка, пока фото грузится */
+    background-color: #e0e6ff; 
 }
 
 .card-img,
@@ -715,8 +717,10 @@ pointer-events: auto
 .zig-zag-visual img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Обрезает картинку пропорционально, заполняя весь блок */
-    display: block; /* Убирает лишние отступы снизу картинки */
+    object-fit: cover; 
+    display: block; 
+    /* ДОБАВЛЕНО: браузер не будет ждать скачивания, чтобы отрисовать рамку */
+    color: transparent; 
 }
 
 .black-bar {
