@@ -17,7 +17,7 @@
     <link rel="preload" as="style" href="css/index.css?v=2" />
     <link rel="stylesheet" href="css/index.css?v=2" />
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=Caveat:wght@700&display=swap" media="print" onload="this.media='all'" />    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=Caveat:wght@700&display=swap" rel="stylesheet" />   
     <link rel="icon" href="favicon.png" type="image/png" />
 
 <style>
@@ -1302,10 +1302,13 @@
         <div class="video-grid stagger-container">
           <div class="video-item stagger-item">
             <div class="video-wrapper">
-                <iframe 
+              <iframe 
                 src="https://drive.google.com/file/d/1oL0n_D6wY4fkTk3sYfb1W9OGShL9KlR-/preview" 
                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" 
-                allowfullscreen>
+                allow="autoplay; fullscreen; picture-in-picture; xr-spatial-tracking; encrypted-media"
+                allowfullscreen="true" 
+                webkitallowfullscreen="true" 
+                mozallowfullscreen="true">
               </iframe>
             </div>
             <h3 class="video-title">Монтаж умер</h3>
