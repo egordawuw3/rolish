@@ -1628,14 +1628,16 @@ max-width: 480px
 }
 
 .zig-zag-visual {
-flex-shrink: 0;
-width: 420px;
-height: 420px;
-background-color: var(--white);
-border-radius: 40px;
-position: relative;
-box-shadow: 0 20px 60px rgba(0, 69, 166, .1);
-transition: transform .6s var(--ease-smooth)
+  flex-shrink: 0;
+  width: 480px;         /* Делаем блок шире */
+  height: auto;
+  aspect-ratio: 16 / 9; /* Строгая пропорция 16:9 */
+  background-color: var(--white);
+  border-radius: 24px;  /* Чуть аккуратнее для такого формата */
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0, 69, 166, .1);
+  transition: transform .6s var(--ease-smooth);
+  overflow: hidden;     /* Чтобы фото не вылезало за углы */
 }
 
 .zig-zag-visual:hover {
@@ -1905,11 +1907,10 @@ text-align: left
 max-width: 100%
     }
 .zig-zag-visual {
-width: 100%;
-height: auto;
-aspect-ratio: 1/1
-    }
-.zz-title {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9; /* Тоже 16:9 для телефонов */
+}.zz-title {
 font-size: 2rem
     }
 .faq-grid-2col {
