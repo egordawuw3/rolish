@@ -6,7 +6,7 @@
     <meta name="description" content="core. ядро. - Авторская система создания контента и заработка на творчестве." />
     <title>core. ядро.</title>
     
-    <!-- ФИНАЛ: Жесткая предзагрузка главного фото Вани, чтобы телефон не ждал! -->
+    <!-- Жесткая предзагрузка главного фото Вани -->
     <link rel="preload" as="image" href="assets/1.webp" type="image/webp" fetchpriority="high" />
     
     <link rel="preload" as="image" href="assets/pencil_2x.webp" fetchpriority="high" />
@@ -14,19 +14,15 @@
 
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
 
-    <!-- ФИНАЛ: Предподключение к Google Drive -->
+    <!-- Предподключение к Google Drive -->
     <link rel="preconnect" href="https://drive.google.com" />
     
-    <!-- ФИНАЛ: Идеальная загрузка шрифтов -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <!-- БЫСТРАЯ ЗАГРУЗКА ШРИФТОВ (Убирает белый экран) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=Caveat:wght@700&display=swap" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=Caveat:wght@700&display=swap" media="print" onload="this.media='all'" />
-    <noscript>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=Caveat:wght@700&display=swap" />
-    </noscript>
-
-    <link rel="preload" as="style" href="css/index.css?v=2" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=Caveat:wght@700&display=swap" rel="stylesheet" />
+    
+    <!-- Загрузка стилей -->
     <link rel="stylesheet" href="css/index.css?v=2" />
 
     <link rel="icon" href="favicon.png" type="image/png" />
@@ -1759,68 +1755,54 @@
   const autoStart = setTimeout(startHandler, 3000);
   window.addEventListener('scroll', startHandler, { once: true, passive: true });
 })();
-      // --- 2. ЛОГИКА СЛАЙДЕРА (МАСЛЯНЫЙ СВАЙП - ИДЕАЛЬНЫЙ ЦЕНТР) ---
+// --- 2. ЛОГИКА СЛАЙДЕРА (БЕЗ ТОРМОЗОВ ПРОЦЕССОРА) ---
       let currentSlide = 0;
       const cards = document.querySelectorAll(".card-3d");
       const track = document.getElementById("track3d");
+      
+      // Кэшируем размеры, чтобы не насиловать процессор
+      let cachedCardWidth = 0;
+      let cachedMoveStep = 0;
+
+      function cacheDimensions() {
+        if (!cards.length) return;
+        cachedCardWidth = cards[0].getBoundingClientRect().width;
+        if (cards.length > 1) {
+          cachedMoveStep = cards[1].getBoundingClientRect().left - cards[0].getBoundingClientRect().left;
+        } else {
+          cachedMoveStep = cachedCardWidth;
+        }
+      }
+
       function move3D(dir) {
         currentSlide += dir;
         if (currentSlide < 0) currentSlide = 0;
         if (currentSlide >= cards.length) currentSlide = cards.length - 1;
-        const actualCardWidth = cards[0].offsetWidth;
-        let moveStep = actualCardWidth;
-        if (cards.length > 1)
-          moveStep = cards[1].offsetLeft - cards[0].offsetLeft;
-        const offset = -(currentSlide * moveStep) - actualCardWidth / 2;
+        
+        // Используем закэшированные данные вместо offsetWidth
+        const offset = -(currentSlide * cachedMoveStep) - (cachedCardWidth / 2);
+        
         track.style.transform = `translate(${offset}px, -50%)`;
         cards.forEach((card, index) => {
           if (index === currentSlide) card.classList.add("active");
           else card.classList.remove("active");
         });
       }
-      window.addEventListener("resize", () => move3D(0));
-      window.onload = () => move3D(0);
 
-      let startX = 0,
-        currentX = 0,
-        isDraggingSlider = false;
-      track.addEventListener("mousedown", (e) => {
-        isDraggingSlider = true;
-        startX = e.pageX;
-        currentX = startX;
-      });
-      window.addEventListener("mousemove", (e) => {
-        if (!isDraggingSlider) return;
-        currentX = e.pageX;
-      });
-      window.addEventListener("mouseup", () => {
-        if (!isDraggingSlider) return;
-        isDraggingSlider = false;
-        let diff = currentX - startX;
-        if (diff > 60) move3D(-1);
-        else if (diff < -60) move3D(1);
-      });
-      track.addEventListener(
-        "touchstart",
-        (e) => {
-          startX = e.touches[0].clientX;
-          currentX = startX;
-        },
-        { passive: true },
-      );
-      track.addEventListener(
-        "touchmove",
-        (e) => {
-          currentX = e.touches[0].clientX;
-        },
-        { passive: true },
-      );
-      track.addEventListener("touchend", () => {
-        let diff = currentX - startX;
-        if (diff > 50) move3D(-1);
-        else if (diff < -50) move3D(1);
+      // Обновляем кэш только при изменении размера экрана
+      let resizeTimeout;
+      window.addEventListener("resize", () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+          cacheDimensions();
+          move3D(0);
+        }, 150);
       });
 
+      window.onload = () => {
+        cacheDimensions();
+        move3D(0);
+      };
       // --- 3. BLUR ТЕКСТА НА ЭКРАНЕ HERO ---
       function initBlurText(elementId, delayStep = 100) {
         const el = document.getElementById(elementId);
