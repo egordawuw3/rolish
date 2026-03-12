@@ -11,16 +11,38 @@
 
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
 
+    <!-- 1. ДОБАВЛЕНО: Предподключение к Google Drive для быстрого старта видео -->
+    <link rel="preconnect" href="https://drive.google.com" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     
     <link rel="preload" as="style" href="css/index.css?v=2" />
     <link rel="stylesheet" href="css/index.css?v=2" />
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=Caveat:wght@700&display=swap" rel="stylesheet" />   
+    <!-- 2. ИСПРАВЛЕНО: Асинхронная загрузка шрифтов. Убирает зависание белого экрана на мобилках! -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=Caveat:wght@700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=Caveat:wght@700&display=swap" media="print" onload="this.media='all'" />
+    <noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=Caveat:wght@700&display=swap" />
+    </noscript>
+
     <link rel="icon" href="favicon.png" type="image/png" />
 
 <style>
+
+#noise-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; 
+    height: 100vh;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.15;
+    mix-blend-mode: multiply;
+    /* Оставляем только аппаратное ускорение, без искажения пикселей */
+    will-change: transform;
+    transform: translateZ(0); 
+  }
   .pdf-modal-overlay {
     position: fixed;
     inset: 0;
@@ -202,29 +224,27 @@
         </div>
       </div>
 
-      <div class="vsl-section">
-        <div style="max-width: 1000px; margin: 0 auto">
-          <h2 class="vsl-headline" id="vsl-blur-title">
-            Внимание — суперсила 21 века
-          </h2>
-          <p class="vsl-subhead reveal">
-            Если ты умеешь удерживать внимание и конвертировать его в ₽₽₽ — ты
-            автоматически богат.
-          </p>
-          <div
-            class="video-box reveal"
-            style="border-radius: 32px; overflow: hidden"
-          >
-            <video id="player" playsinline controls data-poster="assets/preview.jpg">
-              <source src="assets/Videos/VSL%201.mp4" type="video/mp4" />
-              <track kind="captions" label="Русские субтитры" srclang="ru" src="captions.vtt" default />
-            </video> 
-          </div>
-          <a href="#tariffs" class="btn-outline btn-buy reveal"
-            >Выбрать тариф</a
-          >
-        </div>
-      </div>
+<div class="vsl-section">
+  <div style="max-width: 1000px; margin: 0 auto">
+    <h2 class="vsl-headline" id="vsl-blur-title">
+      Внимание — суперсила 21 века
+    </h2>
+    <p class="vsl-subhead reveal">
+      Если ты умеешь удерживать внимание и конвертировать его в ₽₽₽ — ты автоматически богат.
+    </p>
+    
+    <div class="video-box reveal" style="border-radius: 32px; overflow: hidden; position: relative; padding-bottom: 56.25%; height: 0; background: #000;">
+      <iframe 
+        src="https://drive.google.com/file/d/1oL0n_D6wY4fkTk3sYfb1W9OGShL9KlR-/preview" 
+        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" 
+        allow="autoplay; fullscreen" 
+        allowfullscreen>
+      </iframe>
+    </div>
+
+    <a href="#tariffs" class="btn-outline btn-buy reveal">Выбрать тариф</a>
+  </div>
+</div>
 
       <section class="story-section-new reveal" id="table-of-contents">
         <div class="nav-container-3d">
@@ -1303,7 +1323,8 @@
           <div class="video-item stagger-item">
             <div class="video-wrapper">
               <iframe 
-                src="https://drive.google.com/file/d/1NqX2jJn9MrHQz8qkPInj4wW0rNfeB92O/preview" 
+                src="https://drive.google.com/file/d/1NqX2jJn9MrHQz8qkPInj4wW0rNfeB92O/preview"
+                loading="lazy" 
                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" 
                 allow="autoplay; fullscreen; picture-in-picture; xr-spatial-tracking; encrypted-media"
                 allowfullscreen="true" 
@@ -1317,6 +1338,7 @@
             <div class="video-wrapper">
                 <iframe 
                 src="https://drive.google.com/file/d/1WNCaHh6ixXsN4gsj8Yl9p05-7eolGnpb/preview"
+                loading="lazy"
                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" 
                 allow="autoplay; fullscreen; picture-in-picture; xr-spatial-tracking; encrypted-media"
                 allowfullscreen="true" 
@@ -1330,6 +1352,7 @@
             <div class="video-wrapper">
                 <iframe 
                 src="https://drive.google.com/file/d/1oL0n_D6wY4fkTk3sYfb1W9OGShL9KlR-/preview"
+                loading="lazy"
                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" 
                 allow="autoplay; fullscreen; picture-in-picture; xr-spatial-tracking; encrypted-media"
                 allowfullscreen="true" 
@@ -1636,7 +1659,7 @@
     </footer>
 
 <script>
-// --- 1. ШУМ НА ФОНЕ (ULTRA-LEAN & PERFORMANCE OPTIMIZED) ---
+// --- 1. ШУМ НА ФОНЕ (ИДЕАЛЬНОЕ КАЧЕСТВО + ЛЕГКАЯ ОПТИМИЗАЦИЯ) ---
 (function() {
   const noiseCanvas = document.getElementById("noise-canvas");
   if (!noiseCanvas) return;
@@ -1644,17 +1667,15 @@
   const ctx = noiseCanvas.getContext("2d", { alpha: true });
   let pattern;
   const patternSize = 256;
-  let isPaused = true; // Начинаем в паузе до появления в кадре
+  let isPaused = true; 
   let animationFrameId;
 
-  // 1. УМНЫЙ РЕСАЙЗ БЕЗ FORCED REFLOW
+  // 1. ВОЗВРАЩАЕМ 100% РАЗРЕШЕНИЕ (КРИСТАЛЬНАЯ ЧЕТКОСТЬ)
   const resize = () => {
     const w = window.innerWidth;
     const h = window.innerHeight;
 
-    // Обновляем размеры только если они реально изменились
     if (noiseCanvas.width !== w || noiseCanvas.height !== h) {
-      // Используем rAF, чтобы не блокировать поток и избежать Forced Reflow
       requestAnimationFrame(() => {
         noiseCanvas.width = w;
         noiseCanvas.height = h;
@@ -1662,17 +1683,15 @@
     }
   };
 
-  // Дебаунс для ресайза, чтобы не нагружать систему при повороте экрана
   let resizeTimer;
   window.addEventListener("resize", () => {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(resize, 150);
   }, { passive: true });
   
-  // Вызываем сразу для первой отрисовки
   resize();
 
-  // 2. ГЕНЕРАЦИЯ ПАТТЕРНА (ОДИН РАЗ)
+  // 2. ГЕНЕРАЦИЯ ПАТТЕРНА (Как в вашем оригинале)
   const createPattern = () => {
     const tile = document.createElement("canvas");
     tile.width = patternSize;
@@ -1682,7 +1701,6 @@
     const buffer = new Uint32Array(id.data.buffer);
     
     for (let i = 0; i < buffer.length; i++) {
-      // Оптимизированный рандом для шума
       if (Math.random() < 0.12) {
         buffer[i] = Math.random() < 0.5 ? 0xff000000 : 0x08000000;
       }
@@ -1692,32 +1710,29 @@
   };
   createPattern();
 
-  // 3. ОСНОВНОЙ ЦИКЛ (12-15 FPS ДОСТАТОЧНО)
+  // 3. ОСНОВНОЙ ЦИКЛ (ЧЕТКИЙ И ПЛАВНЫЙ)
   const loopNoise = () => {
     if (isPaused) return;
 
-    const xOff = (Math.random() * patternSize) | 0; // Быстрое округление битовым ИЛИ
+    const xOff = (Math.random() * patternSize) | 0; 
     const yOff = (Math.random() * patternSize) | 0;
 
     ctx.clearRect(0, 0, noiseCanvas.width, noiseCanvas.height);
     ctx.fillStyle = pattern;
     
-    // Сдвигаем паттерн для эффекта мерцания
     ctx.translate(-xOff, -yOff);
     ctx.fillRect(0, 0, noiseCanvas.width + patternSize, noiseCanvas.height + patternSize);
-    ctx.setTransform(1, 0, 0, 1, 0, 0); // Сброс трансформации
+    ctx.setTransform(1, 0, 0, 1, 0, 0); 
 
-    // Ограничиваем FPS через setTimeout внутри rAF
-    // Это самый мягкий способ для батарейки телефона
+    // Снижаем FPS до 12. Глаз видит приятный шум, а процессор отдыхает
     setTimeout(() => {
       animationFrameId = requestAnimationFrame(loopNoise);
-    }, 1000 / 14); 
+    }, 1000 / 12); 
   };
 
-  // 4. ОСТАНОВКА ШУМА ЧЕРЕЗ INTERSECTION OBSERVER
+  // 4. ОСТАНОВКА ШУМА ВНЕ ЭКРАНА
   const noiseObserver = new IntersectionObserver((entries) => {
     const visible = entries[0].isIntersecting;
-    
     if (visible && isPaused) {
       isPaused = false;
       loopNoise();
@@ -1729,18 +1744,13 @@
 
   noiseObserver.observe(noiseCanvas);
 
-  // 5. ЛЕГКИЙ СТАРТ (Чтобы не портить метрики Lighthouse при загрузке)
-  // Запускаем через 3 секунды или когда пользователь начал скроллить
   const startHandler = () => {
     clearTimeout(autoStart);
     window.removeEventListener('scroll', startHandler);
-    // Проверка видимости уже сделана в Observer
   };
   const autoStart = setTimeout(startHandler, 3000);
   window.addEventListener('scroll', startHandler, { once: true, passive: true });
-
 })();
-
       // --- 2. ЛОГИКА СЛАЙДЕРА (МАСЛЯНЫЙ СВАЙП - ИДЕАЛЬНЫЙ ЦЕНТР) ---
       let currentSlide = 0;
       const cards = document.querySelectorAll(".card-3d");
