@@ -1904,215 +1904,216 @@ max-width: 600px
 }
 
 @media (max-width:768px) {
-.hero-wrapper,
-.navbar,
-.row-line {
-width: 100% !important
+body .hero-wrapper,
+body .navbar,
+body .row-line {
+width: 100%
     }
-.folder-bridge,
-.hero-wrapper,
-.navbar {
-max-width: 100% !important
+body .folder-bridge,
+body .hero-wrapper,
+body .navbar {
+max-width: 100%
     }
 .bonus-card-wrap,
 .module-card:nth-child(odd) {
 border-left: none
     }
-.navbar {
-left: 0 !important;
-top: 0 !important;
-padding: 15px 20px !important;
-background: rgba(244, 242, 238, .85) !important
+body .navbar {
+left: 0;
+top: 0;
+padding: 15px 20px;
+background: rgba(244, 242, 238, .85)
     }
-.nav-buttons {
-gap: 0 !important;
-margin: 0 !important;
-padding: 0 !important
+.navbar .nav-buttons {
+gap: 0;
+margin: 0;
+padding: 0
     }
-.nav-text-btn {
-display: none !important
+.navbar .nav-text-btn {
+display: none
     }
-.nav-accent-btn {
-display: inline-block !important;
-padding: 10px 20px !important;
-font-size: .9rem !important;
-margin: 0 !important;
-white-space: nowrap !important
+.navbar .nav-accent-btn {
+display: inline-block;
+padding: 10px 20px;
+font-size: .9rem;
+margin: 0;
+white-space: nowrap
     }
-.hero-wrapper {
-height: auto !important;
-padding: 80px 15px 0 !important
+body .hero-wrapper {
+height: auto;
+padding: 80px 15px 0
     }
-.card-shadow-container {
-height: 872px !important;
-min-height: 872px !important;
-max-height: 872px !important;
-width: 100% !important
+body .card-shadow-container {
+height: 872px;
+min-height: 872px;
+max-height: 872px;
+width: 100%
     }
-.hero-content {
-margin: 0 !important;
-z-index: 100 !important;
-padding-bottom: 40px !important
+.hero-wrapper .hero-content {
+margin: 0;
+z-index: 100;
+padding-bottom: 40px
     }
-.s-camera,
-.s-pencil {
-z-index: 10 !important
+.hero-wrapper .s-camera,
+.hero-wrapper .s-pencil {
+z-index: 10
     }
-.main-title-wrapper {
-font-size: clamp(4.5rem, 28vw, 8rem) !important;}
-.main-title {
-font-size: 1em !important;
-line-height: .8 !important;
-animation: none !important
+.hero-content .main-title-wrapper {
+font-size: clamp(4.5rem, 28vw, 8rem);
     }
-.core-translation {
-right: 0% !important;
-bottom: -.65em !important;
+.hero-content .main-title {
+font-size: 1em;
+line-height: .8;
+animation: none
     }
-.subtitle-block {
-font-size: clamp(2rem, 8vw, 3rem) !important;
-margin-top: clamp(45px, 12vw, 60px) !important
+.hero-content .core-translation {
+right: 0%;
+bottom: -.65em;
     }
-.row-line {
-display: flex !important;
-justify-content: center !important;
-align-items: baseline !important;
-gap: 12px !important;
-margin-left: 0 !important;
-padding-right: 0 !important
+.hero-content .subtitle-block {
+font-size: clamp(2rem, 8vw, 3rem);
+margin-top: clamp(45px, 12vw, 60px)
     }
-.highlight-word-container {
-width: 180px !important;
-min-width: 180px !important;
-text-align: left !important;
-display: inline-block !important;
-flex-shrink: 0 !important
+.hero-content .row-line {
+display: flex;
+justify-content: center;
+align-items: baseline;
+gap: 12px;
+margin-left: 0;
+padding-right: 0
     }
-.s-camera {
-width: clamp(160px, 40vw, 220px) !important;
-top: 18% !important;
-left: -2% !important;
-transform: rotate(-15deg) !important;
-filter: drop-shadow(0 20px 40px rgba(0, 0, 0, .4)) !important;
+.row-line .highlight-word-container {
+width: 180px;
+min-width: 180px;
+text-align: left;
+display: inline-block;
+flex-shrink: 0
     }
-.s-pencil {
-width: clamp(70px, 15vw, 90px) !important;
-height: auto !important;
-top: 15% !important;
-right: 5% !important;
-transform: rotate(35deg) !important;
-filter: drop-shadow(0 15px 30px rgba(0, 0, 0, .3)) !important;
+body .s-camera {
+width: clamp(160px, 40vw, 220px);
+top: 18%;
+left: -2%;
+transform: rotate(-15deg);
+filter: drop-shadow(0 20px 40px rgba(0, 0, 0, .4));
     }
-.s-clapper {
-width: clamp(140px, 35vw, 190px) !important;
-bottom: 22% !important;
-left: 0% !important;
-transform: rotate(-12deg) !important;
-filter: drop-shadow(0 25px 50px rgba(0, 0, 0, .45)) !important;
-z-index: 120 !important;
+body .s-pencil {
+width: clamp(70px, 15vw, 90px);
+height: auto;
+top: 15%;
+right: 5%;
+transform: rotate(35deg);
+filter: drop-shadow(0 15px 30px rgba(0, 0, 0, .3));
     }
-.s-ssd {
-width: clamp(80px, 20vw, 110px) !important;
-bottom: 26% !important;
-right: 8% !important;
-transform: rotate(20deg) !important;
-filter: drop-shadow(0 20px 40px rgba(0, 0, 0, .4)) !important;
-z-index: 115 !important;
+body .s-clapper {
+width: clamp(140px, 35vw, 190px);
+bottom: 22%;
+left: 0%;
+transform: rotate(-12deg);
+filter: drop-shadow(0 25px 50px rgba(0, 0, 0, .45));
+z-index: 120;
     }
-.s-camera {
-width: clamp(220px, 55vw, 300px) !important;
-top: 40px !important;
-left: -20px !important;
-transform: rotate(-12deg) !important;
-filter: drop-shadow(0 20px 40px rgba(0, 0, 0, .4)) !important
+body .s-ssd {
+width: clamp(80px, 20vw, 110px);
+bottom: 26%;
+right: 8%;
+transform: rotate(20deg);
+filter: drop-shadow(0 20px 40px rgba(0, 0, 0, .4));
+z-index: 115;
     }
-.s-pencil {
-width: clamp(50px, 12vw, 70px) !important;
-height: auto !important;
-top: -50px !important;
-right: 10px !important;
-transform: rotate(45deg) !important;
-filter: drop-shadow(0 15px 30px rgba(0, 0, 0, .3)) !important
+body .s-camera {
+width: clamp(220px, 55vw, 300px);
+top: 40px;
+left: -20px;
+transform: rotate(-12deg);
+filter: drop-shadow(0 20px 40px rgba(0, 0, 0, .4))
     }
-.s-clapper {
-width: clamp(160px, 45vw, 230px) !important;
-bottom: 160px !important; 
-left: -10px !important;
-transform: rotate(-15deg) !important;
-filter: drop-shadow(0 25px 50px rgba(0, 0, 0, .45)) !important;
-z-index: 120 !important
+body .s-pencil {
+width: clamp(50px, 12vw, 70px);
+height: auto;
+top: -50px;
+right: 10px;
+transform: rotate(45deg);
+filter: drop-shadow(0 15px 30px rgba(0, 0, 0, .3))
     }
-.s-ssd {
-width: clamp(100px, 25vw, 130px) !important;
-bottom: 120px !important;
-right: 5px !important;
-transform: rotate(15deg) !important;
-filter: drop-shadow(0 20px 40px rgba(0, 0, 0, .4)) !important;
-z-index: 115 !important
+body .s-clapper {
+width: clamp(160px, 45vw, 230px);
+bottom: 160px; 
+left: -10px;
+transform: rotate(-15deg);
+filter: drop-shadow(0 25px 50px rgba(0, 0, 0, .45));
+z-index: 120
     }
-.folder-bridge {
-margin-top: -120px !important;
-margin-bottom: 60px !important;
-transform: none !important;
+body .s-ssd {
+width: clamp(100px, 25vw, 130px);
+bottom: 120px;
+right: 5px;
+transform: rotate(15deg);
+filter: drop-shadow(0 20px 40px rgba(0, 0, 0, .4));
+z-index: 115
+    }
+body .folder-bridge {
+margin-top: -120px;
+margin-bottom: 60px;
+transform: none;
 position: relative;
-z-index: 105 !important
+z-index: 105
     }
-.mac-folder-realistic {
-width: 238px !important;
-height: 190px !important;
-margin: 0 auto !important
+body .mac-folder-realistic {
+width: 238px;
+height: 190px;
+margin: 0 auto
     }
-.folder-file-card {
-width: 110px !important;
-height: 135px !important;
-bottom: 10px !important;
-left: 28% !important
+.mac-folder-realistic .folder-file-card {
+width: 110px;
+height: 135px;
+bottom: 10px;
+left: 28%
     }
 .mac-folder-realistic.is-open .folder-cards {
-z-index: 20 !important
+z-index: 20
     }
 .mac-folder-realistic.is-open .card-1 {
-opacity: 1 !important;
-transform: translate(-70px, -40px) rotate(-12deg) !important;
-transition-delay: 0.1s !important
+opacity: 1;
+transform: translate(-70px, -40px) rotate(-12deg);
+transition-delay: 0.1s
     }
 .mac-folder-realistic.is-open .card-2 {
-opacity: 1 !important;
-transform: translate(0, -80px) rotate(0) !important;
-transition-delay: 50ms !important
+opacity: 1;
+transform: translate(0, -80px) rotate(0);
+transition-delay: 50ms
     }
 .mac-folder-realistic.is-open .card-3 {
-opacity: 1 !important;
-transform: translate(70px, -40px) rotate(12deg) !important;
-transition-delay: 0.15s !important
+opacity: 1;
+transform: translate(70px, -40px) rotate(12deg);
+transition-delay: 0.15s
     }
 .mac-folder-realistic.is-open .folder-front-shape {
-transform: rotateX(-25deg) scaleY(.95) !important
+transform: rotateX(-25deg) scaleY(.95)
     }
-.vsl-section {
-padding: 40px 15px 40px !important;
-overflow-x: hidden !important
+body .vsl-section {
+padding: 40px 15px 40px;
+overflow-x: hidden
     }
-.vsl-headline {
-font-size: clamp(1.8rem, 6vw, 2.5rem) !important;
-margin-bottom: 15px !important;
-word-wrap: break-word !important;
-hyphens: auto !important
+.vsl-section .vsl-headline {
+font-size: clamp(1.8rem, 6vw, 2.5rem);
+margin-bottom: 15px;
+word-wrap: break-word;
+hyphens: auto
     }
-.vsl-subhead {
-font-size: 1.1rem !important;
-margin-bottom: 40px !important
+.vsl-section .vsl-subhead {
+font-size: 1.1rem;
+margin-bottom: 40px
     }
-.btn-outline {
-font-size: 1.2rem !important;
-padding: 15px 40px !important
+body .btn-outline {
+font-size: 1.2rem;
+padding: 15px 40px
     }
-.reviews-headline {
-font-size: clamp(1.5rem, 6vw, 2rem) !important;
-padding: 0 15px 40px !important
+body .reviews-headline {
+font-size: clamp(1.5rem, 6vw, 2rem);
+padding: 0 15px 40px
     }
-.modules-header h2 {
-font-size: 2.5rem !important
+body .modules-header h2 {
+font-size: 2.5rem
     }
 .modules-grid {
 grid-template-columns: 1fr
@@ -2126,9 +2127,9 @@ border-right: none
 grid-template-columns: 280px;
 gap: 40px
     }
-.review-item {
---target-rot: 0deg !important;
---target-y: 0px !important;
+.grid-reviews .review-item {
+--target-rot: 0deg;
+--target-y: 0px;
 width: 280px
     }
 .faq-question-modern {
@@ -2137,70 +2138,70 @@ padding: 20px
 .footer-content {
 flex-direction: column
     }
-.story-section-new {
-width: 100% !important;
-max-width: 100vw !important;
-overflow: hidden !important
+body .story-section-new {
+width: 100%;
+max-width: 100vw;
+overflow: hidden
     }
-.nav-container-3d {
-width: 100% !important;
-left: 0 !important;
-padding: 0 15px !important;
-box-sizing: border-box !important
+.story-section-new .nav-container-3d {
+width: 100%;
+left: 0;
+padding: 0 15px;
+box-sizing: border-box
     }
-.nav-btn-3d {
-width: 45px !important;
-height: 45px !important;
-background: rgba(255, 255, 255, .9) !important;
-box-shadow: 0 4px 10px rgba(0, 0, 0, .2) !important
+.nav-container-3d .nav-btn-3d {
+width: 45px;
+height: 45px;
+background: rgba(255, 255, 255, .9);
+box-shadow: 0 4px 10px rgba(0, 0, 0, .2)
     }
-.reveal,
-.stagger-item {
-filter: none !important
+body .reveal,
+body .stagger-item {
+filter: none
     }
-.hero-btn-overlap {
-font-size: 1rem !important;
-padding: 15px 30px !important;
-border: none !important
+body .hero-btn-overlap {
+font-size: 1rem;
+padding: 15px 30px;
+border: none
     }
 
-.reviews-section { padding: 40px 0 !important; }
-.reviews-footer { padding: 40px 0 !important; }
-.modules-section { padding-bottom: 40px !important; }
-.modules-header { padding: 40px 20px !important; }
-.new-section { padding: 40px 15px !important; }
-#tariffs { margin-top: 40px !important; padding-bottom: 40px !important; }
-.zig-zag-wrapper { margin-top: 40px !important; gap: 40px !important; }
-.faq-grid-2col { margin-top: 40px !important; }
-.site-footer { margin-top: 40px !important; padding: 40px 20px !important; }
-
+body .reviews-section { padding: 40px 0; }
+body .reviews-footer { padding: 40px 0; }
+body .modules-section { padding-bottom: 40px; }
+body .modules-header { padding: 40px 20px; }
+body .new-section { padding: 40px 15px; }
+body #tariffs { margin-top: 40px; padding-bottom: 40px; }
+body .zig-zag-wrapper { margin-top: 40px; gap: 40px; }
+body .faq-grid-2col { margin-top: 40px; }
+body .site-footer { margin-top: 40px; padding: 40px 20px; }
 }
 
 @media (max-width:400px) {
-.navbar {
-padding: 15px !important
+body .navbar {
+padding: 15px
     }
-.nav-accent-btn {
-padding: 8px 16px !important;
-font-size: .85rem !important
+.navbar .nav-accent-btn {
+padding: 8px 16px;
+font-size: .85rem
     }
-.main-title-wrapper {
-font-size: clamp(3.5rem, 26vw, 4.5rem) !important  }
-.main-title {
-font-size: 1em !important
+.hero-content .main-title-wrapper {
+font-size: clamp(3.5rem, 26vw, 4.5rem)
     }
-.highlight-word-container {
-width: 150px !important;
-min-width: 150px !important
+.hero-content .main-title {
+font-size: 1em
     }
-.row-line {
-gap: 8px !important
+.row-line .highlight-word-container {
+width: 150px;
+min-width: 150px
     }
-.review-item:hover .card-inner {
-transform: none !important
+.hero-content .row-line {
+gap: 8px
     }
-.review-item.flipped .card-inner {
-transform: rotateY(180deg) !important
+.grid-reviews .review-item:hover .card-inner {
+transform: none
+    }
+.grid-reviews .review-item.flipped .card-inner {
+transform: rotateY(180deg)
     }
 }
 
