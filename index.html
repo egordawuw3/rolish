@@ -20,19 +20,6 @@
     <link rel="stylesheet" href="css/index.css?v=2" />
     <link rel="icon" href="assets/favicon.png" type="image/png" />
     <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
-
-    <style>
-        #noise-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9999; opacity: 0.15; mix-blend-mode: multiply; will-change: transform; transform: translateZ(0); }
-        .pdf-modal-overlay { position: fixed; inset: 0; width: 100vw; height: 100dvh; background: rgba(0, 26, 64, .7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 10005; display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: opacity .4s, visibility .4s; padding: 24px; box-sizing: border-box; }
-        .pdf-modal-overlay.active { opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; }
-        .pdf-modal-content { background: #f0f2f5; border-radius: 24px; width: 95vw; max-width: 1400px; height: 95dvh; position: relative; box-shadow: 0 40px 100px rgba(0, 0, 0, .5); transform: translateY(30px) scale(.97); transition: transform .5s cubic-bezier(.19, 1, .22, 1); display: flex; flex-direction: column; overflow: hidden; }
-        .pdf-modal-overlay.active .pdf-modal-content { transform: translateY(0) scale(1) !important; }
-        .pdf-modal-close { position: absolute; top: 24px; right: 24px; width: 48px; height: 48px; background: rgba(255, 255, 255, .9); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(0, 69, 166, .1); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #0045a6; z-index: 50; box-shadow: 0 8px 24px rgba(0, 0, 0, .12); transition: .25s; padding: 0; }
-        .pdf-modal-close svg { width: 22px; height: 22px; stroke: currentColor; }
-        .pdf-modal-close:hover { background: #fff; transform: scale(1.08) rotate(90deg); box-shadow: 0 12px 30px rgba(0, 69, 166, .2); }
-        .pdf-iframe-container { width: 100%; height: 100%; flex-grow: 1; background: #f0f2f5; -webkit-overflow-scrolling: touch; overflow-y: auto; overflow-x: auto; padding: 0; box-sizing: border-box; }
-        @media (max-width: 768px) { .pdf-modal-overlay { padding: 0; } .pdf-modal-content { width: 100vw; height: 100dvh; border-radius: 0; transform: translateY(100px) scale(0.95); } .pdf-modal-close { top: 16px; right: 16px; width: 42px; height: 42px; background: rgba(255, 255, 255, .95); } }
-    </style>
 </head>
 
 <body>
@@ -116,13 +103,11 @@
         <div class="card-3d"><div class="card-img-container"><img src="assets/6.webp" width="616" height="640" alt="Ваня Паскаль 6" class="card-img" loading="lazy" /></div><div class="card-body" style="justify-content: center; text-align: center"><p class="story-quote">Перепродавал компы на Авито.</p><div class="s-logo">06</div></div></div>
         <div class="card-3d"><div class="card-img-container"><img src="assets/7.webp" width="491" height="293" alt="Ваня Паскаль 7" class="card-img" loading="lazy" /></div><div class="card-body" style="justify-content: center; text-align: center"><p class="story-quote">Писал сценарии на заказ.</p><div class="s-logo">07</div></div></div>
         
-        <!-- Слайд 8: исправлено (закрыт первый p перед открытием второго) -->
         <div class="card-3d"><div class="card-img-container"><img src="assets/8.webp" width="640" height="640" alt="Ваня Паскаль 8" class="card-img" loading="lazy" /></div><div class="card-body" style="justify-content: center"><p class="story-quote">И лишь к концу 23 года я понял, что мне <strong>реально приносит удовольствие...</strong></p><p class="story-quote" style="font-size: 2.0rem; font-weight: 900; text-align: center; color: var(--accent); margin-top: auto; margin-bottom: auto; background: none; padding: 0;">Монтаж</p><div class="s-logo">08</div></div></div>
         
         <div class="card-3d"><div class="card-img-container"><img src="assets/9.webp" width="360" height="640" alt="Ваня Паскаль 9" class="card-img" loading="lazy" /></div><div class="card-body" style="justify-content: center"><p class="story-quote">В конце 2023г я активно занялся монтажем роликов. У меня никогда не было крупных проектов, но даже работа с ноунеймами смогла вывести меня на <strong>первые 100к/месяц</strong>, чему я был безумно рад.</p><div class="s-logo">09</div></div></div>
         <div class="card-3d"><div class="card-img-container"><img src="assets/10.webp" width="640" height="594" alt="Ваня Паскаль 10" class="card-img" loading="lazy" /></div><div class="card-body" style="justify-content: center"><p class="story-quote">Но все же, через какое-то время <strong>я уперся в потолок</strong>: искать новых клиентов становилось все сложнее, качество работ не росло, а чек как был невысоким, так и остался таким.</p><div class="s-logo">10</div></div></div>
         
-        <!-- Слайд 11: исправлено (закрыт первый p, удален лишний закрывающий в конце) -->
         <div class="card-3d"><div class="card-img-container"><img src="assets/11.webp" width="360" height="640" alt="Ваня Паскаль 11" class="card-img" loading="lazy" /></div><div class="card-body" style="justify-content: center"><p class="story-quote"><strong>Я понял, что что-то надо менять...</strong></p><p class="story-quote">В конце 2024 года я впервые познакомился с <strong>запусками и продюссированием.</strong></p><div class="s-logo">11</div></div></div>
         
         <div class="card-3d"><div class="card-img-container"><img src="assets/12.webp" width="640" height="640" alt="Ваня Паскаль 12" class="card-img" loading="lazy" /></div><div class="card-body" style="justify-content: center"><p class="story-quote">Эта профессия заключала в себе все, что я так любил: <strong>креативность, монтаж, съемка, продажи, создание продуктов.</strong></p><div class="s-logo">12</div></div></div>
@@ -130,19 +115,14 @@
         <div class="card-3d"><div class="card-img-container"><img src="assets/14.webp" width="640" height="360" alt="Ваня Паскаль 14" class="card-img" loading="lazy" /></div><div class="card-body" style="justify-content: center"><p class="story-quote">Но во всем этом плане не хватало <strong>одного шага</strong>, который я начал исправлять лишь недавно...</p><div class="s-logo">14</div></div></div>
         <div class="card-3d"><div class="card-img-container"><img src="assets/15.webp" width="640" height="640" alt="Ваня Паскаль 15" class="card-img" loading="lazy" /></div><div class="card-body" style="justify-content: center"><p class="story-quote">Сейчас я активно <strong>развиваю свою медийку и агентство, продюсирую соц. сети крупных экспертов и бизнесов.</strong></p><div class="s-logo">15</div></div></div>
         
-        <!-- Слайд 16: исправлено (удален двойной закрывающий тег </p></p>) -->
         <div class="card-3d"><div class="card-img-container"><img src="assets/16.webp" width="640" height="480" alt="Ваня Паскаль 16" class="card-img" loading="lazy" /></div><div class="card-body" style="justify-content: center"><p class="story-quote">А также помогаю <strong>десяткам других ребят</strong> развиваться вместе со мной.</p><div class="s-logo">16</div></div></div>
         
-        <!-- Слайд 17: исправлено (закрыт первый p, удален лишний закрывающий в конце) -->
         <div class="card-3d"><div class="card-img-container"><img src="assets/17.webp" width="480" height="640" alt="Ваня Паскаль 17" class="card-img" loading="lazy" /></div><div class="card-body" style="justify-content: center"><p class="story-quote">Как видишь, в моей истории <strong>нету никакой красивой сказки</strong>, а только сложный путь в несколько лет.</p><p class="story-quote">Если ты прочитал все до конца, то <strong>вот тебе мой совет:</strong></p><div class="s-logo">17</div></div></div>
         
         <div class="card-3d" style="background: #fa2d1a"><div class="card-body" style="justify-content: center; height: 100%; color: white; padding-top: 60px !important;"><h2 style="font-weight: 900; font-size: 2.2rem; text-transform: uppercase; margin-bottom: 30px; text-align: center; color: white;">Совет</h2><p style="color: white; font-family: 'Caveat'; font-size: 2.5rem; transform: rotate(-2deg); line-height: 1.1; text-align: center; font-weight: normal; margin-top: 10px;">"Хотя бы раз в жизни включи голову, и используй свои возможности на максимум."</p><div class="s-logo" style="border-color: rgba(255, 255, 255, 0.3); color: white; margin-top: 60px;">18</div></div></div>
     </div>
 </section>
         <section class="modules-section" id="modules">
-            <style>
-                .stagger-item { content-visibility: auto; contain-intrinsic-size: 300px; }
-            </style>
             <div class="modules-header reveal">
                 <h2>Коротко о том, что я спрятал в <span class="brand-group" style="vertical-align: baseline"><span class="brand-main">core.</span><span class="brand-sub">ядро.</span></span></h2>
             </div>
