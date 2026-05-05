@@ -19,6 +19,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=Caveat:wght@700&display=swap" rel="stylesheet" />  
     <link rel="stylesheet" href="css/index.css?v=2" />
     <link rel="icon" href="assets/favicon.png" type="image/png" />
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
 
     <style>
         #noise-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9999; opacity: 0.15; mix-blend-mode: multiply; will-change: transform; transform: translateZ(0); }
@@ -175,15 +176,43 @@
                 <div class="tariff-card mentor stagger-item"><div class="t-header-box"><div class="t-header-title">Тариф</div><div class="t-header-name">Менторство</div><div class="tariff-badge" style="background: white; color: var(--blue-bright)">Места ограничены</div></div><div class="t-section"><h3 class="t-section-title">Содержание:</h3><ul class="t-list"><li>Личная работа 2 месяца</li><li>Работа до результата</li><li>от 10 личных созвонов со мной</li></ul></div><hr class="t-divider" /><div class="t-section"><h3 class="t-section-title">Что внутри?</h3><ul class="t-list-icons"><li><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div><span>Вечный доступ ко всем курсам </span></li><li><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div><span>Вечный доступ к моей личке</span></li><li><div class="icon-circle"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div><span>Работаем до результата</span></li></ul></div><a href="/anketa" class="btn-tariff"><span class="btn-arrow">&gt;</span> Зайти на менторство</a></div>
             </div>
         </section>
-        <section class="new-section video-section-large" id="short-videos">
-            <h2 class="video-section-title reveal">Посмотри это</h2>
-            <div class="video-section-subtitle reveal">Перед тем как заходить в контент-продюсирование</div>
-            <div class="video-grid stagger-container">
-                <div class="video-item stagger-item"><div class="video-wrapper"><iframe src="https://drive.google.com/file/d/1NqX2jJn9MrHQz8qkPInj4wW0rNfeB92O/preview" loading="lazy" title="Видео: Монтаж умер" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen="true"></iframe></div><h3 class="video-title">Монтаж умер</h3></div>
-                <div class="video-item stagger-item"><div class="video-wrapper"><iframe src="https://drive.google.com/file/d/1WNCaHh6ixXsN4gsj8Yl9p05-7eolGnpb/preview" loading="lazy" title="Видео: Конкуренция в продюсировании" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen="true"></iframe></div><h3 class="video-title">Конкуренция в продюсировании</h3></div>
-                <div class="video-item stagger-item"><div class="video-wrapper"><iframe src="https://drive.google.com/file/d/1oL0n_D6wY4fkTk3sYfb1W9OGShL9KlR-/preview" loading="lazy" title="Видео: Сколько это приносит" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen="true"></iframe></div><h3 class="video-title">Сколько это приносит ₽</h3></div>
+<section class="new-section video-section-large" id="short-videos">
+    <h2 class="video-section-title reveal">Посмотри это</h2>
+    <div class="video-section-subtitle reveal">Перед тем как заходить в контент-продюсирование</div>
+    
+    <div class="video-grid stagger-container">
+        <!-- Видео 1 -->
+        <div class="video-item stagger-item">
+            <div class="video-wrapper">
+                <video class="js-player" controls playsinline preload="metadata">
+                    <!-- Замените "video/montage_umer.mp4" на вашу ссылку, но #t=0.001 в конце оставьте! -->
+                    <source src="video/montage_umer.mp4#t=0.001" type="video/mp4" />
+                </video>
             </div>
-        </section>
+            <h3 class="video-title">Монтаж умер</h3>
+        </div>
+
+        <!-- Видео 2 -->
+        <div class="video-item stagger-item">
+            <div class="video-wrapper">
+                <video class="js-player" controls playsinline preload="metadata">
+                    <source src="video/konkurenciya.mp4#t=0.001" type="video/mp4" />
+                </video>
+            </div>
+            <h3 class="video-title">Конкуренция в продюсировании</h3>
+        </div>
+
+        <!-- Видео 3 -->
+        <div class="video-item stagger-item">
+            <div class="video-wrapper">
+                <video class="js-player" controls playsinline preload="metadata">
+                    <source src="video/skolko_prinosit.mp4#t=0.001" type="video/mp4" />
+                </video>
+            </div>
+            <h3 class="video-title">Сколько это приносит ₽</h3>
+        </div>
+    </div>
+</section>
         <section class="new-section">
             <h2 class="section-title-center reveal">Кому подойдет?</h2>
             <div class="zig-zag-wrapper">
@@ -238,5 +267,21 @@
     <script>
         document.addEventListener("DOMContentLoaded", () => { const btnOpenPdf = document.getElementById("btn-open-pdf"); const modalPdf = document.getElementById("pdf-modal"); const btnClosePdf = document.getElementById("pdf-modal-close"); const pdfViewer = document.getElementById("pdf-viewer"); const pdfUrl = "presentation.pdf"; let isLoaded = false; let pdfDoc = null; let scrollPosition = 0; const disableBodyScroll = () => { scrollPosition = window.scrollY; document.body.style.position = 'fixed'; document.body.style.top = `-${scrollPosition}px`; document.body.style.width = '100%'; document.body.style.overflow = 'hidden'; }; const enableBodyScroll = () => { document.body.style.position = ''; document.body.style.top = ''; document.body.style.width = ''; document.body.style.overflow = ''; window.scrollTo(0, scrollPosition); }; modalPdf.addEventListener('touchmove', function(e) { if (!e.target.closest('#pdf-viewer')) { e.preventDefault(); } }, { passive: false }); async function loadPdfJs() { if (window.pdfjsLib) return; return new Promise((resolve, reject) => { const script = document.createElement("script"); script.src = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"; script.onload = resolve; script.onerror = reject; document.body.appendChild(script); }); } async function renderPDF() { if (isLoaded) return; pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"; try { pdfDoc = await pdfjsLib.getDocument(pdfUrl).promise; pdfViewer.innerHTML = ""; const isMobile = window.innerWidth <= 768; let renderScale = isMobile ? 1.0 : 1.5; for (let i = 1; i <= pdfDoc.numPages; i++) { const page = await pdfDoc.getPage(i); const viewport = page.getViewport({ scale: renderScale }); const canvas = document.createElement("canvas"); const ctx = canvas.getContext("2d", { alpha: false }); canvas.width = Math.floor(viewport.width); canvas.height = Math.floor(viewport.height); await page.render({ canvasContext: ctx, viewport: viewport, enableWebGL: true }).promise; const img = document.createElement("img"); img.src = canvas.toDataURL("image/jpeg", 0.85); img.style.width = "100%"; img.style.height = "auto"; img.style.display = "block"; img.style.margin = "0 0 6px 0"; pdfViewer.appendChild(img); canvas.width = 0; canvas.height = 0; page.cleanup(); await new Promise(r => setTimeout(r, 50)); } isLoaded = true; } catch (err) { console.error(err); pdfViewer.innerHTML = '<p style="color:#ff4444; text-align:center; padding-top:40vh; font-size:1.2rem;">Ошибка при загрузке презентации</p>'; } } function openModal() { modalPdf.classList.add("active"); disableBodyScroll(); } function closeModal() { modalPdf.classList.remove("active"); enableBodyScroll(); } btnOpenPdf?.addEventListener("click", async (e) => { e.preventDefault(); openModal(); try { await loadPdfJs(); await renderPDF(); } catch (err) { pdfViewer.innerHTML = "Ошибка загрузки библиотеки"; } }); btnClosePdf?.addEventListener("click", closeModal); modalPdf.addEventListener("click", (e) => { if (e.target === modalPdf || e.target === modalPdf.querySelector('.pdf-modal-content')) { closeModal(); } }); });
     </script>
+<script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>    
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Находим все видео с классом js-player
+    const players = Array.from(document.querySelectorAll('.js-player'));
+    
+    // Применяем к ним настройки Plyr
+    players.forEach(playerElement => {
+        new Plyr(playerElement, {
+            controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
+            hideControls: true, 
+            resetOnEnd: true   
+        });
+    });
+});
+</script>
 </body>
 </html>
